@@ -7,11 +7,24 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ContentView: View {
+    
+    @ObservedObject var userDAO = UserDAO()
+    
+
     var body: some View {
-        Text("Hello, World!")
+        VStack{
+            Text("L'application de Temil, Juju & Matt")
+            Text("Utilisateurs :")
+            Spacer()
+            List(userDAO.users){person in
+                RowUserView(person:person)
+            }
+        }
     }
+    
 }
 
 struct ContentView_Previews: PreviewProvider {

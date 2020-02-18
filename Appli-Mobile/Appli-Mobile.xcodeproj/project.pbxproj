@@ -16,6 +16,9 @@
 		66D3620423FAEB09005F79F8 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 66D3620223FAEB09005F79F8 /* LaunchScreen.storyboard */; };
 		66D3620F23FAEB09005F79F8 /* Appli_MobileTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D3620E23FAEB09005F79F8 /* Appli_MobileTests.swift */; };
 		66D3621A23FAEB09005F79F8 /* Appli_MobileUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D3621923FAEB09005F79F8 /* Appli_MobileUITests.swift */; };
+		66D3622923FAEBE8005F79F8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D3622823FAEBE8005F79F8 /* User.swift */; };
+		66D3622D23FAF149005F79F8 /* RowUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D3622C23FAF149005F79F8 /* RowUserView.swift */; };
+		66E3F5E623FBE08000085486 /* UserDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E3F5E523FBE08000085486 /* UserDAO.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -51,6 +54,9 @@
 		66D3621523FAEB09005F79F8 /* Appli-MobileUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Appli-MobileUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		66D3621923FAEB09005F79F8 /* Appli_MobileUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Appli_MobileUITests.swift; sourceTree = "<group>"; };
 		66D3621B23FAEB09005F79F8 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		66D3622823FAEBE8005F79F8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
+		66D3622C23FAF149005F79F8 /* RowUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowUserView.swift; sourceTree = "<group>"; };
+		66E3F5E523FBE08000085486 /* UserDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDAO.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -101,6 +107,8 @@
 		66D361F323FAEB07005F79F8 /* Appli-Mobile */ = {
 			isa = PBXGroup;
 			children = (
+				66E3F5E723FBE19500085486 /* DAO */,
+				66D3622723FAEBCE005F79F8 /* Models */,
 				66D361F423FAEB07005F79F8 /* AppDelegate.swift */,
 				66D361F623FAEB07005F79F8 /* SceneDelegate.swift */,
 				66D361FB23FAEB07005F79F8 /* ContentView.swift */,
@@ -109,6 +117,7 @@
 				66D3620523FAEB09005F79F8 /* Info.plist */,
 				66D361F823FAEB07005F79F8 /* Appli_Mobile.xcdatamodeld */,
 				66D361FF23FAEB09005F79F8 /* Preview Content */,
+				66D3622C23FAF149005F79F8 /* RowUserView.swift */,
 			);
 			path = "Appli-Mobile";
 			sourceTree = "<group>";
@@ -137,6 +146,22 @@
 				66D3621B23FAEB09005F79F8 /* Info.plist */,
 			);
 			path = "Appli-MobileUITests";
+			sourceTree = "<group>";
+		};
+		66D3622723FAEBCE005F79F8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				66D3622823FAEBE8005F79F8 /* User.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		66E3F5E723FBE19500085486 /* DAO */ = {
+			isa = PBXGroup;
+			children = (
+				66E3F5E523FBE08000085486 /* UserDAO.swift */,
+			);
+			path = DAO;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -272,7 +297,10 @@
 			files = (
 				66D361F523FAEB07005F79F8 /* AppDelegate.swift in Sources */,
 				66D361FA23FAEB07005F79F8 /* Appli_Mobile.xcdatamodeld in Sources */,
+				66E3F5E623FBE08000085486 /* UserDAO.swift in Sources */,
+				66D3622D23FAF149005F79F8 /* RowUserView.swift in Sources */,
 				66D361FC23FAEB07005F79F8 /* ContentView.swift in Sources */,
+				66D3622923FAEBE8005F79F8 /* User.swift in Sources */,
 				66D361F723FAEB07005F79F8 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

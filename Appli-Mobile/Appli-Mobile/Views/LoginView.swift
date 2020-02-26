@@ -12,6 +12,7 @@ struct LoginView: View {
     
     @Binding var isAfficher: Bool
     @Binding var isAfficherRegister: Bool
+    @Binding var isLogged: Bool
 
     @State var email:String = ""
     @State var password:String = ""
@@ -57,6 +58,7 @@ struct LoginView: View {
                 Button(action:{
                     withAnimation{
                         self.isAfficher = false
+                        self.isLogged = true
                         self.didLogged(self.email,self.password)
                     }
                 }){

@@ -14,6 +14,7 @@ struct ContentView: View {
     @ObservedObject var userDAO = UserDAO()
     @State var afficherLogin = false
     @State var afficherRegister = false
+    @State var isLogged = false
 
     
     var colors:[Color] = [Color(red:1.0,green:0.6,blue:0.6),Color(red:0.3,green:0.55,blue:0.55),Color(red:0.3,green:0.55,blue:0.3),Color(red:0.3,green:0.3,blue:0.55)]
@@ -24,7 +25,7 @@ struct ContentView: View {
     var body: some View {
         NavigationView{
             VStack{
-                CategoriesView().padding(.bottom,-10)
+                CategoriesView(isLogged:self.$isLogged).padding(.bottom,-10)
                 List(){
                     ForEach(userDAO.users){person in
                         ZStack{
@@ -74,11 +75,12 @@ struct ContentView: View {
                         }.foregroundColor(Color(red:0,green:0.8,blue:0.9))
                         
                     }
-            ).overlay(self.afficherLogin ? LoginView(isAfficher: self.$afficherLogin,isAfficherRegister: self.$afficherRegister, didLogged:{
+            ).overlay((self.afficherLogin && !self.isLogged) ? LoginView(isAfficher: self.$afficherLogin,isAfficherRegister: self.$afficherRegister,isLogged:self.$isLogged, didLogged:{
                 email,password in
                 print(email)
             }) : nil)
             .overlay(self.afficherRegister ? RegisterView(isAfficher: self.$afficherLogin) : nil)
+                .overlay((self.afficherLogin && self.isLogged) ? ProfileView(isLogged:self.$afficherLogin) : nil)
             
             
         }

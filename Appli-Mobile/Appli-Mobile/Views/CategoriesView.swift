@@ -9,6 +9,9 @@
 import SwiftUI
 
 struct CategoriesView: View {
+    
+    @Binding var isLogged:Bool
+    
     var body: some View {
 
         
@@ -19,6 +22,17 @@ struct CategoriesView: View {
             // Stories Circles
             ScrollView([.horizontal], showsIndicators: false){
                 HStack {
+                    
+                    self.isLogged ? VStack {
+                        ZStack(alignment: .bottomTrailing) {
+                            Image("Border")
+                            Image("Add")
+                        }
+                        Text("Add Post")
+                            .font(Font.system(size: 13.5))
+                    }.padding(.trailing, 12) : nil
+                    
+                    
                     VStack {
                         ZStack(alignment: .bottomTrailing) {
                             Image("Border")
@@ -80,8 +94,3 @@ struct CategoriesView: View {
     }
 }
 
-struct CategoriesView_Previews: PreviewProvider {
-    static var previews: some View {
-        CategoriesView()
-    }
-}

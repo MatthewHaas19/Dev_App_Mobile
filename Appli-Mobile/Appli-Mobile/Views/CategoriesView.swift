@@ -24,9 +24,9 @@ struct CategoriesView: View {
                 HStack {
                     
                     self.isLogged ? VStack {
-                        ZStack(alignment: .bottomTrailing) {
-                            Image("Border")
-                            Image("Add")
+                        ZStack {
+                            Image("Border2")
+                            Image("AvatarBig1")
                         }
                         Text("Add Post")
                             .font(Font.system(size: 13.5))
@@ -34,9 +34,9 @@ struct CategoriesView: View {
                     
                     
                     VStack {
-                        ZStack(alignment: .bottomTrailing) {
-                            Image("Border")
-                            Image("Add")
+                        ZStack {
+                            Image("Border2")
+                            Image("AvatarBig1")
                         }
                         Text("All")
                             .font(Font.system(size: 13.5))
@@ -45,7 +45,7 @@ struct CategoriesView: View {
                     
                     VStack {
                         ZStack {
-                            Image("Border")
+                            Image("Border2")
                             Image("AvatarBig1")
                         }
                         Text("Dans la rue")
@@ -55,8 +55,8 @@ struct CategoriesView: View {
                     
                     VStack {
                         ZStack {
-                            Image("Border")
-                            Image("AvatarBig2")
+                            Image("Border2")
+                            Image("AvatarBig1")
                         }
                         Text("En soirée")
                             .font(Font.system(size: 13.5))
@@ -65,8 +65,8 @@ struct CategoriesView: View {
                     
                     VStack {
                         ZStack {
-                            Image("Border")
-                            Image("AvatarBig3")
+                            Image("Border2")
+                            Image("AvatarBig1")
                         }
                         Text("Categorie3")
                             .font(Font.system(size: 13.5))
@@ -74,8 +74,8 @@ struct CategoriesView: View {
                     
                     VStack {
                         ZStack {
-                            Image("Border")
-                            Image("AvatarBig4")
+                            Image("Border2")
+                            Image("AvatarBig1")
                         }
                         Text("Categorie4")
                             .font(Font.system(size: 13.5))

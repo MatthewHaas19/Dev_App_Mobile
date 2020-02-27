@@ -12,6 +12,7 @@ import Combine
 struct ContentView: View {
     
     @ObservedObject var userDAO = UserDAO()
+    
     @State var afficherLogin = false
     @State var afficherRegister = false
     @State var isLogged = false
@@ -19,7 +20,9 @@ struct ContentView: View {
     
     var colors:[Color] = [Color(red:1.0,green:0.6,blue:0.6),Color(red:0.3,green:0.55,blue:0.55),Color(red:0.3,green:0.55,blue:0.3),Color(red:0.3,green:0.3,blue:0.55)]
     
+    
     var post:Post = Post(title: "Wsh t'es charmante, ça te dirait une glace à la menthe",description:"On m'a dit ça l'autre jour dans la rue")
+    
     
     
     var body: some View {

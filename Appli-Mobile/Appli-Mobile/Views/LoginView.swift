@@ -17,6 +17,8 @@ struct LoginView: View {
     @State var email:String = ""
     @State var password:String = ""
     
+    @ObservedObject var userDAO = UserDAO()
+    
     var didLogged: (String,String) -> ()
     
     var body: some View {
@@ -81,6 +83,13 @@ struct LoginView: View {
             
         }
     }
+    /*
+    func login() -> Bool{
+        
+        userDao.findUser(self.email)
+        
+    }
+    */
 }
 
 

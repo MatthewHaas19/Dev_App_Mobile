@@ -22,16 +22,14 @@ struct LoginView: View {
     @State var email:String = ""
     @State var password:String = ""
     
-<<<<<<< HEAD
-    
-=======
+
     @State var invalidCredentials = false
     @State var colorButton = Color(red:0,green:0.8,blue:0.9)
     
     @ObservedObject var userDAO = UserDAO()
     
     var didLogged: (String,String) -> ()
->>>>>>> de2f11c12010d21fdae772f6a767ac950fd4095c
+
     
     var body: some View {
         ZStack{

@@ -8,6 +8,11 @@
 
 import Foundation
 
+struct ServerMessage: Decodable {
+   let res, message: String
+}
+
+
 public class UserDAO: ObservableObject{
     
     @Published var users = [User]()
@@ -42,6 +47,49 @@ public class UserDAO: ObservableObject{
             completionHandler(res)
           }
         }.resume()
+    }
+    
+    func addUser(user: UserPost, completionHandler: @escaping (Bool) -> ()){
+        
+        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/users/users") else { return }
+        
+        let newUser:[String: Any] = [
+            "email" : user.email,
+            "password" : user.password,
+            "username" : user.username,
+            "posts" : user.posts
+        ]
+        
+        let body = try! JSONSerialization.data(withJSONObject: newUser)
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.httpBody = body
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+
+            guard let data = data else { return }
+            
+            let resData = try! JSONDecoder().decode(ServerMessage.self, from: data)
+
+            print(resData.res)
+
+            if resData.res == "correct" {
+                DispatchQueue.main.async {
+                    completionHandler(true)
+                }
+
+            }
+            else{
+               DispatchQueue.main.async {
+                    completionHandler(false)
+                }
+            }
+
+        }.resume()
+        
+        
     }
     
     

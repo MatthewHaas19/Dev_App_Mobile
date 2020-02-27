@@ -28,7 +28,6 @@ struct LoginView: View {
     
     @ObservedObject var userDAO = UserDAO()
     
-    var didLogged: (String,String) -> ()
 
     
     var body: some View {

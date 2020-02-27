@@ -14,12 +14,13 @@ struct RegisterView: View {
     
     @Binding var isAfficher: Bool
     @Binding var isAfficherLogin: Bool
-    
+    @Binding var isLogged:Bool
+
+   @ObservedObject var userDAO = UserDAO()
    
 
     
-    @State var nom:String = ""
-    @State var prenom:String = ""
+    @State var username:String=""
     @State var email:String = ""
     @State var password:String = ""
     @State var password2:String = ""
@@ -37,17 +38,12 @@ struct RegisterView: View {
                     .fontWeight(.semibold)
                     .padding(.bottom, 20)
                 
-                TextField("Nom", text: $nom)
+                TextField("Username", text: $username)
                 .padding()
                 .background(Color(red:0.95,green:0.95,blue:0.95))
                 .cornerRadius(5.0)
                 .padding(.bottom, 20)
                 
-                TextField("Prenom", text: $prenom)
-                .padding()
-                .background(Color(red:0.95,green:0.95,blue:0.95))
-                .cornerRadius(5.0)
-                .padding(.bottom, 20)
                 
                 TextField("Email", text: $email)
                     .padding()
@@ -74,8 +70,7 @@ struct RegisterView: View {
                 // }
                 Button(action:{
                     withAnimation{
-                        self.isAfficher = false
-                        self.isAfficherLogin = false
+                        self.Register()
                     }
                 }){
                     Text("Créer mon compte")
@@ -90,6 +85,7 @@ struct RegisterView: View {
                     withAnimation{
                     self.isAfficher = false
                     self.isAfficherLogin = true
+                    
                     }
                 }){
                     Text("Déja un compte?")
@@ -99,6 +95,26 @@ struct RegisterView: View {
             
         }
     }
+    
+    
+    func Register(){
+        if(self.password==self.password2){
+            let user = UserPost(email:self.email,password:self.password,username:self.username,posts:[])
+            self.userDAO.addUser(user: user, completionHandler: {
+                res in
+                if(res){
+                    self.isAfficher = false
+                    self.isAfficherLogin = false
+                    self.isLogged = true
+                }
+                else{
+                    print("register error")
+                }
+            })
+        }
+        
+    }
+    
 }
 
 

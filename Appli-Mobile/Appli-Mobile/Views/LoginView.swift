@@ -13,17 +13,32 @@ struct LoginView: View {
     @Binding var isAfficher: Bool
     @Binding var isAfficherRegister: Bool
     @Binding var isLogged: Bool
-
+    var didLogged: (String,String) -> ()
+ 
+    
+    
+    
+    
     @State var email:String = ""
     @State var password:String = ""
     
+<<<<<<< HEAD
+    
+=======
+    @State var invalidCredentials = false
+    @State var colorButton = Color(red:0,green:0.8,blue:0.9)
+    
+    @ObservedObject var userDAO = UserDAO()
+    
     var didLogged: (String,String) -> ()
+>>>>>>> de2f11c12010d21fdae772f6a767ac950fd4095c
     
     var body: some View {
         ZStack{
             Color.white
             VStack{
                 
+                self.invalidCredentials ? Text("Email ou Mdp incorrect !").foregroundColor(Color.red).padding(.bottom, 20) : nil
                 // Form{
                 Text("Login")
                     .font(.largeTitle)
@@ -57,9 +72,7 @@ struct LoginView: View {
                 // }
                 Button(action:{
                     withAnimation{
-                        self.isAfficher = false
-                        self.isLogged = true
-                        self.didLogged(self.email,self.password)
+                        self.login()
                     }
                 }){
                     Text("LOGIN")
@@ -67,7 +80,7 @@ struct LoginView: View {
                         .foregroundColor(.white)
                         .padding()
                         .frame(width: 220, height: 60)
-                        .background(Color(red:0,green:0.8,blue:0.9))
+                        .background(self.colorButton)
                         .cornerRadius(15.0)
                 }
                 Button(action:{
@@ -76,12 +89,38 @@ struct LoginView: View {
                 }){
                     Text("S'enregistrer")
                 }.padding(.top)
-                .foregroundColor(Color(red:0,green:0.8,blue:0.9))
+                    .foregroundColor(Color(red:0,green:0.8,blue:0.9))
             }.padding()
             
         }
     }
+    
+    func login(){
+        self.colorButton = Color(red:0.95,green:0.95,blue:0.95)
+        userDAO.findUser(email:self.email,completionHandler : {
+            user in
+            self.colorButton = Color(red:0,green:0.8,blue:0.9)
+            if(user.count == 0){
+                self.isLogged = false
+                self.invalidCredentials = true
+            }
+            else{
+                if(user[0].password == self.password){
+                    self.invalidCredentials = false
+                    self.isAfficher = false
+                    self.isLogged = true
+                    self.didLogged(self.email,self.password)
+                }
+                else{
+                    self.isLogged = false
+                    self.invalidCredentials = true
+                }
+            }
+        })
+    }
+    
 }
+
 
 
 

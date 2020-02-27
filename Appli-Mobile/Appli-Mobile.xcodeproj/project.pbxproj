@@ -23,6 +23,7 @@
 		F32ECB4F2406AAF000C004A4 /* CategoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32ECB4E2406AAF000C004A4 /* CategoriesView.swift */; };
 		F32ECB512406ABB800C004A4 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32ECB502406ABB800C004A4 /* RegisterView.swift */; };
 		F33C46CA2406B44200A22B16 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33C46C92406B44200A22B16 /* ProfileView.swift */; };
+		F36AC693240817B100527B9D /* UserPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36AC692240817B100527B9D /* UserPost.swift */; };
 		F3BA08872402F9FE00EE7118 /* RowPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BA08862402F9FE00EE7118 /* RowPostView.swift */; };
 		F3BA08892402FD7E00EE7118 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BA08882402FD7E00EE7118 /* Post.swift */; };
 /* End PBXBuildFile section */
@@ -67,6 +68,7 @@
 		F32ECB4E2406AAF000C004A4 /* CategoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesView.swift; sourceTree = "<group>"; };
 		F32ECB502406ABB800C004A4 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		F33C46C92406B44200A22B16 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
+		F36AC692240817B100527B9D /* UserPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserPost.swift; sourceTree = "<group>"; };
 		F3BA08862402F9FE00EE7118 /* RowPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowPostView.swift; sourceTree = "<group>"; };
 		F3BA08882402FD7E00EE7118 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -164,6 +166,7 @@
 			isa = PBXGroup;
 			children = (
 				66D3622823FAEBE8005F79F8 /* User.swift */,
+				F36AC692240817B100527B9D /* UserPost.swift */,
 				F3BA08882402FD7E00EE7118 /* Post.swift */,
 			);
 			path = Models;
@@ -327,6 +330,7 @@
 				66E3F5E623FBE08000085486 /* UserDAO.swift in Sources */,
 				66D3622D23FAF149005F79F8 /* RowUserView.swift in Sources */,
 				66D361FC23FAEB07005F79F8 /* ContentView.swift in Sources */,
+				F36AC693240817B100527B9D /* UserPost.swift in Sources */,
 				F3BA08872402F9FE00EE7118 /* RowPostView.swift in Sources */,
 				F3BA08892402FD7E00EE7118 /* Post.swift in Sources */,
 				66D3622923FAEBE8005F79F8 /* User.swift in Sources */,

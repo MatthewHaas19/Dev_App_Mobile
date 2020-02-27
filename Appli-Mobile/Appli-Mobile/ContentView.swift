@@ -82,9 +82,9 @@ struct ContentView: View {
             ).overlay((self.afficherLogin && !self.isLogged) ? LoginView(isAfficher: self.$afficherLogin,isAfficherRegister: self.$afficherRegister,isLogged:self.$isLogged, didLogged:{
                 email,password in
                 print(email)
-            }) : nil)
-                .overlay(self.afficherRegister ? RegisterView(isAfficher: self.$afficherRegister, isAfficherLogin: self.$afficherLogin) : nil)
-                .overlay((self.afficherLogin && self.isLogged) ? ProfileView(isLogged:self.$afficherLogin) : nil)
+            }).edgesIgnoringSafeArea(.all) : nil)
+                .overlay(self.afficherRegister ? RegisterView(isAfficher: self.$afficherRegister, isAfficherLogin: self.$afficherLogin, isLogged:self.$isLogged).edgesIgnoringSafeArea(.all) : nil)
+                .overlay((self.afficherLogin && self.isLogged) ? ProfileView(isLogged:self.$afficherLogin).edgesIgnoringSafeArea(.all) : nil)
             
             
         }

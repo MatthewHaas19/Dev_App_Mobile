@@ -9,15 +9,9 @@
 import SwiftUI
 
 struct CategoriesView: View {
-<<<<<<< HEAD
 
 
 
-=======
-    
-    @Binding var isLogged:Bool
-    
->>>>>>> parent of 11367791... Structuration du code en Views
     var body: some View {
 
 
@@ -28,21 +22,7 @@ struct CategoriesView: View {
             // Stories Circles
             ScrollView([.horizontal], showsIndicators: false){
                 HStack {
-<<<<<<< HEAD
 
-=======
-                    
-                    self.isLogged ? VStack {
-                        ZStack {
-                            Image("Border2")
-                            Image("Rue")
-                        }
-                        Text("Add Post")
-                            .font(Font.system(size: 13.5))
-                    }.padding(.trailing, 12) : nil
-                    
-                    
->>>>>>> parent of 11367791... Structuration du code en Views
                     VStack {
                         ZStack {
                             Image("Border2")

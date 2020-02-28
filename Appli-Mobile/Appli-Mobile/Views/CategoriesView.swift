@@ -16,6 +16,7 @@ struct CategoriesView: View {
         
         VStack(alignment: .leading) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
             // Stories Circles
@@ -23,6 +24,16 @@ struct CategoriesView: View {
                 HStack {
 
 
+=======
+            
+            
+            
+            // Stories Circles
+            ScrollView([.horizontal], showsIndicators: false){
+                HStack {
+                    
+                    
+>>>>>>> parent of 9d6a086a... Merge branch 'master' of https://github.com/MatthewHaas19/Dev_App_Mobile
 =======
             
             
@@ -80,17 +91,23 @@ struct CategoriesView: View {
                             Image("AvatarBig1")
                         }
 <<<<<<< HEAD
+<<<<<<< HEAD
                         Text("Autres")
                             .font(Font.system(size:13.5))
                     }.padding(.trailing,12)
                     
 =======
+=======
+>>>>>>> parent of 9d6a086a... Merge branch 'master' of https://github.com/MatthewHaas19/Dev_App_Mobile
                         Text("Categorie4")
                             .font(Font.system(size: 13.5))
                     }.padding(.trailing, 12)
                     
                     
                 
+<<<<<<< HEAD
+>>>>>>> parent of 9d6a086a... Merge branch 'master' of https://github.com/MatthewHaas19/Dev_App_Mobile
+=======
 >>>>>>> parent of 9d6a086a... Merge branch 'master' of https://github.com/MatthewHaas19/Dev_App_Mobile
                 }.padding(.leading, 16)
                 

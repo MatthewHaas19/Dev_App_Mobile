@@ -24,7 +24,7 @@ struct ListView: View {
                 ForEach(userDAO.users){person in
                     ZStack{
                         RowPostView(user:person,post:self.post).padding(.bottom)
-                        
+                    
                         
                     }.listRowBackground(
                         VStack{

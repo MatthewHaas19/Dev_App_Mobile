@@ -10,6 +10,7 @@ import SwiftUI
 
 struct CategoriesView: View {
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
 
@@ -24,10 +25,15 @@ struct CategoriesView: View {
     
 >>>>>>> parent of 11367791... Structuration du code en Views
 >>>>>>> parent of c6ab7ec8... kk
+=======
+    
+    
+>>>>>>> parent of 9d6a086a... Merge branch 'master' of https://github.com/MatthewHaas19/Dev_App_Mobile
     var body: some View {
 
-
+        
         VStack(alignment: .leading) {
+<<<<<<< HEAD
 
 
 <<<<<<< HEAD
@@ -43,10 +49,20 @@ struct CategoriesView: View {
 >>>>>>> parent of c6ab7ec8... kk
 
 
+=======
+            
+            
+            
+            // Stories Circles
+            ScrollView([.horizontal], showsIndicators: false){
+                HStack {
+                    
+                    
+>>>>>>> parent of 9d6a086a... Merge branch 'master' of https://github.com/MatthewHaas19/Dev_App_Mobile
                     VStack {
                         ZStack {
                             Image("Border2")
-                            Image("All")
+                            Image("Web")
 
                         }
                         Text("All")
@@ -74,6 +90,7 @@ struct CategoriesView: View {
                         Text("Entre amis")
                             .font(Font.system(size: 13.5))
                     }.padding(.trailing, 12)
+<<<<<<< HEAD
 
 
                     VStack {
@@ -119,10 +136,15 @@ struct CategoriesView: View {
                     }.padding(.trailing, 12)
 
 
+=======
+                    
+                    
+>>>>>>> parent of 9d6a086a... Merge branch 'master' of https://github.com/MatthewHaas19/Dev_App_Mobile
                     VStack {
                         ZStack {
                             Image("Border2")
                             Image("Web")
+<<<<<<< HEAD
                         }
                         Text("Sur internet")
                             .font(Font.system(size: 13.5))
@@ -138,63 +160,40 @@ struct CategoriesView: View {
                         ZStack {
                             Image("Border2")
                             Image("Rue")
+=======
+
+>>>>>>> parent of 9d6a086a... Merge branch 'master' of https://github.com/MatthewHaas19/Dev_App_Mobile
                         }
                         Text("Dans la rue")
                             .font(Font.system(size: 13.5))
                     }.padding(.trailing, 12)
-
-
+                    
+                    
                     VStack {
                         ZStack {
                             Image("Border2")
-                            Image("Soiree")
+                            Image("AvatarBig1")
                         }
                         Text("En soirée")
                             .font(Font.system(size: 13.5))
                     }.padding(.trailing, 12)
-
+                   
+                    
                     VStack {
                         ZStack {
                             Image("Border2")
-                            Image("Au sport")
+                            Image("AvatarBig1")
                         }
-                        Text("Sport")
+                        Text("Categorie3")
                             .font(Font.system(size: 13.5))
                     }.padding(.trailing, 12)
-
+                    
                     VStack {
                         ZStack {
                             Image("Border2")
-                            Image("Transport")
+                            Image("AvatarBig1")
                         }
-                        Text("Transport")
-                            .font(Font.system(size: 13.5))
-                    }.padding(.trailing, 12)
-
-                    VStack {
-                        ZStack {
-                            Image("Border2")
-                            Image("TV")
-                        }
-                        Text("A la Télé")
-                            .font(Font.system(size: 13.5))
-                    }.padding(.trailing, 12)
-
-                    VStack {
-                        ZStack {
-                            Image("Border2")
-                            Image("Voisin")
-                        }
-                        Text("Voisins")
-                            .font(Font.system(size: 13.5))
-                    }.padding(.trailing, 12)
-
-
-                    VStack {
-                        ZStack {
-                            Image("Border2")
-                            Image("Autre")
-                        }
+<<<<<<< HEAD
                         Text("Autres")
 <<<<<<< HEAD
                             .font(Font.system(size:13.5))
@@ -207,6 +206,14 @@ struct CategoriesView: View {
 
 
 >>>>>>> parent of c6ab7ec8... kk
+=======
+                        Text("Categorie4")
+                            .font(Font.system(size: 13.5))
+                    }.padding(.trailing, 12)
+                    
+                    
+                
+>>>>>>> parent of 9d6a086a... Merge branch 'master' of https://github.com/MatthewHaas19/Dev_App_Mobile
                 }.padding(.leading, 16)
                 
             }.padding(.leading,1)
@@ -216,6 +223,7 @@ struct CategoriesView: View {
         }.padding(.top)
         .padding(.bottom)
         .background(Color(red:0.95,green:0.95,blue:0.95))
-
+        
     }
 }
+

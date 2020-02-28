@@ -8,14 +8,52 @@
 
 import Foundation
 
+struct Categorie  {
+    let cat : String
+}
+
+struct Commentaire  {
+    let titreCom : String
+    let texteCom: String
+    let voteCom : Int
+    let dateCome : Date
+    let user : User?
+    
+    init(titreCom : String ,texteCom: String,voteCom : Int,dateCome : Date, user : User?) {
+        
+        self.titreCom=titreCom
+        self.texteCom=texteCom
+        self.voteCom=voteCom
+        self.dateCome=dateCome
+        self.user=user
+    }
+    
+}
+
 struct Post {
     
-    var title: String
-    var description: String
+    var titre: String
+    var texte: String
+    var nbSignalement : Int
+    var image : String?
+    var localisation : String
+    var categorie : [Categorie]
+    var note : Int
+    var commentaire : [Commentaire]?
+    var date : Date
+    var user : User?
     
-    init(title:String,description:String){
-        self.title = title
-        self.description = description
+    init(titre:String,texte:String,nbSignalement : Int,image:String?,localisation:String,categorie : [Categorie],note:Int,commentaire:[Commentaire]?,date:Date,user:User?){
+        self.titre = titre
+        self.texte = texte
+        self.nbSignalement=nbSignalement
+        self.image=image
+        self.localisation=localisation
+        self.categorie=categorie
+        self.note = note
+        self.commentaire=commentaire
+        self.date=date
+        self.user=user
     }
     
 }

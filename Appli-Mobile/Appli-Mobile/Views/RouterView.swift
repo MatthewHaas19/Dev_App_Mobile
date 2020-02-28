@@ -59,7 +59,7 @@ struct RouterView: View {
                     .overlay(self.afficherRegister ? RegisterView(isAfficher: self.$afficherRegister, isAfficherLogin: self.$afficherLogin, isLogged:self.$isLogged).edgesIgnoringSafeArea(.all) : nil)
                     .overlay((self.afficherLogin && self.isLogged) ? ProfileView(isLogged:self.$afficherLogin).edgesIgnoringSafeArea(.all) : nil)
                     .overlay((self.isLogged && !self.afficherLogin && !self.afficherFilter) ? addButton() : nil)
-                .overlay(self.afficherFilter ? FilterView(afficherFilter: self.$afficherFilter)edgesIgnoringSafeArea(.all) : nil)
+                .overlay(self.afficherFilter ? FilterView(afficherFilter: self.$afficherFilter).edgesIgnoringSafeArea(.all) : nil)
         }
     }
 }

@@ -11,6 +11,7 @@ import Combine
 
 struct ContentView: View {
     
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 =======
@@ -25,6 +26,8 @@ struct ContentView: View {
     
     
 >>>>>>> parent of 4803377a... post et model post
+=======
+>>>>>>> parent of 9d6a086a... Merge branch 'master' of https://github.com/MatthewHaas19/Dev_App_Mobile
     var body: some View {
         
         RouterView()

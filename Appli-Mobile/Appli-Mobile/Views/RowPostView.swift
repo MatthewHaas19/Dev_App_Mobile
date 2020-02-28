@@ -12,6 +12,7 @@ struct RowPostView: View {
     var user: User
     var post: Post
     var body: some View {
+        VStack{
         ZStack{
             //Color.pink.edgesIgnoringSafeArea(.all)
             HStack{
@@ -19,27 +20,28 @@ struct RowPostView: View {
                 HStack{
                     Image(systemName:"location").foregroundColor(Color.white)
                         .font(.system(size:14))
-                    Text("proche - 7min").foregroundColor(Color.white).font(.system(size:14))
+                    Text(String(post.localisation)).foregroundColor(Color.white).font(.system(size:14))
                 }
                 
-                Text(user.username).foregroundColor(Color.white)
+                Text(post.titre).foregroundColor(Color.white)
                     .font(.system(size:25))
                 Spacer().frame(height:10)
-                Text(post.title).foregroundColor(Color.white)
+                Text(post.texte).foregroundColor(Color.white)
             }
                 VStack{
                     Button(action:{}){ Image(systemName:"chevron.up").foregroundColor(Color.white).font(.system(size:25,weight: .bold))
                     }
                     
-                    Text("12").foregroundColor(Color.white).font(.system(size:20));
+                    Text(String(post.note)).foregroundColor(Color.white).font(.system(size:20));
                     Button(action:{print("cc")}){
                     Image(systemName:"chevron.down").foregroundColor(Color.white)
                     .font(.system(size:25,weight: .bold))
                 
                     }
                 }
-            }
-        }
+            }.frame(height:100)
+        }.frame(height:100)
+    }
     }
 }
 
@@ -48,9 +50,9 @@ struct RowPostView_Previews: PreviewProvider {
         
         VStack{
         
-           RowPostView(user:User(id: "1", email: "a@a.fr", password: "a", username: "Juju", posts: []),post:Post(title: "Wsh t'es charmante, ça te dirait une glace à la menthe",description:"On m'a dit ça l'autre jour dans la rue"))
-            RowPostView(user:User(id: "1", email: "a@a.fr", password: "a", username: "Juju", posts: []),post:Post(title: "Wsh t'es charmante, ça te dirait une glace à la menthe",description:"On m'a dit ça l'autre jour dans la rue"))
-        }.frame(height:100)
+          RowPostView(user:User(id: "1", email: "a@a.fr", password: "a", username: "Juju", posts: []),post:Post(titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: [Categorie(cat: "Dans la rue")], note: 156, commentaire: nil, date: Date(),user:nil))
+            
+        }
         
     }
 }

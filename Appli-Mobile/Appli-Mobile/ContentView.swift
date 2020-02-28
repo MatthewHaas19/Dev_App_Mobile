@@ -11,6 +11,7 @@ import Combine
 
 struct ContentView: View {
 <<<<<<< HEAD
+<<<<<<< HEAD
   
 =======
     
@@ -31,6 +32,9 @@ struct ContentView: View {
     
     
 >>>>>>> parent of 11367791... Structuration du code en Views
+=======
+    
+>>>>>>> parent of 9d6a086a... Merge branch 'master' of https://github.com/MatthewHaas19/Dev_App_Mobile
     var body: some View {
         NavigationView{
             VStack{

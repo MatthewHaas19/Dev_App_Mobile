@@ -10,7 +10,7 @@ import SwiftUI
 
 struct CategoriesView: View {
 
-    @Binding var isLogged:Bool
+
 
     var body: some View {
 
@@ -22,16 +22,6 @@ struct CategoriesView: View {
             // Stories Circles
             ScrollView([.horizontal], showsIndicators: false){
                 HStack {
-
-                    self.isLogged ? VStack {
-                        ZStack {
-                            Image("Border2")
-                            Image("Rue")
-                        }
-                        Text("Add Post")
-                            .font(Font.system(size: 13.5))
-                    }.padding(.trailing, 12) : nil
-
 
                     VStack {
                         ZStack {
@@ -102,6 +92,7 @@ struct CategoriesView: View {
                         Text("Dans la rue")
                             .font(Font.system(size: 13.5))
                     }.padding(.trailing, 12)
+
 
                     VStack {
                         ZStack {

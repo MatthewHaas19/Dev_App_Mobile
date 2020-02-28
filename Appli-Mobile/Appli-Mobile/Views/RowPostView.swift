@@ -12,45 +12,47 @@ struct RowPostView: View {
     var user: User
     var post: Post
     var body: some View {
-        ZStack{
-            //Color.pink.edgesIgnoringSafeArea(.all)
-            HStack{
-            VStack(alignment:.leading, spacing:5){
+        VStack{
+            ZStack{
+                //Color.pink.edgesIgnoringSafeArea(.all)
                 HStack{
-                    Image(systemName:"location").foregroundColor(Color.white)
-                        .font(.system(size:14))
-                    Text("proche - 7min").foregroundColor(Color.white).font(.system(size:14))
-                }
-                
-                Text(user.username).foregroundColor(Color.white)
-                    .font(.system(size:25))
-                Spacer().frame(height:10)
-                Text(post.title).foregroundColor(Color.white)
-            }
-                VStack{
-                    Button(action:{}){ Image(systemName:"chevron.up").foregroundColor(Color.white).font(.system(size:25,weight: .bold))
+                    VStack(alignment:.leading, spacing:5){
+                        HStack{
+                            Image(systemName:"location").foregroundColor(Color.white)
+                                .font(.system(size:14))
+                            Text(post.localisation).foregroundColor(Color.white).font(.system(size:14))
+                        }
+                        
+                        Text(post.titre).foregroundColor(Color.white)
+                            .font(.system(size:25))
+                        Spacer().frame(height:10)
+                        Text(post.texte).foregroundColor(Color.white)
                     }
-                    
-                    Text("12").foregroundColor(Color.white).font(.system(size:20));
-                    Button(action:{print("cc")}){
-                    Image(systemName:"chevron.down").foregroundColor(Color.white)
-                    .font(.system(size:25,weight: .bold))
-                
+                    VStack{
+                        Button(action:{}){ Image(systemName:"chevron.up").foregroundColor(Color.white).font(.system(size:25,weight: .bold))
+                        }
+                        
+                        Text(String(post.note)).foregroundColor(Color.white).font(.system(size:20));
+                        Button(action:{print("cc")}){
+                            Image(systemName:"chevron.down").foregroundColor(Color.white)
+                                .font(.system(size:25,weight: .bold))
+                            
+                        }
                     }
                 }
             }
-        }
+        }.frame(height:115)
     }
 }
 
 struct RowPostView_Previews: PreviewProvider {
+    
     static var previews: some View {
         
         VStack{
-        
-           RowPostView(user:User(id: "1", email: "a@a.fr", password: "a", username: "Juju", posts: []),post:Post(title: "Wsh t'es charmante, ça te dirait une glace à la menthe",description:"On m'a dit ça l'autre jour dans la rue"))
-            RowPostView(user:User(id: "1", email: "a@a.fr", password: "a", username: "Juju", posts: []),post:Post(title: "Wsh t'es charmante, ça te dirait une glace à la menthe",description:"On m'a dit ça l'autre jour dans la rue"))
-        }.frame(height:100)
+            
+            RowPostView(user:User(id: "1", email: "a@a.fr", password: "a", username: "Juju", posts: []),post:Post(titre: "Super titre", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: [Categorie(cat: "Dans la rue")], note: 156, commentaire: nil, date: Date(),user:nil))
+        }
         
     }
 }

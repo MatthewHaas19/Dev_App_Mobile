@@ -9,18 +9,38 @@
 import SwiftUI
 
 struct CategoriesView: View {
+<<<<<<< HEAD
 
 
 
+=======
+<<<<<<< HEAD
+
+
+
+=======
+    
+    @Binding var isLogged:Bool
+    
+>>>>>>> parent of 11367791... Structuration du code en Views
+>>>>>>> parent of c6ab7ec8... kk
     var body: some View {
 
 
         VStack(alignment: .leading) {
 
 
+<<<<<<< HEAD
             // Stories Circles
             ScrollView([.horizontal], showsIndicators: false){
                 HStack {
+=======
+
+            // Stories Circles
+            ScrollView([.horizontal], showsIndicators: false){
+                HStack {
+<<<<<<< HEAD
+>>>>>>> parent of c6ab7ec8... kk
 
 
                     VStack {
@@ -31,12 +51,36 @@ struct CategoriesView: View {
                         }
                         Text("All")
                             .font(Font.system(size: 13.5))
+<<<<<<< HEAD
                     }.padding(.trailing, 12)
 
 
                     VStack {
                         ZStack {
                             Image("Border2")
+                            Image("Amis")
+=======
+                    }.padding(.trailing, 12) : nil
+                    
+                    
+>>>>>>> parent of 11367791... Structuration du code en Views
+                    VStack {
+                        ZStack {
+                            Image("Border2")
+                            Image("All")
+>>>>>>> parent of c6ab7ec8... kk
+
+                        }
+                        Text("Entre amis")
+                            .font(Font.system(size: 13.5))
+                    }.padding(.trailing, 12)
+
+
+                    VStack {
+                        ZStack {
+                            Image("Border2")
+<<<<<<< HEAD
+=======
                             Image("Amis")
 
                         }
@@ -48,6 +92,7 @@ struct CategoriesView: View {
                     VStack {
                         ZStack {
                             Image("Border2")
+>>>>>>> parent of c6ab7ec8... kk
                             Image("Couple")
                         }
                         Text("En couple")
@@ -82,8 +127,13 @@ struct CategoriesView: View {
                         Text("Sur internet")
                             .font(Font.system(size: 13.5))
                     }.padding(.trailing, 12)
+<<<<<<< HEAD
 
 
+=======
+
+
+>>>>>>> parent of c6ab7ec8... kk
                     VStack {
                         ZStack {
                             Image("Border2")
@@ -146,9 +196,17 @@ struct CategoriesView: View {
                             Image("Autre")
                         }
                         Text("Autres")
+<<<<<<< HEAD
                             .font(Font.system(size:13.5))
                     }.padding(.trailing,12)
                     
+=======
+                            .font(Font.system(size: 13.5))
+                    }.padding(.trailing, 12)
+
+
+
+>>>>>>> parent of c6ab7ec8... kk
                 }.padding(.leading, 16)
                 
             }.padding(.leading,1)

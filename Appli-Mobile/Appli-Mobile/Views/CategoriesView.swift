@@ -11,40 +11,17 @@ import SwiftUI
 struct CategoriesView: View {
 
 
-    @Binding var isLogged:Bool
-    var body: some View {
-
-
-        VStack(alignment: .leading) {
 
     var body: some View {
 
 
         VStack(alignment: .leading) {
-      // Stories Circles
+
+
+
+            // Stories Circles
             ScrollView([.horizontal], showsIndicators: false){
                 HStack {
-
-                    VStack {
-                        ZStack {
-                            Image("Border2")
-                            Image("Web")
-
-                        }
-                        Text("All")
-                            .font(Font.system(size: 13.5))
-
-                    }.padding(.trailing, 12)
-
-
-                    VStack {
-                        ZStack {
-                            Image("Border2")
-                            Image("Amis")
-
-                    }.padding(.trailing, 12) : nil
-
-
 
                     VStack {
                         ZStack {
@@ -52,7 +29,7 @@ struct CategoriesView: View {
                             Image("All")
 
                         }
-                        Text("Entre amis")
+                        Text("All")
                             .font(Font.system(size: 13.5))
                     }.padding(.trailing, 12)
 
@@ -71,7 +48,6 @@ struct CategoriesView: View {
                     VStack {
                         ZStack {
                             Image("Border2")
-
                             Image("Couple")
                         }
                         Text("En couple")
@@ -97,15 +73,16 @@ struct CategoriesView: View {
                             .font(Font.system(size: 13.5))
                     }.padding(.trailing, 12)
 
+
                     VStack {
                         ZStack {
                             Image("Border2")
                             Image("Web")
-
                         }
                         Text("Sur internet")
                             .font(Font.system(size: 13.5))
                     }.padding(.trailing, 12)
+
 
                     VStack {
                         ZStack {
@@ -120,66 +97,63 @@ struct CategoriesView: View {
                     VStack {
                         ZStack {
                             Image("Border2")
-                            Image("AvatarBig1")
+                            Image("Soiree")
                         }
                         Text("En soirée")
                             .font(Font.system(size: 13.5))
                     }.padding(.trailing, 12)
 
-
                     VStack {
                         ZStack {
                             Image("Border2")
-                            Image("AvatarBig1")
+                            Image("Au sport")
                         }
-                        Text("Categorie3")
-
+                        Text("Sport")
                             .font(Font.system(size: 13.5))
                     }.padding(.trailing, 12)
 
                     VStack {
                         ZStack {
                             Image("Border2")
-                            Image("AvatarBig1")
+                            Image("Transport")
                         }
+                        Text("Transport")
+                            .font(Font.system(size: 13.5))
+                    }.padding(.trailing, 12)
 
+                    VStack {
+                        ZStack {
+                            Image("Border2")
+                            Image("TV")
+                        }
+                        Text("A la Télé")
+                            .font(Font.system(size: 13.5))
+                    }.padding(.trailing, 12)
+
+                    VStack {
+                        ZStack {
+                            Image("Border2")
+                            Image("Voisin")
+                        }
+                        Text("Voisins")
+                            .font(Font.system(size: 13.5))
+                    }.padding(.trailing, 12)
+
+
+                    VStack {
+                        ZStack {
+                            Image("Border2")
+                            Image("Autre")
+                        }
                         Text("Autres")
-
-                            .font(Font.system(size:13.5))
-                    }.padding(.trailing,12)
-
                             .font(Font.system(size: 13.5))
                     }.padding(.trailing, 12)
 
 
 
-            Text("Categorie4")
-                            .font(Font.system(size: 13.5))
-                    }.padding(.trailing, 12)
-
-                            .font(Font.system(size: 13.5))
-                    }.padding(.trailing, 12)
-
-                    VStack {
-                        ZStack {
-                            Image("Border2")
-                            Image("AvatarBig1")
-                        }
-
-                        Text("Autres")
-                            .font(Font.system(size:13.5))
-                    }.padding(.trailing,12)
-
-
-                        Text("Categorie4")
-                            .font(Font.system(size: 13.5))
-                    }.padding(.trailing, 12)
-                    
                 }.padding(.leading, 16)
-
             }.padding(.leading,1)
              .padding(.trailing, 1)
-
 
         }.padding(.top)
         .padding(.bottom)

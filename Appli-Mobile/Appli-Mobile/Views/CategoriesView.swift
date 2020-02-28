@@ -22,6 +22,7 @@ struct CategoriesView: View {
             ScrollView([.horizontal], showsIndicators: false){
                 HStack {
 
+
                     VStack {
                         ZStack {
                             Image("Border2")

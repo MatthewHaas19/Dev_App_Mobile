@@ -37,6 +37,7 @@ struct CategoriesView: View {
                         ZStack {
                             Image("Border2")
                             Image("Web")
+
                         }
                         Text("All")
                             .font(Font.system(size: 13.5))
@@ -46,7 +47,8 @@ struct CategoriesView: View {
                     VStack {
                         ZStack {
                             Image("Border2")
-                            Image("Rue")
+                            Image("Web")
+
                         }
                         Text("Dans la rue")
                             .font(Font.system(size: 13.5))

@@ -41,6 +41,15 @@ struct CategoriesView: View {
                             .font(Font.system(size: 13.5))
                     }.padding(.trailing, 12) : nil
                     
+                    self.isLogged ? VStack {
+                        ZStack {
+                            Image("Border2")
+                            Image("Rue")
+                        }
+                        Text("Add Post")
+                            .font(Font.system(size: 13.5))
+                    }.padding(.trailing, 12) : nil
+                    
                     
 >>>>>>> parent of 11367791... Structuration du code en Views
                     VStack {

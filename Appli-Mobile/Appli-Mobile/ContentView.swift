@@ -28,10 +28,29 @@ struct ContentView: View {
     
     
     
+<<<<<<< HEAD
 >>>>>>> parent of 11367791... Structuration du code en Views
 =======
     
 >>>>>>> parent of 9d6a086a... Merge branch 'master' of https://github.com/MatthewHaas19/Dev_App_Mobile
+=======
+    @ObservedObject var userDAO = UserDAO()
+    
+    @State var afficherLogin = false
+    @State var afficherRegister = false
+    @State var isLogged = false
+
+    
+    //var colors:[Color] = [Color(red:1.0,green:0.6,blue:0.6),Color(red:0.3,green:0.55,blue:0.55),Color(red:0.3,green:0.55,blue:0.3),Color(red:0.3,green:0.3,blue:0.55)]
+    var colors:[Color] = [Color(red:0.6,green:0.9,blue:0.94),Color(red:0.42,green:0.89,blue:0.95),Color(red:0.17,green:0.7,blue:0.76),Color(red:0.91,green:0.87,blue:0.07),Color(red:0.95,green:0.93,blue:0.26)]
+    
+    
+    
+    var post:Post = Post(title: "Wsh t'es charmante, ça te dirait une glace à la menthe",description:"On m'a dit ça l'autre jour dans la rue")
+    
+    
+    
+>>>>>>> parent of 11367791... Structuration du code en Views
     var body: some View {
         NavigationView{
             VStack{

@@ -18,7 +18,6 @@ struct CategoriesView: View {
         VStack(alignment: .leading) {
 
 
-
             // Stories Circles
             ScrollView([.horizontal], showsIndicators: false){
                 HStack {
@@ -146,14 +145,14 @@ struct CategoriesView: View {
                             Image("Autre")
                         }
                         Text("Autres")
-                            .font(Font.system(size: 13.5))
-                    }.padding(.trailing, 12)
-
-
-
+                            .font(Font.system(size:13.5))
+                    }.padding(.trailing,12)
+                    
                 }.padding(.leading, 16)
+                
             }.padding(.leading,1)
              .padding(.trailing, 1)
+            
 
         }.padding(.top)
         .padding(.bottom)

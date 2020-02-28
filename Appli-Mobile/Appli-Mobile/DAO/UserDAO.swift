@@ -22,7 +22,7 @@ public class UserDAO: ObservableObject{
     init(){
         loadData()
     }
-    
+     
     
     func loadData(){
         guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/users/users") else { return }
@@ -35,7 +35,7 @@ public class UserDAO: ObservableObject{
           }
         }.resume()
     }
-    
+       
     func findUser(email:String, completionHandler: @escaping ([User]) -> ()) {
         guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/users/users/"+email) else { return }
         URLSession.shared.dataTask(with: url){(data, _, _) in

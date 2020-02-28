@@ -100,6 +100,7 @@ struct RegisterView: View {
     func Register(){
         if(self.password==self.password2){
             let user = UserPost(email:self.email,password:self.password,username:self.username,posts:[])
+            
             self.userDAO.addUser(user: user, completionHandler: {
                 res in
                 if(res){

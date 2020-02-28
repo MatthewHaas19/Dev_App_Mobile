@@ -85,6 +85,7 @@ struct ContentView: View {
             }).edgesIgnoringSafeArea(.all) : nil)
                 .overlay(self.afficherRegister ? RegisterView(isAfficher: self.$afficherRegister, isAfficherLogin: self.$afficherLogin, isLogged:self.$isLogged).edgesIgnoringSafeArea(.all) : nil)
                 .overlay((self.afficherLogin && self.isLogged) ? ProfileView(isLogged:self.$afficherLogin).edgesIgnoringSafeArea(.all) : nil)
+            .overlay(addButton())
             
             
         }
@@ -93,9 +94,29 @@ struct ContentView: View {
 }
 
 
+struct addButton : View {
+    
+    var body: some View {
+        
+        VStack {
+            Spacer()
+
+            
+            Button(action:{}){
+            Image("BouttonPlus")
+            .resizable()
+            .aspectRatio(contentMode: .fill)
+            .frame(width: 100, height: 100)
+                .shadow(radius: 3)
+            }
+        }
+    }
+}
+
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
     }
 }
+

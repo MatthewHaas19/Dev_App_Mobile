@@ -23,7 +23,7 @@ struct ContentView: View {
     
     
     
-    var post:Post = Post(titre: "Super titre", texte: "il m'est arrivé ca c'est super horrible help me pleaseil m'est arrivé ca c'est super horrible help me pleaseil m'est arrivé ca c'est super horrible help me pleaseil m'est arrivé ca c'est super horrible help me pleaseil m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: [Categorie(cat: "Dans la rue")], note: 156, commentaire: nil, date: Date(),user:nil)
+    var post:Post = Post(titre: "Super titreuper titreuper titre", texte: "il m'est arrivé ca c'est super horrible help me pleaseil m'est arrivé ca c'est super horrible help me pleaseil m'est arrivé ca c'est super horrible help me pleaseil m'est arrivé ca c'est super horrible help me pleaseil m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: [Categorie(cat: "Dans la rue")], note: 156, commentaire: nil, date: Date(),user:nil)
     
     
     

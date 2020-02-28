@@ -24,7 +24,7 @@ struct RowPostView: View {
                         }
                         
                         Text(post.titre).foregroundColor(Color.white)
-                            .font(.system(size:25))
+                            .font(.system(size:25)).frame(height : 65)
                         Spacer().frame(height:10)
                         Text(post.texte).foregroundColor(Color.white)
                     }
@@ -51,7 +51,7 @@ struct RowPostView_Previews: PreviewProvider {
         
         VStack{
             
-            RowPostView(user:User(id: "1", email: "a@a.fr", password: "a", username: "Juju", posts: []),post:Post(titre: "Super titre", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: [Categorie(cat: "Dans la rue")], note: 156, commentaire: nil, date: Date(),user:nil))
+            RowPostView(user:User(id: "1", email: "a@a.fr", password: "a", username: "Juju", posts: []),post:Post(titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: [Categorie(cat: "Dans la rue")], note: 156, commentaire: nil, date: Date(),user:nil))
         }
         
     }

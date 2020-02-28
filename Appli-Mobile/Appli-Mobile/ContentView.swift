@@ -13,6 +13,7 @@ struct ContentView: View {
     
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 <<<<<<< HEAD
 =======
@@ -27,6 +28,8 @@ struct ContentView: View {
     
     
 >>>>>>> parent of 4803377a... post et model post
+=======
+>>>>>>> parent of 9d6a086a... Merge branch 'master' of https://github.com/MatthewHaas19/Dev_App_Mobile
 =======
 >>>>>>> parent of 9d6a086a... Merge branch 'master' of https://github.com/MatthewHaas19/Dev_App_Mobile
 =======

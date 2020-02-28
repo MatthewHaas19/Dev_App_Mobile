@@ -17,6 +17,7 @@ struct CategoriesView: View {
         VStack(alignment: .leading) {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 
             // Stories Circles
@@ -24,6 +25,16 @@ struct CategoriesView: View {
                 HStack {
 
 
+=======
+            
+            
+            
+            // Stories Circles
+            ScrollView([.horizontal], showsIndicators: false){
+                HStack {
+                    
+                    
+>>>>>>> parent of 9d6a086a... Merge branch 'master' of https://github.com/MatthewHaas19/Dev_App_Mobile
 =======
             
             
@@ -76,6 +87,7 @@ struct CategoriesView: View {
                     }.padding(.trailing, 12)
                    
                     
+<<<<<<< HEAD
                     VStack {
                         ZStack {
                             Image("Border2")
@@ -85,10 +97,13 @@ struct CategoriesView: View {
                             .font(Font.system(size: 13.5))
                     }.padding(.trailing, 12)
                     
+=======
+>>>>>>> parent of 9d6a086a... Merge branch 'master' of https://github.com/MatthewHaas19/Dev_App_Mobile
                     VStack {
                         ZStack {
                             Image("Border2")
                             Image("AvatarBig1")
+<<<<<<< HEAD
                         }
 <<<<<<< HEAD
 <<<<<<< HEAD
@@ -99,6 +114,18 @@ struct CategoriesView: View {
 =======
 =======
 >>>>>>> parent of 9d6a086a... Merge branch 'master' of https://github.com/MatthewHaas19/Dev_App_Mobile
+=======
+                        }
+                        Text("Categorie3")
+                            .font(Font.system(size: 13.5))
+                    }.padding(.trailing, 12)
+                    
+                    VStack {
+                        ZStack {
+                            Image("Border2")
+                            Image("AvatarBig1")
+                        }
+>>>>>>> parent of 9d6a086a... Merge branch 'master' of https://github.com/MatthewHaas19/Dev_App_Mobile
                         Text("Categorie4")
                             .font(Font.system(size: 13.5))
                     }.padding(.trailing, 12)
@@ -106,6 +133,9 @@ struct CategoriesView: View {
                     
                 
 <<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> parent of 9d6a086a... Merge branch 'master' of https://github.com/MatthewHaas19/Dev_App_Mobile
+=======
 >>>>>>> parent of 9d6a086a... Merge branch 'master' of https://github.com/MatthewHaas19/Dev_App_Mobile
 =======
 >>>>>>> parent of 9d6a086a... Merge branch 'master' of https://github.com/MatthewHaas19/Dev_App_Mobile

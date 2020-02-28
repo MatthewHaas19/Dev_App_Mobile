@@ -10,10 +10,7 @@ import SwiftUI
 import Combine
 
 struct ContentView: View {
-<<<<<<< HEAD
-<<<<<<< HEAD
-  
-=======
+
     
     @ObservedObject var userDAO = UserDAO()
     

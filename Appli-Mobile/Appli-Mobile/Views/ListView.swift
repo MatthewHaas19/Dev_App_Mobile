@@ -24,11 +24,7 @@ struct ListView: View {
                 ForEach(userDAO.users){person in
                     ZStack{
                         RowPostView(user:person,post:self.post).padding(.bottom)
-                        NavigationLink(destination: RowUserView(person:person)){
-                            
-                            EmptyView()
-                            
-                        }.buttonStyle(PlainButtonStyle())
+                        
                         
                     }.listRowBackground(
                         VStack{

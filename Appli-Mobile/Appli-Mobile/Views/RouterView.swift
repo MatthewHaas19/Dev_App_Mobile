@@ -67,7 +67,7 @@ struct RouterView: View {
                     print(email)
                 }).edgesIgnoringSafeArea(.all) : nil)
                     .overlay(self.afficherRegister ? RegisterView(isAfficher: self.$afficherRegister, isAfficherLogin: self.$afficherLogin, isLogged:self.$isLogged).edgesIgnoringSafeArea(.all) : nil)
-                    .overlay((self.afficherLogin && self.isLogged) ? ProfileView(isLogged:self.$afficherLogin).edgesIgnoringSafeArea(.all) : nil)
+                .overlay((self.afficherLogin && self.isLogged) ? ProfileView(/*isLogged:self.$afficherLogin,*/user: User(id: "1", email: "aa@mail.com", password: "mdp", username: "Juju", posts: nil)).edgesIgnoringSafeArea(.all) : nil)
                     .overlay((self.isLogged && !self.afficherLogin && !self.afficherFilter) ? addButton() : nil)
                 .overlay(self.afficherFilter ? FilterView(afficherFilter: self.$afficherFilter).edgesIgnoringSafeArea(.all) : nil)
                 .overlay((self.currentPost != nil) ? PostDetailView(post: self.currentPost!).edgesIgnoringSafeArea(.all) : nil)

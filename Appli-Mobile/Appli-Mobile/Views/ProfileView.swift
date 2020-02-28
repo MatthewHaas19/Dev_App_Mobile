@@ -9,12 +9,77 @@
 import SwiftUI
 
 struct ProfileView: View {
-    @Binding var isLogged: Bool
-    
+    //@Binding var isLogged: Bool
+    var user : User
+    @State var colorButton = Color(red:0,green:0.8,blue:0.9)
     var body: some View {
         ZStack{
-        Color.white
-        Text("Profile")
+            Color.white
+            
+            VStack{
+            Text("Mon profil")
+                .font(.largeTitle)
+                .fontWeight(.semibold)
+                Spacer().frame(height:50)
+            
+        
+            Image(systemName:"person.crop.circle")
+                .resizable()
+                .aspectRatio(contentMode: .fill)
+                .frame(width: 150, height: 150)
+                
+                .clipped()
+                .foregroundColor(Color(red:0,green:0.8,blue:0.9))
+             Spacer().frame(height:100)
+                HStack{
+                    Text("Pseudo : ")
+                        .font(.title)
+                        .fontWeight(.semibold)
+                    
+                    Text(String(user.username))
+                        .font(.title)
+                        .fontWeight(.semibold)
+                }
+                
+                HStack{
+                    Text("Mail : ")
+                        .font(.title)
+                        .fontWeight(.semibold)
+                    
+                    Text(String(user.email))
+                        .font(.title)
+                        .fontWeight(.semibold)
+                }
+                Spacer().frame(height:100)
+                Button(action:{
+                    withAnimation{
+                        //Action pour aller voir ses posts 
+                    }
+                }){
+                    Text("Mes posts")
+                        .font(.largeTitle)
+                        .foregroundColor(.white)
+                        .frame(width: 220, height: 60)
+                        .background(self.colorButton)
+                        .cornerRadius(15.0)
+                    
+                }
+                
+            }
+            
+            
+            
         }
+    }
+}
+
+struct ProfileView_Previews: PreviewProvider {
+    
+    static var previews: some View {
+        
+        VStack{
+            ProfileView(user:User(id: "1", email: "aa@mail.com", password: "mdp", username: "Juju", posts: nil))
+        }
+        
     }
 }

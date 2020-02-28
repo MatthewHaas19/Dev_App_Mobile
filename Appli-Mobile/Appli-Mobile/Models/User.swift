@@ -15,9 +15,9 @@ class User : Decodable, Identifiable, CustomStringConvertible{
     var email: String
     var password: String
     var username: String
-    var posts : [String]
+    var posts : [String]?
     
-    init(id:String,email:String,password:String,username:String,posts:[String]){
+    init(id:String,email:String,password:String,username:String,posts:[String]?){
         
         self._id = id
         self.email = email

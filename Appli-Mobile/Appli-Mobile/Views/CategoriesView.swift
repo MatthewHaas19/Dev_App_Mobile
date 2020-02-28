@@ -19,10 +19,10 @@ struct CategoriesView: View {
 
 
 
-
             // Stories Circles
             ScrollView([.horizontal], showsIndicators: false){
                 HStack {
+
                     VStack {
                         ZStack {
                             Image("Border2")
@@ -103,7 +103,6 @@ struct CategoriesView: View {
                             .font(Font.system(size: 13.5))
                     }.padding(.trailing, 12)
 
-
                     VStack {
                         ZStack {
                             Image("Border2")
@@ -121,35 +120,6 @@ struct CategoriesView: View {
                         Text("Transport")
                             .font(Font.system(size: 13.5))
                     }.padding(.trailing, 12)
-
-                    VStack {
-                        ZStack {
-                            Image("Border2")
-                            Image("AvatarBig1")
-                        }
-
-                        Text("Autres")
-                            .font(Font.system(size:13.5))
-                    }.padding(.trailing,12)
-                    
-
-                        }
-                        Text("Categorie3")
-                            .font(Font.system(size: 13.5))
-                    }.padding(.trailing, 12)
-                    
-                    VStack {
-                        ZStack {
-                            Image("Border2")
-                            Image("AvatarBig1")
-                        }
-
-                        Text("Categorie4")
-                            .font(Font.system(size: 13.5))
-                    }.padding(.trailing, 12)
-                    
-                    
-    
 
                     VStack {
                         ZStack {
@@ -178,6 +148,7 @@ struct CategoriesView: View {
                         Text("Autres")
                             .font(Font.system(size: 13.5))
                     }.padding(.trailing, 12)
+
 
 
                 }.padding(.leading, 16)

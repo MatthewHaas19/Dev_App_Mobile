@@ -16,6 +16,7 @@ struct ListByCategorie: View {
         
         ZStack{
         Color.white
+            
         Text(nameCategorie)
         }
     }

@@ -19,7 +19,6 @@ struct RouterView: View {
     
     
     @State var currentPost : Post? = nil
-    @State var currentCategorie : String = "All"
     
     @ObservedObject var userDAO = UserDAO()
     
@@ -41,9 +40,6 @@ struct RouterView: View {
                 ListView(navigatePost: {
                     post in
                     self.currentPost = post
-                } , navigateCategorie: {
-                    categorie in
-                    self.currentCategorie = categorie
                 }).onAppear {self.isLogged = self.isConnected()
                     if(self.isLogged){
                         self.getCurrentUser()
@@ -58,7 +54,6 @@ struct RouterView: View {
                             self.afficherLogin=false
                             self.afficherRegister=false
                             self.afficherFilter = false
-                            self.currentCategorie = "All"
                             self.currentPost = nil
                             self.connectUser(email: "a@a.fr")
                             self.getCurrentUser()
@@ -122,6 +117,7 @@ struct RouterView: View {
                 .overlay(self.afficherFilter ? FilterView(afficherFilter: self.$afficherFilter).edgesIgnoringSafeArea(.all) : nil)
                 .overlay((self.currentPost != nil) ? PostDetailView(post: self.currentPost!, currentUser : self.currentUser).edgesIgnoringSafeArea(.all) : nil)
                 .overlay((self.currentCategorie != "All") && (!self.afficherLogin) && (!self.afficherFilter) ? ListByCategorie(nameCategorie:self.currentCategorie).edgesIgnoringSafeArea(.all) : nil )
+
         }
     }
     

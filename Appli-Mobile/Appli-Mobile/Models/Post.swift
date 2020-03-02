@@ -10,9 +10,6 @@
 
 import Foundation
 
-struct Categorie  {
-    let cat : String
-}
 
 struct Commentaire  {
     let titreCom : String
@@ -32,21 +29,25 @@ struct Commentaire  {
     
 }
 
-struct Post {
+class Post : Decodable, Identifiable, CustomStringConvertible {
     
+    
+    var _id: String
+    var description: String {return " \(self.titre) "}
     var titre: String
     var texte: String
     var nbSignalement : Int
     var image : String?
     var localisation : String
-    var categorie : [Categorie]
+    var categorie : [String]
     var note : Int
-    var commentaire : [Commentaire]?
-    var date : Date
-    var user : User?
+    var commentaire : [String]?
+    var date : String
+    var user : String
  
     
-    init(titre:String,texte:String,nbSignalement : Int,image:String?,localisation:String,categorie : [Categorie],note:Int,commentaire:[Commentaire]?,date:Date,user:User?){
+    init(id : String , titre:String,texte:String,nbSignalement : Int,image:String?,localisation:String,categorie : [String],note:Int,commentaire:[String]?,date:String,user:String){
+        self._id = id
         self.titre = titre
         self.texte = texte
         self.nbSignalement=nbSignalement

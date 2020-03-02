@@ -26,6 +26,16 @@ router.get("/users/:name", function(req,res,next){
   })
 })
 
+router.post("/users/", function(req,res,next){
+  const user = req.body
+  db.users.insertOne(user,function(err,res){
+    if(err){
+      res.send(err);
+    }
+    res.json(res);
+  })
+})
+
 
 
 module.exports = router;

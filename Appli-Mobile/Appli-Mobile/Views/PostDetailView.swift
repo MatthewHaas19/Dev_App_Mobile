@@ -18,6 +18,20 @@ struct PostDetailView: View {
         VStack{
         Text(post.titre)
         Text(post.texte)
+        
+   // A FAIRE QUAND ON AURA BIEN MIS LES COMMENTAIRE CORRESPONDANT AU POST DASN LA BDD
+            /*    List(){
+                ForEach(self.post.commentaire){p in
+                    ZStack{
+                        RowCommentView(comment: p).padding(.bottom)
+                    }
+                    
+                    
+                }
+                .buttonStyle(BorderlessButtonStyle())
+ 
+                
+            }*/
         }
         }
     }

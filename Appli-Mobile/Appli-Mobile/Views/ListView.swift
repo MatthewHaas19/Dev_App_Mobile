@@ -13,6 +13,7 @@ struct ListView: View {
     @ObservedObject var userDAO = UserDAO()
     
     var navigatePost: (Post) -> ()
+    var navigateCategorie : (String) -> ()
     
     var post:Post = Post(titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: [Categorie(cat: "Dans la rue")], note: 156, commentaire: nil, date: Date(),user:nil)
     
@@ -23,7 +24,10 @@ struct ListView: View {
         
         VStack{
             
-            CategoriesView().padding(.bottom,CGFloat(-10))
+            CategoriesView(navigateCategorie:{
+                categorie in
+                self.navigateCategorie(categorie)
+            }).padding(.bottom,CGFloat(-10))
             List(){
                 ForEach(userDAO.users){person in
                     ZStack{

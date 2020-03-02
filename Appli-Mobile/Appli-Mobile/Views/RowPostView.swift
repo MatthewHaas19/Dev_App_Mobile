@@ -9,7 +9,7 @@
 import SwiftUI
 
 struct RowPostView: View {
-    var user: User
+    
     var post: Post
     
     var navigatePost: (Post) -> ()
@@ -57,7 +57,7 @@ struct RowPostView_Previews: PreviewProvider {
         
         VStack{
         
-            RowPostView(user:User(id: "1", email: "a@a.fr", password: "a", username: "Juju", posts: []),post:Post(titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: [Categorie(cat: "Dans la rue")], note: 156, commentaire: nil, date: Date(),user:nil),navigatePost: {post in})
+            RowPostView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: ["Dans la rue"], note: 156, commentaire: nil, date: "08/12",user:"mail"),navigatePost: {post in})
             
         }
         

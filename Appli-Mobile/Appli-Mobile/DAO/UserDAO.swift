@@ -25,7 +25,7 @@ public class UserDAO: ObservableObject{
      
     
     func loadData(){
-        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/users/users") else { return }
+        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/users") else { return }
         URLSession.shared.dataTask(with: url){(data, _, _) in
           guard let data = data else { return }
           let res = try! JSONDecoder().decode([User].self, from: data)
@@ -37,7 +37,7 @@ public class UserDAO: ObservableObject{
     }
        
     func findUser(email:String, completionHandler: @escaping ([User]) -> ()) {
-        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/users/users/"+email) else { return }
+        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/users/"+email) else { return }
         URLSession.shared.dataTask(with: url){(data, _, _) in
           guard let data = data else { return }
           let res = try! JSONDecoder().decode([User].self, from: data)
@@ -51,7 +51,7 @@ public class UserDAO: ObservableObject{
     
     func addUser(user: UserPost, completionHandler: @escaping (Bool) -> ()){
         
-        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/users/users") else { return }
+        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/users") else { return }
         
         let newUser:[String: Any] = [
             "email" : user.email,

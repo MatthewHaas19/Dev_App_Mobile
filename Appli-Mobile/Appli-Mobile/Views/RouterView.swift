@@ -21,15 +21,18 @@ struct RouterView: View {
     @State var currentPost : Post? = nil
     @State var currentCategorie : String = "All"
     
+    @ObservedObject var userDAO = UserDAO()
+    
     
     @Environment(\.managedObjectContext) var managedObjectContext
     @FetchRequest(
         entity: CurrentUser.entity(),
         sortDescriptors: [NSSortDescriptor(keyPath: \CurrentUser.email, ascending: true)]
     ) var set: FetchedResults< CurrentUser >
-    @State var currentUser:String? = nil
+    @State var currentUserEmail:String? = nil
+    @State var currentUser:User? = nil
 
-
+    
     
     var body: some View {
         NavigationView{
@@ -41,7 +44,11 @@ struct RouterView: View {
                 } , navigateCategorie: {
                     categorie in
                     self.currentCategorie = categorie
-                }).onAppear {self.isLogged = self.isConnected()}
+                }).onAppear {self.isLogged = self.isConnected()
+                    if(self.isLogged){
+                        self.getCurrentUser()
+                    }
+                }
 
                 
             }.navigationBarTitle(Text("How 2 React"),displayMode: .inline)
@@ -73,11 +80,25 @@ struct RouterView: View {
                             }.foregroundColor(Color(red:0,green:0.8,blue:0.9))
                             Spacer().frame(width: CGFloat(20))
                             Button(action:{
-                                self.afficherLogin.toggle()
-                                self.afficherRegister=false
-                                self.currentPost = nil
-                                self.afficherFilter = false
-                                self.disconnectUser()
+                                if(self.isLogged){
+                                    self.userDAO.findUser(email: self.currentUserEmail!, completionHandler: {
+                                        user in
+                                        self.currentUser = user[0]
+                                        
+                                        self.afficherLogin.toggle()
+                                        self.afficherRegister=false
+                                        self.currentPost = nil
+                                        self.afficherFilter = false
+                                        self.disconnectUser()
+                                    })
+                                }
+                                else{
+                                    self.afficherLogin.toggle()
+                                    self.afficherRegister=false
+                                    self.currentPost = nil
+                                    self.afficherFilter = false
+                                    self.disconnectUser()
+                                }
                                 
                             }){
                                 Image(systemName:"person.crop.circle")
@@ -90,11 +111,10 @@ struct RouterView: View {
                     self.getCurrentUser()
                 }).edgesIgnoringSafeArea(.all) : nil)
                     .overlay(self.afficherRegister ? RegisterView(isAfficher: self.$afficherRegister, isAfficherLogin: self.$afficherLogin, isLogged:self.$isLogged).edgesIgnoringSafeArea(.all) : nil)
-                .overlay((self.afficherLogin && self.isLogged) ? ProfileView(/*isLogged:self.$afficherLogin,*/user: User(id: "1", email: "aa@mail.com", password: "mdp", username: "Juju", posts: nil),disconnect:{
+                .overlay((self.afficherLogin && self.isLogged) ? ProfileView(/*isLogged:self.$afficherLogin,*/user: self.currentUser!,disconnect:{
                     res in
                     if(res){
                         self.disconnectUser()
-                        self.getCurrentUser()
                         self.isLogged = self.isConnected()
                     }
                 }).edgesIgnoringSafeArea(.all) : nil)
@@ -116,8 +136,8 @@ struct RouterView: View {
     }
     
     func getCurrentUser(){
-        self.currentUser = set[0].email
-        print(self.currentUser!)
+        self.currentUserEmail = set[0].email
+        print(self.currentUserEmail!)
     }
     
     func disconnectUser(){

@@ -25,7 +25,7 @@ struct ProfileView: View {
                     VStack{
                        
                         Button(action:{
-                            //ACTION DECO
+                            self.disconnect(true)
                         }){
                             Image(systemName:"power")
                                 .resizable()

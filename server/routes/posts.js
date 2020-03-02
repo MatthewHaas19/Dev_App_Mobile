@@ -5,7 +5,6 @@ var mongojs = require("mongojs")
 
 var db = mongojs("mongodb+srv://devmobileIG4:devmobileIG4@devmobile-vr63q.mongodb.net/DevMobile?retryWrites=true&w=majority",["posts"])
 
-// fonction pour ercuperer tout les posts de la bdd
 router.get("/posts", function(req,res,next){
   db.posts.find(function(err,posts){
     if(err){
@@ -15,19 +14,19 @@ router.get("/posts", function(req,res,next){
   })
 })
 
-//fonction pour recuperer les post d'un mail (associé a un user) precis
-router.get("/posts/:mail", function(req,res,next){
-    const mail = req.params.mail
-    db.posts.find({
-      user: mail
-    },function(err,posts){
-      if(err){
-        res.send(err);
-      }
-      res.json(posts);
-    })
+router.get("/posts/categorie/:categorie", function(req,res,next){
+  const cat = req.params.categorie
+  db.posts.find({
+    categorie: {$eq :cat}
+  },function(err,users){
+    if(err){
+      res.send(err);
+    }
+    res.json(users);
   })
+})
 
-  
+
+
 
 module.exports = router;

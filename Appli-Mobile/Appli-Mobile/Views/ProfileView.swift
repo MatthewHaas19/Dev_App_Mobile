@@ -12,6 +12,9 @@ struct ProfileView: View {
     //@Binding var isLogged: Bool
     var user : User
     @State var colorButton = Color(red:0,green:0.8,blue:0.9)
+    
+    var disconnect: (Bool) -> ()
+    
     var body: some View {
         ZStack{
             Color.white
@@ -78,7 +81,10 @@ struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         
         VStack{
-            ProfileView(user:User(id: "1", email: "aa@mail.com", password: "mdp", username: "Juju", posts: nil))
+            ProfileView(user:User(id: "1", email: "aa@mail.com", password: "mdp", username: "Juju", posts: nil),disconnect: {
+                res in
+                
+            })
         }
         
     }

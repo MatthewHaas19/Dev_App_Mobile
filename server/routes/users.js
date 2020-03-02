@@ -26,16 +26,21 @@ router.get("/users/:name", function(req,res,next){
   })
 })
 
-router.post("/users/", function(req,res,next){
-  const user = req.body
-  db.users.insertOne(user,function(err,res){
+
+router.post("/users", function(req,res,next){
+  var user = req.body
+
+  db.users.insertOne(user,function(err,users){
     if(err){
       res.send(err);
     }
-    res.json(res);
+    console.log(users)
+    res.json({
+      res:"correct",
+      message:"register ok"
+    });
   })
+
 })
-
-
 
 module.exports = router;

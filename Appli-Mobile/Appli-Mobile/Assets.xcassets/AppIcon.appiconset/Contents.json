@@ -28,17 +28,20 @@
     {
       "idiom" : "iphone",
       "size" : "40x40",
-      "scale" : "3x"
+      "scale" : "3x",
+      "filename" : "H2R_Spot@3x.png"
     },
     {
       "idiom" : "iphone",
       "size" : "60x60",
-      "scale" : "2x"
+      "scale" : "2x",
+      "filename" : "H2R@2x.png"
     },
     {
       "idiom" : "iphone",
       "size" : "60x60",
-      "scale" : "3x"
+      "scale" : "3x",
+      "filename" : "H2R@3x.png"
     },
     {
       "idiom" : "ipad",

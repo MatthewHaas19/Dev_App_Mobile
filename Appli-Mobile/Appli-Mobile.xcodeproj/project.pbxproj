@@ -3,11 +3,12 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		2C4F7486240D3DB700FC8A5D /* ListByCategorie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4F7485240D3DB700FC8A5D /* ListByCategorie.swift */; };
+		2CCC5B55240D677B00D15689 /* BCrypt in Frameworks */ = {isa = PBXBuildFile; productRef = 2CCC5B54240D677B00D15689 /* BCrypt */; };
 		66CAB08124096C7300B92C8F /* RowCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CAB08024096C7300B92C8F /* RowCommentView.swift */; };
 		66CD55B0240D3235002376D4 /* PostDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CD55AF240D3235002376D4 /* PostDAO.swift */; };
 		66D361F523FAEB07005F79F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D361F423FAEB07005F79F8 /* AppDelegate.swift */; };
@@ -94,6 +95,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CCC5B55240D677B00D15689 /* BCrypt in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,6 +235,9 @@
 			dependencies = (
 			);
 			name = "Appli-Mobile";
+			packageProductDependencies = (
+				2CCC5B54240D677B00D15689 /* BCrypt */,
+			);
 			productName = "Appli-Mobile";
 			productReference = 66D361F123FAEB07005F79F8 /* Appli-Mobile.app */;
 			productType = "com.apple.product-type.application";
@@ -305,6 +310,9 @@
 				Base,
 			);
 			mainGroup = 66D361E823FAEB07005F79F8;
+			packageReferences = (
+				2CCC5B53240D677B00D15689 /* XCRemoteSwiftPackageReference "bcrypt" */,
+			);
 			productRefGroup = 66D361F223FAEB07005F79F8 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -690,6 +698,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		2CCC5B53240D677B00D15689 /* XCRemoteSwiftPackageReference "bcrypt" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/vapor-community/bcrypt.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.1.1;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		2CCC5B54240D677B00D15689 /* BCrypt */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2CCC5B53240D677B00D15689 /* XCRemoteSwiftPackageReference "bcrypt" */;
+			productName = BCrypt;
+		};
+/* End XCSwiftPackageProductDependency section */
 
 /* Begin XCVersionGroup section */
 		66D361F823FAEB07005F79F8 /* Appli_Mobile.xcdatamodeld */ = {

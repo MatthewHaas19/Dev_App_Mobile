@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+import BCrypt
 
 struct LoginView: View {
     
@@ -98,11 +99,14 @@ struct LoginView: View {
             user in
             self.colorButton = Color(red:0,green:0.8,blue:0.9)
             if(user.count == 0){
+                print("No User")
                 self.isLogged = false
                 self.invalidCredentials = true
             }
             else{
-                if(user[0].password == self.password){
+                let result = try! BCrypt.Hash.verify(message: self.password , matches: user[0].password )
+                print(result)
+                if(result){
                     self.invalidCredentials = false
                     self.isAfficher = false
                     self.isLogged = true

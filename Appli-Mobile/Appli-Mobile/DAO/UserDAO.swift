@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import BCrypt
+
 
 struct ServerMessage: Decodable {
    let res, message: String
@@ -17,7 +19,6 @@ public class UserDAO: ObservableObject{
     
     @Published var users = [User]()
     @Published var currentUser = [User]()
-    
     
     init(){
 
@@ -49,16 +50,17 @@ public class UserDAO: ObservableObject{
         }.resume()
     }
     
-    func addUser(user: UserPost, completionHandler: @escaping (Bool) -> ()){
+    func addUser(user: UserPost, completionHandler: @escaping (Bool) -> ()) {
         
         guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/users") else { return }
         
         let newUser:[String: Any] = [
             "email" : user.email,
-            "password" : user.password,
+            "password" : try! BCrypt.Hash.make(message: user.password).makeString(),
             "username" : user.username,
             "posts" : user.posts
         ]
+        
         
         let body = try! JSONSerialization.data(withJSONObject: newUser)
         
@@ -86,6 +88,7 @@ public class UserDAO: ObservableObject{
                     completionHandler(false)
                 }
             }
+
 
         }.resume()
         

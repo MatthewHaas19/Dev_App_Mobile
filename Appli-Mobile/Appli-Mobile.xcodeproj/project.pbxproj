@@ -204,12 +204,9 @@
 				F36AC69424094A2100527B9D /* FilterView.swift */,
 				F36AC69624094A8500527B9D /* RouterView.swift */,
 				F36AC69824094BE300527B9D /* ListView.swift */,
-
 				F36AC69A2409748300527B9D /* PostDetailView.swift */,
 				F36AC69C240978EB00527B9D /* AddPostView.swift */,
-
 				66CAB08024096C7300B92C8F /* RowCommentView.swift */,
-
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -531,13 +528,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Appli-Mobile/Preview Content\"";
+				DEVELOPMENT_TEAM = 25ZKW78RFS;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Appli-Mobile/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "IG4.Appli-Mobile";
+				PRODUCT_BUNDLE_IDENTIFIER = "IG4.Appli-MobileFHT";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -550,13 +548,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_ASSET_PATHS = "\"Appli-Mobile/Preview Content\"";
+				DEVELOPMENT_TEAM = 25ZKW78RFS;
 				ENABLE_PREVIEWS = YES;
 				INFOPLIST_FILE = "Appli-Mobile/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "IG4.Appli-Mobile";
+				PRODUCT_BUNDLE_IDENTIFIER = "IG4.Appli-MobileFHT";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

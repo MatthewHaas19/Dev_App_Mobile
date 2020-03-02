@@ -21,7 +21,7 @@ public class UserDAO: ObservableObject{
     @Published var currentUser = [User]()
     
     init(){
-        loadData()
+
     }
      
     

@@ -10,6 +10,7 @@ import SwiftUI
 
 struct ListView: View {
     
+    
     @ObservedObject var userDAO = UserDAO()
     @ObservedObject var postDAO = PostDAO()
 

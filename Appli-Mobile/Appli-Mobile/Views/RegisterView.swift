@@ -47,6 +47,7 @@ struct RegisterView: View {
                 
                 TextField("Email", text: $email)
                     .padding()
+                    .autocapitalization(.none)
                     .background(Color(red:0.95,green:0.95,blue:0.95))
                     .cornerRadius(5.0)
                     .padding(.bottom, 20)

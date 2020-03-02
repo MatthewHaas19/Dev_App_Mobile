@@ -31,7 +31,8 @@ struct ListView: View {
                 self.navigateCategorie(categorie)
             }).padding(.bottom,CGFloat(-10))
             List(){
-                ForEach(postDAO.posts){p in
+                ForEach(postDAO.posts){
+                    p in
                     ZStack{
                         RowPostView(post:p,navigatePost:{
                             post in
@@ -43,16 +44,16 @@ struct ListView: View {
                         VStack{
                             self.colors.randomElement()
                             Spacer()
-                    })
+                        })
                         .padding(.top)
                     
                     
-                }
+                    }
                 .buttonStyle(BorderlessButtonStyle())
-                
             }
         }
     }
+
 }
 
 

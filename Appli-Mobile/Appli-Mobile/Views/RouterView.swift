@@ -120,7 +120,7 @@ struct RouterView: View {
                 }).edgesIgnoringSafeArea(.all) : nil)
                     .overlay((self.isLogged && !self.afficherLogin && !self.afficherFilter) ? addButton() : nil)
                 .overlay(self.afficherFilter ? FilterView(afficherFilter: self.$afficherFilter).edgesIgnoringSafeArea(.all) : nil)
-                .overlay((self.currentPost != nil) ? PostDetailView(post: self.currentPost!).edgesIgnoringSafeArea(.all) : nil)
+                .overlay((self.currentPost != nil) ? PostDetailView(post: self.currentPost!, currentUser : self.currentUser).edgesIgnoringSafeArea(.all) : nil)
                 .overlay((self.currentCategorie != "All") && (!self.afficherLogin) && (!self.afficherFilter) ? ListByCategorie(nameCategorie:self.currentCategorie).edgesIgnoringSafeArea(.all) : nil )
         }
     }

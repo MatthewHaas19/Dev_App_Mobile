@@ -5,6 +5,7 @@ var bodyParser = require("body-parser");
 var index = require("./routes/index")
 var users = require("./routes/users")
 var posts = require("./routes/posts")
+var reports = require("./routes/reports")
 
 var cors = require('cors');
 
@@ -26,5 +27,6 @@ app.use(bodyParser.urlencoded({extended:true}));
 
 //routes
 app.use("/", index)
-app.use("/",users);
-app.use("/",posts);
+app.use("/users",users);
+app.use("/posts",posts);
+app.use("/reports",reports)

@@ -27,7 +27,7 @@ struct ProfileView: View {
                             Image(systemName:"power")
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
-                                .frame(width: 30, height: 30)
+                                .frame(width: 25, height: 25)
                         }.foregroundColor(Color(red:1,green:0,blue:0))
                         Text("Deconnexion")
                             .font(.subheadline)
@@ -39,7 +39,7 @@ struct ProfileView: View {
                     
                 }
                 
-                Spacer().frame(height: 775)
+                Spacer().frame(height: 610)
             }
             
             VStack{
@@ -47,7 +47,7 @@ struct ProfileView: View {
                 
                
                 
-                Spacer().frame(height :65)
+                Spacer().frame(height :230)
                 Text("Mon profil")
                     .font(.largeTitle)
                     .fontWeight(.semibold)

@@ -18,6 +18,7 @@ struct RouterView: View {
     
     
     @State var currentPost : Post? = nil
+    @State var currentCategorie : String = "All"
     
     
     var body: some View {
@@ -27,6 +28,9 @@ struct RouterView: View {
                 ListView(navigatePost: {
                     post in
                     self.currentPost = post
+                } , navigateCategorie: {
+                    categorie in
+                    self.currentCategorie = categorie
                 })
                 
             }.navigationBarTitle(Text("How 2 React"),displayMode: .inline)
@@ -36,6 +40,7 @@ struct RouterView: View {
                             self.afficherLogin=false
                             self.afficherRegister=false
                             self.afficherFilter = false
+                            self.currentCategorie = "All"
                             self.currentPost = nil
                         }}){
                         Text("CC").opacity(0)
@@ -49,6 +54,7 @@ struct RouterView: View {
                                 self.afficherFilter = true
                                 self.currentPost = nil
                                 self.afficherLogin=false
+                                
                             }){
                                 Image(systemName:"magnifyingglass")
                             }.foregroundColor(Color(red:0,green:0.8,blue:0.9))
@@ -57,6 +63,7 @@ struct RouterView: View {
                                 self.afficherLogin.toggle()
                                 self.afficherRegister=false
                                 self.currentPost = nil
+                                self.afficherFilter = false
                             }){
                                 Image(systemName:"person.crop.circle")
                             }.foregroundColor(Color(red:0,green:0.8,blue:0.9))
@@ -71,6 +78,7 @@ struct RouterView: View {
                     .overlay((self.isLogged && !self.afficherLogin && !self.afficherFilter) ? addButton() : nil)
                 .overlay(self.afficherFilter ? FilterView(afficherFilter: self.$afficherFilter).edgesIgnoringSafeArea(.all) : nil)
                 .overlay((self.currentPost != nil) ? PostDetailView(post: self.currentPost!).edgesIgnoringSafeArea(.all) : nil)
+                .overlay((self.currentCategorie != "All") && (!self.afficherLogin) && (!self.afficherFilter) ? ListByCategorie(nameCategorie:self.currentCategorie).edgesIgnoringSafeArea(.all) : nil )
         }
     }
 }

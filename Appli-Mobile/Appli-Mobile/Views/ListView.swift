@@ -14,6 +14,7 @@ struct ListView: View {
     @ObservedObject var postDAO = PostDAO()
 
     var navigatePost: (Post) -> ()
+    var navigateCategorie : (String) -> ()
     
     //var post:Post = Post( id : "idid", titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: [ "Dans la rue"], note: 156, commentaire: nil, date: "08/12",user:"mail")
     
@@ -24,7 +25,10 @@ struct ListView: View {
         
         VStack{
             
-            CategoriesView().padding(.bottom,CGFloat(-10))
+            CategoriesView(navigateCategorie:{
+                categorie in
+                self.navigateCategorie(categorie)
+            }).padding(.bottom,CGFloat(-10))
             List(){
                 ForEach(postDAO.posts){p in
                     ZStack{

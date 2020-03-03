@@ -17,7 +17,7 @@ struct RegisterView: View {
     @Binding var isLogged:Bool
 
    @ObservedObject var userDAO = UserDAO()
-   
+   @ObservedObject private var keyboard = KeyboardResponder()
 
     
     @State var username:String=""
@@ -93,6 +93,9 @@ struct RegisterView: View {
                 }.padding(.top)
                 .foregroundColor(Color(red:0,green:0.8,blue:0.9))
             }.padding()
+            .padding(.bottom, keyboard.currentHeight)
+            .edgesIgnoringSafeArea(.bottom)
+            .animation(.easeOut(duration: 0.16))
             
         }
     }

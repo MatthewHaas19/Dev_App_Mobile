@@ -46,7 +46,7 @@ router.put("/addVote/:vote",function(req,res,next){
     vote = 1
   }
   const post = req.body
-  db.posts.updateOne(req.body,,function(err,users){
+  db.posts.updateOne(req.body,function(err,users){
     if(err){
       res.send(err);
     }
@@ -67,6 +67,21 @@ router.post("/", function(req,res,next){
     res.json({
       res:"correct",
       message:"add post ok"
+    });
+  })
+})
+
+
+router.delete("/", function(req,res,next) {
+  var post = req.body
+  db.posts.delete({_id : post._id}, function(err,post){
+    if(err){
+      res.send(err);
+    }
+    console.log(err)
+    res.json({
+      res:"correct",
+      message:"delete post ok"
     });
   })
 })

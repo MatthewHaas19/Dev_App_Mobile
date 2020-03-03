@@ -94,9 +94,10 @@ struct ProfileView: View {
                     Text("Mes posts")
                         .font(.largeTitle)
                         .foregroundColor(.white)
-                        .frame(width: 220, height: 60)
+                        .frame(width: 240, height: 90)
                         .background(self.colorButton)
                         .cornerRadius(15.0)
+                        
                     
                 }
                 

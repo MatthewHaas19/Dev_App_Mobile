@@ -19,8 +19,9 @@ struct AddPostView: View {
     @State var categorie = [String]()
     @State var isEditing = false
     
+    var afficherAdd : (Bool) -> ()
+    
     var currentUser : String?
-    @State var afficherAdd = false
     
     let listCategorie = ["Amis","Couple","Ecole","Famille","Rue","Soiree","Sport","Transport","Travail","TV","Voisin","Web","Autres"]
     
@@ -29,8 +30,9 @@ struct AddPostView: View {
      @ObservedObject var postDAO = PostDAO()
     @ObservedObject private var keyboard = KeyboardResponder()
     
-    init(currentUser : String? ){
+    init(currentUser : String? , afficherAdd : @escaping (Bool) -> ()){
         self.currentUser = currentUser
+        self.afficherAdd = afficherAdd
         UITableView.appearance().separatorColor = .clear
     }
     
@@ -165,13 +167,14 @@ struct AddPostView: View {
                                 .frame(width: 220, height: 60)
                                 .background(Color(red:0,green:0.8,blue:0.9))
                                 .cornerRadius(15.0)
-                        }.padding(.bottom,40)
+                        }
                        Spacer()
-                    }
+                    }.padding(.bottom,50)
                     
                 }
   
             }.padding()
+            
             
  
         }.padding(.bottom, keyboard.currentHeight)
@@ -196,7 +199,7 @@ struct AddPostView: View {
             self.postDAO.addPost(post: post, completionHandler: {
                 res in
                 if(res){
-                    self.afficherAdd = false
+                    self.afficherAdd(false)
                 }
                 else{
                     print("add post error")
@@ -207,7 +210,13 @@ struct AddPostView: View {
 }
 
 struct AddPostView_Previews: PreviewProvider {
+    
+    var afficherAdd = false
+    
     static var previews: some View {
-        AddPostView(currentUser: "Tom")
+        AddPostView(currentUser: "Tom",afficherAdd: {
+            afficher in
+            afficher
+        })
     }
 }

@@ -9,7 +9,6 @@ struct MyPostView: View {
     @ObservedObject var userDAO = UserDAO()
     @ObservedObject var postDAO = PostDAO()
     
-    
 
     var navigatePost: (Post) -> ()
     var navigateVote: (Bool,Post) -> ()
@@ -50,13 +49,28 @@ struct MyPostView: View {
                             .padding(.top)
                         
                         
-                    }
+                    }.onDelete { (indexSet) in self.deletePost(indexSet: indexSet)}
                     .buttonStyle(BorderlessButtonStyle())
+                    
                 }
-            }.padding(.top,100)
+            }.padding(.top,130)
 
         }
         
     }
 
+    
+    func deletePost(indexSet : IndexSet){
+        print("On veut supprimer : ")
+        var p = postDAO.posts[indexSet.first!]
+        postDAO.delete(post : p , completionHandler: {
+            res in
+            if(res){
+                print("bien supprimé")
+            }
+            else{
+                print("delete post error")
+            }
+        })
+    }
 }

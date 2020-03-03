@@ -152,6 +152,42 @@ public class PostDAO: ObservableObject{
         }.resume()
 
     }
+    
+    
+    func delete(post : Post , completionHandler: @escaping (Bool) -> ()){
+         guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/posts") else { return }
+               
+               
+               let body = try! JSONSerialization.data(withJSONObject: post)
+               
+               var request = URLRequest(url: url)
+               request.httpMethod = "DELETE"
+               request.httpBody = body
+               request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+               
+               URLSession.shared.dataTask(with: request) { (data, response, error) in
+
+                   guard let data = data else { return }
+                   
+                   let resData = try! JSONDecoder().decode(ServerMessage.self, from: data)
+
+                   print(resData.res)
+
+                   if resData.res == "correct" {
+                       DispatchQueue.main.async {
+                           completionHandler(true)
+                       }
+
+                   }
+                   else {
+                       DispatchQueue.main.async {
+                           completionHandler(false)
+                       }
+                   }
+
+               }.resume()
+    }
+    
 
 }
 

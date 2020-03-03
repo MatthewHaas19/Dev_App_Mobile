@@ -12,37 +12,24 @@ import Foundation
 
 
 
-public class ReportDAO: ObservableObject{
+public class VotesDAO: ObservableObject{
     
-    @Published var reports = [Report]()
-    @Published var currentReport = [Report]()
+    @Published var votes = [Vote]()
     init(){
 
-    }
-     
-    
-    func loadData(){
-        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/reports") else { return }
-        URLSession.shared.dataTask(with: url){(data, _, _) in
-          guard let data = data else { return }
-          let res = try! JSONDecoder().decode([Report].self, from: data)
-          DispatchQueue.main.async{
-            print(res)
-            self.reports = res
-          }
-        }.resume()
     }
        
     
     
     
-    func addReport(report: Report, completionHandler: @escaping (Int) -> ()) {
+    func addVotes(vote: Vote, completionHandler: @escaping (Int) -> ()) {
         
-        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/reports") else { return }
+        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/votes") else { return }
         
         let newReport:[String: Any] = [
-            "emailUser" : report.emailUser,
-            "idPost" : report.idPost
+            "user" : vote.user,
+            "post" : vote.post,
+            "like" : vote.like
         ]
         
         
@@ -72,12 +59,20 @@ public class ReportDAO: ObservableObject{
                     completionHandler(0)
                 }
             }
+            else if resData.res == "change"{
+                DispatchQueue.main.async {
+                    completionHandler(2)
+                }
+            }
             
             else {
                 DispatchQueue.main.async {
                     completionHandler(-1)
                 }
             }
+               
+            
+
 
         }.resume()
         

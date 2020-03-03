@@ -8,13 +8,16 @@
 
 import Foundation
 
-struct Comment  {
-    let _id : String
+class Comment : Decodable, Identifiable, CustomStringConvertible {
+  
+    
+    var _id : String
+    var description: String {return " \(self.titreCom) "}
     let postId : String
     let titreCom : String
     let texteCom: String
     let voteCom : Int
-    let dateCome : String
+    let dateCom : String
     let user : String
     
     init(_id : String, postId : String, titreCom : String ,texteCom: String,voteCom : Int,dateCome : String, user : String) {
@@ -24,7 +27,7 @@ struct Comment  {
         self.titreCom=titreCom
         self.texteCom=texteCom
         self.voteCom=voteCom
-        self.dateCome=dateCome
+        self.dateCom=dateCome
         self.user=user
     }
     

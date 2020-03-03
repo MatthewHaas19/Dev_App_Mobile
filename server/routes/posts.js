@@ -57,6 +57,19 @@ router.put("/addVote/:vote",function(req,res,next){
 })
 
 
+router.post("/", function(req,res,next){
+  var post = req.body
+  db.posts.insertOne(post,function(err,post){
+    if(err){
+      res.send(err);
+    }
+    console.log(post)
+    res.json({
+      res:"correct",
+      message:"add post ok"
+    });
+  })
+})
 
 
 

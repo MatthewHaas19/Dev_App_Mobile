@@ -14,6 +14,7 @@ struct ProfileView: View {
     @State var colorButton = Color(red:0,green:0.8,blue:0.9)
     
     var disconnect: (Bool) -> ()
+    var displayMyPost: (Bool) -> ()
     
     var body: some View {
         ZStack{
@@ -87,7 +88,7 @@ struct ProfileView: View {
                 Spacer().frame(height:100)
                 Button(action:{
                     withAnimation{
-                        //Action pour aller voir ses posts 
+                        self.displayMyPost(true)
                     }
                 }){
                     Text("Mes posts")
@@ -118,6 +119,8 @@ struct ProfileView_Previews: PreviewProvider {
             ProfileView(user:User(id: "1", email: "aa@mail.com", password: "mdp", username: "Juju", posts: nil),disconnect: {
                 res in
                 
+            }, displayMyPost: {
+                res in
             })
         }
         

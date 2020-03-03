@@ -49,8 +49,6 @@ router.post("/", function(req,res,next){
       message:"Already exists"
     });
   }
-
-
 })
 
 module.exports = router;

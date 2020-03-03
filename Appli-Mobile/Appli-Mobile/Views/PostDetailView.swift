@@ -22,15 +22,15 @@ struct PostDetailView: View {
         
         
         ZStack {
-            Color.white.edgesIgnoringSafeArea(.all)
+            Color.blue.edgesIgnoringSafeArea(.all)
             VStack{
             RowPostView(post:post,navigatePost:{
                 post in
-            },afficherEntier:true)
-                List{
-                    Text("CC")
-                    
-                }
+
+            },afficherEntier:true,navigateVote: {
+                res,post in
+            })
+                ListCommentView(post:post)
             }
             
             /*
@@ -80,12 +80,12 @@ struct PostDetailView: View {
             }
         })
     }
+}
     
     
     
     
 }
-
 
 
 
@@ -97,3 +97,4 @@ struct PostDetailView_Previews: PreviewProvider {
         PostDetailView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail"))
     }
 }
+

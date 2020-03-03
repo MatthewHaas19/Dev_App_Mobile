@@ -85,6 +85,7 @@ struct RouterView: View {
                             self.afficherRegister=false
                             self.afficherFilter = false
                             self.afficherAdd = false
+                            self.afficherMesPost = false
                             self.currentPost = nil
                             if (self.isLogged){
                                 self.getCurrentUser()
@@ -102,6 +103,7 @@ struct RouterView: View {
                                 self.currentPost = nil
                                 self.afficherLogin=false
                                 self.afficherAdd = false
+                                self.afficherMesPost = false
                                 
                             }){
                                 Image(systemName:"magnifyingglass")
@@ -119,6 +121,7 @@ struct RouterView: View {
                                         self.currentPost = nil
                                         self.afficherFilter = false
                                         self.afficherAdd = false
+                                        self.afficherMesPost = false
                                     })
                                 }
                                 else{
@@ -127,6 +130,7 @@ struct RouterView: View {
                                     self.currentPost = nil
                                     self.afficherFilter = false
                                     self.afficherAdd = false
+                                    self.afficherMesPost = false
                                     self.disconnectUser()
                                 }
                                 
@@ -164,10 +168,18 @@ struct RouterView: View {
                     ): nil)
                 .overlay(self.afficherFilter ? FilterView(afficherFilter: self.$afficherFilter).edgesIgnoringSafeArea(.all) : nil)
                 .overlay((self.currentPost != nil) ? PostDetailView(post: self.currentPost!, currentUser : self.currentUserEmail).edgesIgnoringSafeArea(.all) : nil)
+                
+                .overlay(self.afficherMesPost ? MyPostView(navigatePost:{
+                    res in
+                    self.currentPost=res
+                    self.afficherMesPost=false
+                    },navigateVote:{
+                        res,post in
+                },user : self.currentUserEmail!).edgesIgnoringSafeArea(.all) : nil)
 
                 .overlay(self.afficherAdd ? AddPostView(currentUser:self.currentUserEmail).edgesIgnoringSafeArea(.all) : nil)
 
-                .overlay(self.afficherMesPost ? MyPostView(user : currentUser?.email).edgesIgnoringSafeArea(.all) : nil)
+                
 
 
         }

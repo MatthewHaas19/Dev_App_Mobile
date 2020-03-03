@@ -119,7 +119,9 @@ struct ProfileView_Previews: PreviewProvider {
             ProfileView(user:User(id: "1", email: "aa@mail.com", password: "mdp", username: "Juju", posts: nil),disconnect: {
                 res in
                 
-            }, displayMyPost: (Bool) -> ())
+            }, displayMyPost: {
+                res in
+            })
         }
         
     }

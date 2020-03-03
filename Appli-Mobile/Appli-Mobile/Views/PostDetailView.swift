@@ -30,10 +30,6 @@ struct PostDetailView: View {
             },afficherEntier:true,navigateVote: {
                 res,post in
             })
-                List{
-                    Text("CC")
-                    
-                }
                 ListCommentView(post:post)
             }
             
@@ -84,6 +80,7 @@ struct PostDetailView: View {
             }
         })
     }
+}
     
     
     
@@ -100,3 +97,4 @@ struct PostDetailView_Previews: PreviewProvider {
         PostDetailView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail"))
     }
 }
+

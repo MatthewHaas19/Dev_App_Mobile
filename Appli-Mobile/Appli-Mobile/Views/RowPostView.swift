@@ -14,10 +14,13 @@ struct RowPostView: View {
     
     var navigatePost: (Post) -> ()
     
+    var afficherEntier: Bool
+    
+    
     var body: some View {
         VStack{
         ZStack{
-            //Color.pink.edgesIgnoringSafeArea(.all)
+            Color.pink.edgesIgnoringSafeArea(.all)
             HStack{
                 Button(action:{
                     self.navigatePost(self.post)
@@ -46,10 +49,21 @@ struct RowPostView: View {
                 
                     }
                 }
-            }.frame(height:100)
-        }.frame(height:100)
+            }//.frame(height:100)
+        }.frame(maxHeight:self.getHeight())
     }
     }
+    
+    
+    func getHeight() -> CGFloat{
+        if(self.afficherEntier){
+            return .infinity
+        }
+        else{
+            return CGFloat(100)
+        }
+    }
+    
 }
 
 struct RowPostView_Previews: PreviewProvider {
@@ -57,7 +71,7 @@ struct RowPostView_Previews: PreviewProvider {
         
         VStack{
         
-            RowPostView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail"),navigatePost: {post in})
+            RowPostView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail"),navigatePost: {post in},afficherEntier:true)
             
         }
         

@@ -14,6 +14,7 @@ router.get("/", function(req,res,next){
   })
 })
 
+
 router.get("/categorie/:categorie", function(req,res,next){
   const cat = req.params.categorie
   db.posts.find({
@@ -25,6 +26,20 @@ router.get("/categorie/:categorie", function(req,res,next){
     res.json(users);
   })
 })
+
+
+router.get("/user/:user", function(req,res,next){
+  const cat = req.params.user
+  db.posts.find({
+    user: user
+  },function(err,users){
+    if(err){
+      res.send(err);
+    }
+    res.json(users);
+  })
+})
+
 
 
 

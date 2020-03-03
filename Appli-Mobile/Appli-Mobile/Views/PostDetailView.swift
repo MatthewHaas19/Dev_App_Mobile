@@ -26,6 +26,14 @@ struct PostDetailView: View {
             VStack{
             RowPostView(post:post,navigatePost:{
                 post in
+
+            },afficherEntier:true,navigateVote: {
+                res,post in
+            })
+                List{
+                    Text("CC")
+                    
+                }
             },afficherEntier:true)
                 
                 ListCommentView(post:post).frame(maxHeight:.greatestFiniteMagnitude)

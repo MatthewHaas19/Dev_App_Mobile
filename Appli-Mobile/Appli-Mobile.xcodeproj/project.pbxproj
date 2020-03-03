@@ -41,6 +41,8 @@
 		F36AC69D240978EB00527B9D /* AddPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F36AC69C240978EB00527B9D /* AddPostView.swift */; };
 		F3BA08872402F9FE00EE7118 /* RowPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BA08862402F9FE00EE7118 /* RowPostView.swift */; };
 		F3BA08892402FD7E00EE7118 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BA08882402FD7E00EE7118 /* Post.swift */; };
+		F3F9F193240E716E00B34846 /* VotesDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F9F192240E716E00B34846 /* VotesDAO.swift */; };
+		F3F9F195240E71C700B34846 /* Vote.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F9F194240E71C700B34846 /* Vote.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -99,6 +101,8 @@
 		F36AC69C240978EB00527B9D /* AddPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPostView.swift; sourceTree = "<group>"; };
 		F3BA08862402F9FE00EE7118 /* RowPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowPostView.swift; sourceTree = "<group>"; };
 		F3BA08882402FD7E00EE7118 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
+		F3F9F192240E716E00B34846 /* VotesDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VotesDAO.swift; sourceTree = "<group>"; };
+		F3F9F194240E71C700B34846 /* Vote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vote.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -198,6 +202,7 @@
 				66D3622823FAEBE8005F79F8 /* User.swift */,
 				F36AC692240817B100527B9D /* UserPost.swift */,
 				F3BA08882402FD7E00EE7118 /* Post.swift */,
+				F3F9F194240E71C700B34846 /* Vote.swift */,
 				2CCC5B56240D982600D15689 /* Report.swift */,
 				663312EF240E561600C5D871 /* Comment.swift */,
 			);
@@ -210,6 +215,7 @@
 				66E3F5E523FBE08000085486 /* UserDAO.swift */,
 				66CD55AF240D3235002376D4 /* PostDAO.swift */,
 				2CCC5B58240D99A500D15689 /* ReportDAO.swift */,
+				F3F9F192240E716E00B34846 /* VotesDAO.swift */,
 				663312F1240E6D4900C5D871 /* CommentDAO.swift */,
 			);
 			path = DAO;
@@ -401,6 +407,8 @@
 				F31FBAE62405715400C595E4 /* LoginView.swift in Sources */,
 				66CAB08124096C7300B92C8F /* RowCommentView.swift in Sources */,
 				F36AC69524094A2100527B9D /* FilterView.swift in Sources */,
+				F3F9F193240E716E00B34846 /* VotesDAO.swift in Sources */,
+				F3F9F195240E71C700B34846 /* Vote.swift in Sources */,
 				66D361F723FAEB07005F79F8 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

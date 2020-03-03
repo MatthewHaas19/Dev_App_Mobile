@@ -22,6 +22,8 @@ struct RouterView: View {
     @State var currentPost : Post? = nil
     
     @ObservedObject var userDAO = UserDAO()
+    @ObservedObject var postDAO = PostDAO()
+    @ObservedObject var voteDAO = VotesDAO()
     
     
     @Environment(\.managedObjectContext) var managedObjectContext
@@ -31,6 +33,8 @@ struct RouterView: View {
     ) var set: FetchedResults< CurrentUser >
     @State var currentUserEmail:String? = nil
     @State var currentUser:User? = nil
+    
+    
 
     
     
@@ -41,6 +45,12 @@ struct RouterView: View {
                 ListView(navigatePost: {
                     post in
                     self.currentPost = post
+                },navigateVote:{
+                    res,post in
+                    self.voteDAO.addVotes(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res), completionHandler: {
+                        res in
+                        print(res)
+                    })
                 }).onAppear {self.isLogged = self.isConnected()
                     if(self.isLogged){
                         self.getCurrentUser()

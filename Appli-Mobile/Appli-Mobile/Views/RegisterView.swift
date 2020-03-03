@@ -38,7 +38,7 @@ struct RegisterView: View {
                     .fontWeight(.semibold)
                     .padding(.bottom, 20)
                 
-                TextField("Username", text: $username)
+                TextField("Pseudo", text: $username)
                 .padding()
                 .background(Color(red:0.95,green:0.95,blue:0.95))
                 .cornerRadius(5.0)

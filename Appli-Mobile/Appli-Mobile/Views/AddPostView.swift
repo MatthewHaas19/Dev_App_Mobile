@@ -7,10 +7,79 @@
 //
 
 import SwiftUI
+import TextView
 
 struct AddPostView: View {
+    
+    @State var emailUser:String=""
+    @State var title:String = ""
+    @State var input: String = ""
+    @State var image: String? = nil
+    @State var categorie = [String]()
+    @State var isEditing = false
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        
+        ZStack {
+            Color.white
+            VStack{
+                
+                // Form{
+                Text("Ajouter un post")
+                    .font(.largeTitle)
+                    .fontWeight(.semibold)
+                    .padding(.bottom, 20)
+                    .padding(.top, 40)
+                
+                Spacer()
+                
+                TextField("Titre : ", text: $title)
+                .padding()
+                .background(Color(red:0.95,green:0.95,blue:0.95))
+                .cornerRadius(5.0)
+                .padding(.bottom, 20)
+                
+                
+                
+                TextView(
+                    text: $input,
+                    isEditing: $isEditing,
+                    placeholder: "Description : ",
+                    placeholderHorizontalPadding: 15,
+                    placeholderVerticalPadding: 10,
+                    placeholderColor: Color(red:0.72,green:0.72,blue:0.72),
+                    backgroundColor: UIColor(red:0.95,green:0.95,blue:0.95, alpha:1)
+                    
+                ).frame(height:200)
+                
+                    .cornerRadius(5.0)
+                    .padding(.bottom,20)
+                
+                
+                TextField("Description : ", text: $title)
+                .padding()
+                .background(Color(red:0.95,green:0.95,blue:0.95))
+                .cornerRadius(5.0)
+                .padding(.bottom, 20)
+                
+                
+                TextField("Titre : ", text: $title)
+                .padding()
+                .background(Color(red:0.95,green:0.95,blue:0.95))
+                .cornerRadius(5.0)
+                .padding(.bottom, 20)
+                
+                
+                TextField("Titre : ", text: $title)
+                .padding()
+                .background(Color(red:0.95,green:0.95,blue:0.95))
+                .cornerRadius(5.0)
+                .padding(.bottom, 20)
+                
+              
+            }.padding()
+        }.padding(.top, 40)
+        
     }
 }
 

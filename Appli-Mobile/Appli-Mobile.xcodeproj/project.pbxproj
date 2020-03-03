@@ -11,6 +11,7 @@
 		2CCC5B55240D677B00D15689 /* BCrypt in Frameworks */ = {isa = PBXBuildFile; productRef = 2CCC5B54240D677B00D15689 /* BCrypt */; };
 		2CCC5B57240D982600D15689 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC5B56240D982600D15689 /* Report.swift */; };
 		2CCC5B59240D99A500D15689 /* ReportDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC5B58240D99A500D15689 /* ReportDAO.swift */; };
+		2CCC5B5C240E691800D15689 /* TextView in Frameworks */ = {isa = PBXBuildFile; productRef = 2CCC5B5B240E691800D15689 /* TextView */; };
 		663312F0240E561600C5D871 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663312EF240E561600C5D871 /* Comment.swift */; };
 		663312F2240E6D4900C5D871 /* CommentDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663312F1240E6D4900C5D871 /* CommentDAO.swift */; };
 		663312F4240E750600C5D871 /* ListCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663312F3240E750600C5D871 /* ListCommentView.swift */; };
@@ -105,6 +106,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2CCC5B5C240E691800D15689 /* TextView in Frameworks */,
 				2CCC5B55240D677B00D15689 /* BCrypt in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -252,6 +254,7 @@
 			name = "Appli-Mobile";
 			packageProductDependencies = (
 				2CCC5B54240D677B00D15689 /* BCrypt */,
+				2CCC5B5B240E691800D15689 /* TextView */,
 			);
 			productName = "Appli-Mobile";
 			productReference = 66D361F123FAEB07005F79F8 /* Appli-Mobile.app */;
@@ -327,6 +330,7 @@
 			mainGroup = 66D361E823FAEB07005F79F8;
 			packageReferences = (
 				2CCC5B53240D677B00D15689 /* XCRemoteSwiftPackageReference "bcrypt" */,
+				2CCC5B5A240E691800D15689 /* XCRemoteSwiftPackageReference "TextView" */,
 			);
 			productRefGroup = 66D361F223FAEB07005F79F8 /* Products */;
 			projectDirPath = "";
@@ -728,6 +732,14 @@
 				minimumVersion = 1.1.1;
 			};
 		};
+		2CCC5B5A240E691800D15689 /* XCRemoteSwiftPackageReference "TextView" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kenmueller/TextView.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.3.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -735,6 +747,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 2CCC5B53240D677B00D15689 /* XCRemoteSwiftPackageReference "bcrypt" */;
 			productName = BCrypt;
+		};
+		2CCC5B5B240E691800D15689 /* TextView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 2CCC5B5A240E691800D15689 /* XCRemoteSwiftPackageReference "TextView" */;
+			productName = TextView;
 		};
 /* End XCSwiftPackageProductDependency section */
 

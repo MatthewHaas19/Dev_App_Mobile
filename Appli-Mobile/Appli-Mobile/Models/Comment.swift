@@ -8,8 +8,11 @@
 
 import Foundation
 
-struct Comment  {
-    let _id : String
+class Comment : Decodable, Identifiable, CustomStringConvertible {
+  
+    
+    var _id : String
+    var description: String {return " \(self.titreCom) "}
     let postId : String
     let titreCom : String
     let texteCom: String

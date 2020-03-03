@@ -22,13 +22,18 @@ struct PostDetailView: View {
         
         
         ZStack {
-            
-            Color.white
+            Color.white.edgesIgnoringSafeArea(.all)
             VStack{
-                Text(post.titre)
-                Text(post.texte)
+            RowPostView(post:post,navigatePost:{
+                post in
+            },afficherEntier:true)
+                List{
+                    Text("CC")
+                    
+                }
             }
-                   
+            
+            /*
             VStack{
                 Spacer()
                 if ( self.currentUser != nil) {
@@ -42,40 +47,40 @@ struct PostDetailView: View {
                             Text("Signaler")
                         }.foregroundColor(.red)
                     }.padding(.bottom)
-                    .padding(.trailing,30)
-                    .alert(isPresented: $showingAlert) {
-                        Alert(title: Text("Signaler le post"), message: Text("Etes-vous sû de vouloir signaler le post ?"), primaryButton: .cancel(Text("Annuler")
-                            ), secondaryButton: .destructive(Text("Signaler"), action: {
-                                self.addReport()
-                            }))
+                        .padding(.trailing,30)
+                        .alert(isPresented: $showingAlert) {
+                            Alert(title: Text("Signaler le post"), message: Text("Etes-vous sû de vouloir signaler le post ?"), primaryButton: .cancel(Text("Annuler")
+                                ), secondaryButton: .destructive(Text("Signaler"), action: {
+                                    self.addReport()
+                                }))
                     }
                 }
                 
-            }
-                     
-                // A FAIRE QUAND ON AURA BIEN MIS LES COMMENTAIRE CORRESPONDANT AU POST DASN LA BDD
-            }
+            }*/
+            
+            // A FAIRE QUAND ON AURA BIEN MIS LES COMMENTAIRE CORRESPONDANT AU POST DASN LA BDD
+        }
     }
     
     
     func addReport(){
         
         let report = Report(emailUser : self.currentUser!, idPost : post._id)
-            
-            self.reportDAO.addReport(report: report, completionHandler: {
-                res in
-                if(res == 1){
-                    print("Signalé")
-                }
-                else if (res == 0){
-                    print("Déjà signalé")
-                }
-                else {
-                    print("erreur")
-                }
-            })
-        }
         
+        self.reportDAO.addReport(report: report, completionHandler: {
+            res in
+            if(res == 1){
+                print("Signalé")
+            }
+            else if (res == 0){
+                print("Déjà signalé")
+            }
+            else {
+                print("erreur")
+            }
+        })
+    }
+    
     
     
     
@@ -87,8 +92,8 @@ struct PostDetailView: View {
 
 
 
- struct PostDetailView_Previews: PreviewProvider {
- static var previews: some View {
- PostDetailView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail"))
- }
- }
+struct PostDetailView_Previews: PreviewProvider {
+    static var previews: some View {
+        PostDetailView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail"))
+    }
+}

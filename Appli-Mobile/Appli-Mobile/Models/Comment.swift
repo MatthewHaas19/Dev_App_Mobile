@@ -14,10 +14,10 @@ struct Comment  {
     let titreCom : String
     let texteCom: String
     let voteCom : Int
-    let dateCome : Date
-    let user : User?
+    let dateCome : String
+    let user : String
     
-    init(_id : String, postId : String, titreCom : String ,texteCom: String,voteCom : Int,dateCome : Date, user : User?) {
+    init(_id : String, postId : String, titreCom : String ,texteCom: String,voteCom : Int,dateCome : String, user : String) {
         
         self._id=_id
         self.postId=postId

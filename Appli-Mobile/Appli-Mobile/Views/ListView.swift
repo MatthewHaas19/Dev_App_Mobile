@@ -40,7 +40,7 @@ struct ListView: View {
                         RowPostView(post:p,navigatePost:{
                             post in
                             self.navigatePost(post)
-                        }).padding(.bottom)
+                        },afficherEntier:false).padding(.bottom)
                     
                         
                     }.listRowBackground(

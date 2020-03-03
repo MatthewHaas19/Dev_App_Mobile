@@ -40,6 +40,19 @@ router.get("/user/:user", function(req,res,next){
   })
 })
 
+router.get("/:id", function(req,res,next) {
+  const id = req.params.id
+  db.posts.find({
+    _id : id
+  }, function(err,posts) {
+    if(err){
+      res.send(err)
+    }
+    res.json(posts)
+  })
+})
+
+
 router.put("/addVote/:vote",function(req,res,next){
   const vote = -1
   if(req.params.vote){
@@ -74,7 +87,7 @@ router.post("/", function(req,res,next){
 
 router.delete("/", function(req,res,next) {
   var post = req.body
-  db.posts.delete({_id : post._id}, function(err,post){
+  db.posts.deleteOne(post, function(err,post){
     if(err){
       res.send(err);
     }

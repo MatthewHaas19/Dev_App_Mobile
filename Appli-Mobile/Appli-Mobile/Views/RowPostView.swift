@@ -30,7 +30,8 @@ struct RowPostView: View {
                 HStack{
                     Image(systemName:"location").foregroundColor(Color.white)
                         .font(.system(size:14))
-                    Text(String(post.localisation)).foregroundColor(Color.white).font(.system(size:14))
+                    if(post.localisation != nil) { Text(String(post.localisation!)).foregroundColor(Color.white).font(.system(size:14))
+                    }
                 }
                 
                 Text(post.titre).foregroundColor(Color.white)

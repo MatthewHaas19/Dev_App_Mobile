@@ -12,6 +12,7 @@
 		2CCC5B57240D982600D15689 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC5B56240D982600D15689 /* Report.swift */; };
 		2CCC5B59240D99A500D15689 /* ReportDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC5B58240D99A500D15689 /* ReportDAO.swift */; };
 		2CCC5B5C240E691800D15689 /* TextView in Frameworks */ = {isa = PBXBuildFile; productRef = 2CCC5B5B240E691800D15689 /* TextView */; };
+		2CCC5B5E240EA83B00D15689 /* PostPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC5B5D240EA83B00D15689 /* PostPost.swift */; };
 		663312F0240E561600C5D871 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663312EF240E561600C5D871 /* Comment.swift */; };
 		663312F2240E6D4900C5D871 /* CommentDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663312F1240E6D4900C5D871 /* CommentDAO.swift */; };
 		663312F4240E750600C5D871 /* ListCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663312F3240E750600C5D871 /* ListCommentView.swift */; };
@@ -67,6 +68,7 @@
 		2C4F7485240D3DB700FC8A5D /* ListByCategorie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListByCategorie.swift; sourceTree = "<group>"; };
 		2CCC5B56240D982600D15689 /* Report.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		2CCC5B58240D99A500D15689 /* ReportDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDAO.swift; sourceTree = "<group>"; };
+		2CCC5B5D240EA83B00D15689 /* PostPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPost.swift; sourceTree = "<group>"; };
 		663312EF240E561600C5D871 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		663312F1240E6D4900C5D871 /* CommentDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDAO.swift; sourceTree = "<group>"; };
 		663312F3240E750600C5D871 /* ListCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCommentView.swift; sourceTree = "<group>"; };
@@ -207,6 +209,7 @@
 				F3F9F194240E71C700B34846 /* Vote.swift */,
 				2CCC5B56240D982600D15689 /* Report.swift */,
 				663312EF240E561600C5D871 /* Comment.swift */,
+				2CCC5B5D240EA83B00D15689 /* PostPost.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -393,6 +396,7 @@
 				663312F2240E6D4900C5D871 /* CommentDAO.swift in Sources */,
 				2C4F7486240D3DB700FC8A5D /* ListByCategorie.swift in Sources */,
 				66E3F5E623FBE08000085486 /* UserDAO.swift in Sources */,
+				2CCC5B5E240EA83B00D15689 /* PostPost.swift in Sources */,
 				66D3622D23FAF149005F79F8 /* RowUserView.swift in Sources */,
 				2CCC5B57240D982600D15689 /* Report.swift in Sources */,
 				663312F0240E561600C5D871 /* Comment.swift in Sources */,

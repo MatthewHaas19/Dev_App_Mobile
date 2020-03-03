@@ -44,31 +44,37 @@ public class PostDAO: ObservableObject{
         }.resume()
     }
     
-    func addVote(vote: Vote,post:Post ,completionHandler: @escaping (Int) -> ()) {
-        var like:String
-        if(vote.like){
-            like="true"
-        }
-        else{
-            like="false"
-        }
+
+    
+    
+    
+    
+    func addPost(post: PostPost, completionHandler: @escaping (Bool) -> ()) {
         
-        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/posts/addVote/"+like) else { return }
+        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/posts") else { return }
         
-        let newReport:[String: Any] = [
-            "_id" : post._id
+        let newPost:[String: Any?] = [
+            "titre" : post.titre,
+            "texte" : post.texte,
+            "nbSignalement" : post.nbSignalement,
+            "image" : post.image,
+            "localisation" : post.localisation,
+            "categorie" : post.categorie,
+            "note" : post.note,
+            "commentaire" : [],
+            "date" : post.date,
+            "user" : post.user
         ]
         
-        
-        let body = try! JSONSerialization.data(withJSONObject: newReport)
+        let body = try! JSONSerialization.data(withJSONObject: newPost)
         
         var request = URLRequest(url: url)
-        request.httpMethod = "PUT"
+        request.httpMethod = "POST"
+
         request.httpBody = body
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
         URLSession.shared.dataTask(with: request) { (data, response, error) in
-
 
             guard let data = data else { return }
             
@@ -78,29 +84,19 @@ public class PostDAO: ObservableObject{
 
             if resData.res == "correct" {
                 DispatchQueue.main.async {
-                    completionHandler(1)
+                    completionHandler(true)
                 }
 
             }
-            else if resData.res == "exists"{
-                DispatchQueue.main.async {
-                    completionHandler(0)
-                }
-            }
-            
             else {
                 DispatchQueue.main.async {
-                    completionHandler(-1)
+                    completionHandler(false)
                 }
             }
-               
-            
-
 
         }.resume()
-        
-        
+
     }
-    
+
 }
 

@@ -11,7 +11,7 @@ import TextView
 
 struct AddPostView: View {
     
-    @State var afficherAdd = true
+    
     @State var emailUser:String=""
     @State var title:String = ""
     @State var description: String = ""
@@ -23,19 +23,21 @@ struct AddPostView: View {
     @State var imageInBlackBox = UIImage()
     
     var currentUser : String?
+    @State var afficherAdd = false
     
     let listCategorie = ["Amis","Couple","Ecole","Famille","Rue","Soiree","Sport","Transport","Travail","TV","Voisin","Web","Autres"]
     
     @State var listCategorieResult = [false,false,false,false,false,false,false,false,false,false,false,false,false]
     
-    init(currentUser : String?){
+     @ObservedObject var postDAO = PostDAO()
+    @ObservedObject private var keyboard = KeyboardResponder()
+    
+    init(currentUser : String? ){
         self.currentUser = currentUser
         UITableView.appearance().separatorColor = .clear
     }
     
     
-    
-     @ObservedObject var postDAO = PostDAO()
     
     var body: some View {
         
@@ -176,7 +178,7 @@ struct AddPostView: View {
                                 .frame(width: 220, height: 60)
                                 .background(Color(red:0,green:0.8,blue:0.9))
                                 .cornerRadius(15.0)
-                        }
+                        }.padding(.bottom,40)
                        Spacer()
                     }
                     
@@ -184,7 +186,10 @@ struct AddPostView: View {
   
             }.padding()
             
-        }
+ 
+        }.padding(.bottom, keyboard.currentHeight)
+        .edgesIgnoringSafeArea(.bottom)
+        .animation(.easeOut(duration: 0.16))
         
     }
     
@@ -193,10 +198,10 @@ struct AddPostView: View {
         var listCat = [String]()
         var i = 0
         for cat in self.listCategorieResult {
-            i=i+1
             if cat {
                 listCat.append(listCategorie[i])
             }
+            i=i+1
         }
         
         let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:nil, localisation:nil, categorie:listCat, note:0, date:"", user:self.currentUser!)

@@ -26,7 +26,9 @@ struct PostDetailView: View {
             VStack{
             RowPostView(post:post,navigatePost:{
                 post in
-            },afficherEntier:true)
+            },afficherEntier:true,navigateVote: {
+                res,post in
+            })
                 List{
                     Text("CC")
                     

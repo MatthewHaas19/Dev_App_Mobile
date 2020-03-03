@@ -130,7 +130,7 @@ struct RouterView: View {
                     ): nil)
                 .overlay(self.afficherFilter ? FilterView(afficherFilter: self.$afficherFilter).edgesIgnoringSafeArea(.all) : nil)
                 .overlay((self.currentPost != nil) ? PostDetailView(post: self.currentPost!, currentUser : self.currentUserEmail).edgesIgnoringSafeArea(.all) : nil)
-                .overlay(self.afficherAdd ? AddPostView().edgesIgnoringSafeArea(.all) : nil)
+                .overlay(self.afficherAdd ? AddPostView(currentUser:self.currentUserEmail).edgesIgnoringSafeArea(.all) : nil)
 
         }
     }

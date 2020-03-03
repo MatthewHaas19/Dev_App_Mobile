@@ -78,9 +78,6 @@ public class ReportDAO: ObservableObject{
                     completionHandler(-1)
                 }
             }
-               
-            
-
 
         }.resume()
         

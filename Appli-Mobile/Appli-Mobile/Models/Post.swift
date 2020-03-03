@@ -22,7 +22,7 @@ class Post : Decodable, Identifiable, CustomStringConvertible {
     var texte: String
     var nbSignalement : Int
     var image : String?
-    var localisation : String
+    var localisation : String?
     var categorie : [String]
     var note : Int
     var date : String

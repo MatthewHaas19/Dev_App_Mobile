@@ -29,7 +29,7 @@ router.get("/categorie/:categorie", function(req,res,next){
 
 
 router.get("/user/:user", function(req,res,next){
-  const cat = req.params.user
+  const user = req.params.user
   db.posts.find({
     user: user
   },function(err,users){
@@ -38,6 +38,22 @@ router.get("/user/:user", function(req,res,next){
     }
     res.json(users);
   })
+})
+
+router.put("/addVote/:vote",function(req,res,next){
+  const vote = -1
+  if(req.params.vote){
+    vote = 1
+  }
+  const post = req.body
+  db.posts.updateOne(req.body,,function(err,users){
+    if(err){
+      res.send(err);
+    }
+    res.json(users);
+  })
+
+
 })
 
 

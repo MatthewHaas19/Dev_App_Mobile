@@ -115,8 +115,7 @@ struct RouterView: View {
                 }).edgesIgnoringSafeArea(.all) : nil)
                     .overlay((self.isLogged && !self.afficherLogin && !self.afficherFilter) ? addButton() : nil)
                 .overlay(self.afficherFilter ? FilterView(afficherFilter: self.$afficherFilter).edgesIgnoringSafeArea(.all) : nil)
-                .overlay((self.currentPost != nil) ? PostDetailView(post: self.currentPost!, currentUser : self.currentUser).edgesIgnoringSafeArea(.all) : nil)
-               
+                .overlay((self.currentPost != nil) ? PostDetailView(post: self.currentPost!, currentUser : self.currentUserEmail).edgesIgnoringSafeArea(.all) : nil)
 
         }
     }
@@ -144,6 +143,7 @@ struct RouterView: View {
         }
         do {
             try self.managedObjectContext.save()
+            self.currentUserEmail=nil
         } catch {
             fatalError()
         }

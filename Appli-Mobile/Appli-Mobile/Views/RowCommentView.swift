@@ -10,7 +10,7 @@ import SwiftUI
 
 struct RowCommentView: View {
     
-    var comment : Commentaire
+    var comment : Comment
     
     var body: some View {
         VStack{
@@ -47,7 +47,7 @@ struct RowCommentView_Previews: PreviewProvider {
         
         VStack{
         
-             RowCommentView(comment: Commentaire(titreCom: "J'ai deja vecu ca", texteCom: "Je te conseille de prendre du recul sur la situation, et de te rapprocher de pro", voteCom: 13, dateCome: Date(), user: nil) )
+            RowCommentView(comment: Comment(_id : "idcom", postId : "idpost" ,titreCom: "J'ai deja vecu ca", texteCom: "Je te conseille de prendre du recul sur la situation, et de te rapprocher de pro", voteCom: 13, dateCome: Date(), user: nil) )
             
         }
         

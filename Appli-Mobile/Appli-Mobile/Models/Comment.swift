@@ -17,7 +17,7 @@ class Comment : Decodable, Identifiable, CustomStringConvertible {
     let titreCom : String
     let texteCom: String
     let voteCom : Int
-    let dateCome : String
+    let dateCom : String
     let user : String
     
     init(_id : String, postId : String, titreCom : String ,texteCom: String,voteCom : Int,dateCome : String, user : String) {
@@ -27,7 +27,7 @@ class Comment : Decodable, Identifiable, CustomStringConvertible {
         self.titreCom=titreCom
         self.texteCom=texteCom
         self.voteCom=voteCom
-        self.dateCome=dateCome
+        self.dateCom=dateCome
         self.user=user
     }
     

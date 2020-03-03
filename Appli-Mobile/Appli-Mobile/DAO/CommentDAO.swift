@@ -11,17 +11,15 @@ import Foundation
 
 public class CommentDAO: ObservableObject{
     
-    var postId: String = ""
     @Published var comments = [Comment]()
     @Published var currentComment = [Comment]()
     
     
     init(){
-        loadData()
     }
     
     
-    func loadData(){
+    func loadData(postId:String){
         guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/comments/" + postId) else { return }
         URLSession.shared.dataTask(with: url){(data, _, _) in
             guard let data = data else { return }

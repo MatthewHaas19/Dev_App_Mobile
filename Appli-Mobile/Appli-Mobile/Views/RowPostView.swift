@@ -52,6 +52,7 @@ struct RowPostView: View {
             }//.frame(height:100)
         }.frame(maxHeight:self.getHeight())
     }
+        
     }
     
     

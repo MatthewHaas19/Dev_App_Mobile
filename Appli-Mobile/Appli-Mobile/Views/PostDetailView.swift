@@ -22,13 +22,14 @@ struct PostDetailView: View {
         
         
         ZStack {
-            Color.pink.edgesIgnoringSafeArea(.all)
-            //Color.white.edgesIgnoringSafeArea(.all)
+            Color.blue.edgesIgnoringSafeArea(.all)
             VStack{
             RowPostView(post:post,navigatePost:{
                 post in
             },afficherEntier:true)
-                ListCommentView(post:post)
+                
+                ListCommentView(post:post).frame(maxHeight:.greatestFiniteMagnitude)
+                    
             }
             
             /*

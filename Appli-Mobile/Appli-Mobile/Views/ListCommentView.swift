@@ -13,8 +13,7 @@ struct ListCommentView: View {
     
     var post : Post
     
-    
-    @ObservedObject var commentDAO = CommentDAO(/*postId : post._id*/)
+    @ObservedObject var commentDAO = CommentDAO()
     
     
     
@@ -26,10 +25,11 @@ struct ListCommentView: View {
         VStack{
             
             List(){
-                Text("cc")
+            
                 ForEach(commentDAO.comments){
                     c in
                     ZStack{
+                       
                         RowCommentView(comment:c).padding(.bottom)
                     
                         
@@ -43,7 +43,7 @@ struct ListCommentView: View {
                     
                     }
                 .buttonStyle(BorderlessButtonStyle())
-            }
+            }.onAppear {self.commentDAO.loadData(postId: self.post._id)}
         }
     }
 

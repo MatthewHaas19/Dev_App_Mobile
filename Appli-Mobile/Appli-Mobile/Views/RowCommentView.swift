@@ -15,7 +15,7 @@ struct RowCommentView: View {
     var body: some View {
         VStack{
         ZStack{
-            Color.pink.edgesIgnoringSafeArea(.all)
+            //Color.pink.edgesIgnoringSafeArea(.all)
             HStack{
             VStack(alignment:.leading, spacing:5){
                
@@ -37,7 +37,7 @@ struct RowCommentView: View {
                 }
             }
             
-        }.frame(height:100)
+        }
     }
     }
 }

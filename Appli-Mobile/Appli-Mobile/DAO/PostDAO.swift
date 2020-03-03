@@ -44,8 +44,8 @@ public class PostDAO: ObservableObject{
         }.resume()
     }
     
-    func filter(cat:String){
-        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/posts/categorie/"+cat) else { return }
+    func filter(user:String){
+        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/posts/user/"+user) else { return }
         URLSession.shared.dataTask(with: url){(data, _, _) in
             guard let data = data else { return }
             let res = try! JSONDecoder().decode([Post].self, from: data)

@@ -17,6 +17,7 @@ struct RouterView: View {
     @State var afficherFilter = false
     @State var isLogged = false
     @State var afficherAdd = false
+    @State var afficherMesPost = false
     
     
     @State var currentPost : Post? = nil
@@ -131,6 +132,11 @@ struct RouterView: View {
                         self.disconnectUser()
                         self.isLogged = self.isConnected()
                     }
+                }, displayMyPost:{
+                    res in
+                    if(res){
+                        self.afficherMesPost = true
+                    }
                 }).edgesIgnoringSafeArea(.all) : nil)
                 .overlay((self.isLogged && !self.afficherLogin && !self.afficherFilter) ? addButton(
                     isAfficher: {
@@ -141,6 +147,7 @@ struct RouterView: View {
                 .overlay(self.afficherFilter ? FilterView(afficherFilter: self.$afficherFilter).edgesIgnoringSafeArea(.all) : nil)
                 .overlay((self.currentPost != nil) ? PostDetailView(post: self.currentPost!, currentUser : self.currentUserEmail).edgesIgnoringSafeArea(.all) : nil)
                 .overlay(self.afficherAdd ? AddPostView().edgesIgnoringSafeArea(.all) : nil)
+                .overlay(self.afficherMesPost ? MyPostView(user : currentUser?.email).edgesIgnoringSafeArea(.all) : nil)
 
         }
     }

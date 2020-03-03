@@ -11,6 +11,7 @@
 		2CCC5B55240D677B00D15689 /* BCrypt in Frameworks */ = {isa = PBXBuildFile; productRef = 2CCC5B54240D677B00D15689 /* BCrypt */; };
 		2CCC5B57240D982600D15689 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC5B56240D982600D15689 /* Report.swift */; };
 		2CCC5B59240D99A500D15689 /* ReportDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC5B58240D99A500D15689 /* ReportDAO.swift */; };
+		663312F0240E561600C5D871 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663312EF240E561600C5D871 /* Comment.swift */; };
 		66CAB08124096C7300B92C8F /* RowCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CAB08024096C7300B92C8F /* RowCommentView.swift */; };
 		66CD55B0240D3235002376D4 /* PostDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CD55AF240D3235002376D4 /* PostDAO.swift */; };
 		66D361F523FAEB07005F79F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D361F423FAEB07005F79F8 /* AppDelegate.swift */; };
@@ -60,6 +61,7 @@
 		2C4F7485240D3DB700FC8A5D /* ListByCategorie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListByCategorie.swift; sourceTree = "<group>"; };
 		2CCC5B56240D982600D15689 /* Report.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		2CCC5B58240D99A500D15689 /* ReportDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDAO.swift; sourceTree = "<group>"; };
+		663312EF240E561600C5D871 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		66CAB08024096C7300B92C8F /* RowCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowCommentView.swift; sourceTree = "<group>"; };
 		66CD55AF240D3235002376D4 /* PostDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDAO.swift; sourceTree = "<group>"; };
 		66D361F123FAEB07005F79F8 /* Appli-Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Appli-Mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -191,6 +193,7 @@
 				F36AC692240817B100527B9D /* UserPost.swift */,
 				F3BA08882402FD7E00EE7118 /* Post.swift */,
 				2CCC5B56240D982600D15689 /* Report.swift */,
+				663312EF240E561600C5D871 /* Comment.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -372,6 +375,7 @@
 				66E3F5E623FBE08000085486 /* UserDAO.swift in Sources */,
 				66D3622D23FAF149005F79F8 /* RowUserView.swift in Sources */,
 				2CCC5B57240D982600D15689 /* Report.swift in Sources */,
+				663312F0240E561600C5D871 /* Comment.swift in Sources */,
 				2CCC5B59240D99A500D15689 /* ReportDAO.swift in Sources */,
 				66D361FC23FAEB07005F79F8 /* ContentView.swift in Sources */,
 				F36AC693240817B100527B9D /* UserPost.swift in Sources */,

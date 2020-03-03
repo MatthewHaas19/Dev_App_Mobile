@@ -20,35 +20,43 @@ struct MyPostView: View {
     var user : String
     
     var body: some View {
-        
-        VStack{
-            Text("MES POSTS")
-            List(){
+        ZStack{
+            Color.white.edgesIgnoringSafeArea(.all)
+            VStack{
+                Text("MES POSTS")
+                    .font(.largeTitle)
+                    .fontWeight(.semibold)
+                Spacer().frame(height:50)
                 
-                ForEach(postDAO.posts){
-                    p in
-                    ZStack{
-                        RowPostView(post:p,navigatePost:{
-                            post in
-                            self.navigatePost(post)
-                        },afficherEntier:false,navigateVote:{
-                            res,post in
-                            self.navigateVote(res,post)
-                        }).padding(.bottom)
+                List(){
                     
-                        
-                    }.listRowBackground(
-                        VStack{
-                            self.colors.randomElement()
-                            Spacer()
+                    ForEach(postDAO.posts){
+                        p in
+                        ZStack{
+                            RowPostView(post:p,navigatePost:{
+                                post in
+                                self.navigatePost(post)
+                            },afficherEntier:false,navigateVote:{
+                                res,post in
+                                self.navigateVote(res,post)
+                            }).padding(.bottom)
+                            
+                            
+                        }.listRowBackground(
+                            VStack{
+                                self.colors.randomElement()
+                                Spacer()
                         })
-                        .padding(.top)
-                    
-                    
+                            .padding(.top)
+                        
+                        
                     }
-                .buttonStyle(BorderlessButtonStyle())
-            }
+                    .buttonStyle(BorderlessButtonStyle())
+                }
+            }.padding(.top,100)
+
         }
+        
     }
 
 }

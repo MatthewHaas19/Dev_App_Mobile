@@ -7,6 +7,7 @@ var users = require("./routes/users")
 var posts = require("./routes/posts")
 var votes = require("./routes/votes")
 var reports = require("./routes/reports")
+var comments = require("./routes/comments")
 
 var cors = require('cors');
 
@@ -32,3 +33,4 @@ app.use("/users",users);
 app.use("/posts",posts);
 app.use("/votes",votes);
 app.use("/reports",reports);
+app.use("/comments",comments);

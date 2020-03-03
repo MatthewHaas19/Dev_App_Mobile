@@ -35,7 +35,6 @@ struct PostDetailView: View {
                     Text("CC")
                     
                 }
-            },afficherEntier:true)
                 ListCommentView(post:post)
             }
             

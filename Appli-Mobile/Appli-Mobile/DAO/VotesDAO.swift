@@ -59,6 +59,11 @@ public class VotesDAO: ObservableObject{
                     completionHandler(0)
                 }
             }
+            else if resData.res == "change"{
+                DispatchQueue.main.async {
+                    completionHandler(2)
+                }
+            }
             
             else {
                 DispatchQueue.main.async {

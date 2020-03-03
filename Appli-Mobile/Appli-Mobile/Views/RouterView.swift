@@ -48,8 +48,26 @@ struct RouterView: View {
                 },navigateVote:{
                     res,post in
                     self.voteDAO.addVotes(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res), completionHandler: {
-                        res in
-                        print(res)
+                        result in
+                        if(result==1){
+                            self.postDAO.addVote(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res),post:post, completionHandler: {
+                                res in
+                                //print(res)
+                                self.afficherFilter=true
+                                self.afficherFilter=false
+                            })
+                        }
+                        else if(result==2){
+                            self.postDAO.addVote(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res),post:post, completionHandler: {
+                                res in
+                            })
+                            self.postDAO.addVote(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res),post:post, completionHandler: {
+                                res in
+                               // print(res)
+                                self.afficherFilter=true
+                                self.afficherFilter=false
+                            })
+                        }
                     })
                 }).onAppear {self.isLogged = self.isConnected()
                     if(self.isLogged){

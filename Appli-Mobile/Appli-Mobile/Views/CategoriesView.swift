@@ -56,7 +56,7 @@ struct CategoriesView: View {
                                 }
                                 
                             }
-                            Text("Entre amis")
+                            Text("Amis")
                                 .font(Font.system(size: 13.5))
                         }.padding(.trailing, 12)
                         
@@ -115,7 +115,7 @@ struct CategoriesView: View {
                                 Image("Rue")
                                 }
                             }
-                            Text("Dans la rue")
+                            Text("Rue")
                                 .font(Font.system(size: 13.5))
                         }.padding(.trailing, 12)
                         

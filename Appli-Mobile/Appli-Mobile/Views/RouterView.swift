@@ -16,6 +16,7 @@ struct RouterView: View {
     @State var afficherRegister = false
     @State var afficherFilter = false
     @State var isLogged = false
+    @State var afficherAdd = false
     
     
     @State var currentPost : Post? = nil
@@ -55,7 +56,6 @@ struct RouterView: View {
                             self.afficherRegister=false
                             self.afficherFilter = false
                             self.currentPost = nil
-                            self.connectUser(email: "a@a.fr")
                             self.getCurrentUser()
                         }}){
                         Text("CC").opacity(0)
@@ -73,6 +73,7 @@ struct RouterView: View {
                             }){
                                 Image(systemName:"magnifyingglass")
                             }.foregroundColor(Color(red:0,green:0.8,blue:0.9))
+                                .frame(width : 20, height: 20)
                             Spacer().frame(width: CGFloat(20))
                             Button(action:{
                                 if(self.isLogged){
@@ -98,6 +99,9 @@ struct RouterView: View {
                             }){
                                 Image(systemName:"person.crop.circle")
                             }.foregroundColor(Color(red:0,green:0.8,blue:0.9))
+                                .scaledToFit()
+                                .frame(width: 30, height: 30)
+                                
                             
                         }
                 ).overlay((self.afficherLogin && !self.isLogged) ? LoginView(isAfficher: self.$afficherLogin,isAfficherRegister: self.$afficherRegister,isLogged:self.$isLogged, didLogged:{
@@ -113,7 +117,7 @@ struct RouterView: View {
                         self.isLogged = self.isConnected()
                     }
                 }).edgesIgnoringSafeArea(.all) : nil)
-                    .overlay((self.isLogged && !self.afficherLogin && !self.afficherFilter) ? addButton() : nil)
+                .overlay((self.isLogged && !self.afficherLogin && !self.afficherFilter) ? addButton(): nil)
                 .overlay(self.afficherFilter ? FilterView(afficherFilter: self.$afficherFilter).edgesIgnoringSafeArea(.all) : nil)
                 .overlay((self.currentPost != nil) ? PostDetailView(post: self.currentPost!, currentUser : self.currentUserEmail).edgesIgnoringSafeArea(.all) : nil)
 
@@ -144,6 +148,8 @@ struct RouterView: View {
         do {
             try self.managedObjectContext.save()
             self.currentUserEmail=nil
+            self.isLogged=false
+            
         } catch {
             fatalError()
         }
@@ -170,7 +176,8 @@ struct addButton : View {
             Spacer()
 
             
-            Button(action:{}){
+            Button(action:{
+            }){
             Image("BouttonPlus")
             .resizable()
             .aspectRatio(contentMode: .fill)

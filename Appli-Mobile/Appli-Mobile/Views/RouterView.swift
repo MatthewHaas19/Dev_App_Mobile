@@ -55,8 +55,11 @@ struct RouterView: View {
                             self.afficherLogin=false
                             self.afficherRegister=false
                             self.afficherFilter = false
+                            self.afficherAdd = false
                             self.currentPost = nil
-                            self.getCurrentUser()
+                            if (self.isLogged){
+                                self.getCurrentUser()
+                            }
                         }}){
                         Text("CC").opacity(0)
                         }.background(Image("H2R").resizable()
@@ -69,6 +72,7 @@ struct RouterView: View {
                                 self.afficherFilter = true
                                 self.currentPost = nil
                                 self.afficherLogin=false
+                                self.afficherAdd = false
                                 
                             }){
                                 Image(systemName:"magnifyingglass")
@@ -85,7 +89,7 @@ struct RouterView: View {
                                         self.afficherRegister=false
                                         self.currentPost = nil
                                         self.afficherFilter = false
-                                        self.disconnectUser()
+                                        self.afficherAdd = false
                                     })
                                 }
                                 else{
@@ -93,6 +97,7 @@ struct RouterView: View {
                                     self.afficherRegister=false
                                     self.currentPost = nil
                                     self.afficherFilter = false
+                                    self.afficherAdd = false
                                     self.disconnectUser()
                                 }
                                 
@@ -117,9 +122,15 @@ struct RouterView: View {
                         self.isLogged = self.isConnected()
                     }
                 }).edgesIgnoringSafeArea(.all) : nil)
-                .overlay((self.isLogged && !self.afficherLogin && !self.afficherFilter) ? addButton(): nil)
+                .overlay((self.isLogged && !self.afficherLogin && !self.afficherFilter) ? addButton(
+                    isAfficher: {
+                        afficher in
+                        self.afficherAdd = afficher
+                    }
+                    ): nil)
                 .overlay(self.afficherFilter ? FilterView(afficherFilter: self.$afficherFilter).edgesIgnoringSafeArea(.all) : nil)
                 .overlay((self.currentPost != nil) ? PostDetailView(post: self.currentPost!, currentUser : self.currentUserEmail).edgesIgnoringSafeArea(.all) : nil)
+                .overlay(self.afficherAdd ? AddPostView().edgesIgnoringSafeArea(.all) : nil)
 
         }
     }
@@ -170,6 +181,8 @@ struct RouterView: View {
 
 struct addButton : View {
     
+    var isAfficher : (Bool) -> ()
+    
     var body: some View {
         
         VStack {
@@ -177,6 +190,7 @@ struct addButton : View {
 
             
             Button(action:{
+                self.isAfficher(true)
             }){
             Image("BouttonPlus")
             .resizable()

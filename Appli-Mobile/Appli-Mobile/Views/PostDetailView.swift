@@ -22,12 +22,18 @@ struct PostDetailView: View {
         
         
         ZStack {
-            Color.pink.edgesIgnoringSafeArea(.all)
-            //Color.white.edgesIgnoringSafeArea(.all)
+            Color.blue.edgesIgnoringSafeArea(.all)
             VStack{
             RowPostView(post:post,navigatePost:{
                 post in
-            },afficherEntier:true)
+
+            },afficherEntier:true,navigateVote: {
+                res,post in
+            })
+                List{
+                    Text("CC")
+                    
+                }
                 ListCommentView(post:post)
             }
             
@@ -82,7 +88,6 @@ struct PostDetailView: View {
     
     
     
-}
 
 
 

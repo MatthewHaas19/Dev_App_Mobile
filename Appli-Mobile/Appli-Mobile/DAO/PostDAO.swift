@@ -44,6 +44,7 @@ public class PostDAO: ObservableObject{
         }.resume()
     }
     
+
     
     
     
@@ -65,11 +66,11 @@ public class PostDAO: ObservableObject{
             "user" : post.user
         ]
         
-        
         let body = try! JSONSerialization.data(withJSONObject: newPost)
         
         var request = URLRequest(url: url)
         request.httpMethod = "POST"
+
         request.httpBody = body
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         
@@ -96,6 +97,6 @@ public class PostDAO: ObservableObject{
         }.resume()
 
     }
-   
+
 }
 

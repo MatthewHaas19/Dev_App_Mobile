@@ -17,11 +17,14 @@ struct RouterView: View {
     @State var afficherFilter = false
     @State var isLogged = false
     @State var afficherAdd = false
+    @State var afficherMesPost = false
     
     
     @State var currentPost : Post? = nil
     
     @ObservedObject var userDAO = UserDAO()
+    @ObservedObject var postDAO = PostDAO()
+    @ObservedObject var voteDAO = VotesDAO()
     
     
     @Environment(\.managedObjectContext) var managedObjectContext
@@ -31,6 +34,8 @@ struct RouterView: View {
     ) var set: FetchedResults< CurrentUser >
     @State var currentUserEmail:String? = nil
     @State var currentUser:User? = nil
+    
+    
 
     
     
@@ -41,6 +46,30 @@ struct RouterView: View {
                 ListView(navigatePost: {
                     post in
                     self.currentPost = post
+                },navigateVote:{
+                    res,post in
+                    self.voteDAO.addVotes(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res), completionHandler: {
+                        result in
+                        if(result==1){
+                            self.postDAO.addVote(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res),post:post, completionHandler: {
+                                res in
+                                //print(res)
+                                self.afficherFilter=true
+                                self.afficherFilter=false
+                            })
+                        }
+                        else if(result==2){
+                            self.postDAO.addVote(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res),post:post, completionHandler: {
+                                res in
+                            })
+                            self.postDAO.addVote(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res),post:post, completionHandler: {
+                                res in
+                               // print(res)
+                                self.afficherFilter=true
+                                self.afficherFilter=false
+                            })
+                        }
+                    })
                 }).onAppear {self.isLogged = self.isConnected()
                     if(self.isLogged){
                         self.getCurrentUser()
@@ -121,6 +150,11 @@ struct RouterView: View {
                         self.disconnectUser()
                         self.isLogged = self.isConnected()
                     }
+                }, displayMyPost:{
+                    res in
+                    if(res){
+                        self.afficherMesPost = true
+                    }
                 }).edgesIgnoringSafeArea(.all) : nil)
                 .overlay((self.isLogged && !self.afficherLogin && !self.afficherFilter) ? addButton(
                     isAfficher: {
@@ -130,7 +164,11 @@ struct RouterView: View {
                     ): nil)
                 .overlay(self.afficherFilter ? FilterView(afficherFilter: self.$afficherFilter).edgesIgnoringSafeArea(.all) : nil)
                 .overlay((self.currentPost != nil) ? PostDetailView(post: self.currentPost!, currentUser : self.currentUserEmail).edgesIgnoringSafeArea(.all) : nil)
+
                 .overlay(self.afficherAdd ? AddPostView(currentUser:self.currentUserEmail).edgesIgnoringSafeArea(.all) : nil)
+
+                .overlay(self.afficherMesPost ? MyPostView(user : currentUser?.email).edgesIgnoringSafeArea(.all) : nil)
+
 
         }
     }

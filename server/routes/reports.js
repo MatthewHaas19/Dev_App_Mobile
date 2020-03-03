@@ -31,8 +31,8 @@ router.get("/:post/:user", function(req,res,next){
 
 router.post("/", function(req,res,next){
   var report = req.body
-  if(reports.find({ emailUser: mailUser, idPost: idPost }).length == 0) {
-    db.users.insertOne(report,function(err,report){
+  if(db.reports.find({ emailUser: report.emailUser, idPost: report.idPost }).length == 0) {
+    db.reports.insertOne(report,function(err,report){
       if(err){
         res.send(err);
       }

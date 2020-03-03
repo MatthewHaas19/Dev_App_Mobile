@@ -21,6 +21,7 @@ struct AddPostView: View {
     var body: some View {
         
         ZStack {
+            Color.white
             VStack{
                 
                 // Form{
@@ -39,16 +40,20 @@ struct AddPostView: View {
                 .padding(.bottom, 20)
                 
                 
-                Button(action: {
-                    self.isEditing.toggle()
-                }) {
-                    Text("\(isEditing ? "Stop" : "Start") editing")
-                }
+                
                 TextView(
                     text: $input,
                     isEditing: $isEditing,
-                    placeholder: "Enter text here"
-                )
+                    placeholder: "Description : ",
+                    placeholderHorizontalPadding: 15,
+                    placeholderVerticalPadding: 10,
+                    placeholderColor: Color(red:0.72,green:0.72,blue:0.72),
+                    backgroundColor: UIColor(red:0.95,green:0.95,blue:0.95, alpha:1)
+                    
+                ).frame(height:200)
+                
+                    .cornerRadius(5.0)
+                    .padding(.bottom,20)
                 
                 
                 TextField("Description : ", text: $title)
@@ -73,7 +78,7 @@ struct AddPostView: View {
                 
               
             }.padding()
-        }
+        }.padding(.top, 40)
         
     }
 }

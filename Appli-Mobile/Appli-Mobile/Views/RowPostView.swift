@@ -21,7 +21,7 @@ struct RowPostView: View {
     var body: some View {
         VStack{
         ZStack{
-            Color.pink.edgesIgnoringSafeArea(.all)
+            //Color.pink.edgesIgnoringSafeArea(.all)
             HStack{
                 Button(action:{
                     self.navigatePost(self.post)

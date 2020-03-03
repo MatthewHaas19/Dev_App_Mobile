@@ -88,7 +88,7 @@ struct PostDetailView: View {
     
     
     
-
+}
 
 
 

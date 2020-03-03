@@ -15,7 +15,7 @@ struct PostDetailView: View {
     @State private var showingAlert = false
     
     var post : Post
-    var currentUser : User?
+    var currentUser : String?
     
     var body: some View {
         
@@ -60,7 +60,7 @@ struct PostDetailView: View {
     
     func addReport(){
         
-        let report = Report(emailUser : self.currentUser!.email, idPost : post._id)
+        let report = Report(emailUser : self.currentUser!, idPost : post._id)
             
             self.reportDAO.addReport(report: report, completionHandler: {
                 res in

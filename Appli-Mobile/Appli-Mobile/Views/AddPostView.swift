@@ -19,6 +19,9 @@ struct AddPostView: View {
     @State var categorie = [String]()
     @State var isEditing = false
     
+    @State var afficherImagePicker = false
+    @State var imageInBlackBox = UIImage()
+    
     var currentUser : String?
     
     let listCategorie = ["Amis","Couple","Ecole","Famille","Rue","Soiree","Sport","Transport","Travail","TV","Voisin","Web","Autres"]
@@ -84,13 +87,23 @@ struct AddPostView: View {
 
                     HStack{
                         Spacer()
+                        Image(uiImage: imageInBlackBox)
+                        .resizable()
+                        .scaledToFill()
+                            .frame(width : 100, height : 100)
+                            .border(Color.blue, width: 1)
+                            .clipped()
+                        Spacer()
                         Button(action:{
-                                
+                            self.afficherImagePicker.toggle()
                             }){
                                 Text("Ajouter une image")
                             }.padding(.top,20)
                             .padding(.bottom,20)
                                 .foregroundColor(Color(red:0,green:0.8,blue:0.9))
+                            .sheet(isPresented: $afficherImagePicker, content: {
+                                ImagePickerView(isPresented : self.$afficherImagePicker, selectedImage: self.$imageInBlackBox)
+                            })
                         Spacer()
                     }
                     
@@ -204,5 +217,40 @@ struct AddPostView: View {
 struct AddPostView_Previews: PreviewProvider {
     static var previews: some View {
         AddPostView(currentUser: "Tom")
+    }
+}
+
+struct ImagePickerView: UIViewControllerRepresentable {
+    
+    @Binding var isPresented : Bool
+    @Binding var selectedImage : UIImage
+    
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePickerView>) -> UIViewController {
+        let controller = UIImagePickerController()
+        controller.delegate = context.coordinator
+        return controller
+    }
+    
+    func makeCoordinator() -> ImagePickerView.Coordinator {
+        return Coordinator(parent:self)
+    }
+    
+    class Coordinator : NSObject, UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+        let parent : ImagePickerView
+        
+        init(parent : ImagePickerView){
+            self.parent = parent
+        }
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let selectedImageFromPicker = info[.originalImage] as? UIImage {
+                print(selectedImageFromPicker)
+                self.parent.selectedImage = selectedImageFromPicker
+            }
+            self.parent.isPresented = false
+        }
+    }
+    
+    func updateUIViewController(_ uiViewController: ImagePickerView.UIViewControllerType, context: UIViewControllerRepresentableContext<ImagePickerView>) {
+        
     }
 }

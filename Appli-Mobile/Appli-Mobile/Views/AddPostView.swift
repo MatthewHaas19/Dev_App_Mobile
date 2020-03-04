@@ -222,6 +222,13 @@ struct AddPostView: View {
             })
         
     }
+    /*
+    func uploadPhoto(){
+        guard let image = self.imageInBlackBox, let data = image.jpegData(compressionQuality:1.0) else{
+            presentAlert(title:"Error",message:"something went wront")
+            return
+        }
+    }*/
 }
 
 struct AddPostView_Previews: PreviewProvider {
@@ -231,7 +238,7 @@ struct AddPostView_Previews: PreviewProvider {
     static var previews: some View {
         AddPostView(currentUser: "Tom",afficherAdd: {
             afficher in
-            afficher
+
         })
     }
 }

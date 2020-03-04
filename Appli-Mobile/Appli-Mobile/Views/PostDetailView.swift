@@ -17,13 +17,25 @@ struct PostDetailView: View {
     var post : Post
     var currentUser : String?
     
+    var afficherDetail: (Bool) -> ()
+    
+    
     var body: some View {
-        
-        
-        
+ 
         ZStack {
             Color.blue.edgesIgnoringSafeArea(.all)
             VStack{
+                Button(action:{
+                    self.goBack()
+                })
+                {
+                    Text("Back")
+                    .fontWeight(.semibold)
+                }.foregroundColor(.white)
+                    .frame(width:100,height:40)
+                    .cornerRadius(40)
+                    .border(Color.red, width: 3)
+            
             RowPostView(post:post,navigatePost:{
                 post in
 
@@ -31,7 +43,7 @@ struct PostDetailView: View {
                 res,post in
             })
                 ListCommentView(post:post)
-            }
+            }.padding(.top,140)
             
             /*
             VStack{
@@ -80,6 +92,10 @@ struct PostDetailView: View {
             }
         })
     }
+    
+    func goBack(){
+        self.afficherDetail(false)
+    }
 }
     
     
@@ -93,7 +109,7 @@ struct PostDetailView: View {
 
 struct PostDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        PostDetailView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail"))
+        PostDetailView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail"), afficherDetail : {afficher in afficher} )
     }
 }
 

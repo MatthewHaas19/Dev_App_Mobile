@@ -26,7 +26,6 @@ public class PostDAO: ObservableObject{
             guard let data = data else { return }
             let res = try! JSONDecoder().decode([Post].self, from: data)
             DispatchQueue.main.async{
-                print(res)
                 self.posts = res
             }
         }.resume()
@@ -38,7 +37,6 @@ public class PostDAO: ObservableObject{
             guard let data = data else { return }
             let res = try! JSONDecoder().decode([Post].self, from: data)
             DispatchQueue.main.async{
-                print(res)
                 self.posts = res
             }
         }.resume()
@@ -50,7 +48,6 @@ public class PostDAO: ObservableObject{
             guard let data = data else { return }
             let res = try! JSONDecoder().decode([Post].self, from: data)
             DispatchQueue.main.async{
-                print(res)
                 self.posts = res
             }
         }.resume()
@@ -69,12 +66,12 @@ public class PostDAO: ObservableObject{
         
         guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/posts/addVote/"+like) else { return }
         
-        let newReport:[String: Any] = [
+        let newVote:[String: Any] = [
             "_id" : post._id
         ]
         
         
-        let body = try! JSONSerialization.data(withJSONObject: newReport)
+        let body = try! JSONSerialization.data(withJSONObject: newVote)
         
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
@@ -87,7 +84,6 @@ public class PostDAO: ObservableObject{
             
             let resData = try! JSONDecoder().decode(ServerMessage.self, from: data)
 
-            print(resData.res)
 
             if resData.res == "correct" {
                 DispatchQueue.main.async {
@@ -168,48 +164,41 @@ public class PostDAO: ObservableObject{
     
     
     func delete(post : Post , completionHandler: @escaping (Bool) -> ()){
+         
+         
          guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/posts") else { return }
-           
-        let postToDelete:[String: Any?] = [
-                "titre" : post.titre,
-                "texte" : post.texte,
-                "nbSignalement" : post.nbSignalement,
-                "image" : post.image,
-                "localisation" : post.localisation,
-                "categorie" : post.categorie,
-                "note" : post.note,
-                "commentaire" : [],
-                "date" : post.date,
-                "user" : post.user
-            ]
-               print("Dans delete DAO")
-               let body = try! JSONSerialization.data(withJSONObject: postToDelete)
-               var request = URLRequest(url: url)
-               request.httpMethod = "DELETE"
-               request.httpBody = body
-               request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-               
-               URLSession.shared.dataTask(with: request) { (data, response, error) in
+         
+         let postToDelete:[String: Any] = [
+             "_id" : post._id
+         ]
 
-                   guard let data = data else { return }
-                   
-                   let resData = try! JSONDecoder().decode(ServerMessage.self, from: data)
+         let body = try! JSONSerialization.data(withJSONObject: postToDelete)
+         
+         var request = URLRequest(url: url)
+         request.httpMethod = "DELETE"
+         request.httpBody = body
+         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+         
+         URLSession.shared.dataTask(with: request) { (data, response, error) in
 
-                   print(resData.res)
+             guard let data = data else { return }
+             
+             let resData = try! JSONDecoder().decode(ServerMessage.self, from: data)
 
-                   if resData.res == "correct" {
-                       DispatchQueue.main.async {
-                           completionHandler(true)
-                       }
 
-                   }
-                   else {
-                       DispatchQueue.main.async {
-                           completionHandler(false)
-                       }
-                   }
+             if resData.res == "correct" {
+                 DispatchQueue.main.async {
+                     completionHandler(true)
+                 }
+             }
+             
+             else {
+                 DispatchQueue.main.async {
+                     completionHandler(false)
+                 }
+             }
 
-               }.resume()
+         }.resume()
     }
     
 

@@ -8,6 +8,8 @@
 
 import SwiftUI
 import TextView
+import FirebaseStorage
+import FirebaseFirestore
 
 struct AddPostView: View {
     
@@ -19,11 +21,19 @@ struct AddPostView: View {
     @State var categorie = [String]()
     @State var isEditing = false
     
+    lazy var imageView: UIImageView = {
+        let iv = UIImageView()
+        iv.contentMode = .scaleAspectFill
+        iv.backgroundColor = .lightGray
+        return iv
+    }()
 
     var afficherAdd : (Bool) -> ()
 
     @State var afficherImagePicker = false
     @State var imageInBlackBox = UIImage()
+    @State var uploadImage = false
+
 
     
     var currentUser : String?
@@ -102,6 +112,7 @@ struct AddPostView: View {
                         Spacer()
                         Button(action:{
                             self.afficherImagePicker.toggle()
+                            self.uploadImage = true
                             }){
                                 Text("Ajouter une image")
                             }.padding(.top,20)
@@ -186,7 +197,11 @@ struct AddPostView: View {
                        Spacer()
                     }.padding(.bottom,50)
                     
+                   
+                    
                 }
+                
+                
   
             }.padding()
             
@@ -195,6 +210,7 @@ struct AddPostView: View {
         }.padding(.bottom, keyboard.currentHeight)
         .edgesIgnoringSafeArea(.bottom)
         .animation(.easeOut(duration: 0.16))
+        
         
     }
     
@@ -208,18 +224,143 @@ struct AddPostView: View {
             }
             i=i+1
         }
-        
-        let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:nil, localisation:nil, categorie:listCat, note:0, date:"", user:self.currentUser!)
-            
-            self.postDAO.addPost(post: post, completionHandler: {
+        if(self.uploadImage){
+            uploadPhoto(completion:{
                 res in
-                if(res){
-                    self.afficherAdd(false)
-                }
-                else{
-                    print("add post error")
-                }
+                print("res")
+                print(res)
+                let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:res, localisation:nil, categorie:listCat, note:0, date:"", user:self.currentUser!)
+                
+                self.postDAO.addPost(post: post, completionHandler: {
+                    res in
+                    if(res){
+                        self.afficherAdd(false)
+                    }
+                    else{
+                        print("add post error")
+                    }
+                })
             })
+        }
+        else{
+        
+            let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:nil, localisation:nil, categorie:listCat, note:0, date:"", user:self.currentUser!)
+                
+                self.postDAO.addPost(post: post, completionHandler: {
+                    res in
+                    if(res){
+                        self.afficherAdd(false)
+                    }
+                    else{
+                        print("add post error")
+                    }
+                })
+        }
+    }
+    
+    func uploadPhoto(completion: @escaping (String)->()){
+        let image = self.imageInBlackBox
+        guard let data = image.jpegData(compressionQuality:1.0) else { return }
+        
+        let imageName = UUID().uuidString
+        
+        let imageReference = Storage.storage().reference()
+            .child(MyKeys.imagesFolder)
+            .child(imageName)
+        
+        imageReference.putData(data, metadata: nil){
+            (metadata,err) in
+            if let err = err {
+                print(err)
+                return
+            }
+            imageReference.downloadURL(completion: {(url,err) in
+                if let err = err {
+                    print(err)
+                    return
+                }
+                
+                guard let url = url else {
+                    print("error")
+                    return
+                }
+                
+                let dataReference = Firestore.firestore().collection(MyKeys.imagesCollection).document()
+                
+                let documentUid = dataReference.documentID
+                
+                
+                let urlString = url.absoluteString
+                
+                print("new url")
+                print(urlString)
+                completion(urlString)
+                
+                let data = [
+                    MyKeys.uid: documentUid,
+                    MyKeys.imageUrl: urlString,
+                ]
+                
+                dataReference.setData(data, completion: {
+                    (err) in
+                    if let err = err {
+                        print(err)
+                        return
+                    }
+                    
+                    UserDefaults.standard.set(documentUid, forKey: MyKeys.uid)
+
+                    print("image added to database")
+                    
+                    
+                })
+                
+            })
+        }
+        
+    }
+    
+    func downloadPhoto(completion: @escaping (UIImage?)->()){
+        
+        guard let uid = UserDefaults.standard.value(forKey: MyKeys.uid) else{
+            print("error")
+            return
+        }
+        
+        let query = Firestore.firestore().collection(MyKeys.imagesCollection).whereField(MyKeys.uid, isEqualTo: uid)
+        
+        query.getDocuments { (snapshot, err) in
+            if let err = err {
+                print(err)
+                return
+            }
+            guard let snapshot = snapshot, let data = snapshot.documents.first?.data(), let urlString = data[MyKeys.imageUrl] as? String, let url = URL(string: urlString) else {
+                print("err")
+                return
+            }
+            print("url")
+            print(url)
+            
+            URLSession.shared.dataTask(with: url, completionHandler: { (data, response, err) in
+                if let err = err {
+                    completion(nil)
+                    return
+                }
+                guard let data = data else {
+                    completion(nil)
+                    return
+                }
+                
+                guard let image = UIImage(data: data) else {
+                    completion(nil)
+                    return
+                }
+                completion(image)
+                
+            }).resume()
+            
+        }
+        
         
     }
 }
@@ -231,7 +372,7 @@ struct AddPostView_Previews: PreviewProvider {
     static var previews: some View {
         AddPostView(currentUser: "Tom",afficherAdd: {
             afficher in
-            afficher
+
         })
     }
 }
@@ -269,4 +410,11 @@ struct ImagePickerView: UIViewControllerRepresentable {
     func updateUIViewController(_ uiViewController: ImagePickerView.UIViewControllerType, context: UIViewControllerRepresentableContext<ImagePickerView>) {
         
     }
+}
+
+struct MyKeys {
+    static let imagesFolder = "imagesFolder"
+    static let imagesCollection = "imagesCollection"
+    static let uid = "uid"
+    static let imageUrl = "imageUrl"
 }

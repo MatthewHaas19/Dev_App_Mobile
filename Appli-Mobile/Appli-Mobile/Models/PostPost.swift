@@ -31,7 +31,7 @@ class PostPost {
         self.titre = titre
         self.texte = texte
         self.nbSignalement = 0
-        self.image = nil
+        self.image = image
         self.localisation = "Polytech city gang"
         self.categorie = categorie
         self.note = 0

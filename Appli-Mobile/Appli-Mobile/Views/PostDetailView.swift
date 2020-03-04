@@ -21,7 +21,7 @@ struct PostDetailView: View {
     
     
     var body: some View {
- 
+        
         ZStack {
             Color.blue.edgesIgnoringSafeArea(.all)
             VStack{
@@ -30,49 +30,64 @@ struct PostDetailView: View {
                 })
                 {
                     Text("Back")
-                    .fontWeight(.semibold)
+                        .fontWeight(.semibold)
                 }.foregroundColor(.white)
                     .frame(width:100,height:40)
                     .cornerRadius(40)
                     .border(Color.red, width: 3)
-            
-            RowPostView(post:post,navigatePost:{
-                post in
-
-            },afficherEntier:true,navigateVote: {
-                res,post in
-            })
-                ListCommentView(post:post)
-            }.padding(.top,140)
-            
-            /*
-            VStack{
-                Spacer()
-                if ( self.currentUser != nil) {
-                    HStack{
-                        Spacer()
-                        Button(action:{
-                            self.showingAlert = true
-                            print("test")
-                        })
-                        {
-                            Text("Signaler")
-                        }.foregroundColor(.red)
-                    }.padding(.bottom)
-                        .padding(.trailing,30)
-                        .alert(isPresented: $showingAlert) {
-                            Alert(title: Text("Signaler le post"), message: Text("Etes-vous sû de vouloir signaler le post ?"), primaryButton: .cancel(Text("Annuler")
-                                ), secondaryButton: .destructive(Text("Signaler"), action: {
-                                    self.addReport()
-                                }))
-                    }
-                }
                 
-            }*/
+                RowPostView(post:post,navigatePost:{
+                    post in
+                    
+                },afficherEntier:true,navigateVote: {
+                    res,post in
+                    
+                }).padding()
+                    .padding(.top,140)
+                
+                
+                ListCommentView(post:post, currentUser : currentUser)
+                Spacer()
+            }
             
-            // A FAIRE QUAND ON AURA BIEN MIS LES COMMENTAIRE CORRESPONDANT AU POST DASN LA BDD
+            
+            
+            VStack{
+                Color.white.edgesIgnoringSafeArea(.all)
+                Spacer()
+                //if ( self.currentUser != nil) {
+                HStack{
+                    Spacer()
+                    
+                    Button(action:{
+                        self.showingAlert = true
+                        print("test")
+                    })
+                    {
+                        HStack {
+                            Image(systemName:"exclamationmark.triangle")
+                                .resizable()
+                                .aspectRatio(contentMode: .fill)
+                                .frame(width: 25, height: 25)
+                            Text("Signaler")
+                        }
+                    }.foregroundColor(.red)
+                }.padding(.bottom,800)
+                    .padding(.trailing,10)
+                    .alert(isPresented: $showingAlert) {
+                        Alert(title: Text("Signaler le post"), message: Text("Etes-vous sûr de vouloir signaler le post ?"), primaryButton: .cancel(Text("Annuler")
+                            ), secondaryButton: .destructive(Text("Signaler"), action: {
+                                self.addReport()
+                            }))
+                }
+            }
+            
         }
+        
     }
+    
+    
+    
     
     
     func addReport(){
@@ -97,10 +112,10 @@ struct PostDetailView: View {
         self.afficherDetail(false)
     }
 }
-    
-    
-    
- 
+
+
+
+
 
 
 

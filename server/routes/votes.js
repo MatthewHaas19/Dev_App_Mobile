@@ -41,25 +41,52 @@ router.get("/user/:user", function(req,res,next){
 
 router.post("/", function(req,res,next){
   var votes = req.body
-  if(reports.find({ user: votes.user, post: votes.post }).length == 0) {
-    db.votes.insertOne(votes,function(err,report){
-      if(err){
-        res.send(err);
+  db.votes.find({
+    user: votes.user,
+    post: votes.post
+  },function(err,result){
+    if(err){
+      res.send(err);
+    }
+    else{
+        if(result.length==0){
+          db.votes.insertOne(votes,function(err,vote){
+            if(err){
+              res.send(err);
+            }
+            console.log(vote)
+            res.json({
+              res:"correct",
+              message:"add report ok"
+            });
+        })
+      }else {
+        if(result[0].like != votes.like){
+          db.votes.updateOne({
+            user: votes.user,
+            post: votes.post
+          },{$set: { "like" : votes.like}},function(err,users){
+            if(err){
+              res.json({
+                res:"not correct",
+                message:err
+              });
+            }
+            res.json({
+              res:"change",
+              message:"change ok"
+            });
+          })
+        }
+        else{
+          res.json({
+            res:"exists",
+            message:"Already exists"
+          });
+        }
       }
-      console.log(votes)
-      res.json({
-        res:"correct",
-        message:"add votes ok"
-      });
-    })
-  }
-  else {
-    res.json({
-      res:"exists",
-      message:"Already exists"
-    });
-  }
-
+    }
+  })
 })
 
 module.exports = router;

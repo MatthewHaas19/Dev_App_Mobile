@@ -17,6 +17,8 @@
 		663312F2240E6D4900C5D871 /* CommentDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663312F1240E6D4900C5D871 /* CommentDAO.swift */; };
 		663312F4240E750600C5D871 /* ListCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663312F3240E750600C5D871 /* ListCommentView.swift */; };
 		663312F6240EA2E700C5D871 /* MyPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663312F5240EA2E700C5D871 /* MyPostView.swift */; };
+		66B8D056240F986200E50300 /* ReportCommentDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B8D055240F986200E50300 /* ReportCommentDAO.swift */; };
+		66B8D058240F98FD00E50300 /* ReportCom.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66B8D057240F98FD00E50300 /* ReportCom.swift */; };
 		66CAB08124096C7300B92C8F /* RowCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CAB08024096C7300B92C8F /* RowCommentView.swift */; };
 		66CD55B0240D3235002376D4 /* PostDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66CD55AF240D3235002376D4 /* PostDAO.swift */; };
 		66D361F523FAEB07005F79F8 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66D361F423FAEB07005F79F8 /* AppDelegate.swift */; };
@@ -73,6 +75,8 @@
 		663312F1240E6D4900C5D871 /* CommentDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentDAO.swift; sourceTree = "<group>"; };
 		663312F3240E750600C5D871 /* ListCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListCommentView.swift; sourceTree = "<group>"; };
 		663312F5240EA2E700C5D871 /* MyPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyPostView.swift; sourceTree = "<group>"; };
+		66B8D055240F986200E50300 /* ReportCommentDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCommentDAO.swift; sourceTree = "<group>"; };
+		66B8D057240F98FD00E50300 /* ReportCom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportCom.swift; sourceTree = "<group>"; };
 		66CAB08024096C7300B92C8F /* RowCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RowCommentView.swift; sourceTree = "<group>"; };
 		66CD55AF240D3235002376D4 /* PostDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostDAO.swift; sourceTree = "<group>"; };
 		66D361F123FAEB07005F79F8 /* Appli-Mobile.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Appli-Mobile.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -210,6 +214,7 @@
 				2CCC5B56240D982600D15689 /* Report.swift */,
 				663312EF240E561600C5D871 /* Comment.swift */,
 				2CCC5B5D240EA83B00D15689 /* PostPost.swift */,
+				66B8D057240F98FD00E50300 /* ReportCom.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -222,6 +227,7 @@
 				2CCC5B58240D99A500D15689 /* ReportDAO.swift */,
 				F3F9F192240E716E00B34846 /* VotesDAO.swift */,
 				663312F1240E6D4900C5D871 /* CommentDAO.swift */,
+				66B8D055240F986200E50300 /* ReportCommentDAO.swift */,
 			);
 			path = DAO;
 			sourceTree = "<group>";
@@ -407,6 +413,7 @@
 				F3BA08872402F9FE00EE7118 /* RowPostView.swift in Sources */,
 				F36AC69B2409748300527B9D /* PostDetailView.swift in Sources */,
 				F3BA08892402FD7E00EE7118 /* Post.swift in Sources */,
+				66B8D056240F986200E50300 /* ReportCommentDAO.swift in Sources */,
 				66D3622923FAEBE8005F79F8 /* User.swift in Sources */,
 				F36AC69724094A8500527B9D /* RouterView.swift in Sources */,
 				F32ECB4F2406AAF000C004A4 /* CategoriesView.swift in Sources */,
@@ -417,6 +424,7 @@
 				F3F9F193240E716E00B34846 /* VotesDAO.swift in Sources */,
 				F3F9F195240E71C700B34846 /* Vote.swift in Sources */,
 				663312F6240EA2E700C5D871 /* MyPostView.swift in Sources */,
+				66B8D058240F98FD00E50300 /* ReportCom.swift in Sources */,
 				66D361F723FAEB07005F79F8 /* SceneDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

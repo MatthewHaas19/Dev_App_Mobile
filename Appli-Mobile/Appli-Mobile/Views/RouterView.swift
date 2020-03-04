@@ -36,7 +36,7 @@ struct RouterView: View {
     @State var currentUser:User? = nil
     
     
-
+    
     
     
     var body: some View {
@@ -48,38 +48,39 @@ struct RouterView: View {
                     self.currentPost = post
                 },navigateVote:{
                     res,post in
-                    self.voteDAO.addVotes(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res), completionHandler: {
-                        result in
-                        if(result==1){
-                            self.postDAO.addVote(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res),post:post, completionHandler: {
-                                res in
-                                //print(res)
-                                self.afficherFilter=true
-                                self.afficherFilter=false
-                            })
-                        }
-                        else if(result==2){
-                            self.postDAO.addVote(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res),post:post, completionHandler: {
-                                res in
-                            })
-                            self.postDAO.addVote(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res),post:post, completionHandler: {
-                                res in
-                               // print(res)
-                                self.afficherFilter=true
-                                self.afficherFilter=false
-                            })
-                        }
-                    })
-                }).onAppear {self.isLogged = self.isConnected()
                     if(self.isLogged){
-                        self.getCurrentUser()
-                    }
+                        self.voteDAO.addVotes(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res), completionHandler: {
+                            result in
+                            if(result==1){
+                                self.postDAO.addVote(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res),post:post, completionHandler: {
+                                    res in
+                                    //print(res)
+                                    self.afficherFilter=true
+                                    self.afficherFilter=false
+                                })
+                            }
+                            else if(result==2){
+                                self.postDAO.addVote(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res),post:post, completionHandler: {
+                                    res in
+                                })
+                                self.postDAO.addVote(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res),post:post, completionHandler: {
+                                    res in
+                                    // print(res)
+                                    self.afficherFilter=true
+                                    self.afficherFilter=false
+                                })
+                            }
+                        })
+                    }}).onAppear {self.isLogged = self.isConnected()
+                        if(self.isLogged){
+                            self.getCurrentUser()
+                        }
                 }
-
+                
                 
             }.navigationBarTitle(Text("How 2 React"),displayMode: .inline)
-                    .navigationBarItems(leading:
-                       Button(action:{
+                .navigationBarItems(leading:
+                    Button(action:{
                         withAnimation{
                             self.afficherLogin=false
                             self.afficherRegister=false
@@ -91,63 +92,63 @@ struct RouterView: View {
                                 self.getCurrentUser()
                             }
                         }}){
-                        Text("CC").opacity(0)
-                        }.background(Image("H2R").resizable()
+                            Text("CC").opacity(0)
+                    }.background(Image("H2R").resizable()
                         .scaledToFit()
-                            .frame(width: 30, height: 30))
-                        ,trailing:
-                        
-                            HStack{
-                            Button(action:{
-                                self.afficherFilter = true
-                                self.currentPost = nil
-                                self.afficherLogin=false
-                                self.afficherAdd = false
-                                self.afficherMesPost = false
-                                
-                            }){
-                                Image(systemName:"magnifyingglass")
-                            }.foregroundColor(Color(red:0,green:0.8,blue:0.9))
-                                .frame(width : 20, height: 20)
-                            Spacer().frame(width: CGFloat(20))
-                            Button(action:{
-                                if(self.isLogged){
-                                    self.userDAO.findUser(email: self.currentUserEmail!, completionHandler: {
-                                        user in
-                                        self.currentUser = user[0]
-                                        
-                                        self.afficherLogin.toggle()
-                                        self.afficherRegister=false
-                                        self.currentPost = nil
-                                        self.afficherFilter = false
-                                        self.afficherAdd = false
-                                        self.afficherMesPost = false
-                                    })
-                                }
-                                else{
+                        .frame(width: 30, height: 30))
+                    ,trailing:
+                    
+                    HStack{
+                        Button(action:{
+                            self.afficherFilter = true
+                            self.currentPost = nil
+                            self.afficherLogin=false
+                            self.afficherAdd = false
+                            self.afficherMesPost = false
+                            
+                        }){
+                            Image(systemName:"magnifyingglass")
+                        }.foregroundColor(Color(red:0,green:0.8,blue:0.9))
+                            .frame(width : 20, height: 20)
+                        Spacer().frame(width: CGFloat(20))
+                        Button(action:{
+                            if(self.isLogged){
+                                self.userDAO.findUser(email: self.currentUserEmail!, completionHandler: {
+                                    user in
+                                    self.currentUser = user[0]
+                                    
                                     self.afficherLogin.toggle()
                                     self.afficherRegister=false
                                     self.currentPost = nil
                                     self.afficherFilter = false
                                     self.afficherAdd = false
                                     self.afficherMesPost = false
-                                    self.disconnectUser()
-                                }
-                                
-                            }){
-                                Image(systemName:"person.crop.circle")
-                            }.foregroundColor(Color(red:0,green:0.8,blue:0.9))
-                                .scaledToFit()
-                                .frame(width: 30, height: 30)
-                                
+                                })
+                            }
+                            else{
+                                self.afficherLogin.toggle()
+                                self.afficherRegister=false
+                                self.currentPost = nil
+                                self.afficherFilter = false
+                                self.afficherAdd = false
+                                self.afficherMesPost = false
+                                self.disconnectUser()
+                            }
                             
-                        }
-                ).overlay((self.afficherLogin && !self.isLogged) ? LoginView(isAfficher: self.$afficherLogin,isAfficherRegister: self.$afficherRegister,isLogged:self.$isLogged, didLogged:{
-                    email,password in
-                    self.connectUser(email: email)
-                    self.getCurrentUser()
-                }).edgesIgnoringSafeArea(.all) : nil)
-                    .overlay(self.afficherRegister ? RegisterView(isAfficher: self.$afficherRegister, isAfficherLogin: self.$afficherLogin, isLogged:self.$isLogged).edgesIgnoringSafeArea(.all) : nil)
+                        }){
+                            Image(systemName:"person.crop.circle")
+                        }.foregroundColor(Color(red:0,green:0.8,blue:0.9))
+                            .scaledToFit()
+                            .frame(width: 30, height: 30)
+                        
+                        
+                    }
+            ).overlay((self.afficherLogin && !self.isLogged) ? LoginView(isAfficher: self.$afficherLogin,isAfficherRegister: self.$afficherRegister,isLogged:self.$isLogged, didLogged:{
+                email,password in
+                self.connectUser(email: email)
+                self.getCurrentUser()
+            }).edgesIgnoringSafeArea(.all) : nil)
+                .overlay(self.afficherRegister ? RegisterView(isAfficher: self.$afficherRegister, isAfficherLogin: self.$afficherLogin, isLogged:self.$isLogged).edgesIgnoringSafeArea(.all) : nil)
                 .overlay((self.afficherLogin && self.isLogged) ? ProfileView(/*isLogged:self.$afficherLogin,*/user: self.currentUser!,disconnect:{
                     res in
                     if(res){
@@ -164,7 +165,7 @@ struct RouterView: View {
                     isAfficher: {
                         afficher in
                         self.afficherAdd = afficher
-                    }
+                }
                     ): nil)
                 .overlay(self.afficherFilter ? FilterView(afficherFilter: self.$afficherFilter).edgesIgnoringSafeArea(.all) : nil)
                 .overlay((self.currentPost != nil) ? PostDetailView(post: self.currentPost!, currentUser : self.currentUserEmail).edgesIgnoringSafeArea(.all) : nil)
@@ -173,18 +174,18 @@ struct RouterView: View {
                     res in
                     self.currentPost=res
                     self.afficherMesPost=false
-                    },navigateVote:{
-                        res,post in
+                },navigateVote:{
+                    res,post in
                 },user : self.currentUserEmail!).edgesIgnoringSafeArea(.all) : nil)
-
+                
                 .overlay(self.afficherAdd ? AddPostView(currentUser:self.currentUserEmail, afficherAdd: {
                     afficher in
                     self.afficherAdd=afficher
                 }).edgesIgnoringSafeArea(.all) : nil)
-
-                
-
-
+            
+            
+            
+            
         }
     }
     
@@ -240,16 +241,16 @@ struct addButton : View {
         
         VStack {
             Spacer()
-
+            
             
             Button(action:{
                 self.isAfficher(true)
             }){
-            Image("BouttonPlus")
-            .resizable()
-            .aspectRatio(contentMode: .fill)
-            .frame(width: 100, height: 100)
-                .shadow(radius: 3)
+                Image("BouttonPlus")
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 100, height: 100)
+                    .shadow(radius: 3)
             }
         }
     }

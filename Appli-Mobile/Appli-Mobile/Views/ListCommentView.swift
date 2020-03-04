@@ -12,6 +12,7 @@ import SwiftUI
 struct ListCommentView: View {
     
     var post : Post
+    var currentUser : String?
     
     @ObservedObject var commentDAO = CommentDAO()
     
@@ -30,7 +31,7 @@ struct ListCommentView: View {
                     c in
                     ZStack{
                        
-                        RowCommentView(comment:c).padding(.bottom)
+                        RowCommentView(comment:c, currentUser : self.currentUser).padding(.bottom)
                     
                         
                     }.listRowBackground(

@@ -34,17 +34,17 @@ router.post("/", function(req,res,next){
   db.reportsCom.find({
     emailUser: reportCom.emailUser,
     idCom: reportCom.idCom
-  },function(err,reportsCom){
+  },function(err,reports){
     if(err){
       res.send(err);
     }
     else{
-        if(reportsCom.length==0){
-          db.reportsCom.insertOne(reportCom,function(err,reportCom){
+        if(reports.length==0){
+          db.reportsCom.insertOne(reportCom,function(err,result){
             if(err){
               res.send(err);
             }
-            console.log(reportCom)
+            console.log(result)
             res.json({
               res:"correct",
               message:"add report ok"

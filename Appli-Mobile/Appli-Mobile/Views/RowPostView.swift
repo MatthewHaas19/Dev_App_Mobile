@@ -74,19 +74,21 @@ struct RowPostView: View {
                 
                     }
                 }
-            }//.frame(height:100)
-        }.frame(maxHeight:self.getHeight())
+            }.frame(height:getHeight())
+        }.fixedSize(horizontal : false, vertical : true)
         }.onAppear { if(self.post.image != nil) {self.downloadImage(completion: {
             res in
             self.image = res
         }) }}
         
+       
+        
     }
     
     
-    func getHeight() -> CGFloat{
+    func getHeight() -> CGFloat?{
         if(self.afficherEntier){
-            return .infinity
+            return nil
         }
         else{
             return CGFloat(100)

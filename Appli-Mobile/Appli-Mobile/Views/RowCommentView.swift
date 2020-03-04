@@ -11,34 +11,91 @@ import SwiftUI
 struct RowCommentView: View {
     
     var comment : Comment
+    var currentUser : String?
+    
+    @State private var showingAlert = false
+    @ObservedObject var reportComDAO = ReportCommentDAO()
+    
     
     var body: some View {
         VStack{
-        ZStack{
-            //Color.pink.edgesIgnoringSafeArea(.all)
-            HStack{
-            VStack(alignment:.leading, spacing:5){
-               
-                Text(comment.titreCom).foregroundColor(Color.white)
-                    .font(.system(size:25))
-                Spacer().frame(height:10)
-                Text(comment.texteCom).foregroundColor(Color.white)
-            }
+            ZStack{
+                //Color.blue.edgesIgnoringSafeArea(.all)
                 VStack{
-                    Button(action:{}){ Image(systemName:"chevron.up").foregroundColor(Color.white).font(.system(size:25,weight: .bold))
+                    
+                    HStack{
+                        VStack(alignment:.leading, spacing:5){
+                            
+                            Text(comment.titreCom).foregroundColor(Color.white)
+                                .font(.system(size:25))
+                            Spacer().frame(height:10)
+                            Text(comment.texteCom).foregroundColor(Color.white)
+                                .fixedSize(horizontal : false, vertical : true)
+                        }
+                        VStack{
+                            Button(action:{}){ Image(systemName:"chevron.up").foregroundColor(Color.white).font(.system(size:25,weight: .bold))
+                            }
+                            
+                            Text(String(comment.voteCom)).foregroundColor(Color.white).font(.system(size:20));
+                            Button(action:{print("cc")}){
+                                Image(systemName:"chevron.down").foregroundColor(Color.white)
+                                    .font(.system(size:25,weight: .bold))
+                                
+                            }
+                        }
                     }
                     
-                    Text(String(comment.voteCom)).foregroundColor(Color.white).font(.system(size:20));
-                    Button(action:{print("cc")}){
-                    Image(systemName:"chevron.down").foregroundColor(Color.white)
-                    .font(.system(size:25,weight: .bold))
-                
-                    }
+                    //if ( self.currentUser != nil) {
+                        HStack{
+                            Spacer()
+                            
+                            Button(action:{
+                                self.showingAlert = true
+                                print("test")
+                            })
+                            {
+                                HStack {
+                                    Image(systemName:"exclamationmark.triangle")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 25, height: 25)
+                                    Text("Signaler")
+                                }
+                            }.foregroundColor(.red)
+                        }.padding(.trailing,10)
+                            .alert(isPresented: $showingAlert) {
+                                Alert(title: Text("Signaler le post"), message: Text("Etes-vous sûr de vouloir signaler le post ?"), primaryButton: .cancel(Text("Annuler")
+                                    ), secondaryButton: .destructive(Text("Signaler"), action: {
+                                        self.addReport()
+                                    }))
+                        }
                 }
+                
+               
+                    
+                //}
+                
+                
             }
-            
         }
     }
+    
+    func addReport(){
+        
+        let report = ReportCom(emailUser : self.currentUser!, idCom : comment._id)
+        
+        self.reportComDAO.addReport(report: report, completionHandler: {
+            res in
+            if(res == 1){
+                print("Signalé")
+            }
+            else if (res == 0){
+                print("Déjà signalé")
+            }
+            else {
+                print("erreur")
+            }
+        })
     }
 }
 
@@ -46,7 +103,7 @@ struct RowCommentView_Previews: PreviewProvider {
     static var previews: some View {
         
         VStack{
-        
+            
             RowCommentView(comment: Comment(_id : "idcom", postId : "idpost" ,titreCom: "J'ai deja vecu ca", texteCom: "Je te conseille de prendre du recul sur la situation, et de te rapprocher de pro", voteCom: 13, dateCome: "08/12/2019" , user: "test") )
             
         }

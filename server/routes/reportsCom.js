@@ -31,24 +31,33 @@ router.get("/:comment/:user", function(req,res,next){
 
 router.post("/", function(req,res,next){
   var reportCom = req.body
-  if(db.reportsCom.find({ emailUser: reportCom.emailUser, idCom: reportCom.idCom }).length == 0) {
-    db.reportsCom.insertOne(reportCom,function(err,reportCom){
-      if(err){
-        res.send(err);
+  db.reportsCom.find({
+    emailUser: reportCom.emailUser,
+    idCom: reportCom.idCom
+  },function(err,reportsCom){
+    if(err){
+      res.send(err);
+    }
+    else{
+        if(reportsCom.length==0){
+          db.reportsCom.insertOne(reportCom,function(err,reportCom){
+            if(err){
+              res.send(err);
+            }
+            console.log(reportCom)
+            res.json({
+              res:"correct",
+              message:"add report ok"
+            });
+        })
+      }else {
+        res.json({
+          res:"exists",
+          message:"Already exists"
+        });
       }
-      console.log(reportCom)
-      res.json({
-        res:"correct",
-        message:"add reportCom ok"
-      });
-    })
-  }
-  else {
-    res.json({
-      res:"exists",
-      message:"Already exists"
-    });
-  }
+    }
+  })
 })
 
 module.exports = router;

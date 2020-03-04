@@ -3,48 +3,48 @@ var router = express.Router();
 var mongojs = require("mongojs")
 
 
-var db = mongojs("mongodb+srv://devmobileIG4:devmobileIG4@devmobile-vr63q.mongodb.net/DevMobile?retryWrites=true&w=majority",["reports"])
+var db = mongojs("mongodb+srv://devmobileIG4:devmobileIG4@devmobile-vr63q.mongodb.net/DevMobile?retryWrites=true&w=majority",["reportsCom"])
 
 router.get("/", function(req,res,next){
-  db.reports.find(function(err,reports){
+  db.reportsCom.find(function(err,reportsCom){
     if(err){
       res.send(err);
     }
-    res.json(reports);
+    res.json(reportsCom);
   })
 })
 
-router.get("/:post/:user", function(req,res,next){
-  const idpost = req.params.idpost
+router.get("/:comment/:user", function(req,res,next){
+  const idCom = req.params.idCom
   const mailUser = req.params.user
-  db.reports.find({
+  db.reportsCom.find({
     emailUser: mailUser,
-    idPost: idPost
-  },function(err,reports){
+    idCom: idCom
+  },function(err,reportsCom){
     if(err){
       res.send(err);
     }
-    res.json(reports);
+    res.json(reportsCom);
   })
 })
 
 
 router.post("/", function(req,res,next){
-  var report = req.body
-  db.reports.find({
-    emailUser: report.emailUser,
-    idPost: report.idPost
-  },function(err,reports){
+  var reportCom = req.body
+  db.reportsCom.find({
+    emailUser: reportCom.emailUser,
+    idCom: reportCom.idCom
+  },function(err,reportsCom){
     if(err){
       res.send(err);
     }
     else{
-        if(reports.length==0){
-          db.reports.insertOne(report,function(err,report){
+        if(reportsCom.length==0){
+          db.reportsCom.insertOne(reportCom,function(err,reportCom){
             if(err){
               res.send(err);
             }
-            console.log(report)
+            console.log(reportCom)
             res.json({
               res:"correct",
               message:"add report ok"

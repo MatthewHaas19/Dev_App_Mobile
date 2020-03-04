@@ -9,10 +9,10 @@
 /* Begin PBXBuildFile section */
 		26FAC46760ED52D4622E7F7A /* Pods_Appli_Mobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B4ACD6AA0537F396C97967D /* Pods_Appli_Mobile.framework */; };
 		2C4F7486240D3DB700FC8A5D /* ListByCategorie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4F7485240D3DB700FC8A5D /* ListByCategorie.swift */; };
-		2CCC5B55240D677B00D15689 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 2CCC5B54240D677B00D15689 /* SwiftPackageProductDependency */; };
+		2CCC5B55240D677B00D15689 /* BCrypt in Frameworks */ = {isa = PBXBuildFile; productRef = 2CCC5B54240D677B00D15689 /* BCrypt */; };
 		2CCC5B57240D982600D15689 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC5B56240D982600D15689 /* Report.swift */; };
 		2CCC5B59240D99A500D15689 /* ReportDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC5B58240D99A500D15689 /* ReportDAO.swift */; };
-		2CCC5B5C240E691800D15689 /* BuildFile in Frameworks */ = {isa = PBXBuildFile; productRef = 2CCC5B5B240E691800D15689 /* SwiftPackageProductDependency */; };
+		2CCC5B5C240E691800D15689 /* TextView in Frameworks */ = {isa = PBXBuildFile; productRef = 2CCC5B5B240E691800D15689 /* TextView */; };
 		2CCC5B5E240EA83B00D15689 /* PostPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC5B5D240EA83B00D15689 /* PostPost.swift */; };
 		2EB7A09BC780712EB9CB8E2D /* Pods_Appli_Mobile_Appli_MobileUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 76E475A35795A5F3FCBDCF08 /* Pods_Appli_Mobile_Appli_MobileUITests.framework */; };
 		663312F0240E561600C5D871 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 663312EF240E561600C5D871 /* Comment.swift */; };
@@ -48,6 +48,7 @@
 		F3BA08892402FD7E00EE7118 /* Post.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3BA08882402FD7E00EE7118 /* Post.swift */; };
 		F3F9F193240E716E00B34846 /* VotesDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F9F192240E716E00B34846 /* VotesDAO.swift */; };
 		F3F9F195240E71C700B34846 /* Vote.swift in Sources */ = {isa = PBXBuildFile; fileRef = F3F9F194240E71C700B34846 /* Vote.swift */; };
+		F3F9F197240FA69E00B34846 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F3F9F196240FA69E00B34846 /* GoogleService-Info.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -119,6 +120,7 @@
 		F3BA08882402FD7E00EE7118 /* Post.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Post.swift; sourceTree = "<group>"; };
 		F3F9F192240E716E00B34846 /* VotesDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VotesDAO.swift; sourceTree = "<group>"; };
 		F3F9F194240E71C700B34846 /* Vote.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Vote.swift; sourceTree = "<group>"; };
+		F3F9F196240FA69E00B34846 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -126,8 +128,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2CCC5B5C240E691800D15689 /* BuildFile in Frameworks */,
-				2CCC5B55240D677B00D15689 /* BuildFile in Frameworks */,
+				2CCC5B5C240E691800D15689 /* TextView in Frameworks */,
+				2CCC5B55240D677B00D15689 /* BCrypt in Frameworks */,
 				26FAC46760ED52D4622E7F7A /* Pods_Appli_Mobile.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -194,6 +196,7 @@
 				66D361FB23FAEB07005F79F8 /* ContentView.swift */,
 				66D361FD23FAEB09005F79F8 /* Assets.xcassets */,
 				66D3620223FAEB09005F79F8 /* LaunchScreen.storyboard */,
+				F3F9F196240FA69E00B34846 /* GoogleService-Info.plist */,
 				66D3620523FAEB09005F79F8 /* Info.plist */,
 				66D361F823FAEB07005F79F8 /* Appli_Mobile.xcdatamodeld */,
 				66D361FF23FAEB09005F79F8 /* Preview Content */,
@@ -263,7 +266,6 @@
 				2AA3DA429E0334A599895A2B /* Pods-Appli-MobileTests.debug.xcconfig */,
 				B563EB0933C28C318FCC132C /* Pods-Appli-MobileTests.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
 			sourceTree = "<group>";
 		};
@@ -309,8 +311,8 @@
 			);
 			name = "Appli-Mobile";
 			packageProductDependencies = (
-				2CCC5B54240D677B00D15689 /* SwiftPackageProductDependency */,
-				2CCC5B5B240E691800D15689 /* SwiftPackageProductDependency */,
+				2CCC5B54240D677B00D15689 /* BCrypt */,
+				2CCC5B5B240E691800D15689 /* TextView */,
 			);
 			productName = "Appli-Mobile";
 			productReference = 66D361F123FAEB07005F79F8 /* Appli-Mobile.app */;
@@ -389,8 +391,8 @@
 			);
 			mainGroup = 66D361E823FAEB07005F79F8;
 			packageReferences = (
-				2CCC5B53240D677B00D15689 /* RemoteSwiftPackageReference */,
-				2CCC5B5A240E691800D15689 /* RemoteSwiftPackageReference */,
+				2CCC5B53240D677B00D15689 /* XCRemoteSwiftPackageReference "bcrypt" */,
+				2CCC5B5A240E691800D15689 /* XCRemoteSwiftPackageReference "TextView" */,
 			);
 			productRefGroup = 66D361F223FAEB07005F79F8 /* Products */;
 			projectDirPath = "";
@@ -409,6 +411,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				66D3620423FAEB09005F79F8 /* LaunchScreen.storyboard in Resources */,
+				F3F9F197240FA69E00B34846 /* GoogleService-Info.plist in Resources */,
 				66D3620123FAEB09005F79F8 /* Preview Assets.xcassets in Resources */,
 				66D361FE23FAEB09005F79F8 /* Assets.xcassets in Resources */,
 			);
@@ -931,7 +934,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		2CCC5B53240D677B00D15689 /* RemoteSwiftPackageReference */ = {
+		2CCC5B53240D677B00D15689 /* XCRemoteSwiftPackageReference "bcrypt" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/vapor-community/bcrypt.git";
 			requirement = {
@@ -939,7 +942,7 @@
 				minimumVersion = 1.1.1;
 			};
 		};
-		2CCC5B5A240E691800D15689 /* RemoteSwiftPackageReference */ = {
+		2CCC5B5A240E691800D15689 /* XCRemoteSwiftPackageReference "TextView" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kenmueller/TextView.git";
 			requirement = {
@@ -950,14 +953,14 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		2CCC5B54240D677B00D15689 /* SwiftPackageProductDependency */ = {
+		2CCC5B54240D677B00D15689 /* BCrypt */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2CCC5B53240D677B00D15689 /* RemoteSwiftPackageReference */;
+			package = 2CCC5B53240D677B00D15689 /* XCRemoteSwiftPackageReference "bcrypt" */;
 			productName = BCrypt;
 		};
-		2CCC5B5B240E691800D15689 /* SwiftPackageProductDependency */ = {
+		2CCC5B5B240E691800D15689 /* TextView */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 2CCC5B5A240E691800D15689 /* RemoteSwiftPackageReference */;
+			package = 2CCC5B5A240E691800D15689 /* XCRemoteSwiftPackageReference "TextView" */;
 			productName = TextView;
 		};
 /* End XCSwiftPackageProductDependency section */

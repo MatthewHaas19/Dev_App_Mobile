@@ -7,10 +7,14 @@
 //
 
 import SwiftUI
+import FirebaseStorage
+import FirebaseFirestore
 
 struct RowPostView: View {
     
     var post: Post
+    
+    @State var image: UIImage? = nil
     
     var navigatePost: (Post) -> ()
     
@@ -38,6 +42,20 @@ struct RowPostView: View {
                     .font(.system(size:25))
                 Spacer().frame(height:10)
                 Text(post.texte).foregroundColor(Color.white)
+                
+                if(image != nil){
+                    Image(uiImage:image!)
+                    .renderingMode(.original)
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 150, height: 150)
+                    .clipped()
+                    .cornerRadius(150)
+                    .padding(.bottom, 75)
+                }
+                
+                
+                
             }
                 }
                 VStack{
@@ -58,7 +76,10 @@ struct RowPostView: View {
                 }
             }//.frame(height:100)
         }.frame(maxHeight:self.getHeight())
-    }
+        }.onAppear { if(self.post.image != nil) {self.downloadImage(completion: {
+            res in
+            self.image = res
+        }) }}
         
     }
     
@@ -72,6 +93,34 @@ struct RowPostView: View {
         }
     }
     
+    func downloadImage(completion: @escaping (UIImage?) -> ()){
+        
+        guard let url = URL(string: self.post.image!) else {
+            print("err")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url, completionHandler: { (data, response, err) in
+            if let err = err {
+                completion(nil)
+                return
+            }
+            guard let data = data else {
+                completion(nil)
+                return
+            }
+            
+            guard let image = UIImage(data: data) else {
+                completion(nil)
+                return
+            }
+            completion(image)
+            
+        }).resume()
+    }
+        
+        
+    
 }
 
 struct RowPostView_Previews: PreviewProvider {
@@ -79,7 +128,7 @@ struct RowPostView_Previews: PreviewProvider {
         
         VStack{
         
-            RowPostView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail"),navigatePost: {post in},afficherEntier:true,navigateVote: {
+            RowPostView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: "https://firebasestorage.googleapis.com/v0/b/appli-mobile-ig.appspot.com/o/imagesFolder%2FEAD3F4E5-47AA-4CEE-80BC-A3931DE2EDFF?alt=media&token=21844ebe-8384-4be0-9e26-55463ee09887", localisation: "Montpellier", categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail"),navigatePost: {post in},afficherEntier:true,navigateVote: {
                 res,post in
             })
             

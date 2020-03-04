@@ -177,7 +177,10 @@ struct RouterView: View {
                         res,post in
                 },user : self.currentUserEmail!).edgesIgnoringSafeArea(.all) : nil)
 
-                .overlay(self.afficherAdd ? AddPostView(currentUser:self.currentUserEmail).edgesIgnoringSafeArea(.all) : nil)
+                .overlay(self.afficherAdd ? AddPostView(currentUser:self.currentUserEmail, afficherAdd: {
+                    afficher in
+                    self.afficherAdd=afficher
+                }).edgesIgnoringSafeArea(.all) : nil)
 
                 
 

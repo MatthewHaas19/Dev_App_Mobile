@@ -29,7 +29,7 @@ router.get("/categorie/:categorie", function(req,res,next){
 
 
 router.get("/user/:user", function(req,res,next){
-  const cat = req.params.user
+  const user = req.params.user
   db.posts.find({
     user: user
   },function(err,users){
@@ -38,6 +38,35 @@ router.get("/user/:user", function(req,res,next){
     }
     res.json(users);
   })
+})
+
+router.get("/:id", function(req,res,next) {
+  const id = req.params.id
+  db.posts.find({
+    _id : id
+  }, function(err,posts) {
+    if(err){
+      res.send(err)
+    }
+    res.json(posts)
+  })
+})
+
+
+router.put("/addVote/:vote",function(req,res,next){
+  const vote = -1
+  if(req.params.vote){
+    vote = 1
+  }
+  const post = req.body
+  db.posts.updateOne(req.body,function(err,users){
+    if(err){
+      res.send(err);
+    }
+    res.json(users);
+  })
+
+
 })
 
 
@@ -51,6 +80,21 @@ router.post("/", function(req,res,next){
     res.json({
       res:"correct",
       message:"add post ok"
+    });
+  })
+})
+
+
+router.delete("/", function(req,res,next) {
+  var post = req.body
+  db.posts.deleteOne(post, function(err,post){
+    if(err){
+      res.send(err);
+    }
+    console.log(err)
+    res.json({
+      res:"correct",
+      message:"delete post ok"
     });
   })
 })

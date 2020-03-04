@@ -32,6 +32,18 @@ public class PostDAO: ObservableObject{
         }.resume()
     }
     
+    func findById(id:String) {
+        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/posts"+id) else { return }
+        URLSession.shared.dataTask(with: url){(data, _, _) in
+            guard let data = data else { return }
+            let res = try! JSONDecoder().decode([Post].self, from: data)
+            DispatchQueue.main.async{
+                print(res)
+                self.posts = res
+            }
+        }.resume()
+    }
+    
     func filter(cat:String){
         guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/posts/categorie/"+cat) else { return }
         URLSession.shared.dataTask(with: url){(data, _, _) in
@@ -43,6 +55,7 @@ public class PostDAO: ObservableObject{
             }
         }.resume()
     }
+    
     
 
     func addVote(vote: Vote,post:Post ,completionHandler: @escaping (Int) -> ()) {
@@ -152,6 +165,53 @@ public class PostDAO: ObservableObject{
         }.resume()
 
     }
+    
+    
+    func delete(post : Post , completionHandler: @escaping (Bool) -> ()){
+         guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/posts") else { return }
+           
+        let postToDelete:[String: Any?] = [
+                "titre" : post.titre,
+                "texte" : post.texte,
+                "nbSignalement" : post.nbSignalement,
+                "image" : post.image,
+                "localisation" : post.localisation,
+                "categorie" : post.categorie,
+                "note" : post.note,
+                "commentaire" : [],
+                "date" : post.date,
+                "user" : post.user
+            ]
+               print("Dans delete DAO")
+               let body = try! JSONSerialization.data(withJSONObject: postToDelete)
+               var request = URLRequest(url: url)
+               request.httpMethod = "DELETE"
+               request.httpBody = body
+               request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+               
+               URLSession.shared.dataTask(with: request) { (data, response, error) in
+
+                   guard let data = data else { return }
+                   
+                   let resData = try! JSONDecoder().decode(ServerMessage.self, from: data)
+
+                   print(resData.res)
+
+                   if resData.res == "correct" {
+                       DispatchQueue.main.async {
+                           completionHandler(true)
+                       }
+
+                   }
+                   else {
+                       DispatchQueue.main.async {
+                           completionHandler(false)
+                       }
+                   }
+
+               }.resume()
+    }
+    
 
 }
 

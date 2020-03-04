@@ -11,7 +11,7 @@ import TextView
 
 struct AddPostView: View {
     
-    @State var afficherAdd = true
+    
     @State var emailUser:String=""
     @State var title:String = ""
     @State var description: String = ""
@@ -19,20 +19,29 @@ struct AddPostView: View {
     @State var categorie = [String]()
     @State var isEditing = false
     
+
+    var afficherAdd : (Bool) -> ()
+
+    @State var afficherImagePicker = false
+    @State var imageInBlackBox = UIImage()
+
+    
     var currentUser : String?
     
     let listCategorie = ["Amis","Couple","Ecole","Famille","Rue","Soiree","Sport","Transport","Travail","TV","Voisin","Web","Autres"]
     
     @State var listCategorieResult = [false,false,false,false,false,false,false,false,false,false,false,false,false]
     
-    init(currentUser : String?){
+     @ObservedObject var postDAO = PostDAO()
+    @ObservedObject private var keyboard = KeyboardResponder()
+    
+    init(currentUser : String? , afficherAdd : @escaping (Bool) -> ()){
         self.currentUser = currentUser
+        self.afficherAdd = afficherAdd
         UITableView.appearance().separatorColor = .clear
     }
     
     
-    
-     @ObservedObject var postDAO = PostDAO()
     
     var body: some View {
         
@@ -84,13 +93,23 @@ struct AddPostView: View {
 
                     HStack{
                         Spacer()
+                        Image(uiImage: imageInBlackBox)
+                        .resizable()
+                        .scaledToFill()
+                            .frame(width : 100, height : 100)
+                            .border(Color.blue, width: 1)
+                            .clipped()
+                        Spacer()
                         Button(action:{
-                                
+                            self.afficherImagePicker.toggle()
                             }){
                                 Text("Ajouter une image")
                             }.padding(.top,20)
                             .padding(.bottom,20)
                                 .foregroundColor(Color(red:0,green:0.8,blue:0.9))
+                            .sheet(isPresented: $afficherImagePicker, content: {
+                                ImagePickerView(isPresented : self.$afficherImagePicker, selectedImage: self.$imageInBlackBox)
+                            })
                         Spacer()
                     }
                     
@@ -165,13 +184,17 @@ struct AddPostView: View {
                                 .cornerRadius(15.0)
                         }
                        Spacer()
-                    }
+                    }.padding(.bottom,50)
                     
                 }
   
             }.padding()
             
-        }
+            
+ 
+        }.padding(.bottom, keyboard.currentHeight)
+        .edgesIgnoringSafeArea(.bottom)
+        .animation(.easeOut(duration: 0.16))
         
     }
     
@@ -180,10 +203,10 @@ struct AddPostView: View {
         var listCat = [String]()
         var i = 0
         for cat in self.listCategorieResult {
-            i=i+1
             if cat {
                 listCat.append(listCategorie[i])
             }
+            i=i+1
         }
         
         let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:nil, localisation:nil, categorie:listCat, note:0, date:"", user:self.currentUser!)
@@ -191,7 +214,7 @@ struct AddPostView: View {
             self.postDAO.addPost(post: post, completionHandler: {
                 res in
                 if(res){
-                    self.afficherAdd = false
+                    self.afficherAdd(false)
                 }
                 else{
                     print("add post error")
@@ -202,7 +225,48 @@ struct AddPostView: View {
 }
 
 struct AddPostView_Previews: PreviewProvider {
+    
+    var afficherAdd = false
+    
     static var previews: some View {
-        AddPostView(currentUser: "Tom")
+        AddPostView(currentUser: "Tom",afficherAdd: {
+            afficher in
+            afficher
+        })
+    }
+}
+
+struct ImagePickerView: UIViewControllerRepresentable {
+    
+    @Binding var isPresented : Bool
+    @Binding var selectedImage : UIImage
+    
+    func makeUIViewController(context: UIViewControllerRepresentableContext<ImagePickerView>) -> UIViewController {
+        let controller = UIImagePickerController()
+        controller.delegate = context.coordinator
+        return controller
+    }
+    
+    func makeCoordinator() -> ImagePickerView.Coordinator {
+        return Coordinator(parent:self)
+    }
+    
+    class Coordinator : NSObject, UIImagePickerControllerDelegate,UINavigationControllerDelegate {
+        let parent : ImagePickerView
+        
+        init(parent : ImagePickerView){
+            self.parent = parent
+        }
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let selectedImageFromPicker = info[.originalImage] as? UIImage {
+                print(selectedImageFromPicker)
+                self.parent.selectedImage = selectedImageFromPicker
+            }
+            self.parent.isPresented = false
+        }
+    }
+    
+    func updateUIViewController(_ uiViewController: ImagePickerView.UIViewControllerType, context: UIViewControllerRepresentableContext<ImagePickerView>) {
+        
     }
 }

@@ -31,24 +31,33 @@ router.get("/:post/:user", function(req,res,next){
 
 router.post("/", function(req,res,next){
   var report = req.body
-  if(db.reports.find({ emailUser: report.emailUser, idPost: report.idPost }).length == 0) {
-    db.reports.insertOne(report,function(err,report){
-      if(err){
-        res.send(err);
+  db.reports.find({
+    emailUser: report.emailUser,
+    idPost: report.idPost
+  },function(err,reports){
+    if(err){
+      res.send(err);
+    }
+    else{
+        if(reports.length==0){
+          db.reports.insertOne(report,function(err,report){
+            if(err){
+              res.send(err);
+            }
+            console.log(report)
+            res.json({
+              res:"correct",
+              message:"add report ok"
+            });
+        })
+      }else {
+        res.json({
+          res:"exists",
+          message:"Already exists"
+        });
       }
-      console.log(report)
-      res.json({
-        res:"correct",
-        message:"add report ok"
-      });
-    })
-  }
-  else {
-    res.json({
-      res:"exists",
-      message:"Already exists"
-    });
-  }
+    }
+  })
 })
 
 module.exports = router;

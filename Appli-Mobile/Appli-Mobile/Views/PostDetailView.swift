@@ -80,7 +80,8 @@ struct PostDetailView: View {
                                 self.addReport()
                             }))
                 }
-            }
+            }.edgesIgnoringSafeArea(.all)
+                .offset(x:0,y: UIApplication.shared.keyWindow?.frame.height ?? 0)
             
         }
         
@@ -124,7 +125,7 @@ struct PostDetailView: View {
 
 struct PostDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        PostDetailView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail"), afficherDetail : {afficher in afficher} )
+        PostDetailView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail"), afficherDetail : {afficher in } )
     }
 }
 

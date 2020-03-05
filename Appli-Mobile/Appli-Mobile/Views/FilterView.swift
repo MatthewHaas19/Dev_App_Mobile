@@ -8,9 +8,11 @@
 
 import SwiftUI
 
+
+
 struct FilterView: View {
     //@Binding var afficherFilter: Bool
-    @State var tags = ["blue","green","yellow"]
+    @State var tags = ["exemple"]
     @State var tag:String = ""
     @State private var localisation: Double = 60
     @State private var picked = "Plus recent"
@@ -56,9 +58,10 @@ struct FilterView: View {
                     Picker(selection: $picked, label:
                     Text(self.picked)) {
                         ForEach(0 ..< trie.count) { index in
-                            Text(self.trie[index]).tag(index)
+                            Text(self.trie[index]).tag(self.trie[index])
                         }
-                    }
+                    }.padding()
+                        .padding(.bottom,30)
                         
                     
                     
@@ -184,9 +187,15 @@ struct FilterView: View {
                     HStack {
                         Spacer()
                         Button(action:{
-                            withAnimation{
-                                
+                            var listCat = [String]()
+                            var i = 0
+                            for cat in self.listCategorieResult {
+                                if cat {
+                                    listCat.append(self.listCategorie[i])
+                                }
+                                i=i+1
                             }
+                            var filter = filterType(type:self.picked,tags:self.tags,localisation:self.localisation,categories:listCat)
                         }){
                             Text("Filtrer les posts")
                                 .font(.headline)

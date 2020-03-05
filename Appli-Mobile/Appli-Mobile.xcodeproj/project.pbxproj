@@ -7,8 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		26FAC46760ED52D4622E7F7A /* Pods_Appli_Mobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B4ACD6AA0537F396C97967D /* Pods_Appli_Mobile.framework */; };
+		26FAC46760ED52D4622E7F7A /* Pods_Appli_Mobile.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B4ACD6AA0537F396C97967D /* Pods_Appli_Mobile.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		2C4F7486240D3DB700FC8A5D /* ListByCategorie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C4F7485240D3DB700FC8A5D /* ListByCategorie.swift */; };
+		2C817902241177FC001A6963 /* AppAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C817901241177FC001A6963 /* AppAuth.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
+		2C8179042411861A001A6963 /* FBLPromises.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C8179032411861A001A6963 /* FBLPromises.framework */; };
 		2CCC5B55240D677B00D15689 /* BCrypt in Frameworks */ = {isa = PBXBuildFile; productRef = 2CCC5B54240D677B00D15689 /* BCrypt */; };
 		2CCC5B57240D982600D15689 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC5B56240D982600D15689 /* Report.swift */; };
 		2CCC5B59240D99A500D15689 /* ReportDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC5B58240D99A500D15689 /* ReportDAO.swift */; };
@@ -76,6 +78,8 @@
 		2AA3DA429E0334A599895A2B /* Pods-Appli-MobileTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Appli-MobileTests.debug.xcconfig"; path = "Target Support Files/Pods-Appli-MobileTests/Pods-Appli-MobileTests.debug.xcconfig"; sourceTree = "<group>"; };
 		2B4ACD6AA0537F396C97967D /* Pods_Appli_Mobile.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Appli_Mobile.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C4F7485240D3DB700FC8A5D /* ListByCategorie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListByCategorie.swift; sourceTree = "<group>"; };
+		2C817901241177FC001A6963 /* AppAuth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppAuth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C8179032411861A001A6963 /* FBLPromises.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FBLPromises.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2CCC5B56240D982600D15689 /* Report.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		2CCC5B58240D99A500D15689 /* ReportDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDAO.swift; sourceTree = "<group>"; };
 		2CCC5B5D240EA83B00D15689 /* PostPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPost.swift; sourceTree = "<group>"; };
@@ -132,9 +136,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C817902241177FC001A6963 /* AppAuth.framework in Frameworks */,
 				2CCC5B5C240E691800D15689 /* TextView in Frameworks */,
 				2CCC5B55240D677B00D15689 /* BCrypt in Frameworks */,
 				26FAC46760ED52D4622E7F7A /* Pods_Appli_Mobile.framework in Frameworks */,
+				2C8179042411861A001A6963 /* FBLPromises.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -160,6 +166,8 @@
 		5EAF556CD027C470DFE38BDC /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2C8179032411861A001A6963 /* FBLPromises.framework */,
+				2C817901241177FC001A6963 /* AppAuth.framework */,
 				2B4ACD6AA0537F396C97967D /* Pods_Appli_Mobile.framework */,
 				76E475A35795A5F3FCBDCF08 /* Pods_Appli_Mobile_Appli_MobileUITests.framework */,
 				9D3AA87E61A21927B00F7409 /* Pods_Appli_MobileTests.framework */,

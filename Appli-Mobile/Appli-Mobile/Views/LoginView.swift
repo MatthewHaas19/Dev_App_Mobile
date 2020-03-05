@@ -90,11 +90,13 @@ struct LoginView: View {
                 }){
                     Text("S'enregistrer")
                 }.padding(.top)
-                    .foregroundColor(Color(red:0,green:0.8,blue:0.9))
+                .foregroundColor(Color(red:0,green:0.8,blue:0.9))
+                .padding(.bottom, keyboard.currentHeight)
+                .edgesIgnoringSafeArea(.bottom)
+                .animation(.easeOut(duration: 0.16))
+                
             }.padding()
-            .padding(.bottom, keyboard.currentHeight)
-            .edgesIgnoringSafeArea(.bottom)
-            .animation(.easeOut(duration: 0.16))
+            
             
         }
     }

@@ -12,6 +12,10 @@ import FirebaseFirestore
 
 struct RowPostView: View {
     
+        @State var afficherSheet = false
+    
+    var currentUserEmail : String?
+    
     var post: Post
     
     @State var image: UIImage? = nil
@@ -28,7 +32,9 @@ struct RowPostView: View {
             Color.pink.edgesIgnoringSafeArea(.all)
             HStack{
                 Button(action:{
-                    self.navigatePost(self.post)
+                    //self.navigatePost(self.post)
+                    print("appluie sur bouton")
+                    self.afficherSheet = true
                 }){
             VStack(alignment:.leading, spacing:5){
                 HStack{
@@ -57,7 +63,16 @@ struct RowPostView: View {
                 
                 
             }
-                }
+                }.sheet(isPresented: self.$afficherSheet, content: {
+                    
+                    PostDetailView(post: self.post, currentUser : self.currentUserEmail, afficherDetail: {
+                        afficher in
+                        self.afficherSheet=afficher
+                    })
+           
+                })
+                
+                
                 VStack{
                     Button(action:{
                         self.navigateVote(true,self.post)
@@ -95,6 +110,7 @@ struct RowPostView: View {
         }
     }
     
+
     func downloadImage(completion: @escaping (UIImage?) -> ()){
         
         guard let url = URL(string: self.post.image!) else {
@@ -122,6 +138,7 @@ struct RowPostView: View {
     }
         
         
+
     
 }
 

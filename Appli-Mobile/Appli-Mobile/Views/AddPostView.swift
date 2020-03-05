@@ -42,6 +42,8 @@ struct AddPostView: View {
     
     @State var listCategorieResult = [false,false,false,false,false,false,false,false,false,false,false,false,false]
     
+    @State var isAnonyme = false
+    
      @ObservedObject var postDAO = PostDAO()
     @ObservedObject private var keyboard = KeyboardResponder()
     
@@ -76,7 +78,10 @@ struct AddPostView: View {
                 
                     
                 
-
+                Toggle(isOn: self.$isAnonyme){
+                    Text("Afficher mon pseudo")
+                }.padding(.top,20)
+                
                 
                 TextField("Titre : ", text: $title)
                 .padding()

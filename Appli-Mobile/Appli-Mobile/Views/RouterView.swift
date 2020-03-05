@@ -167,7 +167,7 @@ struct RouterView: View {
                         self.afficherAdd = afficher
                 }
                     ): nil)
-                .overlay(self.afficherFilter ? FilterView(afficherFilter: self.$afficherFilter).edgesIgnoringSafeArea(.all) : nil)
+                .overlay(self.afficherFilter ? FilterView(/*afficherFilter: self.$afficherFilter*/).edgesIgnoringSafeArea(.all) : nil)
                 .overlay((self.currentPost != nil) ? PostDetailView(post: self.currentPost!, currentUser : self.currentUserEmail).edgesIgnoringSafeArea(.all) : nil)
                 
                 .overlay(self.afficherMesPost ? MyPostView(navigatePost:{

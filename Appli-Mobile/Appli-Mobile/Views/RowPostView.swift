@@ -25,7 +25,7 @@ struct RowPostView: View {
     var body: some View {
         VStack{
         ZStack{
-            //Color.pink.edgesIgnoringSafeArea(.all)
+            Color.pink.edgesIgnoringSafeArea(.all)
             HStack{
                 Button(action:{
                     self.navigatePost(self.post)
@@ -50,7 +50,7 @@ struct RowPostView: View {
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 150, height: 150)
                     .clipped()
-                    .cornerRadius(150)
+                    .cornerRadius(20)
                     .padding(.bottom, 75)
                 }
                 
@@ -131,6 +131,10 @@ struct RowPostView_Previews: PreviewProvider {
         VStack{
         
             RowPostView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: "https://firebasestorage.googleapis.com/v0/b/appli-mobile-ig.appspot.com/o/imagesFolder%2FEAD3F4E5-47AA-4CEE-80BC-A3931DE2EDFF?alt=media&token=21844ebe-8384-4be0-9e26-55463ee09887", localisation: "Montpellier", categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail"),navigatePost: {post in},afficherEntier:true,navigateVote: {
+                res,post in
+            })
+            
+            RowPostView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail"),navigatePost: {post in},afficherEntier:true,navigateVote: {
                 res,post in
             })
             

@@ -51,7 +51,7 @@ struct RouterView: View {
         NavigationView{
             VStack{
                 
-                ListView(posts:postDAO.posts,navigatePost: {
+                ListView(posts:postDAO.posts,positions:postDAO.localisations,navigatePost: {
                     post in
                     self.currentPost = post
                 },navigateVote:{
@@ -255,6 +255,9 @@ struct RouterView: View {
         }
         return res
     }
+    
+
+    
 }
 
 

@@ -7,13 +7,13 @@
 //
 
 import Foundation
-
+import SwiftUI
 
 public class PostDAO: ObservableObject{
     
     @Published var posts = [Post]()
     @Published var currentPost = [Post]()
-    
+    @Published var localisations = [String]()
     
     init(){
         loadData()
@@ -245,6 +245,45 @@ public class PostDAO: ObservableObject{
              }
 
          }.resume()
+    }
+    
+    func addPosition(currentPosition:[String]?){
+        var dist = ""
+        for post in self.posts{
+            if(currentPosition == nil || post.localisation==nil){
+                self.localisations.append("Not known")
+            }else{
+                dist = distance(lat1: Double(currentPosition![0])!, lon1: Double(currentPosition![1])!, lat2: Double(post.localisation![0])!, lon2: Double(post.localisation![1])!, unit: "K")
+                self.localisations.append(dist)
+            }
+        }
+            
+    }
+    
+    func deg2rad(deg:Double) -> Double {
+        return deg * Double.pi / 180
+    }
+
+    func rad2deg(rad:Double) -> Double {
+        return rad * 180.0 / Double.pi
+    }
+
+    func distance(lat1:Double, lon1:Double, lat2:Double, lon2:Double, unit:String) -> String {
+        if(lat1==0 || lat2==0){
+            return "Not know"
+        }
+        let theta = lon1 - lon2
+        var dist = sin(deg2rad(deg:lat1)) * sin(deg2rad(deg:lat2)) + cos(deg2rad(deg:lat1)) * cos(deg2rad(deg:lat2)) * cos(deg2rad(deg:theta))
+        dist = acos(dist)
+        dist = rad2deg(rad:dist)
+        dist = dist * 60 * 1.1515
+        if (unit == "K") {
+            dist = dist * 1.609344
+        }
+        else if (unit == "N") {
+            dist = dist * 0.8684
+        }
+        return String(dist)
     }
     
 

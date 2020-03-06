@@ -87,8 +87,8 @@ struct RouterView: View {
                             self.postDAO.filter(cat: res)
                         }
                 }).onAppear {self.isLogged = self.isConnected()
-                    print("LATITUDE: ")
-                    print(self.userLatitude)
+                    print("Longitude: \(self.userLongitude)")
+                    print("Latitude: \(self.userLatitude)")
                         if(self.isLogged){
                             self.getCurrentUser()
                         }

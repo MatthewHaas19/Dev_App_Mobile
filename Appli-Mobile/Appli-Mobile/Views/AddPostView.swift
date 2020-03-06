@@ -223,6 +223,11 @@ struct AddPostView: View {
         
     }
     
+    var colors:[[Double]] = [
+    [61/255,173/255,171/255],[27/255,159/255,156/255],[4/255,176/255,186/255],[84/255,188/255,194/255],[27/255,197/255,167/255],[232/255,231/255,18/255],[225/255,218/255,0/255],[240/255,212/255,11/255]
+    ]
+    
+    
     func createPost() {
        
         var listCat = [String]()
@@ -238,7 +243,10 @@ struct AddPostView: View {
                 res in
                 print("res")
                 print(res)
-                let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:res, localisation:self.currentPosition, categorie:listCat, note:0, date:"", user:self.currentUser!, isAnonyme:self.isAnonyme)
+
+
+                let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:res, localisation:self.currentPosition, categorie:listCat, note:0, date:"", user:self.currentUser!, isAnonyme:self.isAnonyme, couleur: self.colors.randomElement()! )
+
                 
                 self.postDAO.addPost(post: post, completionHandler: {
                     res in
@@ -253,7 +261,9 @@ struct AddPostView: View {
         }
         else{
         
-            let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:nil, localisation:self.currentPosition, categorie:listCat, note:0, date:"", user:self.currentUser!, isAnonyme: self.isAnonyme)
+
+            let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:nil, localisation:self.currentPosition, categorie:listCat, note:0, date:"", user:self.currentUser!, isAnonyme: self.isAnonyme, couleur: self.colors.randomElement()!)
+
                 
                 self.postDAO.addPost(post: post, completionHandler: {
                     res in

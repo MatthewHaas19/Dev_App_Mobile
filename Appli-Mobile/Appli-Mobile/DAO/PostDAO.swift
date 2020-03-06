@@ -172,7 +172,8 @@ public class PostDAO: ObservableObject{
             "commentaire" : [],
             "date" : post.date,
             "user" : post.user,
-            "isAnonyme" : post.isAnonyme
+            "isAnonyme" : post.isAnonyme,
+            "couleur" : post.couleur
         ]
         
         let body = try! JSONSerialization.data(withJSONObject: newPost)

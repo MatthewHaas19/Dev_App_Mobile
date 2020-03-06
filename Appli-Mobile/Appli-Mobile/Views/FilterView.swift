@@ -11,13 +11,19 @@ import SwiftUI
 
 
 struct FilterView: View {
-    //@Binding var afficherFilter: Bool
+   @Binding var afficherFilter: Bool
+    
+    
+    
+    
     @State var tags = ["exemple"]
     @State var tag:String = ""
     @State private var localisation: Double = 60
     @State private var picked = "Plus recent"
     
     @ObservedObject private var keyboard = KeyboardResponder()
+    
+    var navigateFilter: (FilterType) -> ()
     
     lazy var imageView: UIImageView = {
         let iv = UIImageView()
@@ -32,15 +38,12 @@ struct FilterView: View {
     
     @State var listCategorieResult = [false,false,false,false,false,false,false,false,false,false,false,false,false]
     
-    init(){
-        UITableView.appearance().separatorColor = .clear
-    }
     
     var body: some View {
         ZStack{
             Color.white
             VStack{
-                Form{
+                ScrollView{
                     HStack{
                         Spacer()
                         
@@ -51,18 +54,19 @@ struct FilterView: View {
                             .padding(.top, 60)
                         
                         Spacer()
-                    }
+                    }.padding(.top,70)
                     
+                    VStack{
+                        Picker(selection: $picked, label:
+                        Text("tri")) {
+                            ForEach(0 ..< trie.count) { index in
+                                Text(self.trie[index]).tag(self.trie[index])
+                            }
+                        }//.pickerStyle(.PopUpButtonPickerStyle)
+                    }.pickerStyle(SegmentedPickerStyle())
+                        .padding()
+                        .padding(.bottom,40)
                     
-                        
-                    Picker(selection: $picked, label:
-                    Text(self.picked)) {
-                        ForEach(0 ..< trie.count) { index in
-                            Text(self.trie[index]).tag(self.trie[index])
-                        }
-                    }.padding()
-                        .padding(.bottom,30)
-                        
                     
                     
                     HStack{
@@ -71,7 +75,8 @@ struct FilterView: View {
                             .fontWeight(.semibold)
                             .foregroundColor(Color(red:0,green:0.8,blue:0.9))
                         Spacer()
-                    }
+                    }.padding(.bottom,30)
+
                     
                     HStack{
                         
@@ -163,7 +168,8 @@ struct FilterView: View {
                         Toggle(isOn: self.$listCategorieResult[7]){
                             Text("Transport")
                         }
-                    }
+                    }.padding(.trailing)
+                    .padding(.leading)
                     
                     VStack{
                         Toggle(isOn: self.$listCategorieResult[8]){
@@ -181,7 +187,8 @@ struct FilterView: View {
                         Toggle(isOn: self.$listCategorieResult[12]){
                             Text("Autre")
                         }
-                    }
+                    }.padding(.trailing)
+                        .padding(.leading)
                     
                     Spacer()
                     HStack {
@@ -195,7 +202,11 @@ struct FilterView: View {
                                 }
                                 i=i+1
                             }
-                            //var filter = filterType(type:self.picked,tags:self.tags,localisation:self.localisation,categories:listCat)
+
+                            let filter = FilterType(type:self.picked,tags:self.tags,localisation:String(self.localisation),categories:listCat)
+                            self.navigateFilter(filter)
+                            self.afficherFilter = false
+
                         }){
                             Text("Filtrer les posts")
                                 .font(.headline)
@@ -214,14 +225,17 @@ struct FilterView: View {
         }
     }
 }
-
-struct FilterView_Previews: PreviewProvider {
-    
-    static var previews: some View {
-        
-        VStack{
-            FilterView()
-        }
-        
-    }
-}
+/*
+ struct FilterView_Previews: PreviewProvider {
+ 
+ static var previews: some View {
+ 
+ VStack{
+ FilterView(navigateFilter: {
+ res in
+ })
+ }
+ 
+ }
+ }
+ */

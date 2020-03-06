@@ -53,6 +53,7 @@ struct AddPostView: View {
     init(currentPosition : [String]?,currentUser : String? , afficherAdd : @escaping (Bool) -> ()){
         self.currentUser = currentUser
         self.afficherAdd = afficherAdd
+        self.currentPosition = currentPosition
         UITableView.appearance().separatorColor = .clear
     }
     

@@ -21,6 +21,8 @@ struct AddPostView: View {
     @State var categorie = [String]()
     @State var isEditing = false
     
+    
+    
     lazy var imageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
@@ -28,15 +30,16 @@ struct AddPostView: View {
         return iv
     }()
 
-    var afficherAdd : (Bool) -> ()
+   
 
     @State var afficherImagePicker = false
     @State var imageInBlackBox = UIImage()
     @State var uploadImage = false
 
 
-    
+    var currentPosition:[String]?
     var currentUser : String?
+    var afficherAdd : (Bool) -> ()
     
     let listCategorie = ["Amis","Couple","Ecole","Famille","Rue","Soiree","Sport","Transport","Travail","TV","Voisin","Web","Autres"]
     
@@ -47,7 +50,7 @@ struct AddPostView: View {
      @ObservedObject var postDAO = PostDAO()
     @ObservedObject private var keyboard = KeyboardResponder()
     
-    init(currentUser : String? , afficherAdd : @escaping (Bool) -> ()){
+    init(currentPosition : [String]?,currentUser : String? , afficherAdd : @escaping (Bool) -> ()){
         self.currentUser = currentUser
         self.afficherAdd = afficherAdd
         UITableView.appearance().separatorColor = .clear
@@ -375,7 +378,7 @@ struct AddPostView_Previews: PreviewProvider {
     var afficherAdd = false
     
     static var previews: some View {
-        AddPostView(currentUser: "Tom",afficherAdd: {
+        AddPostView(currentPosition:nil,currentUser: "Tom",afficherAdd: {
             afficher in
 
         })

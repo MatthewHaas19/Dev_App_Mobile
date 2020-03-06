@@ -39,6 +39,7 @@
 		66E3F5E623FBE08000085486 /* UserDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 66E3F5E523FBE08000085486 /* UserDAO.swift */; };
 		CB45CAB39FB3FAB934DB2446 /* Pods_Appli_MobileTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9D3AA87E61A21927B00F7409 /* Pods_Appli_MobileTests.framework */; };
 		F31FBAE62405715400C595E4 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F31FBAE52405715400C595E4 /* LoginView.swift */; };
+		F324929424126C19000E98BC /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = F324929324126C19000E98BC /* LocationManager.swift */; };
 		F32ECB4F2406AAF000C004A4 /* CategoriesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32ECB4E2406AAF000C004A4 /* CategoriesView.swift */; };
 		F32ECB512406ABB800C004A4 /* RegisterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F32ECB502406ABB800C004A4 /* RegisterView.swift */; };
 		F33C46CA2406B44200A22B16 /* ProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F33C46C92406B44200A22B16 /* ProfileView.swift */; };
@@ -116,6 +117,7 @@
 		BF5E0F9507F3AF8C8FD2A15C /* Pods-Appli-Mobile.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Appli-Mobile.debug.xcconfig"; path = "Target Support Files/Pods-Appli-Mobile/Pods-Appli-Mobile.debug.xcconfig"; sourceTree = "<group>"; };
 		CCF3B70C90CEE1D7A042C699 /* Pods-Appli-Mobile.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Appli-Mobile.release.xcconfig"; path = "Target Support Files/Pods-Appli-Mobile/Pods-Appli-Mobile.release.xcconfig"; sourceTree = "<group>"; };
 		F31FBAE52405715400C595E4 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		F324929324126C19000E98BC /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		F32ECB4E2406AAF000C004A4 /* CategoriesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoriesView.swift; sourceTree = "<group>"; };
 		F32ECB502406ABB800C004A4 /* RegisterView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegisterView.swift; sourceTree = "<group>"; };
 		F33C46C92406B44200A22B16 /* ProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileView.swift; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 				F3F9F192240E716E00B34846 /* VotesDAO.swift */,
 				663312F1240E6D4900C5D871 /* CommentDAO.swift */,
 				66B8D055240F986200E50300 /* ReportCommentDAO.swift */,
+				F324929324126C19000E98BC /* LocationManager.swift */,
 			);
 			path = DAO;
 			sourceTree = "<group>";
@@ -609,6 +612,7 @@
 				2CCC5B59240D99A500D15689 /* ReportDAO.swift in Sources */,
 				66D361FC23FAEB07005F79F8 /* ContentView.swift in Sources */,
 				F36AC693240817B100527B9D /* UserPost.swift in Sources */,
+				F324929424126C19000E98BC /* LocationManager.swift in Sources */,
 				663312F4240E750600C5D871 /* ListCommentView.swift in Sources */,
 				F3BA08872402F9FE00EE7118 /* RowPostView.swift in Sources */,
 				F36AC69B2409748300527B9D /* PostDetailView.swift in Sources */,

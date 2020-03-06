@@ -22,14 +22,14 @@ class Post : Decodable, Identifiable, CustomStringConvertible {
     var texte: String
     var nbSignalement : Int
     var image : String?
-    var localisation : String?
+    var localisation : [String]?
     var categorie : [String]
     var note : Int
     var date : String
     var user : String
  
     
-    init(id : String , titre:String,texte:String,nbSignalement : Int,image:String?,localisation:String,categorie : [String],note:Int,date:String,user:String){
+    init(id : String , titre:String,texte:String,nbSignalement : Int,image:String?,localisation:[String]?,categorie : [String],note:Int,date:String,user:String){
         self._id = id
         self.titre = titre
         self.texte = texte

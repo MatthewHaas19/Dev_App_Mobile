@@ -5,7 +5,7 @@
 //  Created by user165001 on 2/17/20.
 //  Copyright © 2020 POLYTECH. All rights reserved.
 //
-
+/*
 import XCTest
 @testable import Appli_Mobile
 
@@ -32,3 +32,4 @@ class Appli_MobileTests: XCTestCase {
     }
 
 }
+*/

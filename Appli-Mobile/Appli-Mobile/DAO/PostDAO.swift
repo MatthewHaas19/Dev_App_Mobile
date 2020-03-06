@@ -54,6 +54,50 @@ public class PostDAO: ObservableObject{
     }
     
     
+    func filterAll(filter:FilterType) {
+        
+        
+        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/posts/filter/a") else { return }
+        
+        let filter:[String: Any] = [
+            "type":filter.type,
+            "tags":filter.tags,
+            "localisation":filter.localisation,
+            "categorie":filter.categories
+        ]
+        
+        
+        let body = try! JSONSerialization.data(withJSONObject: filter)
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.httpBody = body
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+
+            guard let data = data else { return }
+            
+            let resData = try! JSONDecoder().decode([Post].self, from: data)
+
+
+            
+                DispatchQueue.main.async{
+                    self.posts = resData
+                }
+            
+               
+            
+
+
+        }.resume()
+        
+        
+    }
+    
+    
+    
+    
 
     func addVote(vote: Vote,post:Post ,completionHandler: @escaping (Int) -> ()) {
         var like:String

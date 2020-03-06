@@ -34,7 +34,7 @@ struct RouterView: View {
     ) var set: FetchedResults< CurrentUser >
     @State var currentUserEmail:String? = nil
     @State var currentUser:User? = nil
-    
+    @State var filter:FilterType? = nil
     
     
     
@@ -43,7 +43,7 @@ struct RouterView: View {
         NavigationView{
             VStack{
                 
-                ListView(navigatePost: {
+                ListView(posts:postDAO.posts,navigatePost: {
                     post in
                     self.currentPost = post
                 },navigateVote:{
@@ -71,7 +71,14 @@ struct RouterView: View {
                                 })
                             }
                         })
-                    }}).onAppear {self.isLogged = self.isConnected()
+                    }},navigateCategorie:{
+                        res in
+                        if(res=="All"){
+                            self.postDAO.loadData()
+                        }else{
+                            self.postDAO.filter(cat: res)
+                        }
+                }).onAppear {self.isLogged = self.isConnected()
                         if(self.isLogged){
                             self.getCurrentUser()
                         }
@@ -167,7 +174,14 @@ struct RouterView: View {
                         self.afficherAdd = afficher
                 }
                     ): nil)
-                .overlay(self.afficherFilter ? FilterView(/*afficherFilter: self.$afficherFilter*/).edgesIgnoringSafeArea(.all) : nil)
+                .overlay(self.afficherFilter ? FilterView(afficherFilter: self.$afficherFilter,navigateFilter:{
+                    res in
+                    self.filter = res
+                    if(self.filter != nil){
+                        self.postDAO.filterAll(filter:self.filter!)
+                    }
+                    
+                }).edgesIgnoringSafeArea(.all) : nil)
                 
                 
                 .overlay(self.afficherMesPost ? MyPostView(navigatePost:{

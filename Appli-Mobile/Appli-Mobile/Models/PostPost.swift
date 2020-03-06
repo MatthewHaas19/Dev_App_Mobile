@@ -20,11 +20,12 @@ class PostPost {
     var date : String
     var user : String
     var isAnonyme : Bool
+    var couleur : [Double]
     
     
     
     
-    init(titre:String,texte:String,nbSignalement:Int,image:String?,localisation:[String]?,categorie:[String],note:Int,date:String,user:String, isAnonyme:Bool){
+    init(titre:String,texte:String,nbSignalement:Int,image:String?,localisation:[String]?,categorie:[String],note:Int,date:String,user:String, isAnonyme:Bool, couleur : [Double]){
         
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -39,6 +40,7 @@ class PostPost {
         self.date = formatter.string(from: Date())
         self.user=user
         self.isAnonyme=isAnonyme
+        self.couleur=couleur
         
     }
     

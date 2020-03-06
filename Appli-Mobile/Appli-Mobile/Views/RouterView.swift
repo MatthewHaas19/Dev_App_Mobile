@@ -210,7 +210,7 @@ struct RouterView: View {
             
             
             
-        }
+        }.navigationViewStyle(StackNavigationViewStyle())
     }
     
     func connectUser(email:String){

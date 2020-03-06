@@ -26,27 +26,50 @@ struct ListCommentView: View {
     var body: some View {
         
         VStack{
+
+           
             
-            List(){
-            
-                ForEach(commentDAO.comments){
-                    c in
-                    ZStack{
-                       
-                        RowCommentView(comment:c, currentUser : self.currentUser).padding(.bottom)
+                if ( commentDAO.comments.count > 0 ) {
                     
+                     List(){
+                        ForEach(commentDAO.comments){
+                                c in
+                                ZStack{
+                                   
+                                    RowCommentView(comment:c, currentUser : self.currentUser).padding(.bottom)
+                                
+                                    
+                                }.listRowBackground(
+                                    VStack{
+                                        self.colors.randomElement()
+                                        Spacer()
+                                    })
+                                    .padding(.top)
+                                
+                                
+                                }
+                            .buttonStyle(BorderlessButtonStyle())
+                        }.onAppear {self.commentDAO.loadData(postId: self.post._id)}
+                    
+                }
+                else {
+                    Spacer()
+                    VStack {
+                        VStack {
+                            Text("Pas encore de commentaire")
+                              
+                            Text("Ajoutez le votre !!")
+                            
+                        }.foregroundColor(.white)
+                        .padding()
                         
-                    }.listRowBackground(
-                        VStack{
-                            self.colors.randomElement()
-                            Spacer()
-                        })
-                        .padding(.top)
+                    }.border(Color.white, width: 3)
+                        
+                    Spacer()
                     
                     
-                    }
-                .buttonStyle(BorderlessButtonStyle())
-            }.onAppear {self.commentDAO.loadData(postId: self.post._id)}
+            }
+                
         }
     }
 

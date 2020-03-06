@@ -23,7 +23,8 @@ struct PostDetailView: View {
     var body: some View {
         
         ZStack {
-            Color.blue.edgesIgnoringSafeArea(.all)
+            Color(red:post.couleur[0], green:post.couleur[1], blue:post.couleur[2])
+            .edgesIgnoringSafeArea(.all)
             VStack{
                 
                 HStack{
@@ -31,12 +32,14 @@ struct PostDetailView: View {
                         self.goBack()
                     })
                     {
+                        Image(systemName:"chevron.left").foregroundColor(Color.white)
+                        .font(.system(size:15,weight: .bold))
                         Text("Back")
-                            .fontWeight(.semibold)
+                         .font(.system(size:15,weight: .bold))
+
                     }.foregroundColor(.white)
                         .frame(width:100,height:40)
                         .cornerRadius(40)
-                        .border(Color.red, width: 3)
                         .padding()
                     
                     Spacer()
@@ -50,11 +53,12 @@ struct PostDetailView: View {
                                 Image(systemName:"exclamationmark.triangle")
                                     .resizable()
                                     .aspectRatio(contentMode: .fill)
-                                    .frame(width: 25, height: 25)
+                                    .frame(width: 15, height: 15)
                                 Text("Signaler")
+                                .font(.system(size:15,weight: .semibold))
                             }
-                    }.foregroundColor(.red)
-                    .padding(.bottom,20)
+                    }.foregroundColor(.orange)
+                    .padding()
                         .padding(.trailing,10)
                         .alert(isPresented: $showingAlert) {
                             Alert(title: Text("Signaler le post"), message: Text("Etes-vous sûr de vouloir signaler le post ?"), primaryButton: .cancel(Text("Annuler")
@@ -80,40 +84,8 @@ struct PostDetailView: View {
                 ListCommentView(post:post, currentUser : currentUser)
                 Spacer()
             }
-            
-            
-            
-            VStack{
-                Color.white.edgesIgnoringSafeArea(.all)
-                Spacer()
-                //if ( self.currentUser != nil) {
-                HStack{
-                    Spacer()
-                    
-                    Button(action:{
-                        self.showingAlert = true
-                        print("test")
-                    })
-                    {
-                        HStack {
-                            Image(systemName:"exclamationmark.triangle")
-                                .resizable()
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: 25, height: 25)
-                            Text("Signaler")
-                        }
-                    }.foregroundColor(.red)
-                }.padding(.bottom,20)
-                    .padding(.trailing,10)
-                    .alert(isPresented: $showingAlert) {
-                        Alert(title: Text("Signaler le post"), message: Text("Etes-vous sûr de vouloir signaler le post ?"), primaryButton: .cancel(Text("Annuler")
-                            ), secondaryButton: .destructive(Text("Signaler"), action: {
-                                self.addReport()
-                            }))
-                }
-            }.edgesIgnoringSafeArea(.all)
                 
-        }.padding(.top,40)
+        }
         
     }
     
@@ -155,7 +127,7 @@ struct PostDetailView: View {
 
 struct PostDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        PostDetailView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: ["Montpellier"], categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail", isAnonyme:true), afficherDetail : {afficher in } )
+        PostDetailView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: ["Montpellier"], categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail", isAnonyme:true,  couleur:[1.00,1.00,1.00]), afficherDetail : {afficher in } )
     }
 }
 

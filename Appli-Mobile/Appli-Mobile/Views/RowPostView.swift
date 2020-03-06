@@ -12,7 +12,7 @@ import FirebaseFirestore
 
 struct RowPostView: View {
     
-        @State var afficherSheet = false
+    @State var afficherSheet = false
     
     var currentUserEmail : String?
     
@@ -28,75 +28,88 @@ struct RowPostView: View {
     
     var body: some View {
         VStack{
-        ZStack{
-            Color.pink.edgesIgnoringSafeArea(.all)
-            HStack{
-                Button(action:{
-                    //self.navigatePost(self.post)
-                    print("appluie sur bouton")
-                    self.afficherSheet = true
-                }){
-            VStack(alignment:.leading, spacing:5){
+            ZStack{
+                //Color.pink.edgesIgnoringSafeArea(.all)
                 HStack{
-                    Image(systemName:"location").foregroundColor(Color.white)
-                        .font(.system(size:14))
-                    if(post.localisation != nil) { Text(String(post.localisation!)).foregroundColor(Color.white).font(.system(size:14))
-                    }
-                }
-                
-                Text(post.titre).foregroundColor(Color.white)
-                    .font(.system(size:25))
-                Spacer().frame(height:10)
-                Text(post.texte).foregroundColor(Color.white)
-                
-                if(image != nil){
-                    Image(uiImage:image!)
-                    .renderingMode(.original)
-                    .resizable()
-                    .aspectRatio(contentMode: .fill)
-                    .frame(width: 150, height: 150)
-                    .clipped()
-                    .cornerRadius(20)
-                    .padding(.bottom, 75)
-                }
-                
-                
-                
-            }
-                }.sheet(isPresented: self.$afficherSheet, content: {
-                    
-                    PostDetailView(post: self.post, currentUser : self.currentUserEmail, afficherDetail: {
-                        afficher in
-                        self.afficherSheet=afficher
-                    })
-           
-                })
-                
-                
-                VStack{
                     Button(action:{
-                        self.navigateVote(true,self.post)
-                    }){ Image(systemName:"chevron.up").foregroundColor(Color.white).font(.system(size:25,weight: .bold))
-                    }
-                    
-                    Text(String(post.note)).foregroundColor(Color.white).font(.system(size:20));
-                    Button(action:{
-                        self.navigateVote(false,self.post)
-                        
+                        //self.navigatePost(self.post)
+                        print("appluie sur bouton")
+                        self.afficherSheet = true
                     }){
-                    Image(systemName:"chevron.down").foregroundColor(Color.white)
-                    .font(.system(size:25,weight: .bold))
-                
+                        VStack(alignment:.leading, spacing:5){
+                            HStack{
+                                Image(systemName:"location").foregroundColor(Color.white)
+                                    .font(.system(size:14))
+                                if(post.localisation != nil) { Text(String(post.localisation!)).foregroundColor(Color.white).font(.system(size:14))
+                                }
+                            }
+                            
+                            Text(post.titre).foregroundColor(Color.white)
+                                .font(.system(size:25))
+                            if(image == nil){
+                                Spacer().frame(height:10)
+                            }
+                            
+                            
+                            
+                            if(image != nil){
+                                HStack{ Text(post.texte).foregroundColor(Color.white)
+                                   
+                                    
+                                    Image(uiImage:image!)
+                                        .renderingMode(.original)
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 60, height: 60)
+                                        .clipped()
+                                        .cornerRadius(20)
+                                    
+                                }.padding(.bottom, 20)
+                            }else
+                            {
+                                Text(post.texte).foregroundColor(Color.white)
+                            }
+                            
+                            
+                            
+                            
+                            
+                            
+                        }
+                    }.sheet(isPresented: self.$afficherSheet, content: {
+                        
+                        PostDetailView(post: self.post, currentUser : self.currentUserEmail, afficherDetail: {
+                            afficher in
+                            self.afficherSheet=afficher
+                        })
+                        
+                    })
+                    
+                    
+                    VStack{
+                        Button(action:{
+                            self.navigateVote(true,self.post)
+                        }){ Image(systemName:"chevron.up").foregroundColor(Color.white).font(.system(size:25,weight: .bold))
+                        }
+                        
+                        Text(String(post.note)).foregroundColor(Color.white).font(.system(size:20));
+                        Button(action:{
+                            self.navigateVote(false,self.post)
+                            
+                        }){
+                            Image(systemName:"chevron.down").foregroundColor(Color.white)
+                                .font(.system(size:25,weight: .bold))
+                            
+                        }
                     }
-                }
-            }.frame(height:getHeight())
-        }.fixedSize(horizontal : false, vertical : true)
+                }.frame(height:getHeight())
+            }.fixedSize(horizontal : false, vertical : true)
         }.onAppear { if(self.post.image != nil) {self.downloadImage(completion: {
             res in
             self.image = res
         }) }}
         
-       
+        
         
     }
     
@@ -110,7 +123,7 @@ struct RowPostView: View {
         }
     }
     
-
+    
     func downloadImage(completion: @escaping (UIImage?) -> ()){
         
         guard let url = URL(string: self.post.image!) else {
@@ -136,9 +149,9 @@ struct RowPostView: View {
             
         }).resume()
     }
-        
-        
-
+    
+    
+    
     
 }
 
@@ -146,7 +159,7 @@ struct RowPostView_Previews: PreviewProvider {
     static var previews: some View {
         
         VStack{
-        
+            
             RowPostView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: "https://firebasestorage.googleapis.com/v0/b/appli-mobile-ig.appspot.com/o/imagesFolder%2FEAD3F4E5-47AA-4CEE-80BC-A3931DE2EDFF?alt=media&token=21844ebe-8384-4be0-9e26-55463ee09887", localisation: "Montpellier", categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail"),navigatePost: {post in},afficherEntier:true,navigateVote: {
                 res,post in
             })

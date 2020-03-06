@@ -8,7 +8,9 @@
 
 import Foundation
 
+
 class FilterType {
+
     var type:String
     var tags:[String]
     var localisation:String

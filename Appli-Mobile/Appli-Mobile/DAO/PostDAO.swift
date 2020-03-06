@@ -171,7 +171,8 @@ public class PostDAO: ObservableObject{
             "note" : post.note,
             "commentaire" : [],
             "date" : post.date,
-            "user" : post.user
+            "user" : post.user,
+            "isAnonyme" : post.isAnonyme
         ]
         
         let body = try! JSONSerialization.data(withJSONObject: newPost)

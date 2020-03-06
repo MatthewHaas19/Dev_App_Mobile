@@ -202,9 +202,11 @@ struct FilterView: View {
                                 }
                                 i=i+1
                             }
+
                             let filter = FilterType(type:self.picked,tags:self.tags,localisation:String(self.localisation),categories:listCat)
                             self.navigateFilter(filter)
                             self.afficherFilter = false
+
                         }){
                             Text("Filtrer les posts")
                                 .font(.headline)

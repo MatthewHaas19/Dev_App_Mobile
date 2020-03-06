@@ -26,6 +26,14 @@ struct RouterView: View {
     @ObservedObject var postDAO = PostDAO()
     @ObservedObject var voteDAO = VotesDAO()
     
+    @ObservedObject var locationManager = LocationManager()
+    var userLatitude: String {
+        return "\(locationManager.lastLocation?.coordinate.latitude ?? 0)"
+    }
+    var userLongitude: String {
+        return "\(locationManager.lastLocation?.coordinate.longitude ?? 0)"
+    }
+    
     
     @Environment(\.managedObjectContext) var managedObjectContext
     @FetchRequest(
@@ -79,6 +87,8 @@ struct RouterView: View {
                             self.postDAO.filter(cat: res)
                         }
                 }).onAppear {self.isLogged = self.isConnected()
+                    print("LATITUDE: ")
+                    print(self.userLatitude)
                         if(self.isLogged){
                             self.getCurrentUser()
                         }
@@ -192,7 +202,7 @@ struct RouterView: View {
                     res,post in
                 },user : self.currentUserEmail!).edgesIgnoringSafeArea(.all) : nil)
                 
-                .overlay(self.afficherAdd ? AddPostView(currentUser:self.currentUserEmail, afficherAdd: {
+                .overlay(self.afficherAdd ? AddPostView(currentPosition:[self.userLatitude,self.userLongitude],currentUser:self.currentUserEmail, afficherAdd: {
                     afficher in
                     self.afficherAdd=afficher
                 }).edgesIgnoringSafeArea(.all) : nil)

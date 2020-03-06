@@ -14,7 +14,7 @@ class PostPost {
     var texte: String
     var nbSignalement : Int
     var image : String?
-    var localisation : String?
+    var localisation : [String]?
     var categorie : [String]
     var note : Int
     var date : String
@@ -24,7 +24,7 @@ class PostPost {
     
     
     
-    init(titre:String,texte:String,nbSignalement:Int,image:String?,localisation:String?,categorie:[String],note:Int,date:String,user:String, isAnonyme:Bool){
+    init(titre:String,texte:String,nbSignalement:Int,image:String?,localisation:[String]?,categorie:[String],note:Int,date:String,user:String, isAnonyme:Bool){
         
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
@@ -33,7 +33,7 @@ class PostPost {
         self.texte = texte
         self.nbSignalement = 0
         self.image = image
-        self.localisation = "Polytech city gang"
+        self.localisation = localisation
         self.categorie = categorie
         self.note = 0
         self.date = formatter.string(from: Date())

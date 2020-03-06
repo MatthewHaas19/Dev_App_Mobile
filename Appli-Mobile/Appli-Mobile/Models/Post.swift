@@ -22,7 +22,7 @@ class Post : Decodable, Identifiable, CustomStringConvertible {
     var texte: String
     var nbSignalement : Int
     var image : String?
-    var localisation : String?
+    var localisation : [String]?
     var categorie : [String]
     var note : Int
     var date : String
@@ -30,7 +30,7 @@ class Post : Decodable, Identifiable, CustomStringConvertible {
     var isAnonyme : Bool
  
     
-    init(id : String , titre:String,texte:String,nbSignalement : Int,image:String?,localisation:String,categorie : [String],note:Int,date:String,user:String, isAnonyme:Bool){
+    init(id : String , titre:String,texte:String,nbSignalement : Int,image:String?,localisation:[String]?,categorie : [String],note:Int,date:String,user:String, isAnonyme:Bool){
         self._id = id
         self.titre = titre
         self.texte = texte

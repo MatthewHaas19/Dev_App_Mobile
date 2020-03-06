@@ -9,9 +9,10 @@
 import Foundation
 
 class filterType {
-    var type:String,
-    var tags:[String],
-    var localisation:String,
+    
+    var type:String
+    var tags:[String]
+    var localisation:String
     var categories:[String]
     
     init(type:String,tags:[String],localisation:String,categories:[String]){

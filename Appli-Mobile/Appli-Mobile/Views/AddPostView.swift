@@ -79,7 +79,7 @@ struct AddPostView: View {
                     
                 
                 Toggle(isOn: self.$isAnonyme){
-                    Text("Afficher mon pseudo")
+                    Text("Publier en Anonyme")
                 }.padding(.top,20)
                 
                 
@@ -234,7 +234,7 @@ struct AddPostView: View {
                 res in
                 print("res")
                 print(res)
-                let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:res, localisation:nil, categorie:listCat, note:0, date:"", user:self.currentUser!)
+                let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:res, localisation:nil, categorie:listCat, note:0, date:"", user:self.currentUser!, isAnonyme:self.isAnonyme)
                 
                 self.postDAO.addPost(post: post, completionHandler: {
                     res in
@@ -249,7 +249,7 @@ struct AddPostView: View {
         }
         else{
         
-            let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:nil, localisation:nil, categorie:listCat, note:0, date:"", user:self.currentUser!)
+            let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:nil, localisation:nil, categorie:listCat, note:0, date:"", user:self.currentUser!, isAnonyme: self.isAnonyme)
                 
                 self.postDAO.addPost(post: post, completionHandler: {
                     res in

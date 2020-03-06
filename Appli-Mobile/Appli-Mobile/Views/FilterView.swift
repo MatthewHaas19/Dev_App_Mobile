@@ -195,7 +195,7 @@ struct FilterView: View {
                                 }
                                 i=i+1
                             }
-                            var filter = filterType(type:self.picked,tags:self.tags,localisation:self.localisation,categories:listCat)
+                            //var filter = filterType(type:self.picked,tags:self.tags,localisation:self.localisation,categories:listCat)
                         }){
                             Text("Filtrer les posts")
                                 .font(.headline)

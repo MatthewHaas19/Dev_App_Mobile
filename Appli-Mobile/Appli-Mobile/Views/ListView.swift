@@ -14,7 +14,7 @@ struct ListView: View {
     @ObservedObject var postDAO = PostDAO()
     
     var posts:[Post]
-    
+    var positions:[String]
 
     var navigatePost: (Post) -> ()
     var navigateVote: (Bool,Post) -> ()

@@ -87,8 +87,7 @@ struct RouterView: View {
                             self.postDAO.filter(cat: res)
                         }
                 }).onAppear {self.isLogged = self.isConnected()
-                    print("Longitude: \(self.userLongitude)")
-                    print("Latitude: \(self.userLatitude)")
+                    
                         if(self.isLogged){
                             self.getCurrentUser()
                         }
@@ -182,6 +181,8 @@ struct RouterView: View {
                     isAfficher: {
                         afficher in
                         self.afficherAdd = afficher
+                        print("Longitude: \(self.userLongitude)")
+                        print("Latitude: \(self.userLatitude)")
                 }
                     ): nil)
                 .overlay(self.afficherFilter ? FilterView(afficherFilter: self.$afficherFilter,navigateFilter:{

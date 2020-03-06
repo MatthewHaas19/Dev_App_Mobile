@@ -237,7 +237,7 @@ struct AddPostView: View {
                 res in
                 print("res")
                 print(res)
-                let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:res, localisation:nil, categorie:listCat, note:0, date:"", user:self.currentUser!, isAnonyme:self.isAnonyme)
+                let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:res, localisation:self.currentPosition, categorie:listCat, note:0, date:"", user:self.currentUser!, isAnonyme:self.isAnonyme)
                 
                 self.postDAO.addPost(post: post, completionHandler: {
                     res in
@@ -252,7 +252,7 @@ struct AddPostView: View {
         }
         else{
         
-            let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:nil, localisation:nil, categorie:listCat, note:0, date:"", user:self.currentUser!, isAnonyme: self.isAnonyme)
+            let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:nil, localisation:self.currentPosition, categorie:listCat, note:0, date:"", user:self.currentUser!, isAnonyme: self.isAnonyme)
                 
                 self.postDAO.addPost(post: post, completionHandler: {
                     res in

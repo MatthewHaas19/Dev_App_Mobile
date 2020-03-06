@@ -53,6 +53,7 @@ struct AddPostView: View {
     init(currentPosition : [String]?,currentUser : String? , afficherAdd : @escaping (Bool) -> ()){
         self.currentUser = currentUser
         self.afficherAdd = afficherAdd
+        self.currentPosition = currentPosition
         UITableView.appearance().separatorColor = .clear
     }
     
@@ -243,7 +244,9 @@ struct AddPostView: View {
                 print("res")
                 print(res)
 
-                let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:res, localisation:nil, categorie:listCat, note:0, date:"", user:self.currentUser!, isAnonyme:self.isAnonyme, couleur: self.colors.randomElement()! )
+
+                let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:res, localisation:self.currentPosition, categorie:listCat, note:0, date:"", user:self.currentUser!, isAnonyme:self.isAnonyme, couleur: self.colors.randomElement()! )
+
                 
                 self.postDAO.addPost(post: post, completionHandler: {
                     res in
@@ -258,7 +261,9 @@ struct AddPostView: View {
         }
         else{
         
-            let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:nil, localisation:nil, categorie:listCat, note:0, date:"", user:self.currentUser!, isAnonyme: self.isAnonyme, couleur: self.colors.randomElement()!)
+
+            let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:nil, localisation:self.currentPosition, categorie:listCat, note:0, date:"", user:self.currentUser!, isAnonyme: self.isAnonyme, couleur: self.colors.randomElement()!)
+
                 
                 self.postDAO.addPost(post: post, completionHandler: {
                     res in

@@ -12,6 +12,8 @@
 		2C817902241177FC001A6963 /* AppAuth.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C817901241177FC001A6963 /* AppAuth.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		2C8179042411861A001A6963 /* FBLPromises.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C8179032411861A001A6963 /* FBLPromises.framework */; };
 		2C81790824126FDA001A6963 /* DetailRowPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C81790724126FD9001A6963 /* DetailRowPostView.swift */; };
+		2C81790A2412C3C5001A6963 /* CommentPost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C8179092412C3C4001A6963 /* CommentPost.swift */; };
+		2C81790C2412C66B001A6963 /* AddCommentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C81790B2412C66B001A6963 /* AddCommentView.swift */; };
 		2CCC5B55240D677B00D15689 /* BCrypt in Frameworks */ = {isa = PBXBuildFile; productRef = 2CCC5B54240D677B00D15689 /* BCrypt */; };
 		2CCC5B57240D982600D15689 /* Report.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC5B56240D982600D15689 /* Report.swift */; };
 		2CCC5B59240D99A500D15689 /* ReportDAO.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2CCC5B58240D99A500D15689 /* ReportDAO.swift */; };
@@ -84,6 +86,8 @@
 		2C817901241177FC001A6963 /* AppAuth.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = AppAuth.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C8179032411861A001A6963 /* FBLPromises.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = FBLPromises.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C81790724126FD9001A6963 /* DetailRowPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailRowPostView.swift; sourceTree = "<group>"; };
+		2C8179092412C3C4001A6963 /* CommentPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentPost.swift; sourceTree = "<group>"; };
+		2C81790B2412C66B001A6963 /* AddCommentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCommentView.swift; sourceTree = "<group>"; };
 		2CCC5B56240D982600D15689 /* Report.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Report.swift; sourceTree = "<group>"; };
 		2CCC5B58240D99A500D15689 /* ReportDAO.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReportDAO.swift; sourceTree = "<group>"; };
 		2CCC5B5D240EA83B00D15689 /* PostPost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostPost.swift; sourceTree = "<group>"; };
@@ -260,6 +264,7 @@
 				2CCC5B5D240EA83B00D15689 /* PostPost.swift */,
 				66B8D057240F98FD00E50300 /* ReportCom.swift */,
 				F35952C52411989C005C1896 /* FilterType.swift */,
+				2C8179092412C3C4001A6963 /* CommentPost.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -310,6 +315,7 @@
 				2C4F7485240D3DB700FC8A5D /* ListByCategorie.swift */,
 				663312F3240E750600C5D871 /* ListCommentView.swift */,
 				663312F5240EA2E700C5D871 /* MyPostView.swift */,
+				2C81790B2412C66B001A6963 /* AddCommentView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -602,6 +608,7 @@
 				2C81790824126FDA001A6963 /* DetailRowPostView.swift in Sources */,
 				F35952C62411989C005C1896 /* FilterType.swift in Sources */,
 				F33C46CA2406B44200A22B16 /* ProfileView.swift in Sources */,
+				2C81790C2412C66B001A6963 /* AddCommentView.swift in Sources */,
 				66D361FA23FAEB07005F79F8 /* Appli_Mobile.xcdatamodeld in Sources */,
 				F36AC69924094BE300527B9D /* ListView.swift in Sources */,
 				66CD55B0240D3235002376D4 /* PostDAO.swift in Sources */,
@@ -617,6 +624,7 @@
 				66D361FC23FAEB07005F79F8 /* ContentView.swift in Sources */,
 				F36AC693240817B100527B9D /* UserPost.swift in Sources */,
 				F324929424126C19000E98BC /* LocationManager.swift in Sources */,
+				2C81790A2412C3C5001A6963 /* CommentPost.swift in Sources */,
 				663312F4240E750600C5D871 /* ListCommentView.swift in Sources */,
 				F3BA08872402F9FE00EE7118 /* RowPostView.swift in Sources */,
 				F36AC69B2409748300527B9D /* PostDetailView.swift in Sources */,

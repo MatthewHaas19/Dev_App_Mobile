@@ -19,6 +19,7 @@ struct RowCommentView: View {
     
     var body: some View {
         VStack{
+            
             ZStack{
                 //Color.blue.edgesIgnoringSafeArea(.all)
                 VStack{
@@ -32,6 +33,7 @@ struct RowCommentView: View {
                             Text(comment.texteCom).foregroundColor(Color.white)
                                 .fixedSize(horizontal : false, vertical : true)
                         }
+                        Spacer()
                         VStack{
                             Button(action:{}){ Image(systemName:"chevron.up").foregroundColor(Color.white).font(.system(size:25,weight: .bold))
                             }
@@ -43,41 +45,43 @@ struct RowCommentView: View {
                                 
                             }
                         }
-                    }
+                    }.padding()
                     
-                    //if ( self.currentUser != nil) {
-                        HStack{
-                            Spacer()
-                            
-                            Button(action:{
-                                self.showingAlert = true
-                                print("test")
-                            })
-                            {
-                                HStack {
-                                    Image(systemName:"exclamationmark.triangle")
-                                        .resizable()
-                                        .aspectRatio(contentMode: .fill)
-                                        .frame(width: 25, height: 25)
-                                    Text("Signaler")
-                                }
-                            }.foregroundColor(.red)
-                        }.padding(.trailing,10)
-                            .alert(isPresented: $showingAlert) {
-                                Alert(title: Text("Signaler le post"), message: Text("Etes-vous sûr de vouloir signaler le post ?"), primaryButton: .cancel(Text("Annuler")
-                                    ), secondaryButton: .destructive(Text("Signaler"), action: {
-                                        self.addReport()
-                                    }))
-                        }
+                    
+                    
+                    if ( self.currentUser != nil) {
+                    HStack{
+                        Spacer()
+                        
+                        Button(action:{
+                            self.showingAlert = true
+                            print("test")
+                        })
+                        {
+                            HStack {
+                                Image(systemName:"exclamationmark.triangle")
+                                    .resizable()
+                                    .aspectRatio(contentMode: .fill)
+                                    .frame(width: 15, height: 15)
+                                Text("Signaler")
+                            }
+                        }.foregroundColor(.orange)
+                    }.padding(.trailing,10)
+                        .alert(isPresented: $showingAlert) {
+                            Alert(title: Text("Signaler le post"), message: Text("Etes-vous sûr de vouloir signaler le post ?"), primaryButton: .cancel(Text("Annuler")
+                                ), secondaryButton: .destructive(Text("Signaler"), action: {
+                                    self.addReport()
+                                }))
+                    }
                 }
                 
-               
-                    
-                //}
+                
+                
+                }
                 
                 
             }
-        }
+        }.padding(.bottom,0)
     }
     
     func addReport(){
@@ -104,7 +108,7 @@ struct RowCommentView_Previews: PreviewProvider {
         
         VStack{
             
-            RowCommentView(comment: Comment(_id : "idcom", postId : "idpost" ,titreCom: "J'ai deja vecu ca", texteCom: "Je te conseille de prendre du recul sur la situation, et de te rapprocher de pro", voteCom: 13, dateCome: "08/12/2019" , user: "test") )
+            RowCommentView(comment: Comment(_id : "idcom", postId : "idpost" ,titreCom: "J'ai deja vecu ca", texteCom: "Je te conseille de prendre du recul sur la situation, et de te rapprocher de pro", voteCom: 13, dateCome: "08/12/2019" , user: "test", isAnonyme: false) )
             
         }
         

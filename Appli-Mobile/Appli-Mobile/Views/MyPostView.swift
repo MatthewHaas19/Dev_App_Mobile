@@ -43,7 +43,7 @@ struct MyPostView: View {
                             
                         }.listRowBackground(
                             VStack{
-                                self.colors.randomElement()
+                                Color(red:p.couleur[0],green:p.couleur[1],blue:p.couleur[2])
                                 Spacer()
                         })
                             .padding(.top)

@@ -19,6 +19,7 @@ public class UserDAO: ObservableObject{
     
     @Published var users = [User]()
     @Published var currentUser = [User]()
+    @Published var currentEmail : String = ""
     
     init(){
 
@@ -93,6 +94,10 @@ public class UserDAO: ObservableObject{
         }.resume()
         
         
+    }
+    
+    func setUserEmail(user : String) {
+        self.currentEmail = user
     }
     
     

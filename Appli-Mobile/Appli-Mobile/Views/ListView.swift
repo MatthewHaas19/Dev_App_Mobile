@@ -15,6 +15,8 @@ struct ListView: View {
     
     var posts:[Post]
     var positions:[String]
+    
+    var currentUser:String?
 
     var navigatePost: (Post) -> ()
     var navigateVote: (Bool,Post) -> ()
@@ -40,7 +42,7 @@ struct ListView: View {
                 ForEach(posts){
                     p in
                     ZStack{
-                        RowPostView(post:p,navigatePost:{
+                        RowPostView(currentUserEmail:self.currentUser,post:p ,navigatePost:{
                             post in
                             self.navigatePost(post)
                         },afficherEntier:false,navigateVote:{

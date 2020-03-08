@@ -47,7 +47,7 @@ router.post("/", function(req,res,next){
             console.log(result)
             res.json({
               res:"correct",
-              message:"add report ok"
+              message:"add reportCom ok"
             });
         })
       }else {

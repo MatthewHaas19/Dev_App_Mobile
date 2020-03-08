@@ -13,6 +13,7 @@ struct PostDetailView: View {
     @ObservedObject var reportDAO = ReportDAO()
     
     @State private var showingAlert = false
+    @State var afficherSheet = false
     
     var post : Post
     var currentUser : String?
@@ -21,72 +22,135 @@ struct PostDetailView: View {
     
     
     var body: some View {
-        
-        ZStack {
-            Color(red:post.couleur[0], green:post.couleur[1], blue:post.couleur[2])
-            .edgesIgnoringSafeArea(.all)
-            VStack{
-                
-                HStack{
-                    Button(action:{
-                        self.goBack()
-                    })
-                    {
-                        Image(systemName:"chevron.left").foregroundColor(Color.white)
-                        .font(.system(size:15,weight: .bold))
-                        Text("Back")
-                         .font(.system(size:15,weight: .bold))
-
-                    }.foregroundColor(.white)
-                        .frame(width:100,height:40)
-                        .cornerRadius(40)
-                        .padding()
+        ScrollView{
+            
+            
+            ZStack {
+                Color(red:post.couleur[0], green:post.couleur[1], blue:post.couleur[2])
+                    .edgesIgnoringSafeArea(.all)
+                VStack{
                     
-                    Spacer()
-                    
-                    Button(action:{
-                            self.showingAlert = true
-                            print("test")
+                    HStack{
+                        Button(action:{
+                            self.goBack()
                         })
                         {
-                            HStack {
-                                Image(systemName:"exclamationmark.triangle")
-                                    .resizable()
-                                    .aspectRatio(contentMode: .fill)
-                                    .frame(width: 15, height: 15)
-                                Text("Signaler")
-                                .font(.system(size:15,weight: .semibold))
+                            Image(systemName:"chevron.left").foregroundColor(Color.white)
+                                .font(.system(size:15,weight: .bold))
+                            Text("Back")
+                                .font(.system(size:15,weight: .bold))
+                            
+                        }.foregroundColor(.white)
+                            .frame(width:100,height:40)
+                            .cornerRadius(40)
+                            .padding()
+                        
+                        Spacer()
+                        
+                        if (self.currentUser != nil) {
+                            
+                            Button(action:{
+                                self.showingAlert = true
+                                print("test")
+                            })
+                            {
+                                HStack {
+                                    Image(systemName:"exclamationmark.triangle")
+                                        .resizable()
+                                        .aspectRatio(contentMode: .fill)
+                                        .frame(width: 15, height: 15)
+                                    Text("Signaler")
+                                        .font(.system(size:15,weight: .semibold))
+                                }
+                            }.foregroundColor(.orange)
+                                .padding()
+                                .padding(.trailing,10)
+                                .alert(isPresented: $showingAlert) {
+                                    Alert(title: Text("Signaler le post"), message: Text("Etes-vous sûr de vouloir signaler le post ?"), primaryButton: .cancel(Text("Annuler")
+                                        ), secondaryButton: .destructive(Text("Signaler"), action: {
+                                            self.addReport()
+                                        }))
                             }
-                    }.foregroundColor(.orange)
-                    .padding()
-                        .padding(.trailing,10)
-                        .alert(isPresented: $showingAlert) {
-                            Alert(title: Text("Signaler le post"), message: Text("Etes-vous sûr de vouloir signaler le post ?"), primaryButton: .cancel(Text("Annuler")
-                                ), secondaryButton: .destructive(Text("Signaler"), action: {
-                                    self.addReport()
-                                }))
+                            
+                        }
+                        
+                        
                     }
+                    
+                    
+                    HStack {
+                        DetailRowPostView(post:post,navigatePost:{
+                            post in
+                            
+                        },afficherEntier:true,navigateVote: {
+                            res,post in
+                            
+                        }).padding()
+                    }.padding()
+                    
+                    
+                    if(self.currentUser != nil) {
+                        
+                        HStack{
+                            
+                            Button(action:{
+                                self.afficherSheet=true
+                                print("user : ")
+                                print(self.currentUser!)
+                            })
+                            {
+                                HStack {
+                                    
+                                    Image(systemName:"plus.rectangle.fill")
+                                        .font(.system(size:25,weight: .bold)).padding()
+                                    Text("Ajouter un commentaire")
+                                        .font(.system(size:21,weight: .bold))
+                                    
+                                    Spacer()
+                                }.padding()
+                                    .foregroundColor(.white)
+                                
+                            }
+                            
+                        }.padding(.trailing)
+                            .padding(.leading)
+                        
+                    }
+                    
+                    
+                    
+                    HStack {
+                        ListCommentView(post:post, currentUser : currentUser)
+                    }.cornerRadius(30)
+                    .padding()
+                    .padding(.top,0)
+                    .padding(.leading,30)
+                    .padding(.trailing,30)
+                    .frame(height:500)
+                    Spacer()
+                    
                     
                 }
                 
                 
-                
-                DetailRowPostView(post:post,navigatePost:{
-                    post in
-                    
-                },afficherEntier:true,navigateVote: {
-                    res,post in
-                    
-                }).padding()
-                    
+                Spacer().padding(.bottom,1000)
                 
                 
-                ListCommentView(post:post, currentUser : currentUser)
-                Spacer()
+                
             }
+             
+            .sheet(isPresented: self.$afficherSheet, content: {
+                AddCommentView(post : self.post ,emailUser : self.currentUser , afficherAdd : {
+                    afficher in
+                    self.afficherSheet=afficher
+                }, navigatePost : {
+                    post in
+                })
                 
-        }
-        
+            })
+               
+            Spacer()
+        }.edgesIgnoringSafeArea(.all)
     }
     
     

@@ -40,7 +40,7 @@ struct RouterView: View {
         entity: CurrentUser.entity(),
         sortDescriptors: [NSSortDescriptor(keyPath: \CurrentUser.email, ascending: true)]
     ) var set: FetchedResults< CurrentUser >
-    @State var currentUserEmail:String? = nil
+    @State var currentUserEmail:String? 
     @State var currentUser:User? = nil
     @State var filter:FilterType? = nil
     
@@ -51,7 +51,7 @@ struct RouterView: View {
         NavigationView{
             VStack{
                 
-                ListView(posts:postDAO.posts,positions:postDAO.localisation,navigatePost: {
+                ListView(posts:postDAO.posts,positions:postDAO.localisation,currentUser:self.currentUserEmail,navigatePost: {
                     post in
                     self.currentPost = post
                 },navigateVote:{
@@ -235,6 +235,9 @@ struct RouterView: View {
     
     func getCurrentUser(){
         self.currentUserEmail = set[0].email
+        if self.currentUserEmail != nil {
+             userDAO.setUserEmail(user:self.currentUserEmail!)
+        }
         print(self.currentUserEmail!)
     }
     
@@ -248,6 +251,7 @@ struct RouterView: View {
             try self.managedObjectContext.save()
             self.currentUserEmail=nil
             self.isLogged=false
+            userDAO.setUserEmail(user:"")
             
         } catch {
             fatalError()

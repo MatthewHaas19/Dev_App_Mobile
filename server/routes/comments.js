@@ -26,6 +26,19 @@ router.get("/:post", function(req,res,next){
     })
   })
 
+  router.post("/", function(req,res,next){
+    var comment = req.body
+    db.comments.insertOne(comment,function(err,post){
+      if(err){
+        res.send(err);
+      }
+      console.log(comment)
+      res.json({
+        res:"correct",
+        message:"add comment ok"
+      });
+    })
+  })
  
 
 

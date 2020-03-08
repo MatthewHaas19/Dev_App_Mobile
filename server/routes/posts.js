@@ -118,5 +118,29 @@ router.delete("/", function(req,res,next) {
 
 
 
+router.put("/filter/:categorie", function(req,res,next){
+  const cat = req.params.categorie
+  const filter = req.body
+  const tags = filter.tags
+  var regex = "("+tags[0]
+  for(let i=1;i<tags.length-1;i++){
+    regex = regex + "|" + tags[i]
+  }
+  regex = regex + "|" + tags[tags.length-1] +")"
+  console.log(regex)
+
+  db.posts.find({
+    categorie: {$in :filter.categorie},
+    $or: [ { titre: { $regex: regex,$options:'i' } }, { texte: { $regex: regex,$options:'i' } } ]
+  }).sort({note:-1}).toArray(function(err,users){
+    if(err){
+      res.send(err);
+    }
+    res.json(users);
+  })
+})
+
+
+
 
 module.exports = router;

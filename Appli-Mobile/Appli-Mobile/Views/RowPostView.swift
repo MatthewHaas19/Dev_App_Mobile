@@ -18,6 +18,8 @@ struct RowPostView: View {
     
     var post: Post
     
+    var localisation: String
+    
     @State var image: UIImage? = nil
     
     var navigatePost: (Post) -> ()
@@ -40,10 +42,7 @@ struct RowPostView: View {
                             HStack{
                                 Image(systemName:"location").foregroundColor(Color.white)
                                     .font(.system(size:14))
-                                if(post.localisation != nil) {
-                                    if(post.localisation!.count != 0){ Text(post.localisation![0]).foregroundColor(Color.white).font(.system(size:14))
-                                    }
-                                }
+                                Text((self.localisation=="Not known" ? self.localisation : self.localisation + " km")).foregroundColor(Color.white).font(.system(size:14))
                             }
                             
                             Text(post.titre).foregroundColor(Color.white)
@@ -165,11 +164,11 @@ struct RowPostView_Previews: PreviewProvider {
         
         VStack{
             
-            RowPostView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image:"https://firebasestorage.googleapis.com/v0/b/appli-mobile-ig.appspot.com/o/imagesFolder%2FEAD3F4E5-47AA-4CEE-80BC-A3931DE2EDFF?alt=media&token=21844ebe-8384-4be0-9e26-55463ee09887", localisation: ["Montpellier"], categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail", isAnonyme:true, couleur:[1.00,1.00,1.00]),navigatePost: {post in},afficherEntier:true,navigateVote: {
+            RowPostView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image:"https://firebasestorage.googleapis.com/v0/b/appli-mobile-ig.appspot.com/o/imagesFolder%2FEAD3F4E5-47AA-4CEE-80BC-A3931DE2EDFF?alt=media&token=21844ebe-8384-4be0-9e26-55463ee09887", localisation: ["Montpellier"], categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail", isAnonyme:true, couleur:[1.00,1.00,1.00]),localisation: "",navigatePost: {post in},afficherEntier:true,navigateVote: {
                 res,post in
             })
             
-            RowPostView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: ["Montpellier"], categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail", isAnonyme: true , couleur:[1.00,1.00,1.00]),navigatePost: {post in},afficherEntier:true,navigateVote: {
+            RowPostView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: ["Montpellier"], categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail", isAnonyme: true , couleur:[1.00,1.00,1.00]),localisation: "",navigatePost: {post in},afficherEntier:true,navigateVote: {
                 res,post in
             })
             

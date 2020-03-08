@@ -51,7 +51,7 @@ struct RouterView: View {
         NavigationView{
             VStack{
                 
-                ListView(posts:postDAO.posts,positions:postDAO.localisations,navigatePost: {
+                ListView(posts:postDAO.posts,positions:postDAO.localisation,navigatePost: {
                     post in
                     self.currentPost = post
                 },navigateVote:{
@@ -86,8 +86,17 @@ struct RouterView: View {
                         }else{
                             self.postDAO.filter(cat: res)
                         }
-                }).onAppear {self.isLogged = self.isConnected()
+                }).onReceive(self.locationManager.$lastLocation, perform: {
+                    location in
+                    print(self.userLatitude)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        print(self.userLatitude)
+                        self.postDAO.localisation = [self.userLatitude,self.userLongitude]
+                    }
                     
+                })
+                    .onAppear {self.isLogged = self.isConnected()
+                    //self.postDAO.addPosition(currentPosition: [self.userLatitude,self.userLongitude])
                         if(self.isLogged){
                             self.getCurrentUser()
                         }

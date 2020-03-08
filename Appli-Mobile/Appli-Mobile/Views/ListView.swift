@@ -15,7 +15,7 @@ struct ListView: View {
     
     var posts:[Post]
     var positions:[String]
-
+    
     var navigatePost: (Post) -> ()
     var navigateVote: (Bool,Post) -> ()
     var navigateCategorie: (String) -> ()
@@ -25,7 +25,7 @@ struct ListView: View {
     
     //var colors:[Color] = [Color(red:61/255,green:173/255,blue:171/255),Color(red:27/255,green:159/255,blue:156/255),Color(red:4/255,green:176/255,blue:186/255),Color(red:84/255,green:188/255,blue:194/255),Color(red:27/255,green:197/255,blue:167/255),Color(red:232/255,green:231/255,blue:18/255),Color(red:225/255,green:218/255,blue:0/255),Color(red:240/255,green:212/255,blue:11/255)]
     
-
+    
     var body: some View {
         
         VStack{
@@ -40,30 +40,30 @@ struct ListView: View {
                 ForEach(posts){
                     p in
                     ZStack{
-                        RowPostView(post:p,navigatePost:{
+                        RowPostView(post:p,localisation:self.postDAO.getPosition(currentPosition: self.positions, postPosition: p.localisation),navigatePost:{
                             post in
                             self.navigatePost(post)
                         },afficherEntier:false,navigateVote:{
                             res,post in
                             self.navigateVote(res,post)
                         }).padding(.bottom)
-                    
+                        
                         
                     }.listRowBackground(
                         VStack{
                             Color(red:p.couleur[0],green:p.couleur[1],blue:p.couleur[2])
                             
                             Spacer()
-                        })
+                    })
                         .padding(.top)
                     
                     
-                    }
+                }
                 .buttonStyle(BorderlessButtonStyle())
             }
         }
     }
-
+    
 }
 
 

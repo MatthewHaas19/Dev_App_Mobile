@@ -17,6 +17,8 @@ class LocationManager: NSObject, ObservableObject {
             objectWillChange.send()
         }
     }
+    
+    
 
     @Published var lastLocation: CLLocation? {
         willSet {

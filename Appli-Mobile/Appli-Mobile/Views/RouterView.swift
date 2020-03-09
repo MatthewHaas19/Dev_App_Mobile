@@ -40,7 +40,7 @@ struct RouterView: View {
         entity: CurrentUser.entity(),
         sortDescriptors: [NSSortDescriptor(keyPath: \CurrentUser.email, ascending: true)]
     ) var set: FetchedResults< CurrentUser >
-    @State var currentUserEmail:String? = nil
+    @State var currentUserEmail:String? 
     @State var currentUser:User? = nil
     @State var filter:FilterType? = nil
     
@@ -51,7 +51,7 @@ struct RouterView: View {
         NavigationView{
             VStack{
                 
-                ListView(posts:postDAO.posts,positions:postDAO.localisations,navigatePost: {
+                ListView(posts:postDAO.posts,positions:postDAO.localisation,currentUser:self.currentUserEmail,navigatePost: {
                     post in
                     self.currentPost = post
                 },navigateVote:{
@@ -63,8 +63,7 @@ struct RouterView: View {
                                 self.postDAO.addVote(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res),post:post, completionHandler: {
                                     res in
                                     //print(res)
-                                    self.afficherFilter=true
-                                    self.afficherFilter=false
+                                    self.postDAO.loadData()
                                 })
                             }
                             else if(result==2){
@@ -74,8 +73,7 @@ struct RouterView: View {
                                 self.postDAO.addVote(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res),post:post, completionHandler: {
                                     res in
                                     // print(res)
-                                    self.afficherFilter=true
-                                    self.afficherFilter=false
+                                    self.postDAO.loadData()
                                 })
                             }
                         })
@@ -86,16 +84,26 @@ struct RouterView: View {
                         }else{
                             self.postDAO.filter(cat: res)
                         }
-                }).onAppear {self.isLogged = self.isConnected()
+                }).onReceive(self.locationManager.$lastLocation, perform: {
+                    location in
+                    print(self.userLatitude)
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                        print(self.userLatitude)
+                        self.postDAO.localisation = [self.userLatitude,self.userLongitude]
+                    }
                     
+                })
+                    .onAppear {self.isLogged = self.isConnected()
+                    //self.postDAO.addPosition(currentPosition: [self.userLatitude,self.userLongitude])
                         if(self.isLogged){
                             self.getCurrentUser()
                         }
                 }
                 
                 
-            }.navigationBarTitle(Text("How 2 React"),displayMode: .inline)
+            }.navigationBarTitle(Text(""), displayMode: .inline)
                 .navigationBarItems(leading:
+                    HStack{
                     Button(action:{
                         withAnimation{
                             self.afficherLogin=false
@@ -112,7 +120,27 @@ struct RouterView: View {
                     }.background(Image("H2R").resizable()
                         .scaledToFit()
                         .frame(width: 30, height: 30))
-                    ,trailing:
+                        
+                        Button(action:{
+                            withAnimation{
+                                self.afficherLogin=false
+                                self.afficherRegister=false
+                                self.afficherFilter = false
+                                self.afficherAdd = false
+                                self.afficherMesPost = false
+                                self.currentPost = nil
+                                if (self.isLogged){
+                                    self.getCurrentUser()
+                                }
+                            }}){
+                                HStack{
+                                    Text("How 2 React").font(.custom("Noteworthy", size: 25))
+                                        .foregroundColor(.black)
+                                }
+                        }
+                        
+                        
+                    }.padding(.bottom),trailing:
                     
                     HStack{
                         Button(action:{
@@ -124,9 +152,11 @@ struct RouterView: View {
                             
                         }){
                             Image(systemName:"magnifyingglass")
+                                .font(.title)
                         }.foregroundColor(Color(red:0,green:0.8,blue:0.9))
                             .frame(width : 20, height: 20)
-                        Spacer().frame(width: CGFloat(20))
+                            
+                        Spacer().frame(width: CGFloat(17))
                         Button(action:{
                             if(self.isLogged){
                                 self.userDAO.findUser(email: self.currentUserEmail!, completionHandler: {
@@ -153,12 +183,13 @@ struct RouterView: View {
                             
                         }){
                             Image(systemName:"person.crop.circle")
+                            .font(.title)
                         }.foregroundColor(Color(red:0,green:0.8,blue:0.9))
                             .scaledToFit()
                             .frame(width: 30, height: 30)
                         
                         
-                    }
+                    }.padding(.bottom)
             ).overlay((self.afficherLogin && !self.isLogged) ? LoginView(isAfficher: self.$afficherLogin,isAfficherRegister: self.$afficherRegister,isLogged:self.$isLogged, didLogged:{
                 email,password in
                 self.connectUser(email: email)
@@ -226,6 +257,9 @@ struct RouterView: View {
     
     func getCurrentUser(){
         self.currentUserEmail = set[0].email
+        if self.currentUserEmail != nil {
+             userDAO.setUserEmail(user:self.currentUserEmail!)
+        }
         print(self.currentUserEmail!)
     }
     
@@ -239,6 +273,7 @@ struct RouterView: View {
             try self.managedObjectContext.save()
             self.currentUserEmail=nil
             self.isLogged=false
+            userDAO.setUserEmail(user:"")
             
         } catch {
             fatalError()

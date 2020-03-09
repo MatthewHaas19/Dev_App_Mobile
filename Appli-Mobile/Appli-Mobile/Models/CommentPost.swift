@@ -8,11 +8,9 @@
 
 import Foundation
 
-class Comment : Decodable, Identifiable, CustomStringConvertible {
+class CommentPost : Decodable, Identifiable {
   
-    
-    var _id : String
-    var description: String {return " \(self.titreCom) "}
+
     let postId : String
     let titreCom : String
     let texteCom: String
@@ -21,14 +19,18 @@ class Comment : Decodable, Identifiable, CustomStringConvertible {
     let user : String
     let isAnonyme : Bool
     
-    init(_id : String, postId : String, titreCom : String ,texteCom: String,voteCom : Int,dateCome : String, user : String, isAnonyme:Bool) {
+    
+    
+    init( postId : String, titreCom : String ,texteCom: String,voteCom : Int,dateCome : String, user : String, isAnonyme:Bool) {
         
-        self._id=_id
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        
         self.postId=postId
         self.titreCom=titreCom
         self.texteCom=texteCom
         self.voteCom=voteCom
-        self.dateCom=dateCome
+        self.dateCom=formatter.string(from: Date())
         self.user=user
         self.isAnonyme=isAnonyme
     }

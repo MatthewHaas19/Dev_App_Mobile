@@ -13,7 +13,7 @@ public class PostDAO: ObservableObject{
     
     @Published var posts = [Post]()
     @Published var currentPost = [Post]()
-    @Published var localisations = [String]()
+    @Published var localisation = ["",""]
     
     init(){
         loadData()
@@ -247,18 +247,21 @@ public class PostDAO: ObservableObject{
          }.resume()
     }
     
-    func addPosition(currentPosition:[String]?){
+    
+    func getPosition(currentPosition:[String]?,postPosition:[String]?) -> String{
         var dist = ""
-        for post in self.posts{
-            if(currentPosition == nil || post.localisation==nil){
-                self.localisations.append("Not known")
+            
+            if(currentPosition == nil || postPosition==nil){
+                print("test1")
+                return "Not known"
             }else{
-                dist = distance(lat1: Double(currentPosition![0])!, lon1: Double(currentPosition![1])!, lat2: Double(post.localisation![0])!, lon2: Double(post.localisation![1])!, unit: "K")
-                self.localisations.append(dist)
+                print("test2")
+                dist = distance(lat1: Double(currentPosition![0])!, lon1: Double(currentPosition![1])!, lat2: Double(postPosition![0])!, lon2: Double(postPosition![1])!, unit: "K")
+                return dist
             }
-        }
             
     }
+    
     
     func deg2rad(deg:Double) -> Double {
         return deg * Double.pi / 180
@@ -283,7 +286,8 @@ public class PostDAO: ObservableObject{
         else if (unit == "N") {
             dist = dist * 0.8684
         }
-        return String(dist)
+        print(dist)
+        return String(Int(dist))
     }
     
 

@@ -32,7 +32,7 @@ struct MyPostView: View {
                     ForEach(postDAO.posts){
                         p in
                         ZStack{
-                            RowPostView(post:p,navigatePost:{
+                            RowPostView(post:p,localisation: "",navigatePost:{
                                 post in
                                 self.navigatePost(post)
                             },afficherEntier:false,navigateVote:{
@@ -43,7 +43,7 @@ struct MyPostView: View {
                             
                         }.listRowBackground(
                             VStack{
-                                self.colors.randomElement()
+                                Color(red:p.couleur[0],green:p.couleur[1],blue:p.couleur[2])
                                 Spacer()
                         })
                             .padding(.top)

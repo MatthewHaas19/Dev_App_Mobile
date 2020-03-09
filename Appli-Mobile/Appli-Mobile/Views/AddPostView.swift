@@ -72,6 +72,7 @@ struct AddPostView: View {
                         Spacer()
                         
                         Text("Ajouter un post")
+                            .font(.custom("Noteworthy", size: 50))
                         .font(.largeTitle)
                         .fontWeight(.semibold)
                         .padding(.bottom, 40)

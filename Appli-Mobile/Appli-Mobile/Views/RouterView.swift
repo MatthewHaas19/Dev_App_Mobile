@@ -63,8 +63,7 @@ struct RouterView: View {
                                 self.postDAO.addVote(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res),post:post, completionHandler: {
                                     res in
                                     //print(res)
-                                    self.afficherFilter=true
-                                    self.afficherFilter=false
+                                    self.postDAO.loadData()
                                 })
                             }
                             else if(result==2){
@@ -74,8 +73,7 @@ struct RouterView: View {
                                 self.postDAO.addVote(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res),post:post, completionHandler: {
                                     res in
                                     // print(res)
-                                    self.afficherFilter=true
-                                    self.afficherFilter=false
+                                    self.postDAO.loadData()
                                 })
                             }
                         })
@@ -103,8 +101,9 @@ struct RouterView: View {
                 }
                 
                 
-            }.navigationBarTitle(Text("How 2 React"),displayMode: .inline)
+            }.navigationBarTitle(Text(""), displayMode: .inline)
                 .navigationBarItems(leading:
+                    HStack{
                     Button(action:{
                         withAnimation{
                             self.afficherLogin=false
@@ -121,7 +120,27 @@ struct RouterView: View {
                     }.background(Image("H2R").resizable()
                         .scaledToFit()
                         .frame(width: 30, height: 30))
-                    ,trailing:
+                        
+                        Button(action:{
+                            withAnimation{
+                                self.afficherLogin=false
+                                self.afficherRegister=false
+                                self.afficherFilter = false
+                                self.afficherAdd = false
+                                self.afficherMesPost = false
+                                self.currentPost = nil
+                                if (self.isLogged){
+                                    self.getCurrentUser()
+                                }
+                            }}){
+                                HStack{
+                                    Text("How 2 React").font(.custom("Noteworthy", size: 25))
+                                        .foregroundColor(.black)
+                                }
+                        }
+                        
+                        
+                    }.padding(.bottom),trailing:
                     
                     HStack{
                         Button(action:{
@@ -133,9 +152,11 @@ struct RouterView: View {
                             
                         }){
                             Image(systemName:"magnifyingglass")
+                                .font(.title)
                         }.foregroundColor(Color(red:0,green:0.8,blue:0.9))
                             .frame(width : 20, height: 20)
-                        Spacer().frame(width: CGFloat(20))
+                            
+                        Spacer().frame(width: CGFloat(17))
                         Button(action:{
                             if(self.isLogged){
                                 self.userDAO.findUser(email: self.currentUserEmail!, completionHandler: {
@@ -162,12 +183,13 @@ struct RouterView: View {
                             
                         }){
                             Image(systemName:"person.crop.circle")
+                            .font(.title)
                         }.foregroundColor(Color(red:0,green:0.8,blue:0.9))
                             .scaledToFit()
                             .frame(width: 30, height: 30)
                         
                         
-                    }
+                    }.padding(.bottom)
             ).overlay((self.afficherLogin && !self.isLogged) ? LoginView(isAfficher: self.$afficherLogin,isAfficherRegister: self.$afficherRegister,isLogged:self.$isLogged, didLogged:{
                 email,password in
                 self.connectUser(email: email)

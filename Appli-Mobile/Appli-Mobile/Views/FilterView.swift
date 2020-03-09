@@ -38,6 +38,7 @@ struct FilterView: View {
     
     @State var listCategorieResult = [false,false,false,false,false,false,false,false,false,false,false,false,false]
     
+    @State var toggleAll = false
     
     var body: some View {
         ZStack{
@@ -144,6 +145,15 @@ struct FilterView: View {
                             .fontWeight(.semibold)
                             .padding()
                             .foregroundColor(Color(red:0,green:0.8,blue:0.9))
+                        Button(action:{
+
+                            self.toggleAction()
+                        }
+                        ){
+                            Toggle(isOn: self.$toggleAll){
+                                Text("All").foregroundColor(.black)
+                            }
+                        }
                         Toggle(isOn: self.$listCategorieResult[0]){
                             Text("Amis")
                         }
@@ -222,6 +232,15 @@ struct FilterView: View {
             }.padding(.bottom, keyboard.currentHeight)
                 .edgesIgnoringSafeArea(.bottom)
                 .animation(.easeOut(duration: 0.16))
+        }
+    }
+    
+    func toggleAction() {
+        if(self.toggleAll){
+            self.listCategorieResult = [false,false,false,false,false,false,false,false,false,false,false,false,false]
+        }
+        else{
+            self.listCategorieResult = [true,true,true,true,true,true,true,true,true,true,true,true,true]
         }
     }
 }

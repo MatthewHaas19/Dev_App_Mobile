@@ -46,6 +46,10 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(1),
     margin: theme.spacing(3, 0, 2),
   },
+  card: {
+    boxShadow: "10px 10px 10px #9E9E9E",
+    marginTop: 50
+  }
 }));
 
 const ColorButton = withStyles(theme => ({
@@ -71,8 +75,8 @@ export default function Login() {
   const classes = useStyles();
 
   return (
-    <Container component="main" maxWidth="xs">
-    <Card>
+    <Container component="main" maxWidth="xs" maxHeight="xs">
+    <Card className={classes.card}>
       <CardContent>
       <CssBaseline />
       <div className={classes.paper}>

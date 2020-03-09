@@ -117,10 +117,9 @@ struct RouterView: View {
                                 self.getCurrentUser()
                             }
                         }}){
-                            Text("CC").opacity(0)
-                    }.background(Image("H2R").resizable()
-                        .scaledToFit()
-                        .frame(width: 30, height: 30))
+                            Image("H2R").resizable()
+                    }.frame(width:30,height:30 )
+                    
                     ,trailing:
                     
                     HStack{
@@ -134,7 +133,7 @@ struct RouterView: View {
                         }){
                             Image(systemName:"magnifyingglass")
                         }.foregroundColor(Color(red:0,green:0.8,blue:0.9))
-                            .frame(width : 20, height: 20)
+                            .frame(width : 30, height: 30)
                         Spacer().frame(width: CGFloat(20))
                         Button(action:{
                             if(self.isLogged){
@@ -164,7 +163,7 @@ struct RouterView: View {
                             Image(systemName:"person.crop.circle")
                         }.foregroundColor(Color(red:0,green:0.8,blue:0.9))
                             .scaledToFit()
-                            .frame(width: 30, height: 30)
+                            .frame(width: 40, height: 40)
                         
                         
                     }

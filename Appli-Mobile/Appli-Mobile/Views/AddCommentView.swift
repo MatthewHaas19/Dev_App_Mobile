@@ -37,7 +37,7 @@ struct AddCommentView: View {
     
     
     var body: some View {
-        
+        ScrollView{
         ZStack {
             Color.white
             VStack{
@@ -149,7 +149,7 @@ struct AddCommentView: View {
         .edgesIgnoringSafeArea(.bottom)
         .animation(.easeOut(duration: 0.16))
         
-        
+        }
     }
     
     var colors:[[Double]] = [

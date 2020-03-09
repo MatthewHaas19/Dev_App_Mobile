@@ -40,6 +40,8 @@ struct FilterView: View {
     
     @State var toggleAll = false
     
+    @State var toggleLocalisation = false
+    
     var body: some View {
         ZStack{
             Color.white
@@ -49,6 +51,7 @@ struct FilterView: View {
                         Spacer()
                         
                         Text("Filtrer les Posts")
+                            .font(.custom("Noteworthy", size: 50))
                             .font(.largeTitle)
                             .fontWeight(.semibold)
                             .padding(.bottom, 40)
@@ -129,13 +132,22 @@ struct FilterView: View {
                         .padding(.leading,20)
                         .padding(.bottom,30)
                     VStack {
-                        Text("Filtrer la distance")
+                        ZStack{
+                            Text("Filtrer la distance")
                             .fontWeight(.semibold)
                             .padding()
                             .foregroundColor(Color(red:0,green:0.8,blue:0.9))
-                        Slider(value: $localisation, in: 0...100, step: 1)
+                        
+                            Toggle(isOn: self.$toggleLocalisation){
+                                Text("")
+                            }
+                        }
+                        self.toggleLocalisation ?
+                        VStack{
+                            Slider(value: $localisation, in: 0...100, step: 1)
                             .foregroundColor(Color(red:0,green:0.8,blue:0.9))
                         Text("\(Int(localisation)) km")
+                            } : nil
                     }.padding()
                         .padding(.bottom,30)
                     

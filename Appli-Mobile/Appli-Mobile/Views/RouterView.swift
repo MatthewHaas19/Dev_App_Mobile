@@ -97,6 +97,7 @@ struct RouterView: View {
                     //self.postDAO.addPosition(currentPosition: [self.userLatitude,self.userLongitude])
                         if(self.isLogged){
                             self.getCurrentUser()
+                            self.postDAO.getMyPosts(email: self.currentUserEmail!)
                         }
                 }
                 
@@ -169,7 +170,7 @@ struct RouterView: View {
                                 self.userDAO.findUser(email: self.currentUserEmail!, completionHandler: {
                                     user in
                                     self.currentUser = user[0]
-                                    
+                                    self.postDAO.getMyPosts(email: self.currentUserEmail!)
                                     self.afficherLogin.toggle()
                                     self.afficherRegister=false
                                     self.currentPost = nil
@@ -213,6 +214,7 @@ struct RouterView: View {
                 }, displayMyPost:{
                     res in
                     if(res){
+                        self.postDAO.getMyPosts(email:self.currentUserEmail!)
                         self.afficherMesPost = true
                     }
                 }).edgesIgnoringSafeArea(.all) : nil)
@@ -234,7 +236,7 @@ struct RouterView: View {
                 }).edgesIgnoringSafeArea(.all) : nil)
                 
                 
-                .overlay(self.afficherMesPost ? MyPostView(posts:self.postDAO.posts,navigatePost:{
+                .overlay(self.afficherMesPost ? MyPostView(posts:self.postDAO.myPost,navigatePost:{
                     res in
                     self.currentPost=res
                     self.afficherMesPost=false
@@ -244,6 +246,8 @@ struct RouterView: View {
                 
                 .overlay(self.afficherAdd ? AddPostView(currentPosition:[self.userLatitude,self.userLongitude],currentUser:self.currentUserEmail, afficherAdd: {
                     afficher in
+                    self.postDAO.loadData()
+                    self.postDAO.getMyPosts(email: self.currentUserEmail!)
                     self.afficherAdd=afficher
                 }).edgesIgnoringSafeArea(.all) : nil)
             

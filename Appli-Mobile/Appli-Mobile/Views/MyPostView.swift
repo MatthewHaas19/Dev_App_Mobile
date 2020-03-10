@@ -62,7 +62,7 @@ struct MyPostView: View {
     
     func deletePost(indexSet : IndexSet){
         print("On veut supprimer : ")
-        let p = postDAO.posts[indexSet.first!]
+        let p = posts[indexSet.first!]
         self.posts.remove(at: indexSet.first!)
         print(p)
         postDAO.delete(post : p , completionHandler: {

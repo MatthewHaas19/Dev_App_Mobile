@@ -10,7 +10,7 @@ class App extends Component {
   constructor(props) {
       super(props);
       this.state = {
-        data: [],
+        data: []
       };
     }
 
@@ -24,6 +24,8 @@ class App extends Component {
         this.setState({ data })
       });
   }
+
+
 
 
   render(){

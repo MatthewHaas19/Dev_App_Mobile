@@ -84,7 +84,7 @@ struct RowPostView: View {
                         PostDetailView(post: self.post, currentUser : self.currentUserEmail, afficherDetail: {
                             afficher in
                             self.afficherSheet=afficher
-                        })
+                            })
                         
                     })
                     

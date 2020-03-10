@@ -242,6 +242,9 @@ struct RouterView: View {
                     self.afficherMesPost=false
                 },navigateVote:{
                     res,post in
+                    self.postDAO.getMyPosts(email: self.currentUserEmail!)
+                    self.afficherMesPost=false
+                    self.afficherMesPost=true
                 },user : self.currentUserEmail!).edgesIgnoringSafeArea(.all) : nil)
                 
                 .overlay(self.afficherAdd ? AddPostView(currentPosition:[self.userLatitude,self.userLongitude],currentUser:self.currentUserEmail, afficherAdd: {

@@ -120,12 +120,12 @@ struct PostDetailView: View {
                     
                     
                     HStack {
+                        
                         ListCommentView(post:post, currentUser : currentUser)
+                            
                     }.cornerRadius(30)
                     .padding()
                     .padding(.top,0)
-                    .padding(.leading,10)
-                    .padding(.trailing,10)
                     .frame(height:500)
                     Spacer()
                     

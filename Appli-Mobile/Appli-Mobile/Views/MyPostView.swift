@@ -9,7 +9,7 @@ struct MyPostView: View {
     @ObservedObject var userDAO = UserDAO()
     @ObservedObject var postDAO = PostDAO()
     
-
+    @State var posts : [Post]
     var navigatePost: (Post) -> ()
     var navigateVote: (Bool,Post) -> ()
     //var post:Post = Post( id : "idid", titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: "Montpellier", categorie: [ "Dans la rue"], note: 156, commentaire: nil, date: "08/12",user:"mail")
@@ -29,7 +29,7 @@ struct MyPostView: View {
                 
                 List(){
                     
-                    ForEach(postDAO.posts){
+                    ForEach(posts){
                         p in
                         ZStack{
                             RowPostView(post:p,localisation: "",navigatePost:{
@@ -63,6 +63,7 @@ struct MyPostView: View {
     func deletePost(indexSet : IndexSet){
         print("On veut supprimer : ")
         let p = postDAO.posts[indexSet.first!]
+        self.posts.remove(at: indexSet.first!)
         print(p)
         postDAO.delete(post : p , completionHandler: {
             res in
@@ -73,5 +74,6 @@ struct MyPostView: View {
                 print("delete post error")
             }
         })
+        
     }
 }

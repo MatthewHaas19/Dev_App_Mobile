@@ -31,8 +31,22 @@ public class PostDAO: ObservableObject{
         }.resume()
     }
     
+    
+    func getMyPosts(email:String){
+        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/posts/user/"+email) else { return }
+        URLSession.shared.dataTask(with: url){(data, _, _) in
+            guard let data = data else { return }
+            let res = try! JSONDecoder().decode([Post].self, from: data)
+            DispatchQueue.main.async{
+                self.posts = res
+            }
+        }.resume()
+    }
+    
+    
+    
     func findById(id:String) {
-        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/posts"+id) else { return }
+        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/posts/"+id) else { return }
         URLSession.shared.dataTask(with: url){(data, _, _) in
             guard let data = data else { return }
             let res = try! JSONDecoder().decode([Post].self, from: data)
@@ -85,14 +99,9 @@ public class PostDAO: ObservableObject{
                 DispatchQueue.main.async{
                     self.posts = resData
                 }
-            
-               
-            
-
 
         }.resume()
-        
-        
+ 
     }
     
     
@@ -252,10 +261,9 @@ public class PostDAO: ObservableObject{
         var dist = ""
             
             if(currentPosition == nil || postPosition==nil){
-                print("test1")
+                print("NIL")
                 return "Not known"
             }else{
-                print("test2")
                 dist = distance(lat1: Double(currentPosition![0])!, lon1: Double(currentPosition![1])!, lat2: Double(postPosition![0])!, lon2: Double(postPosition![1])!, unit: "K")
                 return dist
             }

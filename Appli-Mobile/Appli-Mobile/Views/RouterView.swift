@@ -87,7 +87,7 @@ struct RouterView: View {
                 }).onReceive(self.locationManager.$lastLocation, perform: {
                     location in
                     print(self.userLatitude)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         print(self.userLatitude)
                         self.postDAO.localisation = [self.userLatitude,self.userLongitude]
                     }
@@ -106,6 +106,7 @@ struct RouterView: View {
                     HStack{
                     Button(action:{
                         withAnimation{
+                            self.postDAO.loadData()
                             self.afficherLogin=false
                             self.afficherRegister=false
                             self.afficherFilter = false
@@ -116,13 +117,16 @@ struct RouterView: View {
                                 self.getCurrentUser()
                             }
                         }}){
-                            Text("CC").opacity(0)
-                    }.background(Image("H2R").resizable()
+                            Image("H2R").resizable()
+                    }
                         .scaledToFit()
-                        .frame(width: 30, height: 30))
+                        .frame(width: 30, height: 30)
+                        .frame(width:30,height:30 )
+        
                         
                         Button(action:{
                             withAnimation{
+                                self.postDAO.loadData()
                                 self.afficherLogin=false
                                 self.afficherRegister=false
                                 self.afficherFilter = false
@@ -140,7 +144,7 @@ struct RouterView: View {
                         }
                         
                         
-                    }.padding(.bottom),trailing:
+                    }.padding(.bottom).padding(.top),trailing:
                     
                     HStack{
                         Button(action:{
@@ -154,10 +158,13 @@ struct RouterView: View {
                             Image(systemName:"magnifyingglass")
                                 .font(.title)
                         }.foregroundColor(Color(red:0,green:0.8,blue:0.9))
+
                             .frame(width : 20, height: 20)
                             
                         Spacer().frame(width: CGFloat(17))
+
                         Button(action:{
+                            self.postDAO.loadData()
                             if(self.isLogged){
                                 self.userDAO.findUser(email: self.currentUserEmail!, completionHandler: {
                                     user in
@@ -186,10 +193,11 @@ struct RouterView: View {
                             .font(.title)
                         }.foregroundColor(Color(red:0,green:0.8,blue:0.9))
                             .scaledToFit()
-                            .frame(width: 30, height: 30)
+                            .frame(width: 40, height: 40)
                         
                         
                     }.padding(.bottom)
+                        .padding(.top)
             ).overlay((self.afficherLogin && !self.isLogged) ? LoginView(isAfficher: self.$afficherLogin,isAfficherRegister: self.$afficherRegister,isLogged:self.$isLogged, didLogged:{
                 email,password in
                 self.connectUser(email: email)
@@ -226,7 +234,7 @@ struct RouterView: View {
                 }).edgesIgnoringSafeArea(.all) : nil)
                 
                 
-                .overlay(self.afficherMesPost ? MyPostView(navigatePost:{
+                .overlay(self.afficherMesPost ? MyPostView(posts:self.postDAO.posts,navigatePost:{
                     res in
                     self.currentPost=res
                     self.afficherMesPost=false

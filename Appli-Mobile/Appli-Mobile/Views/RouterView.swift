@@ -121,6 +121,8 @@ struct RouterView: View {
                         .scaledToFit()
                         .frame(width: 30, height: 30))
                         
+        
+                        
                         Button(action:{
                             withAnimation{
                                 self.afficherLogin=false

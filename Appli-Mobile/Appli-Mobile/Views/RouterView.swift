@@ -116,13 +116,33 @@ struct RouterView: View {
                                 self.getCurrentUser()
                             }
                         }}){
-
                             Image("H2R").resizable()
-                    }.frame(width:30,height:30 )
-                        .padding(.bottom)
-                        .padding(.top)
-                    
-                    },trailing:
+                    }
+                        .scaledToFit()
+                        .frame(width: 30, height: 30))
+                        .frame(width:30,height:30 )
+        
+                        
+                        Button(action:{
+                            withAnimation{
+                                self.afficherLogin=false
+                                self.afficherRegister=false
+                                self.afficherFilter = false
+                                self.afficherAdd = false
+                                self.afficherMesPost = false
+                                self.currentPost = nil
+                                if (self.isLogged){
+                                    self.getCurrentUser()
+                                }
+                            }}){
+                                HStack{
+                                    Text("How 2 React").font(.custom("Noteworthy", size: 25))
+                                        .foregroundColor(.black)
+                                }
+                        }
+                        
+                        
+                    }.padding(.bottom).padding(.top),trailing:
                     
                     HStack{
                         Button(action:{

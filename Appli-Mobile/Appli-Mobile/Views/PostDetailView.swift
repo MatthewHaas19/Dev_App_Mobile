@@ -11,15 +11,18 @@ import SwiftUI
 struct PostDetailView: View {
     
     @ObservedObject var reportDAO = ReportDAO()
+    @ObservedObject var voteDAO = VotesDAO()
+    @ObservedObject var postDAO = PostDAO()
     
     @State private var showingAlert = false
     @State var afficherSheet = false
     
-    var post : Post
+    @State var post : Post
     var currentUser : String?
     
     var afficherDetail: (Bool) -> ()
     
+    @State var afficherDet = true
     
     var body: some View {
         ScrollView{
@@ -79,13 +82,85 @@ struct PostDetailView: View {
                     
                     
                     HStack {
-                        DetailRowPostView(post:post,navigatePost:{
+                        self.afficherDet ? DetailRowPostView(post:self.post,navigatePost:{
                             post in
                             
                         },afficherEntier:true,navigateVote: {
                             res,post in
                             
-                        }).padding()
+                            if(self.currentUser != nil){
+                            self.voteDAO.addVotes(vote: Vote(user:self.currentUser!,post:post._id,like:res), completionHandler: {
+                                result in
+                                if(result==1){
+                                    self.postDAO.addVote(vote: Vote(user:self.currentUser!,post:post._id,like:res),post:post, completionHandler: {
+                                        bool in
+                                        //print(res)
+                                        if(res){
+                                            self.post.note = self.post.note + 1
+                                        }else{
+                                            self.post.note = self.post.note - 1
+                                        }
+                                        self.afficherDet = false
+                                    })
+                                }
+                                else if(result==2){
+                                    self.postDAO.addVote(vote: Vote(user:self.currentUser!,post:post._id,like:res),post:post, completionHandler: {
+                                        bool in
+                                    })
+                                    self.postDAO.addVote(vote: Vote(user:self.currentUser!,post:post._id,like:res),post:post, completionHandler: {
+                                        bool in
+                                        // print(res)
+                                        if(res){
+                                            self.post.note = self.post.note + 2
+                                        }else{
+                                            self.post.note = self.post.note - 2
+                                        }
+                                        self.afficherDet = false
+                                    })
+                                }
+                            })
+                            }
+                            
+                            }).padding() : DetailRowPostView(post:self.post,navigatePost:{
+                                post in
+                                
+                            },afficherEntier:true,navigateVote: {
+                                res,post in
+                                
+                                if(self.currentUser != nil){
+                                self.voteDAO.addVotes(vote: Vote(user:self.currentUser!,post:post._id,like:res), completionHandler: {
+                                    result in
+                                    if(result==1){
+                                        self.postDAO.addVote(vote: Vote(user:self.currentUser!,post:post._id,like:res),post:post, completionHandler: {
+                                            bool in
+                                            //print(res)
+                                            if(res){
+                                                self.post.note = self.post.note + 1
+                                            }else{
+                                                self.post.note = self.post.note - 1
+                                            }
+                                            self.afficherDet = true
+                                        })
+                                    }
+                                    else if(result==2){
+                                        self.postDAO.addVote(vote: Vote(user:self.currentUser!,post:post._id,like:res),post:post, completionHandler: {
+                                            bool in
+                                        })
+                                        self.postDAO.addVote(vote: Vote(user:self.currentUser!,post:post._id,like:res),post:post, completionHandler: {
+                                            bool in
+                                            // print(res)
+                                            if(res){
+                                                self.post.note = self.post.note + 2
+                                            }else{
+                                                self.post.note = self.post.note - 2
+                                            }
+                                            self.afficherDet = true
+                                        })
+                                    }
+                                })
+                                }
+                                
+                                }).padding()
                     }.padding()
                     
                     

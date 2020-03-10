@@ -21,6 +21,9 @@ struct AddPostView: View {
     @State var categorie = [String]()
     @State var isEditing = false
     
+    @State private var showingAlert = false
+    
+    
     
     
     lazy var imageView: UIImageView = {
@@ -72,7 +75,7 @@ struct AddPostView: View {
                         Spacer()
                         
                         Text("Ajouter un post")
-                            .font(.custom("Noteworthy", size: 50))
+                            .font(.custom("Noteworthy", size: 40))
                         .font(.largeTitle)
                         .fontWeight(.semibold)
                         .padding(.bottom, 40)
@@ -193,7 +196,11 @@ struct AddPostView: View {
                         Spacer()
                         Button(action:{
                             withAnimation{
-                                self.createPost()
+                                self.showingAlert = (self.title.count == 0 || self.description.count == 0)
+                                if (self.showingAlert == false) {
+                                    self.createPost()
+                                }
+                                
                             }
                         }){
                             Text("Ajouter le post")
@@ -204,7 +211,11 @@ struct AddPostView: View {
                                 .background(Color(red:0,green:0.8,blue:0.9))
                                 .cornerRadius(15.0)
                         }
-                       Spacer()
+                        .alert(isPresented: $showingAlert) {
+                            Alert(title: Text("Format invalide"), message: Text("Veillez à ce que votre post est un titre et une description non vide ! "), dismissButton: .default(Text("Ok")))
+                        }
+                        
+                        Spacer()
                     }.padding(.bottom,50)
                     
                    
@@ -224,10 +235,12 @@ struct AddPostView: View {
         
     }
     
-    var colors:[[Double]] = [
+    /*var colors:[[Double]] = [
     [61/255,173/255,171/255],[27/255,159/255,156/255],[4/255,176/255,186/255],[84/255,188/255,194/255],[27/255,197/255,167/255],[232/255,231/255,18/255],[225/255,218/255,0/255],[240/255,212/255,11/255]
+    ]*/
+    var colors:[[Double]] = [
+    [0/255,176/255,166/255],[5/255,93/255,107/255],[0/255,128/255,137/255],[225/255,170/255,18/255],[1/255,58/255,103/255],[7/255,36/255,70/255]
     ]
-    
     
     func createPost() {
        

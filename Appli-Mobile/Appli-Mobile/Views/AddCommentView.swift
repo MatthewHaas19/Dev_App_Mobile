@@ -29,7 +29,7 @@ struct AddCommentView: View {
     
 
     
-     @ObservedObject var commentDao = CommentDAO()
+    @ObservedObject var commentDao = CommentDAO()
     @ObservedObject private var keyboard = KeyboardResponder()
     
   
@@ -174,7 +174,6 @@ struct AddCommentView: View {
             
                 res in
                 if(res){
-                    self.commentDao.loadData(postId: self.post._id)
                     self.afficherAdd(false)
                 }
                 else{

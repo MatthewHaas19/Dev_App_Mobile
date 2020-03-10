@@ -23,7 +23,7 @@ public class ReportCommentDAO: ObservableObject{
      
     
     func loadData(){
-        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/reportsCom") else { return }
+        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/comReports") else { return }
         URLSession.shared.dataTask(with: url){(data, _, _) in
           guard let data = data else { return }
           let res = try! JSONDecoder().decode([ReportCom].self, from: data)
@@ -39,14 +39,13 @@ public class ReportCommentDAO: ObservableObject{
     
     func addReport(report: ReportCom, completionHandler: @escaping (Int) -> ()) {
         
-        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/reportsCom") else { return }
+        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/comReports") else { return }
         
         let newReport:[String: Any] = [
             "emailUser" : report.emailUser,
             "idCom" : report.idCom
         ]
-        
-        
+
         let body = try! JSONSerialization.data(withJSONObject: newReport)
         
         var request = URLRequest(url: url)

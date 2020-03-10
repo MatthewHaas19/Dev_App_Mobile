@@ -13,6 +13,7 @@ public class PostDAO: ObservableObject{
     
     @Published var posts = [Post]()
     @Published var currentPost = [Post]()
+    @Published var myPost = [Post]()
     @Published var localisation = ["",""]
     
     init(){
@@ -38,7 +39,7 @@ public class PostDAO: ObservableObject{
             guard let data = data else { return }
             let res = try! JSONDecoder().decode([Post].self, from: data)
             DispatchQueue.main.async{
-                self.posts = res
+                self.myPost = res
             }
         }.resume()
     }

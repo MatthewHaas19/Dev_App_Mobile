@@ -87,7 +87,7 @@ struct RouterView: View {
                 }).onReceive(self.locationManager.$lastLocation, perform: {
                     location in
                     print(self.userLatitude)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         print(self.userLatitude)
                         self.postDAO.localisation = [self.userLatitude,self.userLongitude]
                     }
@@ -106,6 +106,7 @@ struct RouterView: View {
                     HStack{
                     Button(action:{
                         withAnimation{
+                            self.postDAO.loadData()
                             self.afficherLogin=false
                             self.afficherRegister=false
                             self.afficherFilter = false
@@ -119,12 +120,13 @@ struct RouterView: View {
                             Image("H2R").resizable()
                     }
                         .scaledToFit()
-                        .frame(width: 30, height: 30))
+                        .frame(width: 30, height: 30)
                         .frame(width:30,height:30 )
         
                         
                         Button(action:{
                             withAnimation{
+                                self.postDAO.loadData()
                                 self.afficherLogin=false
                                 self.afficherRegister=false
                                 self.afficherFilter = false
@@ -162,6 +164,7 @@ struct RouterView: View {
                         Spacer().frame(width: CGFloat(17))
 
                         Button(action:{
+                            self.postDAO.loadData()
                             if(self.isLogged){
                                 self.userDAO.findUser(email: self.currentUserEmail!, completionHandler: {
                                     user in
@@ -231,7 +234,7 @@ struct RouterView: View {
                 }).edgesIgnoringSafeArea(.all) : nil)
                 
                 
-                .overlay(self.afficherMesPost ? MyPostView(navigatePost:{
+                .overlay(self.afficherMesPost ? MyPostView(posts:self.postDAO.posts,navigatePost:{
                     res in
                     self.currentPost=res
                     self.afficherMesPost=false

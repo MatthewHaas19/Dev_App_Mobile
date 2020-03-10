@@ -28,24 +28,27 @@ struct ListCommentView: View {
         ZStack{
             if ( self.comments.count > 0 ) {
                 
-                List(){
+                ScrollView(){
                     ForEach(self.comments){
                         c in
                         ZStack{
                             
                             RowCommentView(comment:c, currentUser : self.currentUser).padding(.bottom)
+                            .background(VStack{
+                                    Color(red:self.post.couleur[0]+0.1, green:self.post.couleur[1]+0.1, blue:self.post.couleur[2]+0.1)
+                            })
+                            .cornerRadius(30)
+                            .padding()
+                                .shadow(color: .gray, radius: 2, x: 15, y: 15)
                             
-                        }.listRowBackground(
-                            VStack{
-                                Color(red:self.post.couleur[0]+0.1, green:self.post.couleur[1]+0.1, blue:self.post.couleur[2]+0.1)
-                                Spacer()
-                        })
-                            .padding(.top)
+                            Spacer().frame(height:30)
+                            
+                        }
                         
                         
                     }
                     .buttonStyle(BorderlessButtonStyle())
-                    
+                    /*
                     if (self.comments.count == 1) {
                         ZStack{
                             HStack{
@@ -89,7 +92,7 @@ struct ListCommentView: View {
                         
                         
                     }
-                    
+                    */
                 }
                 
                 

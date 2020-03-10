@@ -38,6 +38,9 @@ struct FilterView: View {
     
     @State var listCategorieResult = [false,false,false,false,false,false,false,false,false,false,false,false,false]
     
+    @State var toggleAll = false
+    
+    @State var toggleLocalisation = false
     
     var body: some View {
         ZStack{
@@ -48,6 +51,7 @@ struct FilterView: View {
                         Spacer()
                         
                         Text("Filtrer les Posts")
+                            .font(.custom("Noteworthy", size: 50))
                             .font(.largeTitle)
                             .fontWeight(.semibold)
                             .padding(.bottom, 40)
@@ -128,13 +132,22 @@ struct FilterView: View {
                         .padding(.leading,20)
                         .padding(.bottom,30)
                     VStack {
-                        Text("Filtrer la distance")
+                        ZStack{
+                            Text("Filtrer la distance")
                             .fontWeight(.semibold)
                             .padding()
                             .foregroundColor(Color(red:0,green:0.8,blue:0.9))
-                        Slider(value: $localisation, in: 0...100, step: 1)
+                        
+                            Toggle(isOn: self.$toggleLocalisation){
+                                Text("")
+                            }
+                        }
+                        self.toggleLocalisation ?
+                        VStack{
+                            Slider(value: $localisation, in: 0...100, step: 1)
                             .foregroundColor(Color(red:0,green:0.8,blue:0.9))
                         Text("\(Int(localisation)) km")
+                            } : nil
                     }.padding()
                         .padding(.bottom,30)
                     
@@ -144,6 +157,15 @@ struct FilterView: View {
                             .fontWeight(.semibold)
                             .padding()
                             .foregroundColor(Color(red:0,green:0.8,blue:0.9))
+                        Button(action:{
+
+                            self.toggleAction()
+                        }
+                        ){
+                            Toggle(isOn: self.$toggleAll){
+                                Text("All").foregroundColor(.black)
+                            }
+                        }
                         Toggle(isOn: self.$listCategorieResult[0]){
                             Text("Amis")
                         }
@@ -222,6 +244,15 @@ struct FilterView: View {
             }.padding(.bottom, keyboard.currentHeight)
                 .edgesIgnoringSafeArea(.bottom)
                 .animation(.easeOut(duration: 0.16))
+        }
+    }
+    
+    func toggleAction() {
+        if(self.toggleAll){
+            self.listCategorieResult = [false,false,false,false,false,false,false,false,false,false,false,false,false]
+        }
+        else{
+            self.listCategorieResult = [true,true,true,true,true,true,true,true,true,true,true,true,true]
         }
     }
 }

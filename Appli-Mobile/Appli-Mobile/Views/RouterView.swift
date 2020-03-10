@@ -63,8 +63,7 @@ struct RouterView: View {
                                 self.postDAO.addVote(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res),post:post, completionHandler: {
                                     res in
                                     //print(res)
-                                    self.afficherFilter=true
-                                    self.afficherFilter=false
+                                    self.postDAO.loadData()
                                 })
                             }
                             else if(result==2){
@@ -74,8 +73,7 @@ struct RouterView: View {
                                 self.postDAO.addVote(vote: Vote(user:self.currentUserEmail!,post:post._id,like:res),post:post, completionHandler: {
                                     res in
                                     // print(res)
-                                    self.afficherFilter=true
-                                    self.afficherFilter=false
+                                    self.postDAO.loadData()
                                 })
                             }
                         })
@@ -103,8 +101,9 @@ struct RouterView: View {
                 }
                 
                 
-            }.navigationBarTitle(Text("How 2 React"),displayMode: .inline)
+            }.navigationBarTitle(Text(""), displayMode: .inline)
                 .navigationBarItems(leading:
+                    HStack{
                     Button(action:{
                         withAnimation{
                             self.afficherLogin=false
@@ -117,10 +116,11 @@ struct RouterView: View {
                                 self.getCurrentUser()
                             }
                         }}){
+
                             Image("H2R").resizable()
                     }.frame(width:30,height:30 )
                     
-                    ,trailing:
+
                     
                     HStack{
                         Button(action:{
@@ -132,9 +132,13 @@ struct RouterView: View {
                             
                         }){
                             Image(systemName:"magnifyingglass")
+                                .font(.title)
                         }.foregroundColor(Color(red:0,green:0.8,blue:0.9))
-                            .frame(width : 30, height: 30)
-                        Spacer().frame(width: CGFloat(20))
+
+                            .frame(width : 20, height: 20)
+                            
+                        Spacer().frame(width: CGFloat(17))
+
                         Button(action:{
                             if(self.isLogged){
                                 self.userDAO.findUser(email: self.currentUserEmail!, completionHandler: {
@@ -161,12 +165,13 @@ struct RouterView: View {
                             
                         }){
                             Image(systemName:"person.crop.circle")
+                            .font(.title)
                         }.foregroundColor(Color(red:0,green:0.8,blue:0.9))
                             .scaledToFit()
                             .frame(width: 40, height: 40)
                         
                         
-                    }
+                    }.padding(.bottom)
             ).overlay((self.afficherLogin && !self.isLogged) ? LoginView(isAfficher: self.$afficherLogin,isAfficherRegister: self.$afficherRegister,isLogged:self.$isLogged, didLogged:{
                 email,password in
                 self.connectUser(email: email)

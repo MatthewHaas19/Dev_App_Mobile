@@ -39,7 +39,20 @@ router.get("/:post", function(req,res,next){
       });
     })
   })
- 
+
+
+  router.delete("/", function(req,res,next) {
+    var id = ObjectId(req.body._id)
+    db.comments.remove({"_id" : id}, function(err,comment){
+      if(err){
+        res.send(err);
+      }
+      res.json({
+        res:"correct",
+        message:"delete comment ok"
+      });
+    })
+  })
 
 
 

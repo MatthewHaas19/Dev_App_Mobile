@@ -30,23 +30,24 @@ router.get("/:comment/:user", function(req,res,next){
 
 
 router.post("/", function(req,res,next){
-  var reportCom = req.body
+  var report = req.body
   db.reportsCom.find({
-    emailUser: reportCom.emailUser,
-    idCom: reportCom.idCom
-  },function(err,reportsCom){
+    emailUser: report.emailUser,
+    idCom: report.idCom
+  },function(err,reports){
     if(err){
       res.send(err);
     }
     else{
-        if(reportsCom.length==0){
-          db.reportsCom.insertOne(reportCom,function(err,reportCom){
+        if(reports.length==0){
+          db.reportsCom.insertOne(report,function(err,report){
             if(err){
               res.send(err);
             }
+            console.log(report)
             res.json({
               res:"correct",
-              message:"add reportCom ok"
+              message:"add reportcom ok"
             });
         })
       }else {

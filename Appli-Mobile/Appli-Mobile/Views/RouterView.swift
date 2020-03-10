@@ -87,7 +87,7 @@ struct RouterView: View {
                 }).onReceive(self.locationManager.$lastLocation, perform: {
                     location in
                     print(self.userLatitude)
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
                         print(self.userLatitude)
                         self.postDAO.localisation = [self.userLatitude,self.userLongitude]
                     }

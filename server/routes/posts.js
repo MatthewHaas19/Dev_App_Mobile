@@ -116,9 +116,6 @@ router.delete("/", function(req,res,next) {
     await db.reports.remove({"idPost":idString})
     await db.comments.remove({"postId" : idString})
     await db.votes.remove({"post" : idString})
-    if(err){
-      res.send(err)
-    }
     res.json({
       res:"correct",
       message:"delete post, reports, comment and votes ok"

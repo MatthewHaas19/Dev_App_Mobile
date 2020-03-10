@@ -68,7 +68,7 @@ struct RowCommentView: View {
                         }.foregroundColor(.orange)
                     }.padding(.trailing,10)
                         .alert(isPresented: $showingAlert) {
-                            Alert(title: Text("Signaler le post"), message: Text("Etes-vous sûr de vouloir signaler le post ?"), primaryButton: .cancel(Text("Annuler")
+                            Alert(title: Text("Signaler le commentaire"), message: Text("Etes-vous sûr de vouloir signaler le commentaire ?"), primaryButton: .cancel(Text("Annuler")
                                 ), secondaryButton: .destructive(Text("Signaler"), action: {
                                     self.addReport()
                                 }))

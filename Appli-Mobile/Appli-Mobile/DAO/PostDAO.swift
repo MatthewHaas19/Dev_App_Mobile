@@ -252,6 +252,7 @@ public class PostDAO: ObservableObject{
         var dist = ""
             
             if(currentPosition == nil || postPosition==nil){
+                print("NIL")
                 return "Not known"
             }else{
                 dist = distance(lat1: Double(currentPosition![0])!, lon1: Double(currentPosition![1])!, lat2: Double(postPosition![0])!, lon2: Double(postPosition![1])!, unit: "K")

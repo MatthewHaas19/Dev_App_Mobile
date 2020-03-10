@@ -143,7 +143,9 @@ struct PostDetailView: View {
                 AddCommentView(post : self.post ,emailUser : self.currentUser , afficherAdd : {
                     afficher in
                     self.afficherSheet=afficher
-                }, navigatePost : {
+                    self.afficherDetail(false)
+                }
+                 , navigatePost : {
                     post in
                 })
                 

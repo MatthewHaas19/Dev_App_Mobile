@@ -85,16 +85,16 @@ struct RowCommentView: View {
     }
     
     func addReport(){
-        
+
         let report = ReportCom(emailUser : self.currentUser!, idCom : comment._id)
         
         self.reportComDAO.addReport(report: report, completionHandler: {
             res in
             if(res == 1){
-                print("Signalé")
+                print("Commentaire Signalé")
             }
             else if (res == 0){
-                print("Déjà signalé")
+                print("Commentaire Déjà signalé")
             }
             else {
                 print("erreur")

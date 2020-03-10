@@ -29,7 +29,7 @@ struct AddCommentView: View {
     
 
     
-     @ObservedObject var commentDao = CommentDAO()
+    @ObservedObject var commentDao = CommentDAO()
     @ObservedObject private var keyboard = KeyboardResponder()
     
   
@@ -170,8 +170,8 @@ struct AddCommentView: View {
         
         let comment = CommentPost(postId : self.post._id, titreCom : self.titreCom ,texteCom: self.texteCom, voteCom : 0 ,dateCome : "", user : self.emailUser!, isAnonyme:self.isAnonyme)
 
-            
             self.commentDao.addComment(comment: comment, completionHandler: {
+            
                 res in
                 if(res){
                     self.afficherAdd(false)
@@ -180,6 +180,7 @@ struct AddCommentView: View {
                     print("add comment error")
                 }
             })
+       
         
     }
     

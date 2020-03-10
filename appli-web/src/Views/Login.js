@@ -16,7 +16,7 @@ import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-
+import {getUserFromDb} from '../API/UserApi'
 
 
 const useStyles = makeStyles(theme => ({

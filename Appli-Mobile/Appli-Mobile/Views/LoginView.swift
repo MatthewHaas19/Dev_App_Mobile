@@ -33,7 +33,7 @@ struct LoginView: View {
 
     
     var body: some View {
-        
+        ScrollView {
         ZStack{
             Color.white
             VStack{
@@ -98,6 +98,7 @@ struct LoginView: View {
             }.padding()
             
             
+        }
         }
     }
     

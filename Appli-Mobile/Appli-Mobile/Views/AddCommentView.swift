@@ -21,6 +21,8 @@ struct AddCommentView: View {
     @State var isEditing = false
     @State var isAnonyme = false
     
+    @State private var showingAlert = false
+    
     
 
     var afficherAdd : (Bool) -> ()
@@ -120,7 +122,11 @@ struct AddCommentView: View {
                         Spacer()
                         Button(action:{
                             withAnimation{
-                                self.createComment()
+                                self.showingAlert = (self.titreCom.count == 0 || self.texteCom.count == 0)
+                                if (self.showingAlert == false) {
+                                     self.createComment()
+                                }
+                               
                             }
                         }){
                             
@@ -132,6 +138,9 @@ struct AddCommentView: View {
                                 .background(Color(red:0,green:0.8,blue:0.9))
                                 .cornerRadius(15.0)
                         }
+                        .alert(isPresented: $showingAlert) {
+                                                   Alert(title: Text("Format invalide"), message: Text("Veillez à ce que votre post est un titre et une description non vide ! "), dismissButton: .default(Text("Ok")))
+                                               }
                        Spacer()
                     }.padding(.bottom,50)
                     

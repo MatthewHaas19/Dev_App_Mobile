@@ -20,10 +20,14 @@ struct RegisterView: View {
    @ObservedObject private var keyboard = KeyboardResponder()
 
     
-    @State var username:String=""
+    @State var username:String = ""
     @State var email:String = ""
     @State var password:String = ""
     @State var password2:String = ""
+    
+    @State private var showingAlert = false
+    @State var msgError:String = ""
+    
     
     
     
@@ -71,7 +75,30 @@ struct RegisterView: View {
                 // }
                 Button(action:{
                     withAnimation{
-                        self.Register()
+                        self.msgError = ""
+                        if (self.username.count == 0) {
+                            self.showingAlert = true
+                            self.msgError = self.msgError + "\nVeuillez renseigner un pseudo. "
+                        }
+                        if (self.email.count == 0) {
+                            self.showingAlert = true
+                            self.msgError = self.msgError + "\nVeuillez renseigner un email. "
+                        }
+                       if (self.password.count == 0 || self.password2.count == 0 ) {
+                            self.showingAlert = true
+                            self.msgError = self.msgError + "\nVeuillez renseigner les deux champs de mot de passe. "
+                        }
+                       
+                        if (self.password != self.password2) {
+                            self.showingAlert = true
+                            self.msgError = self.msgError + "\nVeuillez renseigner deux mots de passe identiques. "
+                        }
+                        
+                        
+                        if (self.showingAlert == false) {
+                             self.Register()
+                        }
+                       
                     }
                 }){
                     Text("Créer mon compte")
@@ -81,6 +108,9 @@ struct RegisterView: View {
                         .frame(width: 220, height: 60)
                         .background(Color(red:0,green:0.8,blue:0.9))
                         .cornerRadius(15.0)
+                }
+                .alert(isPresented: $showingAlert) {
+                    Alert(title: Text("Format invalide"), message: Text(self.msgError), dismissButton: .default(Text("Ok")))
                 }
                 Button(action:{
                     withAnimation{
@@ -109,8 +139,8 @@ struct RegisterView: View {
                 res in
                 if(res){
                     self.isAfficher = false
-                    self.isAfficherLogin = false
-                    self.isLogged = true
+                    self.isAfficherLogin = true
+                    self.isLogged = false
                 }
                 else{
                     print("register error")

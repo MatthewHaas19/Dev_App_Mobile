@@ -21,6 +21,9 @@ struct AddPostView: View {
     @State var categorie = [String]()
     @State var isEditing = false
     
+    @State private var showingAlert = false
+    
+    
     
     
     lazy var imageView: UIImageView = {
@@ -72,7 +75,7 @@ struct AddPostView: View {
                         Spacer()
                         
                         Text("Ajouter un post")
-                            .font(.custom("Noteworthy", size: 50))
+                            .font(.custom("Noteworthy", size: 40))
                         .font(.largeTitle)
                         .fontWeight(.semibold)
                         .padding(.bottom, 40)
@@ -193,7 +196,11 @@ struct AddPostView: View {
                         Spacer()
                         Button(action:{
                             withAnimation{
-                                self.createPost()
+                                self.showingAlert = (self.title.count == 0 || self.description.count == 0)
+                                if (self.showingAlert == false) {
+                                    self.createPost()
+                                }
+                                
                             }
                         }){
                             Text("Ajouter le post")
@@ -204,7 +211,11 @@ struct AddPostView: View {
                                 .background(Color(red:0,green:0.8,blue:0.9))
                                 .cornerRadius(15.0)
                         }
-                       Spacer()
+                        .alert(isPresented: $showingAlert) {
+                            Alert(title: Text("Format invalide"), message: Text("Veillez à ce que votre post est un titre et une description non vide ! "), dismissButton: .default(Text("Ok")))
+                        }
+                        
+                        Spacer()
                     }.padding(.bottom,50)
                     
                    

@@ -19,14 +19,13 @@ public class CommentDAO: ObservableObject{
     }
     
     
-    func loadData(postId:String , navigateComment : @escaping ([Comment])->()){
+    func loadData(postId:String){
         guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/comments/" + postId) else { return }
         URLSession.shared.dataTask(with: url){(data, _, _) in
             guard let data = data else { return }
             let res = try! JSONDecoder().decode([Comment].self, from: data)
             DispatchQueue.main.async{
                 self.comments = res
-                navigateComment(res)
             }
         }.resume()
     }

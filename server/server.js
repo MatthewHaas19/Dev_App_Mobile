@@ -7,7 +7,7 @@ var users = require("./routes/users")
 var posts = require("./routes/posts")
 var votes = require("./routes/votes")
 var reports = require("./routes/reports")
-var reportsCom = require("./routes/reportsCom")
+var comReports = require("./routes/comReports")
 
 var comments = require("./routes/comments")
 
@@ -35,5 +35,5 @@ app.use("/users",users);
 app.use("/posts",posts);
 app.use("/votes",votes);
 app.use("/reports",reports);
-app.use("/reportsCom",reportsCom);
+app.use("/comReports",comReports);
 app.use("/comments",comments);

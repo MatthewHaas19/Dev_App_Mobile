@@ -170,16 +170,18 @@ struct AddCommentView: View {
         
         let comment = CommentPost(postId : self.post._id, titreCom : self.titreCom ,texteCom: self.texteCom, voteCom : 0 ,dateCome : "", user : self.emailUser!, isAnonyme:self.isAnonyme)
 
-            
             self.commentDao.addComment(comment: comment, completionHandler: {
+            
                 res in
                 if(res){
+                    self.commentDao.loadData(postId: self.post._id)
                     self.afficherAdd(false)
                 }
                 else{
                     print("add comment error")
                 }
             })
+       
         
     }
     

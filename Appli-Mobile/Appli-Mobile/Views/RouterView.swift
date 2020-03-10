@@ -119,8 +119,10 @@ struct RouterView: View {
 
                             Image("H2R").resizable()
                     }.frame(width:30,height:30 )
+                        .padding(.bottom)
+                        .padding(.top)
                     
-
+                    },trailing:
                     
                     HStack{
                         Button(action:{
@@ -172,6 +174,7 @@ struct RouterView: View {
                         
                         
                     }.padding(.bottom)
+                        .padding(.top)
             ).overlay((self.afficherLogin && !self.isLogged) ? LoginView(isAfficher: self.$afficherLogin,isAfficherRegister: self.$afficherRegister,isLogged:self.$isLogged, didLogged:{
                 email,password in
                 self.connectUser(email: email)

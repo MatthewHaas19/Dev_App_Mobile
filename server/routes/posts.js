@@ -104,16 +104,26 @@ router.get("/:id", function(req,res,next) {
 
 router.delete("/", function(req,res,next) {
   var id = ObjectId(req.body._id)
-  db.posts.remove({"_id" : id}, function(err,post){
+  var idString = req.body._id
+  db.posts.remove({"_id" : id}, async function(err,post){
     if(err){
       res.send(err);
     }
-    console.log(err)
+    const commentsList = await db.comments.find({"postId" : idString});
+    for await (c of commentsList) {
+      await db.reportsCom.remove({"idCom":c._id});
+    }
+    await db.reports.remove({"idPost":idString})
+    await db.comments.remove({"postId" : idString})
+    await db.votes.remove({"post" : idString})
+    if(err){
+      res.send(err)
+    }
     res.json({
       res:"correct",
-      message:"delete post ok"
+      message:"delete post, reports, comment and votes ok"
+    })
     });
-  })
 })
 
 

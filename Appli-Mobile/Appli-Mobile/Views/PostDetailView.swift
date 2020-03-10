@@ -125,8 +125,8 @@ struct PostDetailView: View {
                     }.cornerRadius(30)
                     .padding()
                     .padding(.top,0)
-                    .padding(.leading,30)
-                    .padding(.trailing,30)
+                    .padding(.leading,10)
+                    .padding(.trailing,10)
                     .frame(height:500)
                     Spacer()
                     

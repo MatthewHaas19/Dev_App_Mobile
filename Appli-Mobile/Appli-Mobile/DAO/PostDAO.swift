@@ -236,11 +236,10 @@ public class PostDAO: ObservableObject{
          request.setValue("application/json", forHTTPHeaderField: "Content-Type")
          
          URLSession.shared.dataTask(with: request) { (data, response, error) in
-
+            print("on a envoyé requete")
              guard let data = data else { return }
              
              let resData = try! JSONDecoder().decode(ServerMessage.self, from: data)
-
 
              if resData.res == "correct" {
                  DispatchQueue.main.async {

@@ -81,7 +81,6 @@ router.post("/", function(req,res,next){
     if(err){
       res.send(err);
     }
-    console.log(post)
     res.json({
       res:"correct",
       message:"add post ok"
@@ -105,22 +104,22 @@ router.get("/:id", function(req,res,next) {
 router.delete("/", function(req,res,next) {
   var id = ObjectId(req.body._id)
   var idString = req.body._id
-  db.posts.remove({"_id" : id}, async function(err,post){
-    if(err){
-      res.send(err);
-    }
+  await db.posts.remove({"_id" : id})
+
     const commentsList = await db.comments.find({"postId" : idString});
     for await (c of commentsList) {
+      console.log("Dans la boucle")
       await db.reportsCom.remove({"idCom":c._id});
     }
     await db.reports.remove({"idPost":idString})
     await db.comments.remove({"postId" : idString})
     await db.votes.remove({"post" : idString})
+    
     res.json({
       res:"correct",
       message:"delete post, reports, comment and votes ok"
-    })
     });
+
 })
 
 

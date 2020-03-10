@@ -128,22 +128,65 @@ router.put("/filter/:categorie", function(req,res,next){
   const cat = req.params.categorie
   const filter = req.body
   const tags = filter.tags
-  var regex = "("+tags[0]
-  for(let i=1;i<tags.length-1;i++){
-    regex = regex + "|" + tags[i]
-  }
-  regex = regex + "|" + tags[tags.length-1] +")"
-  console.log(regex)
-
-  db.posts.find({
-    categorie: {$in :filter.categorie},
-    $or: [ { titre: { $regex: regex,$options:'i' } }, { texte: { $regex: regex,$options:'i' } } ]
-  }).sort({note:-1}).toArray(function(err,users){
-    if(err){
-      res.send(err);
+  var regex = ""
+  if(tags.length>0){
+    regex = "("+tags[0]
+    for(let i=1;i<tags.length-1;i++){
+      regex = regex + "|" + tags[i]
     }
-    res.json(users);
-  })
+    regex = regex + "|" + tags[tags.length-1] +")"
+    console.log(regex)
+
+    if(req.body.type=="Plus populaire"){
+    db.posts.find({
+      categorie: {$in :filter.categorie},
+      $or: [ { titre: { $regex: regex,$options:'i' } }, { texte: { $regex: regex,$options:'i' } } ]
+    }).sort({note:-1}).toArray(function(err,users){
+      if(err){
+        res.send(err);
+      }
+      res.json(users);
+    })
+    }
+    else{
+    db.posts.find({
+      categorie: {$in :filter.categorie},
+      $or: [ { titre: { $regex: regex,$options:'i' } }, { texte: { $regex: regex,$options:'i' } } ]
+    }).sort({date:-1}).toArray(function(err,users){
+      if(err){
+        res.send(err);
+      }
+      res.json(users);
+    })
+    }
+
+  }else{
+
+    if(req.body.type=="Plus populaire"){
+    db.posts.find({
+      categorie: {$in :filter.categorie}
+    }).sort({note:-1}).toArray(function(err,users){
+      if(err){
+        res.send(err);
+      }
+      res.json(users);
+    })
+    }
+    else{
+    db.posts.find({
+      categorie: {$in :filter.categorie}
+    }).sort({date:-1}).toArray(function(err,users){
+      if(err){
+        res.send(err);
+      }
+      res.json(users);
+    })
+    }
+
+  }
+
+
+
 })
 
 

@@ -14,7 +14,7 @@ struct FilterView: View {
    @Binding var afficherFilter: Bool
     
     
-    
+
     
     @State var tags = ["exemple"]
     @State var tag:String = ""
@@ -224,9 +224,11 @@ struct FilterView: View {
                                 }
                                 i=i+1
                             }
-
+                            if(self.toggleLocalisation == false){
+                                self.localisation = 99999
+                            }
                             let filter = FilterType(type:self.picked,tags:self.tags,localisation:String(self.localisation),categories:listCat)
-                            self.navigateFilter(filter)
+                                self.navigateFilter(filter)
                             self.afficherFilter = false
 
                         }){

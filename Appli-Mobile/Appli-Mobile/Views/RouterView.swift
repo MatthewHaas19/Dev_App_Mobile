@@ -141,6 +141,7 @@ struct RouterView: View {
                                 HStack{
                                     Text("How 2 React").font(.custom("Noteworthy", size: 25))
                                         .foregroundColor(.black)
+                                        .fontWeight(.semibold)
                                 }
                         }
                         

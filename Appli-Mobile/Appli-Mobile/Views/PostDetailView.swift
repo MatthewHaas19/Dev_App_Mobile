@@ -57,6 +57,7 @@ struct PostDetailView: View {
                                 print("test")
                             })
                             {
+                            if ( (self.post.couleur[0] == 225/255) && (self.post.couleur[1] == 170/255) && (self.post.couleur[2] == 18/255) ) {
                                 HStack {
                                     Image(systemName:"exclamationmark.triangle")
                                         .resizable()
@@ -64,8 +65,23 @@ struct PostDetailView: View {
                                         .frame(width: 15, height: 15)
                                     Text("Signaler")
                                         .font(.system(size:15,weight: .semibold))
-                                }
-                            }.foregroundColor(.orange)
+                                }.foregroundColor(.blue)
+                            }
+                           
+                                
+                            else {
+                                 HStack {
+                                   Image(systemName:"exclamationmark.triangle")
+                                       .resizable()
+                                       .aspectRatio(contentMode: .fill)
+                                       .frame(width: 15, height: 15)
+                                   Text("Signaler")
+                                       .font(.system(size:15,weight: .semibold))
+                               }.foregroundColor(.orange)
+                            }
+                            }
+                            
+                            
                                 .padding()
                                 .padding(.trailing,10)
                                 .alert(isPresented: $showingAlert) {

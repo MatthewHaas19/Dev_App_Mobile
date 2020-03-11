@@ -31,9 +31,21 @@ struct ProfileView: View {
         
         GeometryReader { geometry in
             Color(.white)
+            ScrollView {
             VStack(alignment: .leading){
                 
                 HStack {
+                    
+                    Button(action: {self.showingAlert = true}){
+                        Text("Editer")
+                            .fontWeight(.bold)
+                            .foregroundColor(Color(red:1/255,green:58/255,blue:103/255))
+                        Spacer()
+                    }.frame(width: 200)
+                        .padding()
+                        .alert(isPresented: self.$showingAlert) {
+                            Alert(title: Text("Action invalide"), message: Text("Veuillez vous connecter depuis la version web pour modifier votre profil"), dismissButton: .default(Text("Ok")))
+                    }
                     Spacer()
                     
                     Button(action:{
@@ -47,13 +59,13 @@ struct ProfileView: View {
                     
                     
                 }.padding(.top,50)
-                    .padding(.trailing,20)
+                    
                 
                 HStack {
                     Spacer()
                     Text("Mon profil")
                         .font(.custom("Noteworthy", size: 45))
-                        .foregroundColor(.blue)
+                        .foregroundColor(Color(red:1/255,green:58/255,blue:103/255))
                         .fontWeight(.semibold)
                         .padding(.leading, 10)
                     Spacer()
@@ -68,58 +80,34 @@ struct ProfileView: View {
                             .frame(width: 90, height: 90)
                             .clipShape(Circle())
                             .shadow(radius: 3)
-                            .foregroundColor(Color(red:0,green:0.8,blue:0.9))
+                            .foregroundColor(Color(red:1/255,green:58/255,blue:103/255))
                         
                         Text(self.user.username)
-                            .foregroundColor(.blue)
+                            .foregroundColor(Color(red:1/255,green:58/255,blue:103/255))
                             .fontWeight(.semibold)
                     }.padding(.leading, 10)
                     
                     Spacer()
                     
                     VStack{
-                        Text("10")
+                        Text(String(self.posts.count))
                             .font(.system(size: 30))
-                            .foregroundColor(.blue)
+                            .foregroundColor(Color(red:1/255,green:58/255,blue:103/255))
                             .fontWeight(.bold)
                         
                         Text("Posts")
                             .font(.system(size: 13))
-                            .foregroundColor(.blue)
+                            .foregroundColor(Color(red:1/255,green:58/255,blue:103/255))
                     }.padding(.leading, 30)
                     
                     Spacer()
                     
-                    VStack{
-                        Text("100")
-                            .font(.system(size: 30))
-                            .foregroundColor(.blue)
-                            .fontWeight(.bold)
-                        
-                        Text("Comments")
-                            .font(.system(size: 13))
-                            .foregroundColor(.blue)
-                    }
                     
-                    Spacer()
                     
                 }.frame(height: 100)
                     .padding(.leading, 10)
                 
-                HStack{
-                    Spacer()
-                    
-                    Button(action: {self.showingAlert = true}){
-                        Text("Edit Profile")
-                            .fontWeight(.bold)
-                            .foregroundColor(.blue)
-                    }.frame(width: 100)
-                        .padding()
-                        .alert(isPresented: self.$showingAlert) {
-                            Alert(title: Text("Action invalide"), message: Text("Veuillez vous connecter depuis la version web pour modifier votre profil"), dismissButton: .default(Text("Ok")))
-                    }
-                    Spacer()
-                }
+                
                 
                 
                 
@@ -175,22 +163,26 @@ struct ProfileView: View {
                                     }
                                 })
                             }).padding(.bottom)
+                                
                             
                             
-                        }.listRowBackground(
+                        }
+                        .listRowBackground(
                             VStack{
-                                Color(red:self.posts[index].couleur[0],green:self.posts[index].couleur[1],blue:self.posts[index].couleur[2])
+                               Color(red:self.posts[index].couleur[0],green:self.posts[index].couleur[1],blue:self.posts[index].couleur[2])
                                 Spacer()
-                        })
+                        }.cornerRadius(10)
+                                
+                        )
                             .padding(.top)
                         
                         
-                        
-                        
-                        
-                        
-                    }.onDelete {(indexSet) in }
-                }.frame(height : 300)
+
+                    }.onDelete {(indexSet) in self.deletePost(indexSet: indexSet) }
+                    .buttonStyle(BorderlessButtonStyle())
+                    
+                }.frame(height : geometry.size.height / 1.5)
+                    .padding(.top)
                 
                 
                 
@@ -200,12 +192,31 @@ struct ProfileView: View {
             }.padding()
                 .padding(.top,40)
             
+        }.background(Color(.white)).edgesIgnoringSafeArea(.all)
+
+        
         }
-        
-        
-        
     }
     
+    
+    
+    
+    func deletePost(indexSet : IndexSet){
+        print("On veut supprimer : ")
+        let p = posts[indexSet.first!]
+        self.posts.remove(at: indexSet.first!)
+        print(p)
+        postDAO.delete(post : p , completionHandler: {
+            res in
+            if(res){
+                print("bien supprimé")
+            }
+            else{
+                print("delete post error")
+            }
+        })
+        
+    }
     
     
     

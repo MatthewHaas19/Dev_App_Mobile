@@ -12,10 +12,13 @@ import FirebaseFirestore
 
 struct DetailRowPostView: View {
     
+    @ObservedObject var userDAO = UserDAO()
     
     var currentUserEmail : String?
     
     var post: Post
+    var username : String?
+    
     
     @State var image: UIImage? = nil
     
@@ -32,10 +35,19 @@ struct DetailRowPostView: View {
                 HStack{
                     Button(action:{
                         //self.navigatePost(self.post)
-                       
+                        
                     }){
                         VStack(alignment:.leading, spacing:5){
                             HStack{
+                                Image(systemName:"person.crop.circle").foregroundColor(Color.white)
+                                    .font(.system(size:14))
+                                if(post.isAnonyme == false ) {
+                                    Text(String(self.getUsername())).foregroundColor(Color.white).font(.system(size:14))
+                                    
+                                } else {
+                                    Text("Anonyme").foregroundColor(Color.white).font(.system(size:14))
+                                }
+                               
                                 Image(systemName:"location").foregroundColor(Color.white)
                                     .font(.system(size:14))
                                 if(post.localisation != nil) {
@@ -54,7 +66,7 @@ struct DetailRowPostView: View {
                             
                             if(image != nil){
                                 HStack{ Text(post.texte).foregroundColor(Color.white)
-                                   
+                                    
                                     
                                     Image(uiImage:image!)
                                         .renderingMode(.original)
@@ -116,6 +128,16 @@ struct DetailRowPostView: View {
         else{
             return CGFloat(100)
         }
+    }
+    
+    func getUsername() -> String {
+        var pseudo : String = ""
+        self.userDAO.findUser(email: post.user, completionHandler:{
+            user in
+            pseudo = user[0].username
+            return pseudo
+        } )
+        
     }
     
     

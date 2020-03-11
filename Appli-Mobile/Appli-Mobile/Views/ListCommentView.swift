@@ -15,6 +15,7 @@ struct ListCommentView: View {
     var currentUser : String?
     @State var comments = [Comment]()
     @ObservedObject var commentDAO = CommentDAO()
+    @ObservedObject var userDAO = UserDAO()
     
     
     
@@ -33,7 +34,7 @@ struct ListCommentView: View {
                         c in
                         ZStack{
                             
-                            RowCommentView(comment:c, currentUser : self.currentUser).padding(.bottom)
+                            RowCommentView(user:self.userDAO.currentUser,comment:c, currentUser : self.currentUser).padding(.bottom)
                             .background(VStack{
                                     Color(red:self.post.couleur[0]+0.1, green:self.post.couleur[1]+0.1, blue:self.post.couleur[2]+0.1)
                             })
@@ -43,6 +44,11 @@ struct ListCommentView: View {
                             
                             Spacer().frame(height:30)
                             
+                        }
+                        .onAppear {
+                                self.userDAO.findUser(email: c.user, completionHandler: {
+                                    res in
+                                })
                         }
                         
                         

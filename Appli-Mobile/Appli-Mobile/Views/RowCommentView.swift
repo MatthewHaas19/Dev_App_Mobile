@@ -10,6 +10,7 @@ import SwiftUI
 
 struct RowCommentView: View {
     
+    var user:[User]?
     var comment : Comment
     var currentUser : String?
     
@@ -26,6 +27,17 @@ struct RowCommentView: View {
                     
                     HStack{
                         VStack(alignment:.leading, spacing:5){
+                            HStack{
+                                Image(systemName:"person.crop.circle").foregroundColor(Color.white)
+                                    .font(.system(size:14))
+                                if(comment.isAnonyme == false ) {
+                                    if(self.user!.count>0){ Text(String(self.user![0].username)).foregroundColor(Color.white).font(.system(size:14))
+                                    }
+                                } else {
+                                    Text("Anonyme").foregroundColor(Color.white).font(.system(size:14))
+                                }
+                               
+                            }
                             
                             Text(comment.titreCom).foregroundColor(Color.white)
                                 .font(.system(size:25))

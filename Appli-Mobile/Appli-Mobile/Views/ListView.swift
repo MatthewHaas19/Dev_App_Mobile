@@ -42,7 +42,7 @@ struct ListView: View {
                 ForEach(posts){
                     p in
                     ZStack{
-                        RowPostView(currentUserEmail:self.currentUser,post:p,localisation:self.postDAO.getPosition(currentPosition: self.positions, postPosition: p.localisation),navigatePost:{
+                        RowPostView(user:self.userDAO.currentUser,currentUserEmail:self.currentUser,post:p,localisation:self.postDAO.getPosition(currentPosition: self.positions, postPosition: p.localisation),navigatePost:{
                             post in
                             self.navigatePost(post)
                         },afficherEntier:false,navigateVote:{
@@ -58,12 +58,18 @@ struct ListView: View {
                             Spacer()
                     })
                         .padding(.top)
-                    
+                    .onAppear {
+                            self.userDAO.findUser(email: p.user, completionHandler: {
+                                res in
+                            })
+                    }
+                        
                     
                 }
                 .buttonStyle(BorderlessButtonStyle())
             }
         }
+        
     }
     
 }

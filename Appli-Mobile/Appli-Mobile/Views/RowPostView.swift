@@ -11,12 +11,13 @@ import FirebaseStorage
 import FirebaseFirestore
 
 struct RowPostView: View {
-    
+    var user:[User]?
     @State var afficherSheet = false
     
     var currentUserEmail : String?
     
     var post: Post
+    
     
     var localisation: String
     
@@ -40,9 +41,21 @@ struct RowPostView: View {
                     }){
                         VStack(alignment:.leading, spacing:5){
                             HStack{
+                                Image(systemName:"person.crop.circle").foregroundColor(Color.white)
+                                    .font(.system(size:14))
+                                if(post.isAnonyme == false ) {
+                                    if(self.user!.count>0){ Text(String(self.user![0].username)).foregroundColor(Color.white).font(.system(size:14))
+                                    }
+                                } else {
+                                    Text("Anonyme").foregroundColor(Color.white).font(.system(size:14))
+                                }
+                               Spacer()
                                 Image(systemName:"location").foregroundColor(Color.white)
                                     .font(.system(size:14))
-                                Text((self.localisation=="Not known" ? self.localisation : self.localisation + " km")).foregroundColor(Color.white).font(.system(size:14))
+                                if(post.localisation != nil) {
+                                    if(post.localisation!.count != 0){ Text(post.localisation![0]).foregroundColor(Color.white).font(.system(size:14))
+                                    }
+                                }
                             }
                             
                             Text(post.titre).foregroundColor(Color.white)

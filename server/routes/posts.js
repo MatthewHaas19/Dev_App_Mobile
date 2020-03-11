@@ -81,7 +81,6 @@ router.post("/", function(req,res,next){
     if(err){
       res.send(err);
     }
-    console.log(post)
     res.json({
       res:"correct",
       message:"add post ok"
@@ -104,16 +103,23 @@ router.get("/:id", function(req,res,next) {
 
 router.delete("/", function(req,res,next) {
   var id = ObjectId(req.body._id)
-  db.posts.remove({"_id" : id}, function(err,post){
-    if(err){
-      res.send(err);
+  var idString = req.body._id
+  await db.posts.remove({"_id" : id})
+
+    const commentsList = await db.comments.find({"postId" : idString});
+    for await (c of commentsList) {
+      console.log("Dans la boucle")
+      await db.reportsCom.remove({"idCom":c._id});
     }
-    console.log(err)
+    await db.reports.remove({"idPost":idString})
+    await db.comments.remove({"postId" : idString})
+    await db.votes.remove({"post" : idString})
+    
     res.json({
       res:"correct",
-      message:"delete post ok"
+      message:"delete post, reports, comment and votes ok"
     });
-  })
+
 })
 
 
@@ -122,22 +128,65 @@ router.put("/filter/:categorie", function(req,res,next){
   const cat = req.params.categorie
   const filter = req.body
   const tags = filter.tags
-  var regex = "("+tags[0]
-  for(let i=1;i<tags.length-1;i++){
-    regex = regex + "|" + tags[i]
-  }
-  regex = regex + "|" + tags[tags.length-1] +")"
-  console.log(regex)
-
-  db.posts.find({
-    categorie: {$in :filter.categorie},
-    $or: [ { titre: { $regex: regex,$options:'i' } }, { texte: { $regex: regex,$options:'i' } } ]
-  }).sort({note:-1}).toArray(function(err,users){
-    if(err){
-      res.send(err);
+  var regex = ""
+  if(tags.length>0){
+    regex = "("+tags[0]
+    for(let i=1;i<tags.length-1;i++){
+      regex = regex + "|" + tags[i]
     }
-    res.json(users);
-  })
+    regex = regex + "|" + tags[tags.length-1] +")"
+    console.log(regex)
+
+    if(req.body.type=="Plus populaire"){
+    db.posts.find({
+      categorie: {$in :filter.categorie},
+      $or: [ { titre: { $regex: regex,$options:'i' } }, { texte: { $regex: regex,$options:'i' } } ]
+    }).sort({note:-1}).toArray(function(err,users){
+      if(err){
+        res.send(err);
+      }
+      res.json(users);
+    })
+    }
+    else{
+    db.posts.find({
+      categorie: {$in :filter.categorie},
+      $or: [ { titre: { $regex: regex,$options:'i' } }, { texte: { $regex: regex,$options:'i' } } ]
+    }).sort({date:-1}).toArray(function(err,users){
+      if(err){
+        res.send(err);
+      }
+      res.json(users);
+    })
+    }
+
+  }else{
+
+    if(req.body.type=="Plus populaire"){
+    db.posts.find({
+      categorie: {$in :filter.categorie}
+    }).sort({note:-1}).toArray(function(err,users){
+      if(err){
+        res.send(err);
+      }
+      res.json(users);
+    })
+    }
+    else{
+    db.posts.find({
+      categorie: {$in :filter.categorie}
+    }).sort({date:-1}).toArray(function(err,users){
+      if(err){
+        res.send(err);
+      }
+      res.json(users);
+    })
+    }
+
+  }
+
+
+
 })
 
 

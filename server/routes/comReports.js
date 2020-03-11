@@ -3,7 +3,7 @@ var router = express.Router();
 var mongojs = require("mongojs")
 
 
-var db = mongojs("mongodb+srv://devmobileIG4:devmobileIG4@devmobile-vr63q.mongodb.net/DevMobile?retryWrites=true&w=majority",["reportsCom"])
+var db = mongojs("mongodb+srv://devmobileIG4:devmobileIG4@devmobile-vr63q.mongodb.net/DevMobile?retryWrites=true&w=majority",["comReports"])
 
 router.get("/", function(req,res,next){
   db.reportsCom.find(function(err,reportsCom){

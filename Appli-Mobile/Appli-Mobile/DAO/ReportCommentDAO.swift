@@ -42,10 +42,11 @@ public class ReportCommentDAO: ObservableObject{
         guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/comReports") else { return }
         
         let newReport:[String: Any] = [
-            "emailUser" : report.emailUser,
-            "idCom" : report.idCom
+            "emailUser": report.emailUser,
+            "idCom": report.idCom
         ]
-
+        
+        
         let body = try! JSONSerialization.data(withJSONObject: newReport)
         
         var request = URLRequest(url: url)

@@ -86,7 +86,13 @@ struct RowCommentView: View {
     
     func addReport(){
 
-        let report = ReportCom(emailUser : self.currentUser!, idCom : comment._id)
+        print("----------------------------")
+        print(self.currentUser!)
+        print(comment._id)
+        print("----------------------------")
+        
+        
+        let report = ReportCom(emailUser : self.currentUser!, idCom : self.comment._id)
         
         self.reportComDAO.addReport(report: report, completionHandler: {
             res in

@@ -95,7 +95,6 @@ public class PostDAO: ObservableObject{
             
             let resData = try! JSONDecoder().decode([Post].self, from: data)
 
-
             
                 DispatchQueue.main.async{
                     self.posts = resData

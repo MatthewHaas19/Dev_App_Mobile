@@ -103,7 +103,7 @@ struct RowPostView: View {
                     }
                     .sheet(isPresented: self.$afficherSheet, content: {
                         
-                        PostDetailView(post: self.post, currentUser : self.currentUserEmail, afficherDetail: {
+                        PostDetailView(post: self.post, currentUser : self.currentUserEmail, position: self.localisation ,afficherDetail: {
                             afficher in
                             self.afficherSheet=afficher
                         })

@@ -20,7 +20,7 @@ struct PostDetailView: View {
     
     @State var post : Post
     var currentUser : String?
-    
+    var position : String
     var afficherDetail: (Bool) -> ()
     
     @State var afficherDet = true
@@ -99,7 +99,7 @@ struct PostDetailView: View {
                     
                     
                     HStack {
-                        self.afficherDet ? DetailRowPostView(post:self.post,navigatePost:{
+                        self.afficherDet ? DetailRowPostView(user:userDAO.currentUser,post:self.post,position:self.position,navigatePost:{
                             post in
                             
                         },afficherEntier:true,navigateVote: {
@@ -138,7 +138,7 @@ struct PostDetailView: View {
                             })
                             }
                             
-                            }).padding() : DetailRowPostView(post:self.post,navigatePost:{
+                            }).padding() : DetailRowPostView(post:self.post,position:self.position,navigatePost:{
                                 post in
                                 
                             },afficherEntier:true,navigateVote: {
@@ -282,10 +282,11 @@ struct PostDetailView: View {
 
 
 
-
+/*
 struct PostDetailView_Previews: PreviewProvider {
     static var previews: some View {
         PostDetailView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: ["Montpellier"], categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail", isAnonyme:true,  couleur:[1.00,1.00,1.00]), afficherDetail : {afficher in } )
     }
 }
 
+*/

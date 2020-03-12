@@ -19,7 +19,7 @@ struct DetailRowPostView: View {
     var post: Post
     @State var username : String=""
     
-    
+    var position: String
     @State var image: UIImage? = nil
     
     var navigatePost: (Post) -> ()
@@ -46,14 +46,12 @@ struct DetailRowPostView: View {
                                     }
                                 } else {
                                     Text("Anonyme").foregroundColor(Color.white).font(.system(size:14))
-                                }
+                                    }}
                                Spacer()
                                 Image(systemName:"location").foregroundColor(Color.white)
                                     .font(.system(size:14))
-                                if(post.localisation != nil) {
-                                    if(post.localisation!.count != 0){ Text(post.localisation![0]).foregroundColor(Color.white).font(.system(size:14))
-                                    }
-                                }
+                                 Text(self.position).foregroundColor(Color.white).font(.system(size:14))
+                                    
                             }
                             .onAppear {
                                 self.userDAO.findUser(email: self.post.user, completionHandler: {
@@ -169,7 +167,7 @@ struct DetailRowPostView: View {
     
     
 }
-
+/*
 struct DetailRowPostView_Previews: PreviewProvider {
     static var previews: some View {
         
@@ -187,3 +185,4 @@ struct DetailRowPostView_Previews: PreviewProvider {
         
     }
 }
+*/

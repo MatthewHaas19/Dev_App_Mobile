@@ -14,8 +14,8 @@ struct ProfileView: View {
     @ObservedObject var postDAO = PostDAO()
     @ObservedObject var voteDAO = VotesDAO()
     
-    
     @State var posts : [Post]
+    var positions : [String]
     var navigatePost: (Post) -> ()
     var navigateVote: (Int,Post) -> ()
     var user : User
@@ -119,7 +119,7 @@ struct ProfileView: View {
                         index in
                         
                         ZStack{
-                            RowPostView(post:self.posts[index],localisation: "",navigatePost:{
+                            RowPostView(currentUserEmail:self.user.email,post:self.posts[index],localisation:self.postDAO.getPosition(currentPosition: self.positions, postPosition: self.posts[index].localisation),navigatePost:{
                                 post in
                                 self.navigatePost(post)
                             },afficherEntier:false,navigateVote:{

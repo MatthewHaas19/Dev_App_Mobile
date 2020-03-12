@@ -208,7 +208,8 @@ struct RouterView: View {
                 .overlay(self.afficherRegister ? RegisterView(isAfficher: self.$afficherRegister, isAfficherLogin: self.$afficherLogin, isLogged:self.$isLogged).edgesIgnoringSafeArea(.all) : nil)
                 
                 .overlay((self.afficherLogin && self.isLogged) ? ProfileView(
-                    posts:self.postDAO.myPost,navigatePost:{
+                    posts:self.postDAO.myPost,positions:postDAO.localisation
+                    ,navigatePost:{
                         res in
                         self.currentPost=res
                         self.afficherMesPost=false

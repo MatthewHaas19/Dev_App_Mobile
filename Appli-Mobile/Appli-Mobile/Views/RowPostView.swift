@@ -80,13 +80,12 @@ struct RowPostView: View {
                                 HStack{ Text(post.texte).foregroundColor(Color.white)
                                     
                                     
-                                    Image(uiImage:image!)
-                                        .renderingMode(.original)
+                                    Image(systemName:"photo")
+                                
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
                                         .frame(width: 60, height: 60)
                                         .clipped()
-                                        .cornerRadius(20)
                                     
                                 }.padding(.bottom, 20)
                             }else

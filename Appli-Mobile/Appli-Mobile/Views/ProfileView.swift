@@ -118,11 +118,8 @@ struct ProfileView: View {
                     ForEach(0..<self.posts.count){
                         index in
                         
-                        
-                        
-                        
                         ZStack{
-                            RowPostView(user:self.userDAO.currentUser,post:self.posts[index],localisation: "",navigatePost:{
+                            RowPostView(post:self.posts[index],localisation: "",navigatePost:{
                                 post in
                                 self.navigatePost(post)
                             },afficherEntier:false,navigateVote:{
@@ -140,7 +137,7 @@ struct ProfileView: View {
                                             }else{
                                                 self.posts[index].note = self.posts[index].note - 1
                                             }
-                                            self.posts.append(Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: ["Montpellier"], categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail", isAnonyme: true , couleur:[1.00,1.00,1.00]))
+                                           
                                             self.posts.remove(at: self.posts.count-1)
                                             
                                         })
@@ -158,18 +155,16 @@ struct ProfileView: View {
                                             }else{
                                                 self.posts[index].note = self.posts[index].note - 2
                                             }
-                                            self.posts.append(Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: ["Montpellier"], categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail", isAnonyme: true , couleur:[1.00,1.00,1.00]))
+                                            
                                             self.posts.remove(at: self.posts.count-1)
                                             
                                         })
                                     }
                                 })
+                                
+                                
                             }).padding(.bottom)
-                            .onAppear {
-                                self.userDAO.findUser(email: self.user.email, completionHandler: {
-                                        res in
-                                    })
-                            }
+                          
                                 
                             
                             
@@ -181,6 +176,7 @@ struct ProfileView: View {
                         }.cornerRadius(10)
                                 
                         )
+                            
                             .padding(.top)
                         
                         
@@ -190,7 +186,7 @@ struct ProfileView: View {
                     
                 }.frame(height : geometry.size.height / 1.5)
                     .padding(.top)
-                
+                   
                 
                 
                 

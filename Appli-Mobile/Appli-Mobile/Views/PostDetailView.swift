@@ -99,7 +99,7 @@ struct PostDetailView: View {
                     
                     
                     HStack {
-                        self.afficherDet ? DetailRowPostView(user:userDAO.currentUser,post:self.post,navigatePost:{
+                        self.afficherDet ? DetailRowPostView(post:self.post,navigatePost:{
                             post in
                             
                         },afficherEntier:true,navigateVote: {
@@ -179,11 +179,7 @@ struct PostDetailView: View {
                                 
                                 }).padding()
                     }.padding()
-                    .onAppear {
-                            self.userDAO.findUser(email: self.post.user, completionHandler: {
-                                res in
-                            })
-                    }
+                  
                     
                     if(self.currentUser != nil) {
                         

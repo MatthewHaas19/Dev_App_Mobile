@@ -44,11 +44,12 @@ struct RowPostView: View {
                                 Image(systemName:"person.crop.circle").foregroundColor(Color.white)
                                     .font(.system(size:14))
                                 if(post.isAnonyme == false ) {
+                                    if(user != nil){
                                     if(self.user!.count>0){ Text(String(self.user![0].username)).foregroundColor(Color.white).font(.system(size:14))
                                     }
                                 } else {
                                     Text("Anonyme").foregroundColor(Color.white).font(.system(size:14))
-                                }
+                                    }}
                                Spacer()
                                 Image(systemName:"location").foregroundColor(Color.white)
                                     .font(.system(size:14))
@@ -96,7 +97,7 @@ struct RowPostView: View {
                     }
                     .sheet(isPresented: self.$afficherSheet, content: {
                         
-                        PostDetailView(post: self.post, currentUser : self.currentUserEmail, afficherDetail: {
+                        PostDetailView(post: self.post, currentUser : self.currentUserEmail, position: self.localisation ,afficherDetail: {
                             afficher in
                             self.afficherSheet=afficher
                             })

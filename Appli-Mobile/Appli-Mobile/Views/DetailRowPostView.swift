@@ -19,7 +19,7 @@ struct DetailRowPostView: View {
     var post: Post
     var username : String?
     
-    
+    var position: String
     @State var image: UIImage? = nil
     
     var navigatePost: (Post) -> ()
@@ -42,18 +42,17 @@ struct DetailRowPostView: View {
                                 Image(systemName:"person.crop.circle").foregroundColor(Color.white)
                                     .font(.system(size:14))
                                 if(post.isAnonyme == false ) {
+                                    if(self.user != nil){
                                     if(self.user!.count>0){ Text(String(self.user![0].username)).foregroundColor(Color.white).font(.system(size:14))
                                     }
                                 } else {
                                     Text("Anonyme").foregroundColor(Color.white).font(.system(size:14))
-                                }
+                                    }}
                                Spacer()
                                 Image(systemName:"location").foregroundColor(Color.white)
                                     .font(.system(size:14))
-                                if(post.localisation != nil) {
-                                    if(post.localisation!.count != 0){ Text(post.localisation![0]).foregroundColor(Color.white).font(.system(size:14))
-                                    }
-                                }
+                                 Text(self.position).foregroundColor(Color.white).font(.system(size:14))
+                                    
                             }
                             
                             Text(post.titre).foregroundColor(Color.white)
@@ -163,7 +162,7 @@ struct DetailRowPostView: View {
     
     
 }
-
+/*
 struct DetailRowPostView_Previews: PreviewProvider {
     static var previews: some View {
         
@@ -181,3 +180,4 @@ struct DetailRowPostView_Previews: PreviewProvider {
         
     }
 }
+*/

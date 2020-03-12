@@ -10,10 +10,13 @@ import SwiftUI
 
 struct RowCommentView: View {
     
-    var user:[User]?
-    @State var comment : Comment
-    var currentUser : String?
+
+    @ObservedObject var userDAO = UserDAO()
     
+    var comment : Comment
+
+    var currentUser : String?
+     @State var username : String=""
     @State private var showingAlert = false
     @ObservedObject var reportComDAO = ReportCommentDAO()
     @ObservedObject var commentDAO = CommentDAO()
@@ -34,12 +37,18 @@ struct RowCommentView: View {
                                 Image(systemName:"person.crop.circle").foregroundColor(Color.white)
                                     .font(.system(size:14))
                                 if(comment.isAnonyme == false ) {
-                                    if(self.user!.count>0){ Text(String(self.user![0].username)).foregroundColor(Color.white).font(.system(size:14))
+                                    if(self.username.count>0){ Text(String(self.username)).foregroundColor(Color.white).font(.system(size:14))
                                     }
                                 } else {
                                     Text("Anonyme").foregroundColor(Color.white).font(.system(size:14))
                                 }
                                
+                            }
+                            .onAppear {
+                                self.userDAO.findUser(email: self.comment.user, completionHandler: {
+                                    res in
+                                    self.username = res[0].username
+                                })
                             }
                             
                             Text(comment.titreCom).foregroundColor(Color.white)
@@ -48,6 +57,8 @@ struct RowCommentView: View {
                             Text(comment.texteCom).foregroundColor(Color.white)
                                 .fixedSize(horizontal : false, vertical : true)
                         }
+                        
+                        
                         Spacer()
                         VStack{
                             Button(action:{

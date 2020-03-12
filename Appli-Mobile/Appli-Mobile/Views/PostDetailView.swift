@@ -179,11 +179,7 @@ struct PostDetailView: View {
                                 
                                 }).padding()
                     }.padding()
-                    .onAppear {
-                            self.userDAO.findUser(email: self.post.user, completionHandler: {
-                                res in
-                            })
-                    }
+                  
                     
                     if(self.currentUser != nil) {
                         

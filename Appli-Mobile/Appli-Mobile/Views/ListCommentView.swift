@@ -34,7 +34,7 @@ struct ListCommentView: View {
                         c in
                         ZStack{
                             
-                            RowCommentView(user:self.userDAO.currentUser,comment:c, currentUser : self.currentUser).padding(.bottom)
+                            RowCommentView(comment:c, currentUser : self.currentUser).padding(.bottom)
                             .background(VStack{
                                     Color(red:self.post.couleur[0]+0.1, green:self.post.couleur[1]+0.1, blue:self.post.couleur[2]+0.1)
                             })

@@ -12,12 +12,12 @@ import FirebaseFirestore
 
 struct DetailRowPostView: View {
     
-   // @ObservedObject var userDAO = UserDAO()
+   @ObservedObject var userDAO = UserDAO()
     
     var currentUserEmail : String?
     var user:[User]?
     var post: Post
-    var username : String?
+    @State var username : String=""
     
     var position: String
     @State var image: UIImage? = nil
@@ -42,8 +42,7 @@ struct DetailRowPostView: View {
                                 Image(systemName:"person.crop.circle").foregroundColor(Color.white)
                                     .font(.system(size:14))
                                 if(post.isAnonyme == false ) {
-                                    if(self.user != nil){
-                                    if(self.user!.count>0){ Text(String(self.user![0].username)).foregroundColor(Color.white).font(.system(size:14))
+                                    if(self.username.count>0){ Text(String(self.username)).foregroundColor(Color.white).font(.system(size:14))
                                     }
                                 } else {
                                     Text("Anonyme").foregroundColor(Color.white).font(.system(size:14))
@@ -53,6 +52,12 @@ struct DetailRowPostView: View {
                                     .font(.system(size:14))
                                  Text(self.position).foregroundColor(Color.white).font(.system(size:14))
                                     
+                            }
+                            .onAppear {
+                                self.userDAO.findUser(email: self.post.user, completionHandler: {
+                                        res in
+                                        self.username = res[0].username
+                                    })
                             }
                             
                             Text(post.titre).foregroundColor(Color.white)

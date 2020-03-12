@@ -12,11 +12,13 @@ import FirebaseFirestore
 
 struct RowPostView: View {
     var user:[User]?
+    @ObservedObject var userDAO = UserDAO()
     @State var afficherSheet = false
     
     var currentUserEmail : String?
     
     var post: Post
+    @State var username : String=""
     
     
     var localisation: String
@@ -44,13 +46,12 @@ struct RowPostView: View {
                                 Image(systemName:"person.crop.circle").foregroundColor(Color.white)
                                     .font(.system(size:14))
                                 if(post.isAnonyme == false ) {
-                                    if(user != nil){
-                                    if(self.user!.count>0){ Text(String(self.user![0].username)).foregroundColor(Color.white).font(.system(size:14))
+                                    if(self.username.count>0){ Text(String(self.username)).foregroundColor(Color.white).font(.system(size:14))
                                     }
                                 } else {
                                     Text("Anonyme").foregroundColor(Color.white).font(.system(size:14))
-                                    }}
-                               Spacer()
+                                }
+                                Spacer()
                                 Image(systemName:"location").foregroundColor(Color.white)
                                     .font(.system(size:14))
                                 if(localisation != "Not known"){
@@ -58,7 +59,13 @@ struct RowPostView: View {
                                 }else{
                                  Text(localisation).foregroundColor(Color.white).font(.system(size:14))
                                 }
-                                
+
+                            } .onAppear {
+                                self.userDAO.findUser(email: self.post.user, completionHandler: {
+                                    res in
+                                    self.username = res[0].username
+                                })
+
                             }
                             
                             Text(post.titre).foregroundColor(Color.white)
@@ -71,7 +78,7 @@ struct RowPostView: View {
                             
                             if(image != nil){
                                 HStack{ Text(post.texte).foregroundColor(Color.white)
-                                   
+                                    
                                     
                                     Image(uiImage:image!)
                                         .renderingMode(.original)
@@ -100,7 +107,7 @@ struct RowPostView: View {
                         PostDetailView(post: self.post, currentUser : self.currentUserEmail, position: self.localisation ,afficherDetail: {
                             afficher in
                             self.afficherSheet=afficher
-                            })
+                        })
                         
                     })
                     

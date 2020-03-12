@@ -12,7 +12,7 @@ import FirebaseFirestore
 
 struct DetailRowPostView: View {
     
-   @ObservedObject var userDAO = UserDAO()
+    @ObservedObject var userDAO = UserDAO()
     
     var currentUserEmail : String?
     var user:[User]?
@@ -46,18 +46,20 @@ struct DetailRowPostView: View {
                                     }
                                 } else {
                                     Text("Anonyme").foregroundColor(Color.white).font(.system(size:14))
-                                    }}
-                               Spacer()
+                                    
+                                }
+                                
+                                Spacer()
                                 Image(systemName:"location").foregroundColor(Color.white)
                                     .font(.system(size:14))
-                                 Text(self.position).foregroundColor(Color.white).font(.system(size:14))
-                                    
+                                Text(self.position).foregroundColor(Color.white).font(.system(size:14))
+                                
                             }
                             .onAppear {
                                 self.userDAO.findUser(email: self.post.user, completionHandler: {
-                                        res in
-                                        self.username = res[0].username
-                                    })
+                                    res in
+                                    self.username = res[0].username
+                                })
                             }
                             
                             Text(post.titre).foregroundColor(Color.white)
@@ -134,7 +136,7 @@ struct DetailRowPostView: View {
         }
     }
     
-
+    
     
     
     func downloadImage(completion: @escaping (UIImage?) -> ()){
@@ -168,21 +170,21 @@ struct DetailRowPostView: View {
     
 }
 /*
-struct DetailRowPostView_Previews: PreviewProvider {
-    static var previews: some View {
-        
-        VStack{
-            
-            DetailRowPostView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image:"https://firebasestorage.googleapis.com/v0/b/appli-mobile-ig.appspot.com/o/imagesFolder%2FEAD3F4E5-47AA-4CEE-80BC-A3931DE2EDFF?alt=media&token=21844ebe-8384-4be0-9e26-55463ee09887", localisation: nil, categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail", isAnonyme:true, couleur:[1.00,1.00,1.00]),navigatePost: {post in},afficherEntier:true,navigateVote: {
-                res,post in
-            })
-            
-            DetailRowPostView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: ["Montpellier"], categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail", isAnonyme: true, couleur:[1.00,1.00,1.00]),navigatePost: {post in},afficherEntier:true,navigateVote: {
-                res,post in
-            })
-            
-        }
-        
-    }
-}
-*/
+ struct DetailRowPostView_Previews: PreviewProvider {
+ static var previews: some View {
+ 
+ VStack{
+ 
+ DetailRowPostView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image:"https://firebasestorage.googleapis.com/v0/b/appli-mobile-ig.appspot.com/o/imagesFolder%2FEAD3F4E5-47AA-4CEE-80BC-A3931DE2EDFF?alt=media&token=21844ebe-8384-4be0-9e26-55463ee09887", localisation: nil, categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail", isAnonyme:true, couleur:[1.00,1.00,1.00]),navigatePost: {post in},afficherEntier:true,navigateVote: {
+ res,post in
+ })
+ 
+ DetailRowPostView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: ["Montpellier"], categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail", isAnonyme: true, couleur:[1.00,1.00,1.00]),navigatePost: {post in},afficherEntier:true,navigateVote: {
+ res,post in
+ })
+ 
+ }
+ 
+ }
+ }
+ */

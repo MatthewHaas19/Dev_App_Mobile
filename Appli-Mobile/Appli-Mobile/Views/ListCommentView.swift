@@ -40,7 +40,7 @@ struct ListCommentView: View {
                             })
                             .cornerRadius(30)
                             .padding()
-                                .shadow(color: .gray, radius: 2, x: 15, y: 15)
+                                
                             
                             Spacer().frame(height:30)
                             

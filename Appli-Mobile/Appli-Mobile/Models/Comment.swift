@@ -16,7 +16,7 @@ class Comment : Decodable, Identifiable, CustomStringConvertible {
     let postId : String
     let titreCom : String
     let texteCom: String
-    let voteCom : Int
+    var voteCom : Int
     let dateCom : String
     let user : String
     let isAnonyme : Bool

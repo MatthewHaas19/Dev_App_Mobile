@@ -54,15 +54,18 @@ struct RowPostView: View {
                                 Spacer()
                                 Image(systemName:"location").foregroundColor(Color.white)
                                     .font(.system(size:14))
-                                if(post.localisation != nil) {
-                                    if(post.localisation!.count != 0){ Text(post.localisation![0]).foregroundColor(Color.white).font(.system(size:14))
-                                    }
+                                if(localisation != "Not known"){
+                                 Text(localisation+" km").foregroundColor(Color.white).font(.system(size:14))
+                                }else{
+                                 Text(localisation).foregroundColor(Color.white).font(.system(size:14))
                                 }
+
                             } .onAppear {
                                 self.userDAO.findUser(email: self.post.user, completionHandler: {
                                     res in
                                     self.username = res[0].username
                                 })
+
                             }
                             
                             Text(post.titre).foregroundColor(Color.white)

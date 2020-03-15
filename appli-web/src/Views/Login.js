@@ -20,6 +20,7 @@ import {getUserFromDb} from '../API/UserApi'
 import Noteworthy from '../fonts/Noteworthy-Lt.woff';
 
 import history from '../history';
+var bcrypt = require('bcryptjs');
 
 const useStyles = theme => ({
   paper: {
@@ -111,7 +112,7 @@ class Login extends React.Component {
           console.log("email incorrect")
         }
         else{
-          if(data[0].password === user.password){
+          if(bcrypt.compareSync(user.password,data[0].password)){
             console.log("correct password")
             history.push('/');
           }else{

@@ -5,6 +5,8 @@ import Login from './Views/Login.js'
 import NavBar from './Views/NavBar.js'
 import Home from './Views/Home.js'
 import Profile from './Views/Profile.js'
+import Filter from './Views/Filter.js'
+
 import {
   Router,
   Switch,
@@ -58,6 +60,10 @@ class App extends Component {
 
             <PrivateLogin path="/login">
               <Login />
+            </PrivateLogin>
+
+            <PrivateLogin path="/filter">
+              <Filter />
             </PrivateLogin>
 
             <PrivateProfile path="/profile">

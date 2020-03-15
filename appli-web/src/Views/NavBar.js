@@ -95,12 +95,16 @@ export default function NavBar() {
           <ThemeProvider theme={theme}>
     <CssBaseline />
           <div className={classes.title}>
+          <Link to="/" style={{textDecoration: 'none',color:'black'}}>
           <h1>How to react</h1>
+          </Link>
           </div>
           </ThemeProvider>
+          <Link to="/filter">
           <IconButton aria-label="search" color="inherit" className={classes.menuButton}>
             <SearchIcon />
           </IconButton>
+          </Link>
           <Link to="/login">
           <IconButton aria-label="search" color="inherit" className={classes.menuButton}>
             <AccountCircle />

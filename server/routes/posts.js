@@ -107,15 +107,16 @@ router.delete("/", function(req,res,next) {
   await db.posts.remove({"_id" : id})
 
     const commentsList = await db.comments.find({"postId" : idString});
+    await db.reports.remove({"idPost":idString})
+    await db.comments.remove({"postId" : idString})
+    await db.votes.remove({"post" : idString})
     for await (c of commentsList) {
       console.log("Dans la boucle")
       await db.reportsCom.remove({"idCom":c._id});
     }
-    await db.reports.remove({"idPost":idString})
-    await db.comments.remove({"postId" : idString})
-    await db.votes.remove({"post" : idString})
-    
-    res.json({
+
+
+    await res.json({
       res:"correct",
       message:"delete post, reports, comment and votes ok"
     });

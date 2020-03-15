@@ -114,8 +114,8 @@ struct ProfileView: View {
                 
                 
                 
-                List() {
-                    ForEach(0..<self.posts.count){
+                List {
+                    ForEach(0..<self.posts.count, id: \.self){
                         index in
                         
                         ZStack{

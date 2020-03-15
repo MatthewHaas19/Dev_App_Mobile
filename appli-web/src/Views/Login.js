@@ -19,7 +19,7 @@ import CardContent from '@material-ui/core/CardContent';
 import {getUserFromDb} from '../API/UserApi'
 import Noteworthy from '../fonts/Noteworthy-Lt.woff';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -57,7 +57,7 @@ const useStyles = makeStyles(theme => ({
     fontFamily: 'Noteworthy Light',
     fontWeight: 400,
   },
-}));
+});
 
 const ColorButton = withStyles(theme => ({
   root: {
@@ -70,16 +70,58 @@ const ColorButton = withStyles(theme => ({
 }))(Button);
 
 
-
-
 const theme = createMuiTheme({
   palette: {
     primary: green,
   },
 });
 
-export default function Login() {
-  const classes = useStyles();
+
+
+
+
+class Login extends React.Component {
+
+  constructor(props){
+    super(props)
+    this.state = {
+      email: '',
+      password: ''
+    }
+  }
+
+  onChange = (e) => {
+    this.setState({[e.target.name]: e.target.value })
+  }
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    const user = {
+      email : this.state.email,
+      password: this.state.password
+    };
+    console.log(user);
+
+    getUserFromDb(user.email)
+      .then(data => {
+        console.log(data)
+        if(data.length==0){
+          console.log("email incorrect")
+        }
+        else{
+          if(data[0].password === user.password){
+            console.log("correct password")
+          }else{
+            console.log("password incorrect")
+          }
+        }
+      })
+  }
+
+
+  render(){
+    const {classes} = this.props
+
 
   return (
     <Container component="main" maxWidth="xs" maxHeight="xs">
@@ -92,7 +134,7 @@ export default function Login() {
         <Typography component="h1" variant="h5" className={classes.title} >
           Login
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={this.onSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -103,6 +145,7 @@ export default function Login() {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={this.onChange}
           />
           <TextField
             variant="outlined"
@@ -114,6 +157,7 @@ export default function Login() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={this.onChange}
           />
 
           <ColorButton variant="contained" color="primary" className={classes.margin} type="submit"
@@ -123,7 +167,7 @@ export default function Login() {
 
           <Grid container>
             <Grid item xs>
-              
+
             </Grid>
             <Grid item>
               <Link href="#" variant="body2">
@@ -138,3 +182,6 @@ export default function Login() {
     </Container>
   );
 }
+}
+
+export default withStyles(useStyles)(Login)

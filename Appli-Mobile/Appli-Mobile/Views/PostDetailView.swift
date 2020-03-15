@@ -23,7 +23,11 @@ struct PostDetailView: View {
     var position : String
     var afficherDetail: (Bool) -> ()
     
+    @State var show = false
+    
     @State var afficherDet = true
+    
+    @State var image: UIImage? = nil
     
     var body: some View {
         ScrollView{
@@ -95,7 +99,10 @@ struct PostDetailView: View {
                         }
                         
                         
-                    }
+                    }.onAppear { if(self.post.image != nil) {self.downloadImage(completion: {
+                        res in
+                        self.image = res
+                    }) }}
                     
                     
                     HStack {
@@ -179,8 +186,20 @@ struct PostDetailView: View {
                                 
                                 }).padding()
                     }.padding()
-                  
-                    
+                    if(image != nil){
+                        Button(action:{self.show.toggle()}){
+                    Image(uiImage:image!)
+                        .renderingMode(.original)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: show ? 414 : 300, height: show ? 600 : 300)
+                        .clipped()
+                        .cornerRadius(show ? 0 : 30)
+                        .shadow(radius: 30)
+                        .animation(.spring())
+                        
+                    }.buttonStyle(BorderlessButtonStyle())
+                    }
                     if(self.currentUser != nil) {
                         
                         HStack{
@@ -272,6 +291,43 @@ struct PostDetailView: View {
     func goBack(){
         self.afficherDetail(false)
     }
+    
+    func getHeight() -> CGFloat?{
+        
+            return CGFloat(100)
+
+    }
+    
+    
+    
+    
+    func downloadImage(completion: @escaping (UIImage?) -> ()){
+        
+        guard let url = URL(string: self.post.image!) else {
+            print("err")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url, completionHandler: { (data, response, err) in
+            if let err = err {
+                completion(nil)
+                return
+            }
+            guard let data = data else {
+                completion(nil)
+                return
+            }
+            
+            guard let image = UIImage(data: data) else {
+                completion(nil)
+                return
+            }
+            completion(image)
+            
+        }).resume()
+    }
+    
+    
 }
 
 

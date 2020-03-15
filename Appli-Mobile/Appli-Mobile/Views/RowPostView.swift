@@ -70,24 +70,26 @@ struct RowPostView: View {
                             
                             Text(post.titre).foregroundColor(Color.white)
                                 .font(.system(size:25))
-                            if(image == nil){
+                            if(post.image == nil){
                                 Spacer().frame(height:10)
                             }
                             
                             
                             
-                            if(image != nil){
+                            if(post.image != nil){
                                 HStack{ Text(post.texte).foregroundColor(Color.white)
-                                    
+                                    VStack{
                                     
                                     Image(systemName:"photo")
-                                
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
-                                        .frame(width: 60, height: 60)
-                                        .clipped()
-                                    
+                                        .frame(width: 30, height: 30)
+                                        //.clipped()
+                                    .foregroundColor(Color.white)
+                                    }.padding(.leading,10)
                                 }.padding(.bottom, 20)
+                                    .padding(.trailing,10)
+                                    
                             }else
                             {
                                 Text(post.texte).foregroundColor(Color.white)
@@ -130,10 +132,7 @@ struct RowPostView: View {
                     }
                 }.frame(height:getHeight())
             }.fixedSize(horizontal : false, vertical : true)
-        }.onAppear { if(self.post.image != nil) {self.downloadImage(completion: {
-            res in
-            self.image = res
-        }) }}
+        }
         
         
         

@@ -117,10 +117,7 @@ struct DetailRowPostView: View {
                     }.padding(.trailing)
                 }.frame(height:getHeight())
             }.fixedSize(horizontal : false, vertical : true)
-        }.onAppear { if(self.post.image != nil) {self.downloadImage(completion: {
-            res in
-            self.image = res
-        }) }}
+        }
         
         
         

@@ -13,16 +13,21 @@ struct PostDetailView: View {
     @ObservedObject var reportDAO = ReportDAO()
     @ObservedObject var voteDAO = VotesDAO()
     @ObservedObject var postDAO = PostDAO()
+    @ObservedObject var userDAO = UserDAO()
     
     @State private var showingAlert = false
     @State var afficherSheet = false
     
     @State var post : Post
     var currentUser : String?
-    
+    var position : String
     var afficherDetail: (Bool) -> ()
     
+    @State var show = false
+    
     @State var afficherDet = true
+    
+    @State var image: UIImage? = nil
     
     var body: some View {
         ScrollView{
@@ -57,6 +62,7 @@ struct PostDetailView: View {
                                 print("test")
                             })
                             {
+                            if ( (self.post.couleur[0] == 225/255) && (self.post.couleur[1] == 170/255) && (self.post.couleur[2] == 18/255) ) {
                                 HStack {
                                     Image(systemName:"exclamationmark.triangle")
                                         .resizable()
@@ -64,8 +70,23 @@ struct PostDetailView: View {
                                         .frame(width: 15, height: 15)
                                     Text("Signaler")
                                         .font(.system(size:15,weight: .semibold))
-                                }
-                            }.foregroundColor(.orange)
+                                }.foregroundColor(.blue)
+                            }
+                           
+                                
+                            else {
+                                 HStack {
+                                   Image(systemName:"exclamationmark.triangle")
+                                       .resizable()
+                                       .aspectRatio(contentMode: .fill)
+                                       .frame(width: 15, height: 15)
+                                   Text("Signaler")
+                                       .font(.system(size:15,weight: .semibold))
+                               }.foregroundColor(.orange)
+                            }
+                            }
+                            
+                            
                                 .padding()
                                 .padding(.trailing,10)
                                 .alert(isPresented: $showingAlert) {
@@ -78,11 +99,14 @@ struct PostDetailView: View {
                         }
                         
                         
-                    }
+                    }.onAppear { if(self.post.image != nil) {self.downloadImage(completion: {
+                        res in
+                        self.image = res
+                    }) }}
                     
                     
                     HStack {
-                        self.afficherDet ? DetailRowPostView(post:self.post,navigatePost:{
+                        self.afficherDet ? DetailRowPostView(user:userDAO.currentUser,post:self.post,position:self.position,navigatePost:{
                             post in
                             
                         },afficherEntier:true,navigateVote: {
@@ -121,7 +145,7 @@ struct PostDetailView: View {
                             })
                             }
                             
-                            }).padding() : DetailRowPostView(post:self.post,navigatePost:{
+                            }).padding() : DetailRowPostView(post:self.post,position:self.position,navigatePost:{
                                 post in
                                 
                             },afficherEntier:true,navigateVote: {
@@ -162,8 +186,20 @@ struct PostDetailView: View {
                                 
                                 }).padding()
                     }.padding()
-                    
-                    
+                    if(image != nil){
+                        Button(action:{self.show.toggle()}){
+                    Image(uiImage:image!)
+                        .renderingMode(.original)
+                        .resizable()
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: show ? 414 : 300, height: show ? 600 : 300)
+                        .clipped()
+                        .cornerRadius(show ? 0 : 30)
+                        .shadow(radius: 30)
+                        .animation(.spring())
+                        
+                    }.buttonStyle(BorderlessButtonStyle())
+                    }
                     if(self.currentUser != nil) {
                         
                         HStack{
@@ -255,6 +291,43 @@ struct PostDetailView: View {
     func goBack(){
         self.afficherDetail(false)
     }
+    
+    func getHeight() -> CGFloat?{
+        
+            return CGFloat(100)
+
+    }
+    
+    
+    
+    
+    func downloadImage(completion: @escaping (UIImage?) -> ()){
+        
+        guard let url = URL(string: self.post.image!) else {
+            print("err")
+            return
+        }
+        
+        URLSession.shared.dataTask(with: url, completionHandler: { (data, response, err) in
+            if let err = err {
+                completion(nil)
+                return
+            }
+            guard let data = data else {
+                completion(nil)
+                return
+            }
+            
+            guard let image = UIImage(data: data) else {
+                completion(nil)
+                return
+            }
+            completion(image)
+            
+        }).resume()
+    }
+    
+    
 }
 
 
@@ -265,10 +338,11 @@ struct PostDetailView: View {
 
 
 
-
+/*
 struct PostDetailView_Previews: PreviewProvider {
     static var previews: some View {
         PostDetailView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: ["Montpellier"], categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail", isAnonyme:true,  couleur:[1.00,1.00,1.00]), afficherDetail : {afficher in } )
     }
 }
 
+*/

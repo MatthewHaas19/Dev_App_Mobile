@@ -141,6 +141,7 @@ struct RouterView: View {
                                 HStack{
                                     Text("How 2 React").font(.custom("Noteworthy", size: 25))
                                         .foregroundColor(.black)
+                                        .fontWeight(.semibold)
                                 }
                         }
                         
@@ -205,19 +206,29 @@ struct RouterView: View {
                 self.getCurrentUser()
             }).edgesIgnoringSafeArea(.all) : nil)
                 .overlay(self.afficherRegister ? RegisterView(isAfficher: self.$afficherRegister, isAfficherLogin: self.$afficherLogin, isLogged:self.$isLogged).edgesIgnoringSafeArea(.all) : nil)
-                .overlay((self.afficherLogin && self.isLogged) ? ProfileView(/*isLogged:self.$afficherLogin,*/user: self.currentUser!,disconnect:{
+                
+                .overlay((self.afficherLogin && self.isLogged) ? ProfileView(
+                    posts:self.postDAO.myPost,positions:postDAO.localisation
+                    ,navigatePost:{
+                        res in
+                        self.currentPost=res
+                        self.afficherMesPost=false
+                    },navigateVote:{
+                        res,post in
+                        self.postDAO.getMyPosts(email: self.currentUserEmail!)
+                        self.afficherMesPost=false
+                        self.afficherMesPost=true
+                    },
+                    user: self.currentUser!,
+                    disconnect:{
                     res in
                     if(res){
                         self.disconnectUser()
                         self.isLogged = self.isConnected()
                     }
-                }, displayMyPost:{
-                    res in
-                    if(res){
-                        self.postDAO.getMyPosts(email:self.currentUserEmail!)
-                        self.afficherMesPost = true
-                    }
-                }).edgesIgnoringSafeArea(.all) : nil)
+                }
+                   ).edgesIgnoringSafeArea(.all) : nil)
+                
                 .overlay((self.isLogged && !self.afficherLogin && !self.afficherFilter) ? addButton(
                     isAfficher: {
                         afficher in

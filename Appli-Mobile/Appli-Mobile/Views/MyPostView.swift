@@ -10,7 +10,7 @@ struct MyPostView: View {
     @ObservedObject var postDAO = PostDAO()
     @ObservedObject var voteDAO = VotesDAO()
     
-
+    
     @State var posts : [Post]
     var navigatePost: (Post) -> ()
     var navigateVote: (Int,Post) -> ()
@@ -88,15 +88,15 @@ struct MyPostView: View {
                         
                         
                     }.onDelete { (indexSet) in self.deletePost(indexSet: indexSet)}
-                    .buttonStyle(BorderlessButtonStyle())
+                        .buttonStyle(BorderlessButtonStyle())
                     
                 }
             }.padding(.top,130)
-
+            
         }
         
     }
-
+    
     
     func deletePost(indexSet : IndexSet){
         print("On veut supprimer : ")

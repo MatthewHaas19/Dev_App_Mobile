@@ -78,6 +78,62 @@ public class CommentDAO: ObservableObject{
            }.resume()
 
        }
+    
+    func addVote(vote: Vote,comment:Comment ,completionHandler: @escaping (Int) -> ()) {
+        var like:String
+        if(vote.like){
+            like="true"
+        }
+        else{
+            like="false"
+        }
+        
+        guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/comments/addVote/"+like) else { return }
+        
+        let newVote:[String: Any] = [
+            "_id" : comment._id
+        ]
+        
+        
+        let body = try! JSONSerialization.data(withJSONObject: newVote)
+        
+        var request = URLRequest(url: url)
+        request.httpMethod = "PUT"
+        request.httpBody = body
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        
+        URLSession.shared.dataTask(with: request) { (data, response, error) in
+
+            guard let data = data else { return }
+            
+            let resData = try! JSONDecoder().decode(ServerMessage.self, from: data)
+
+
+            if resData.res == "correct" {
+                DispatchQueue.main.async {
+                    completionHandler(1)
+                }
+
+            }
+            else if resData.res == "exists"{
+                DispatchQueue.main.async {
+                    completionHandler(0)
+                }
+            }
+            
+            else {
+                DispatchQueue.main.async {
+                    completionHandler(-1)
+                }
+            }
+               
+            
+
+
+        }.resume()
+        
+        
+    }
    
     
 }

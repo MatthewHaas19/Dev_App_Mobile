@@ -81,7 +81,6 @@ router.post("/", function(req,res,next){
     if(err){
       res.send(err);
     }
-    console.log(post)
     res.json({
       res:"correct",
       message:"add post ok"
@@ -148,8 +147,8 @@ router.delete("/", function(req,res,next) {
     res.json({
       res:"correct",
       message:"delete post, reports, comment and votes ok"
-    })
     });
+
 })
 
 

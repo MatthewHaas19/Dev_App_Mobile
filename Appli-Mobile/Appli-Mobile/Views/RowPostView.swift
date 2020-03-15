@@ -11,12 +11,15 @@ import FirebaseStorage
 import FirebaseFirestore
 
 struct RowPostView: View {
-    
+    var user:[User]?
+    @ObservedObject var userDAO = UserDAO()
     @State var afficherSheet = false
     
     var currentUserEmail : String?
     
     var post: Post
+    @State var username : String=""
+    
     
     var localisation: String
     
@@ -40,32 +43,53 @@ struct RowPostView: View {
                     }){
                         VStack(alignment:.leading, spacing:5){
                             HStack{
+                                Image(systemName:"person.crop.circle").foregroundColor(Color.white)
+                                    .font(.system(size:14))
+                                if(post.isAnonyme == false ) {
+                                    if(self.username.count>0){ Text(String(self.username)).foregroundColor(Color.white).font(.system(size:14))
+                                    }
+                                } else {
+                                    Text("Anonyme").foregroundColor(Color.white).font(.system(size:14))
+                                }
+                                Spacer()
                                 Image(systemName:"location").foregroundColor(Color.white)
                                     .font(.system(size:14))
-                                Text((self.localisation=="Not known" ? self.localisation : self.localisation + " km")).foregroundColor(Color.white).font(.system(size:14))
+                                if(localisation != "Not known"){
+                                 Text(localisation+" km").foregroundColor(Color.white).font(.system(size:14))
+                                }else{
+                                 Text(localisation).foregroundColor(Color.white).font(.system(size:14))
+                                }
+
+                            } .onAppear {
+                                self.userDAO.findUser(email: self.post.user, completionHandler: {
+                                    res in
+                                    self.username = res[0].username
+                                })
+
                             }
                             
                             Text(post.titre).foregroundColor(Color.white)
                                 .font(.system(size:25))
-                            if(image == nil){
+                            if(post.image == nil){
                                 Spacer().frame(height:10)
                             }
                             
                             
                             
-                            if(image != nil){
+                            if(post.image != nil){
                                 HStack{ Text(post.texte).foregroundColor(Color.white)
-                                   
+                                    VStack{
                                     
-                                    Image(uiImage:image!)
-                                        .renderingMode(.original)
+                                    Image(systemName:"photo")
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
-                                        .frame(width: 60, height: 60)
-                                        .clipped()
-                                        .cornerRadius(20)
-                                    
+                                        .frame(width: 30, height: 30)
+                                        //.clipped()
+                                    .foregroundColor(Color.white)
+                                    }.padding(.leading,10)
                                 }.padding(.bottom, 20)
+                                    .padding(.trailing,10)
+                                    
                             }else
                             {
                                 Text(post.texte).foregroundColor(Color.white)
@@ -81,10 +105,10 @@ struct RowPostView: View {
                     }
                     .sheet(isPresented: self.$afficherSheet, content: {
                         
-                        PostDetailView(post: self.post, currentUser : self.currentUserEmail, afficherDetail: {
+                        PostDetailView(post: self.post, currentUser : self.currentUserEmail, position: self.localisation ,afficherDetail: {
                             afficher in
                             self.afficherSheet=afficher
-                            })
+                        })
                         
                     })
                     
@@ -108,10 +132,7 @@ struct RowPostView: View {
                     }
                 }.frame(height:getHeight())
             }.fixedSize(horizontal : false, vertical : true)
-        }.onAppear { if(self.post.image != nil) {self.downloadImage(completion: {
-            res in
-            self.image = res
-        }) }}
+        }
         
         
         

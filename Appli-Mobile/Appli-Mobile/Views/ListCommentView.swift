@@ -15,6 +15,7 @@ struct ListCommentView: View {
     var currentUser : String?
     @State var comments = [Comment]()
     @ObservedObject var commentDAO = CommentDAO()
+    @ObservedObject var userDAO = UserDAO()
     
     
     
@@ -39,10 +40,15 @@ struct ListCommentView: View {
                             })
                             .cornerRadius(30)
                             .padding()
-                                .shadow(color: .gray, radius: 2, x: 15, y: 15)
+                            .shadow(radius: 50)
                             
                             Spacer().frame(height:30)
                             
+                        }
+                        .onAppear {
+                                self.userDAO.findUser(email: c.user, completionHandler: {
+                                    res in
+                                })
                         }
                         
                         

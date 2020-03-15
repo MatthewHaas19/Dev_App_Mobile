@@ -10,12 +10,19 @@ import SwiftUI
 
 struct RowCommentView: View {
     
-    var comment : Comment
-    var currentUser : String?
+
+    @ObservedObject var userDAO = UserDAO()
     
+    var comment : Comment
+
+    var currentUser : String?
+     @State var username : String=""
     @State private var showingAlert = false
     @ObservedObject var reportComDAO = ReportCommentDAO()
+    @ObservedObject var commentDAO = CommentDAO()
+    @ObservedObject var voteDAO = VotesDAO()
     
+    @State var afficherVote = true
     
     var body: some View {
         VStack{
@@ -26,6 +33,23 @@ struct RowCommentView: View {
                     
                     HStack{
                         VStack(alignment:.leading, spacing:5){
+                            HStack{
+                                Image(systemName:"person.crop.circle").foregroundColor(Color.white)
+                                    .font(.system(size:14))
+                                if(comment.isAnonyme == false ) {
+                                    if(self.username.count>0){ Text(String(self.username)).foregroundColor(Color.white).font(.system(size:14))
+                                    }
+                                } else {
+                                    Text("Anonyme").foregroundColor(Color.white).font(.system(size:14))
+                                }
+                               
+                            }
+                            .onAppear {
+                                self.userDAO.findUser(email: self.comment.user, completionHandler: {
+                                    res in
+                                    self.username = res[0].username
+                                })
+                            }
                             
                             Text(comment.titreCom).foregroundColor(Color.white)
                                 .font(.system(size:25))
@@ -33,13 +57,75 @@ struct RowCommentView: View {
                             Text(comment.texteCom).foregroundColor(Color.white)
                                 .fixedSize(horizontal : false, vertical : true)
                         }
+                        
+                        
                         Spacer()
                         VStack{
-                            Button(action:{}){ Image(systemName:"chevron.up").foregroundColor(Color.white).font(.system(size:25,weight: .bold))
+                            Button(action:{
+                                
+                                if(self.currentUser != nil){
+                                    self.voteDAO.addVotesComment(vote: Vote(user:self.currentUser!,post:self.comment._id,like:true), completionHandler: {
+                                        result in
+                                        if(result==1){
+                                            self.commentDAO.addVote(vote: Vote(user:self.currentUser!,post:self.comment._id,like:true),comment:self.comment, completionHandler: {
+                                                res in
+                                                self.comment.voteCom = self.comment.voteCom + 1
+
+                                                self.afficherVote.toggle()
+                                                
+                                            })
+                                        }
+                                        else if(result==2){
+                                            self.commentDAO.addVote(vote: Vote(user:self.currentUser!,post:self.comment._id,like:true),comment:self.comment, completionHandler: {
+                                                res in
+                                            })
+                                            self.commentDAO.addVote(vote: Vote(user:self.currentUser!,post:self.comment._id,like:true),comment:self.comment, completionHandler: {
+                                                res in
+                                                // print(res)
+                                                self.comment.voteCom = self.comment.voteCom + 2
+                                                self.afficherVote.toggle()
+                                                
+                                            })
+                                        }
+                                    })
+                                }
+                                
+                                
+                                
+                            }){ Image(systemName:"chevron.up").foregroundColor(Color.white).font(.system(size:25,weight: .bold))
                             }
                             
-                            Text(String(comment.voteCom)).foregroundColor(Color.white).font(.system(size:20));
-                            Button(action:{print("cc")}){
+                            self.afficherVote ? Text(String(comment.voteCom)).foregroundColor(Color.white).font(.system(size:20)) : Text(String(comment.voteCom)).foregroundColor(Color.white).font(.system(size:20))
+                            
+                            Button(action:{
+                                if(self.currentUser != nil){
+                                    self.voteDAO.addVotesComment(vote: Vote(user:self.currentUser!,post:self.comment._id,like:false), completionHandler: {
+                                        result in
+                                        if(result==1){
+                                            self.commentDAO.addVote(vote: Vote(user:self.currentUser!,post:self.comment._id,like:false),comment:self.comment, completionHandler: {
+                                                res in
+                                                //print(res)
+                                                self.comment.voteCom = self.comment.voteCom - 1
+                                                self.afficherVote.toggle()
+                                                
+                                            })
+                                        }
+                                        else if(result==2){
+                                            self.commentDAO.addVote(vote: Vote(user:self.currentUser!,post:self.comment._id,like:false),comment:self.comment, completionHandler: {
+                                                res in
+                                            })
+                                            self.commentDAO.addVote(vote: Vote(user:self.currentUser!,post:self.comment._id,like:false),comment:self.comment, completionHandler: {
+                                                res in
+                                                // print(res)
+
+                                                self.comment.voteCom = self.comment.voteCom - 2
+                                                self.afficherVote.toggle()
+                                            })
+                                        }
+                                    })
+                                }
+                                
+                            }){
                                 Image(systemName:"chevron.down").foregroundColor(Color.white)
                                     .font(.system(size:25,weight: .bold))
                                 

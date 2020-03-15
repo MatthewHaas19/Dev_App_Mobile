@@ -74,7 +74,7 @@ public class PostDAO: ObservableObject{
         
         guard let url = URL(string: "https://dev-mobile-ig.herokuapp.com/posts/filter/a") else { return }
         
-        let filter:[String: Any] = [
+        let filterPost:[String: Any] = [
             "type":filter.type,
             "tags":filter.tags,
             "localisation":filter.localisation,
@@ -82,7 +82,7 @@ public class PostDAO: ObservableObject{
         ]
         
         
-        let body = try! JSONSerialization.data(withJSONObject: filter)
+        let body = try! JSONSerialization.data(withJSONObject: filterPost)
         
         var request = URLRequest(url: url)
         request.httpMethod = "PUT"
@@ -95,10 +95,21 @@ public class PostDAO: ObservableObject{
             
             let resData = try! JSONDecoder().decode([Post].self, from: data)
 
-
+            
             
                 DispatchQueue.main.async{
-                    self.posts = resData
+                    var filterResult = [Post]()
+                    for i in 0..<resData.count{
+
+                        if(self.getPosition(currentPosition: resData[i].localisation, postPosition: self.localisation) != "Not known"){
+                            if(self.getPosition(currentPosition: resData[i].localisation, postPosition: self.localisation) < filter.localisation){
+                                filterResult.append(resData[i])
+                            }
+                        }
+                    }
+                    
+                    
+                    self.posts = filterResult
                 }
 
         }.resume()
@@ -236,11 +247,10 @@ public class PostDAO: ObservableObject{
          request.setValue("application/json", forHTTPHeaderField: "Content-Type")
          
          URLSession.shared.dataTask(with: request) { (data, response, error) in
-
+            print("on a envoyé requete")
              guard let data = data else { return }
              
              let resData = try! JSONDecoder().decode(ServerMessage.self, from: data)
-
 
              if resData.res == "correct" {
                  DispatchQueue.main.async {

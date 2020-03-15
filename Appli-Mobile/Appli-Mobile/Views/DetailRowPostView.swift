@@ -12,11 +12,14 @@ import FirebaseFirestore
 
 struct DetailRowPostView: View {
     
+    @ObservedObject var userDAO = UserDAO()
     
     var currentUserEmail : String?
-    
+    var user:[User]?
     var post: Post
+    @State var username : String=""
     
+    var position: String
     @State var image: UIImage? = nil
     
     var navigatePost: (Post) -> ()
@@ -32,16 +35,31 @@ struct DetailRowPostView: View {
                 HStack{
                     Button(action:{
                         //self.navigatePost(self.post)
-                       
+                        
                     }){
                         VStack(alignment:.leading, spacing:5){
                             HStack{
+                                Image(systemName:"person.crop.circle").foregroundColor(Color.white)
+                                    .font(.system(size:14))
+                                if(post.isAnonyme == false ) {
+                                    if(self.username.count>0){ Text(String(self.username)).foregroundColor(Color.white).font(.system(size:14))
+                                    }
+                                } else {
+                                    Text("Anonyme").foregroundColor(Color.white).font(.system(size:14))
+                                    
+                                }
+                                
+                                Spacer()
                                 Image(systemName:"location").foregroundColor(Color.white)
                                     .font(.system(size:14))
-                                if(post.localisation != nil) {
-                                    if(post.localisation!.count != 0){ Text(post.localisation![0]).foregroundColor(Color.white).font(.system(size:14))
-                                    }
-                                }
+                                Text(self.position).foregroundColor(Color.white).font(.system(size:14))
+                                
+                            }
+                            .onAppear {
+                                self.userDAO.findUser(email: self.post.user, completionHandler: {
+                                    res in
+                                    self.username = res[0].username
+                                })
                             }
                             
                             Text(post.titre).foregroundColor(Color.white)
@@ -54,7 +72,7 @@ struct DetailRowPostView: View {
                             
                             if(image != nil){
                                 HStack{ Text(post.texte).foregroundColor(Color.white)
-                                   
+                                    
                                     
                                     Image(uiImage:image!)
                                         .renderingMode(.original)
@@ -99,10 +117,7 @@ struct DetailRowPostView: View {
                     }.padding(.trailing)
                 }.frame(height:getHeight())
             }.fixedSize(horizontal : false, vertical : true)
-        }.onAppear { if(self.post.image != nil) {self.downloadImage(completion: {
-            res in
-            self.image = res
-        }) }}
+        }
         
         
         
@@ -117,6 +132,8 @@ struct DetailRowPostView: View {
             return CGFloat(100)
         }
     }
+    
+    
     
     
     func downloadImage(completion: @escaping (UIImage?) -> ()){
@@ -149,21 +166,22 @@ struct DetailRowPostView: View {
     
     
 }
-
-struct DetailRowPostView_Previews: PreviewProvider {
-    static var previews: some View {
-        
-        VStack{
-            
-            DetailRowPostView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image:"https://firebasestorage.googleapis.com/v0/b/appli-mobile-ig.appspot.com/o/imagesFolder%2FEAD3F4E5-47AA-4CEE-80BC-A3931DE2EDFF?alt=media&token=21844ebe-8384-4be0-9e26-55463ee09887", localisation: nil, categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail", isAnonyme:true, couleur:[1.00,1.00,1.00]),navigatePost: {post in},afficherEntier:true,navigateVote: {
-                res,post in
-            })
-            
-            DetailRowPostView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: ["Montpellier"], categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail", isAnonyme: true, couleur:[1.00,1.00,1.00]),navigatePost: {post in},afficherEntier:true,navigateVote: {
-                res,post in
-            })
-            
-        }
-        
-    }
-}
+/*
+ struct DetailRowPostView_Previews: PreviewProvider {
+ static var previews: some View {
+ 
+ VStack{
+ 
+ DetailRowPostView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image:"https://firebasestorage.googleapis.com/v0/b/appli-mobile-ig.appspot.com/o/imagesFolder%2FEAD3F4E5-47AA-4CEE-80BC-A3931DE2EDFF?alt=media&token=21844ebe-8384-4be0-9e26-55463ee09887", localisation: nil, categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail", isAnonyme:true, couleur:[1.00,1.00,1.00]),navigatePost: {post in},afficherEntier:true,navigateVote: {
+ res,post in
+ })
+ 
+ DetailRowPostView(post:Post(id : "idid" ,titre: "Super uper ", texte: "il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please il m'est arrivé ca c'est super horrible help me please ", nbSignalement: 4, image: nil, localisation: ["Montpellier"], categorie: ["Dans la rue"], note: 156, date: "08/12",user:"mail", isAnonyme: true, couleur:[1.00,1.00,1.00]),navigatePost: {post in},afficherEntier:true,navigateVote: {
+ res,post in
+ })
+ 
+ }
+ 
+ }
+ }
+ */

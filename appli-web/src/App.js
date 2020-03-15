@@ -3,8 +3,18 @@ import logo from './logo.svg';
 import './App.css';
 import Login from './Views/Login.js'
 import NavBar from './Views/NavBar.js'
-
-
+import Home from './Views/Home.js'
+import Profile from './Views/Profile.js'
+import {
+  Router,
+  Switch,
+  Route,
+  Link,
+  Redirect,
+  useHistory,
+  useLocation,
+} from "react-router-dom";
+import history from './history'
 class App extends Component {
 
   constructor(props) {
@@ -36,18 +46,82 @@ class App extends Component {
 
 
     return (
-      /*<div className="App">
-        <h1>L'application de Juju, Temil & Matt</h1>
-        <h2>Nos utilisateurs</h2>
-        {users}
-      </div>
-      */
-      <div>
-      <NavBar />
-      <Login />
-      </div>
+
+      <Router history={history}>
+        <div>
+          <NavBar />
+
+          <Switch>
+            <Route exact path="/">
+              <Home />
+            </Route>
+
+            <PrivateLogin path="/login">
+              <Login />
+            </PrivateLogin>
+
+            <PrivateProfile path="/profile">
+              <Profile />
+            </PrivateProfile>
+
+          </Switch>
+          </div>
+      </Router>
+
     );
   }
+}
+
+const fakeAuth = {
+  isAuthenticated: false,
+  authenticate(cb) {
+    fakeAuth.isAuthenticated = true;
+    setTimeout(cb,100)
+  },
+  signout(cb) {
+    fakeAuth.isAuthenticated = true;
+    setTimeout(cb,100)
+  }
+}
+
+function PrivateProfile({ children, ...rest }) {
+  return (
+    <Route
+    {...rest}
+    render={({location}) =>
+      fakeAuth.isAuthenticated ? (
+        children
+      ) : (
+        <Redirect
+          to = {{
+            pathname: "/login",
+            state: { from: location}
+          }}
+        />
+      )
+    }
+    />
+  )
+}
+
+function PrivateLogin({ children, ...rest }) {
+  return (
+    <Route
+    {...rest}
+    render={({location}) =>
+      !fakeAuth.isAuthenticated ? (
+        children
+      ) : (
+        <Redirect
+          to = {{
+            pathname: "/profile",
+            state: { from: location}
+          }}
+        />
+      )
+    }
+    />
+  )
 }
 
 export default App;

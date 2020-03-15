@@ -16,6 +16,12 @@ import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 
 const noteWorthy = {
@@ -81,9 +87,11 @@ export default function NavBar() {
     <div className={classes.root}>
       <AppBar position="static" style={{ background: "#ffffff" }}>
         <Toolbar>
+          <Link to="/">
           <Button>
             <Avatar variant="square" src="/assets/H2R.png"  />
           </Button>
+          </Link>
           <ThemeProvider theme={theme}>
     <CssBaseline />
           <div className={classes.title}>
@@ -93,9 +101,11 @@ export default function NavBar() {
           <IconButton aria-label="search" color="inherit" className={classes.menuButton}>
             <SearchIcon />
           </IconButton>
+          <Link to="/login">
           <IconButton aria-label="search" color="inherit" className={classes.menuButton}>
             <AccountCircle />
           </IconButton>
+          </Link>
         </Toolbar>
       </AppBar>
     </div>

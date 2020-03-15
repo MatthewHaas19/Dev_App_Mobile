@@ -19,6 +19,8 @@ import CardContent from '@material-ui/core/CardContent';
 import {getUserFromDb} from '../API/UserApi'
 import Noteworthy from '../fonts/Noteworthy-Lt.woff';
 
+import history from '../history';
+
 const useStyles = theme => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -111,6 +113,7 @@ class Login extends React.Component {
         else{
           if(data[0].password === user.password){
             console.log("correct password")
+            history.push('/');
           }else{
             console.log("password incorrect")
           }
@@ -120,7 +123,8 @@ class Login extends React.Component {
 
 
   render(){
-    const {classes} = this.props
+
+  const {classes} = this.props
 
 
   return (

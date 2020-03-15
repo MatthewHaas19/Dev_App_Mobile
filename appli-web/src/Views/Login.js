@@ -19,6 +19,9 @@ import CardContent from '@material-ui/core/CardContent';
 import {getUserFromDb} from '../API/UserApi'
 import Noteworthy from '../fonts/Noteworthy-Lt.woff';
 
+var bcrypt = require('bcryptjs');
+
+
 const useStyles = theme => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -109,7 +112,7 @@ class Login extends React.Component {
           console.log("email incorrect")
         }
         else{
-          if(data[0].password === user.password){
+          if(bcrypt.compareSync(user.password,data[0].password)){
             console.log("correct password")
           }else{
             console.log("password incorrect")

@@ -54,6 +54,39 @@ router.get("/:post", function(req,res,next){
     })
   })
 
+  router.put("/addVote/:vote",function(req,res,next){
+    var id = ObjectId(req.body._id)
+    if(req.params.vote=="true"){
+      db.comments.updateOne({"_id":id},{$inc: { "voteCom" : 1}},function(err,users){
+        if(err){
+          res.json({
+            res:"not correct",
+            message:err
+          });
+        }
+        res.json({
+          res:"correct",
+          message:"increment ok"
+        });
+      })
+    }
+    else{
+      db.comments.updateOne({"_id" : id},{$inc: { "voteCom" : -1}},function(err,users){
+        if(err){
+          res.json({
+            res:"not correct",
+            message:err
+          });
+        }
+        res.json({
+          res:"correct",
+          message:"decrement ok"
+        });
+      })
+    }
+
+  })
+
 
 
 

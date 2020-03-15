@@ -17,7 +17,7 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import {getUserFromDb} from '../API/UserApi'
-
+import Noteworthy from '../fonts/Noteworthy-Lt.woff';
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -49,7 +49,14 @@ const useStyles = makeStyles(theme => ({
   card: {
     boxShadow: "10px 10px 10px #9E9E9E",
     marginTop: 50
-  }
+  },
+  title: {
+    flexGrow: 1,
+    color: "black",
+    marginLeft: 10,
+    fontFamily: 'Noteworthy Light',
+    fontWeight: 400,
+  },
 }));
 
 const ColorButton = withStyles(theme => ({
@@ -81,7 +88,8 @@ export default function Login() {
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar alt="Remy Sharp" src="/assets/H2R.png" className={classes.large} />
-        <Typography component="h1" variant="h5">
+
+        <Typography component="h1" variant="h5" className={classes.title} >
           Login
         </Typography>
         <form className={classes.form} noValidate>
@@ -115,9 +123,7 @@ export default function Login() {
 
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
-                Mdp oublié ?
-              </Link>
+              
             </Grid>
             <Grid item>
               <Link href="#" variant="body2">

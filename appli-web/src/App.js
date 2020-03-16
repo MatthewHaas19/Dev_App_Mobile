@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 import Login from './Views/Login.js'
 import NavBar from './Views/NavBar.js'
-
+import AddPost from './Views/AddPost.js'
 
 class App extends Component {
 
@@ -44,7 +44,7 @@ class App extends Component {
       */
       <div>
       <NavBar />
-      <Login />
+      <AddPost />
       </div>
     );
   }

@@ -61,6 +61,10 @@ class App extends Component {
               <Home />
             </Route>
 
+            <Route path="/addpost">
+              <AddPost />
+            </Route>
+
             <PrivateLogin path="/login">
               <Login />
             </PrivateLogin>

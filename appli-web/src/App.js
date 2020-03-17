@@ -9,6 +9,7 @@ import Profile from './Views/Profile.js'
 import Filter from './Views/Filter.js'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux';
+import cookie from 'react-cookies';
 import {
   Router,
   Switch,
@@ -41,6 +42,14 @@ class App extends Component {
       });
   }
 
+
+  componentWillMount() {
+    var cooki = cookie.load('userId')
+    if(cooki){
+      var action = { type: "TOGGLE_AUTH"}
+      this.props.dispatch(action)
+    }
+  }
 
 
   render(){

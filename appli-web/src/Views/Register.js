@@ -7,7 +7,12 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -22,11 +27,13 @@ import cookie from 'react-cookies';
 import {store} from '../Store/store'
 import { connect } from 'react-redux'
 import history from '../history';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 var bcrypt = require('bcryptjs');
 
 const useStyles = theme => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
@@ -132,6 +139,11 @@ class Register extends React.Component {
     <Container component="main" maxWidth="xs" maxHeight="xs">
     <Card className={classes.card}>
       <CardContent>
+        <Link to="/login">
+          <IconButton  aria-label="search">
+            <ArrowBackIcon />
+          </IconButton>
+        </Link>
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar alt="Remy Sharp" src="/assets/H2R.png" className={classes.large} />

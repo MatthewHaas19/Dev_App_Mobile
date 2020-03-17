@@ -5,6 +5,7 @@ function toggleUser(state = initialState, action) {
   switch(action.type) {
     case 'TOGGLE_USER':
     state = {currentUser:action.currentUser}
+    console.log(action.currentUser)
     return state
   default:
     return state

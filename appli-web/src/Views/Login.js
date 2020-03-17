@@ -19,6 +19,8 @@ import CardContent from '@material-ui/core/CardContent';
 import {getUserFromDb} from '../API/UserApi'
 import Noteworthy from '../fonts/Noteworthy-Lt.woff';
 
+import {store} from '../Store/store'
+import { connect } from 'react-redux'
 import history from '../history';
 var bcrypt = require('bcryptjs');
 
@@ -113,7 +115,10 @@ class Login extends React.Component {
         }
         else{
           if(bcrypt.compareSync(user.password,data[0].password)){
-            console.log("correct password")
+            var action = { type: "TOGGLE_USER", currentUser: data[0]}
+            this.props.dispatch(action)
+            action = { type: "TOGGLE_AUTH"}
+            this.props.dispatch(action)
             history.push('/');
           }else{
             console.log("password incorrect")
@@ -189,4 +194,12 @@ class Login extends React.Component {
 }
 }
 
-export default withStyles(useStyles)(Login)
+
+const mapStateToProps = state =>{
+  return {
+    isAuth: state.auth.isAuth,
+    currentUser: state.user.currentUser
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(useStyles)(Login))

@@ -16,7 +16,9 @@ import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
+import {getUserFromDb} from '../API/UserApi'
 import Noteworthy from '../fonts/Noteworthy-Lt.woff';
+<<<<<<< HEAD
 import {store} from '../Store/store'
 import { connect } from 'react-redux'
 import history from '../history';
@@ -24,10 +26,11 @@ import history from '../history';
 
 
 import {getUserFromDb} from '../API/UserApi';
+=======
+>>>>>>> parent of 40a345b0... Avancée + node module
 
+import history from '../history';
 var bcrypt = require('bcryptjs');
-
-
 
 const useStyles = theme => ({
   paper: {

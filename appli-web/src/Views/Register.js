@@ -30,6 +30,7 @@ import history from '../history';
 import IconButton from '@material-ui/core/IconButton';
 import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 var bcrypt = require('bcryptjs');
+var salt = bcrypt.genSaltSync(10);
 
 const useStyles = theme => ({
   paper: {
@@ -110,13 +111,13 @@ class Register extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    const user = {
-      username: this.state.username,
-      post : [],
-      password: this.state.password,
-      email : this.state.email,
-    };
     if(e.password == e.cpassword){
+      const user = {
+        username: this.state.username,
+        post : [],
+        password: bcrypt.hashSync(this.state.password, salt),
+        email : this.state.email,
+      };
       setUserDb(user)
         .then(data => {
           if(data == "{\"res\":\"correct\",\"message\":\"register ok\"}"){

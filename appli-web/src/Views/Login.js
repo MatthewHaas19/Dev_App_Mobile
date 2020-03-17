@@ -22,6 +22,7 @@ import cookie from 'react-cookies';
 import {store} from '../Store/store'
 import { connect } from 'react-redux'
 import history from '../history';
+import history from '../history';
 var bcrypt = require('bcryptjs');
 
 const useStyles = theme => ({

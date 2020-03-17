@@ -7,6 +7,7 @@ import AddPost from './Views/AddPost.js'
 import Home from './Views/Home.js'
 import Profile from './Views/Profile.js'
 import Filter from './Views/Filter.js'
+
 import Register from './Views/Register.js'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux';
@@ -21,7 +22,6 @@ import {
   useLocation,
 } from "react-router-dom";
 import history from './history'
-import {store} from './Store/store'
 
 class App extends Component {
 
@@ -53,22 +53,21 @@ class App extends Component {
   }
 
 
+
   render(){
 
-    const isAuth = this.props.isAuth
+    const users = this.state.data.map((n,key) => {
+      return <p>{n.username}</p>;
+    });
 
-    if(isAuth){
-      myAuth.isAuthenticated = true
-    }else{
-      myAuth.isAuthenticated = false
-    }
 
     return (
 
 
       <Router history={history}>
         <div>
-           <NavBar />
+          <NavBar />
+
           <Switch>
             <Route exact path="/">
               <Home />
@@ -102,25 +101,24 @@ class App extends Component {
   }
 }
 
-const myAuth = {
+const fakeAuth = {
   isAuthenticated: false,
   authenticate(cb) {
-    myAuth.isAuthenticated = true;
-    setTimeout(cb, 100); // fake async
+    fakeAuth.isAuthenticated = true;
+    setTimeout(cb,100)
   },
   signout(cb) {
-    myAuth.isAuthenticated = false;
-    setTimeout(cb, 100);
+    fakeAuth.isAuthenticated = true;
+    setTimeout(cb,100)
   }
-};
-
+}
 
 function PrivateProfile({ children, ...rest }) {
   return (
     <Route
     {...rest}
     render={({location}) =>
-      myAuth.isAuthenticated ? (
+      fakeAuth.isAuthenticated ? (
         children
       ) : (
         <Redirect
@@ -135,34 +133,24 @@ function PrivateProfile({ children, ...rest }) {
   )
 }
 
-
-
 function PrivateLogin({ children, ...rest }) {
   return (
     <Route
     {...rest}
     render={({location}) =>
-      myAuth.isAuthenticated ? (
+      !fakeAuth.isAuthenticated ? (
+        children
+      ) : (
         <Redirect
           to = {{
             pathname: "/profile",
             state: { from: location}
           }}
         />
-      ) : (
-        children
       )
     }
     />
   )
 }
 
-
-const mapStateToProps = state =>{
-  return {
-    isAuth: state.auth.isAuth,
-    currentUser: state.user.currentUser
-  }
-}
-
-export default connect(mapStateToProps)(App)
+export default App;

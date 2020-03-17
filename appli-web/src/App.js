@@ -78,17 +78,17 @@ class App extends Component {
               <AddPost />
             </Route>
 
-            <Route path="/register">
+            <PrivateRegister path="/register">
               <Register />
-            </Route>
+            </PrivateRegister>
 
             <PrivateLogin path="/login">
               <Login />
             </PrivateLogin>
 
-            <PrivateLogin path="/filter">
+            <Route path="/filter">
               <Filter />
-            </PrivateLogin>
+            </Route>
 
             <PrivateProfile path="/profile">
               <Profile />
@@ -135,6 +135,26 @@ function PrivateProfile({ children, ...rest }) {
   )
 }
 
+
+function PrivateRegister({ children, ...rest }) {
+  return (
+    <Route
+    {...rest}
+    render={({location}) =>
+      myAuth.isAuthenticated ? (
+        <Redirect
+          to = {{
+            pathname: "/profile",
+            state: { from: location}
+          }}
+        />
+      ) : (
+        children
+      )
+    }
+    />
+  )
+}
 
 
 function PrivateLogin({ children, ...rest }) {

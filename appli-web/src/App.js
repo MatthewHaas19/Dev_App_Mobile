@@ -7,7 +7,9 @@ import AddPost from './Views/AddPost.js'
 import Home from './Views/Home.js'
 import Profile from './Views/Profile.js'
 import Filter from './Views/Filter.js'
-
+import { connect } from 'react-redux'
+import { push } from 'react-router-redux';
+import cookie from 'react-cookies';
 import {
   Router,
   Switch,
@@ -18,6 +20,7 @@ import {
   useLocation,
 } from "react-router-dom";
 import history from './history'
+import {store} from './Store/store'
 
 class App extends Component {
 
@@ -40,22 +43,31 @@ class App extends Component {
   }
 
 
+  componentWillMount() {
+    var cooki = cookie.load('userId')
+    if(cooki){
+      var action = { type: "TOGGLE_AUTH"}
+      this.props.dispatch(action)
+    }
+  }
 
 
   render(){
 
-    const users = this.state.data.map((n,key) => {
-      return <p>{n.username}</p>;
-    });
+    const isAuth = this.props.isAuth
 
+    if(isAuth){
+      myAuth.isAuthenticated = true
+    }else{
+      myAuth.isAuthenticated = false
+    }
 
     return (
 
 
       <Router history={history}>
         <div>
-          <NavBar />
-
+           <NavBar />
           <Switch>
             <Route exact path="/">
               <Home />
@@ -85,24 +97,25 @@ class App extends Component {
   }
 }
 
-const fakeAuth = {
+const myAuth = {
   isAuthenticated: false,
   authenticate(cb) {
-    fakeAuth.isAuthenticated = true;
-    setTimeout(cb,100)
+    myAuth.isAuthenticated = true;
+    setTimeout(cb, 100); // fake async
   },
   signout(cb) {
-    fakeAuth.isAuthenticated = true;
-    setTimeout(cb,100)
+    myAuth.isAuthenticated = false;
+    setTimeout(cb, 100);
   }
-}
+};
+
 
 function PrivateProfile({ children, ...rest }) {
   return (
     <Route
     {...rest}
     render={({location}) =>
-      fakeAuth.isAuthenticated ? (
+      myAuth.isAuthenticated ? (
         children
       ) : (
         <Redirect
@@ -117,24 +130,34 @@ function PrivateProfile({ children, ...rest }) {
   )
 }
 
+
+
 function PrivateLogin({ children, ...rest }) {
   return (
     <Route
     {...rest}
     render={({location}) =>
-      !fakeAuth.isAuthenticated ? (
-        children
-      ) : (
+      myAuth.isAuthenticated ? (
         <Redirect
           to = {{
             pathname: "/profile",
             state: { from: location}
           }}
         />
+      ) : (
+        children
       )
     }
     />
   )
 }
 
-export default App;
+
+const mapStateToProps = state =>{
+  return {
+    isAuth: state.auth.isAuth,
+    currentUser: state.user.currentUser
+  }
+}
+
+export default connect(mapStateToProps)(App)

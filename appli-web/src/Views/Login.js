@@ -18,20 +18,9 @@ import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import {getUserFromDb} from '../API/UserApi'
 import Noteworthy from '../fonts/Noteworthy-Lt.woff';
-<<<<<<< HEAD
-<<<<<<< HEAD
+import cookie from 'react-cookies';
 import {store} from '../Store/store'
 import { connect } from 'react-redux'
-import history from '../history';
-
-
-
-import {getUserFromDb} from '../API/UserApi';
-
-
-=======
-
->>>>>>> parent of 40a345b0... Avancée + node module
 import history from '../history';
 var bcrypt = require('bcryptjs');
 
@@ -128,6 +117,9 @@ class Login extends React.Component {
           if(bcrypt.compareSync(user.password,data[0].password)){
             var action = { type: "TOGGLE_USER", currentUser: data[0]}
             this.props.dispatch(action)
+
+            cookie.save('userId', user.email, { path: '/' })
+
             action = { type: "TOGGLE_AUTH"}
             this.props.dispatch(action)
             history.push('/');

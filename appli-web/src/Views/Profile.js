@@ -1,7 +1,6 @@
 import React, {Component} from 'react';
-import { connect } from 'react-redux'
 
-class Profile extends React.Component {
+export default class Profile extends React.Component {
 
   constructor(props){
     super(props)
@@ -17,12 +16,3 @@ class Profile extends React.Component {
     )
   }
 }
-
-const mapStateToProps = state =>{
-  return {
-    isAuth: state.auth.isAuth,
-    currentUser: state.user.currentUser
-  }
-}
-
-export default connect(mapStateToProps)(Profile)

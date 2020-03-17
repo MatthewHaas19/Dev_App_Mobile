@@ -8,9 +8,12 @@ import Home from './Views/Home.js'
 import Profile from './Views/Profile.js'
 import Filter from './Views/Filter.js'
 
+<<<<<<< HEAD
 import Register from './Views/Register.js'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux';
+=======
+>>>>>>> parent of bc52f6c30... redux working ! :)
 import {
   Router,
   Switch,

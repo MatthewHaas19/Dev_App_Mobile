@@ -7,6 +7,7 @@ import AddPost from './Views/AddPost.js'
 import Home from './Views/Home.js'
 import Profile from './Views/Profile.js'
 import Filter from './Views/Filter.js'
+import Register from './Views/Register.js'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux';
 import cookie from 'react-cookies';
@@ -75,6 +76,10 @@ class App extends Component {
 
             <Route path="/addpost">
               <AddPost />
+            </Route>
+
+            <Route path="/register">
+              <Register />
             </Route>
 
             <PrivateLogin path="/login">

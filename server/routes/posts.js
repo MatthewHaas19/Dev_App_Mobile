@@ -148,9 +148,8 @@ router.delete("/", function(req,res,next) {
       res:"correct",
       message:"delete post, reports, comment and votes ok"
     });
-
+  })
 })
-
 
 
 router.put("/filter/:categorie", function(req,res,next){

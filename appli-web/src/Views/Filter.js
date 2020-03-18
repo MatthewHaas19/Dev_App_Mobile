@@ -113,6 +113,10 @@ const useStyles = theme => ({
     overflow: 'auto',
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(3),
+  },
+  categories: {
+    width: "100px",
+    margin: "auto"
   }
 });
 
@@ -133,7 +137,7 @@ const theme = createMuiTheme({
   },
 });
 
-
+const listCategorie = ["Amis","Couple","Ecole","Famille","Rue","Soiree","Sport","Transport","Travail","TV","Voisin","Web","Autres"]
 
 class Filter extends React.Component {
 
@@ -144,7 +148,7 @@ class Filter extends React.Component {
       tags : ["exemple"],
       tag:"",
       localisation:"60",
-      checked:false,
+      checked:[false,false,false,false,false,false,false,false,false,false,false,false,false],
     }
   }
 
@@ -161,8 +165,19 @@ class Filter extends React.Component {
 
   }
 
-  handleChange = name => event => {
-    this.setState({ [name]: event.target.checked });
+  handleChangeAll = () => event => {
+    const cat = this.state.checked
+    for (var i = 0; i < cat.length; i++) {
+      cat[i] = event.target.checked
+    }
+    this.setState({ checked: cat });
+  };
+
+  handleChange = (index) => event => {
+    console.log(index)
+    const cat = this.state.checked
+    cat[index] = event.target.checked
+    this.setState({ checked: cat });
   };
 
   onAddTag = () => {
@@ -175,10 +190,26 @@ class Filter extends React.Component {
 
   onSubmit = () => {
     console.log("submit filter")
+
+    const cat = this.state.checked
+    const res = []
+    for (var i = 0; i < cat.length; i++) {
+      if(cat[i]==true){
+        res.push(listCategorie[i])
+      }
+    }
+
+    var type = "Plus recent"
+
+    if(this.state.type == 1){
+      type = "Plus populaire"
+    }
+
     const filter = {
-      type: this.state.type,
+      type: type,
       tags: this.state.tags,
-      localisation: this.state.localisation
+      localisation: this.state.localisation,
+      categorie: res
     }
     console.log(filter)
   }
@@ -209,6 +240,19 @@ class Filter extends React.Component {
      <Chip label={tag} onDelete={() => this.handleDelete(tag)} className={classes.chip}/>
     </ListItemIcon>
     </ListItem>
+  );
+
+  const filterCat = listCategorie.map((value,index) =>
+  <Grid container>
+    <FormControlLabel
+    control={
+      <Switch checked={this.state.checked[index]}
+      onChange={this.handleChange(index)
+    } color="primary" />
+    }
+    label={value}
+    />
+    </Grid>
   );
 
   return (
@@ -292,24 +336,30 @@ class Filter extends React.Component {
 
 
 
-          <Grid container justify = "center">
+            <Grid container justify = "center">
             <Typography component="h1" variant="h5" className={classes.subtitle} >
               Filtrer par Catégorie
             </Typography>
 
             </Grid>
-            <Grid container justify = "center">
+
+            <div className={classes.categories}>
+            <Grid container justify = "center" className={classes.categories}>
+            <Grid container>
             <FormControlLabel
             control={
-              <Switch checked={this.state.checked}
-              onChange={this.handleChange("checked")
+              <Switch checked={this.state.checkedAll}
+              onChange={this.handleChangeAll()
             } color="primary" />
             }
             label="All"
             />
             </Grid>
 
+            {filterCat}
 
+            </Grid>
+            </div>
           <Grid container justify = "center">
             <ColorButton variant="contained" color="primary" className={classes.margin} onClick={() => this.onSubmit()}>
               Filter

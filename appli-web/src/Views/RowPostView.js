@@ -15,7 +15,12 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExploreTwoToneIcon from '@material-ui/icons/ExploreTwoTone';
-
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
@@ -69,6 +74,7 @@ const RowPostView = (props) => {
     { props.post ? (
       <Card >
       <CardActionArea>
+      <Link to={"/postdetailview/"+ props.post._id}> 
   <CardContent className={classes.root} style={{ background: `rgb(${col})` }}>
   <Container className={classes.content}>
   <Grid container alignItems="center">
@@ -117,6 +123,7 @@ const RowPostView = (props) => {
   </Grid>
   </Container>
   </CardContent>
+  </Link>
   </CardActionArea>
 </Card>
     ): null

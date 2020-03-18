@@ -52,6 +52,9 @@ class App extends Component {
     if(cooki){
       var action = { type: "TOGGLE_AUTH"}
       this.props.dispatch(action)
+    }else{
+      var action = { type: "TOGGLE_UNAUTH"}
+      this.props.dispatch(action)
     }
   }
 
@@ -63,7 +66,7 @@ class App extends Component {
     if(isAuth){
       myAuth.isAuthenticated = true
     }else{
-      myAuth.isAuthenticated = true
+      myAuth.isAuthenticated = false
     }
 
     return (

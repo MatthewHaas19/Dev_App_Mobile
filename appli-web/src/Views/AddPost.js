@@ -13,6 +13,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux'
 import history from '../history';
+import cookie from 'react-cookies';
 
 import { green, blue, purple } from '@material-ui/core/colors';
 import {setNewPostDb} from '../API/PostApi'
@@ -78,12 +79,7 @@ class AddPost extends React.Component {
 
   onChange = (e) => {
 
-    if(this.props.coords != null) {
-      console.log("not nul")
-    }
-    else {
-      console.log("nul")
-    }
+
 
     if (e.target.name == "isAnonyme") {
       this.setState({[e.target.name]: e.target.checked })
@@ -129,7 +125,11 @@ class AddPost extends React.Component {
 
 
     console.log("Submit")
-
+    var userMail = "Anonyme"
+    var cooki = cookie.load('userId')
+    if(cooki){
+      userMail=cooki
+    }
 
 
     e.preventDefault();
@@ -142,7 +142,7 @@ class AddPost extends React.Component {
         categorie: this.state.categorie,
         nbSignalement: 0,
         localisation: ["23.3","22.5"],
-        user: "email user",
+        user: userMail,
         commentaire: [],
         date: yyyy + '-' + mm +'-' + dd + ' ' + hh + ":" + mn + ":" + ss ,
         couleur: colors[Math.floor((Math.random()*colors.length))],

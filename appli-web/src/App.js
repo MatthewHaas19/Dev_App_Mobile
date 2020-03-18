@@ -7,6 +7,7 @@ import AddPost from './Views/AddPost.js'
 import Home from './Views/Home.js'
 import Profile from './Views/Profile.js'
 import Filter from './Views/Filter.js'
+import PostDetailView from './Views/PostDetailView.js'
 import Register from './Views/Register.js'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux';
@@ -60,7 +61,7 @@ class App extends Component {
     if(isAuth){
       myAuth.isAuthenticated = true
     }else{
-      myAuth.isAuthenticated = false
+      myAuth.isAuthenticated = true
     }
 
     return (
@@ -88,6 +89,9 @@ class App extends Component {
 
             <Route path="/filter">
               <Filter />
+            </Route>
+            <Route path="/postdetailview">
+              <PostDetailView />
             </Route>
 
             <PrivateProfile path="/profile">

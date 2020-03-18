@@ -79,8 +79,6 @@ class AddPost extends React.Component {
 
   onChange = (e) => {
 
-
-
     if (e.target.name == "isAnonyme") {
       this.setState({[e.target.name]: e.target.checked })
     }

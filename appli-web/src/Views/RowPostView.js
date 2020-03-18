@@ -119,11 +119,7 @@ const RowPostView = (props) => {
           <Button><KeyboardArrowDownIcon className={classes.chevron} /></Button>
         </Grid>
       </Grid>
-
-
-
     </Grid>
-
   </Grid>
   </Container>
   </CardContent>

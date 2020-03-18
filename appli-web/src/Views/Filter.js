@@ -208,10 +208,11 @@ class Filter extends React.Component {
     const filter = {
       type: type,
       tags: this.state.tags,
-      localisation: this.state.localisation,
+      localisation: 9999,
       categorie: res
     }
     console.log(filter)
+    this.props.filter(filter)
   }
 
   onChangeLoc = (value) => {

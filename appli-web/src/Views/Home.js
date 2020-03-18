@@ -14,6 +14,7 @@ import {
   Link
 } from "react-router-dom";
 import {getAllPostsFromDb} from '../API/PostApi'
+import {filterPostDb} from '../API/PostApi'
 import RowPostView from '../Views/RowPostView'
 import Filter from '../Views/Filter'
 
@@ -54,6 +55,17 @@ class Home extends React.Component {
     })
   }
 
+  filter(filter){
+    console.log(filter)
+    filterPostDb(filter).then(data => {
+      const posts = data
+      console.log(data)
+      this.setState({posts: data})
+    }).catch((error) => {
+      console.log("erreur filter")
+    })
+  }
+
   render(){
 
     const {classes} = this.props
@@ -63,7 +75,9 @@ class Home extends React.Component {
       <div className={classes.mainPage}>
       <Grid container>
       <Grid item className={classes.filterView} xs={3}>
-      <Filter />
+      <Filter
+        filter={(filterValue) => this.filter(filterValue)}
+      />
       </Grid>
 
 
@@ -72,9 +86,9 @@ class Home extends React.Component {
         <Grid container className={classes.listView} >
         {this.state.posts.map(currentPost => (
           <Grid item xs={12}>
-             
+
                 <RowPostView post={currentPost} />
-            
+
           </Grid>
         )
       )}

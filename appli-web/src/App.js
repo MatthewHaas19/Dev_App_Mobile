@@ -8,6 +8,7 @@ import Home from './Views/Home.js'
 import Profile from './Views/Profile.js'
 import Filter from './Views/Filter.js'
 import PostDetailView from './Views/PostDetailView.js'
+import PostDetailViewTest from './Views/PostDetailViewTest.js'
 import Register from './Views/Register.js'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux';
@@ -93,9 +94,7 @@ class App extends Component {
             <Route path="/filter">
               <Filter />
             </Route>
-            <Route path="/postdetailview">
-              <PostDetailView />
-            </Route>
+            <Route path="/postdetailview/:id" component={PostDetailViewTest} />
 
             <PrivateProfile path="/profile">
               <Profile />

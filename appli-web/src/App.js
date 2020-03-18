@@ -9,6 +9,8 @@ import Profile from './Views/Profile.js'
 import Filter from './Views/Filter.js'
 import PostDetailView from './Views/PostDetailView.js'
 import Register from './Views/Register.js'
+import AdminHome from './Views/AdminHome.js'
+import AdminNavBar from './Views/AdminNavBar.js'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux';
 import cookie from 'react-cookies';
@@ -69,7 +71,17 @@ class App extends Component {
 
       <Router history={history}>
         <div>
-           <NavBar />
+        
+        <Switch>
+          <Route exact path="/adminhome">
+            <AdminNavBar />
+          </Route>
+          <Route path="/">
+             <NavBar />
+          </Route>
+        </Switch>
+
+
           <Switch>
             <Route exact path="/">
               <Home />
@@ -77,6 +89,10 @@ class App extends Component {
 
             <Route path="/addpost">
               <AddPost />
+            </Route>
+
+            <Route path="/adminhome">
+              <AdminHome />
             </Route>
 
             <PrivateRegister path="/register">

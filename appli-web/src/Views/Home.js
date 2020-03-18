@@ -185,9 +185,9 @@ class Home extends React.Component {
         <Grid container className={classes.listView} >
         {this.state.posts.map(currentPost => (
           <Grid item xs={12}>
-             <Link to="/postdetailview" params={{ post : currentPost }} >
+             
                 <RowPostView post={currentPost} />
-             </Link>
+            
           </Grid>
         )
       )}

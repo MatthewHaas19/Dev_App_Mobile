@@ -89,7 +89,8 @@ router.post("/", function(req,res,next){
 })
 
 router.get("/:id", function(req,res,next) {
-  const id = ObjectId(req.params.id)
+
+  const id = ObjectId(req.body._id)
   db.posts.find({
     _id : id
   }, function(err,posts) {

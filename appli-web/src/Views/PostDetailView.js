@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {Component} from 'react';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
@@ -11,117 +11,82 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { createMuiTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import RowPostView from '../Views/RowPostView'
+import RowCommentView from '../Views/RowCommentView'
 import { useParams } from 'react-router-dom';
 import { getPostById } from '../API/PostApi';
+import { getAllCommentFromPost } from '../API/CommentApi';
+
+const useStyles = theme => ({
+  mainPage: {
+    boxShadow: "10px 10px 10px #9E9E9E",
+    marginTop: 50,
+    marginLeft: 50,
+    marginRight: 50,
+    marginBottom: 50,
+    color:'white',
+  },
+  actionProfileView: {
+    backgroundColor:"red",
+  },
+  listView: {
+    backgroundColor:"green",
+  }
+});
+
+class PostDetailViewTest extends React.Component{
+  
+  state = {
+    posts:[],
+    comments:[]
+  }
+
+  constructor(props){
+    super(props)
+    let id = this.props.match.params.id
+    getPostById(id).then(data => {
+      const post = data
+      this.setState({posts: data})
+      console.log(data)
+    }).catch((error) => {
+      console.log("Erreur fetch")
+    })
+   getAllCommentFromPost(id).then(data => {
+      const comments = data
+      this.setState({comments: data})
+      console.log(data)
+    }).catch((error) => {
+      console.log("Erreur dans le constructeur")
+    })
+    console.log(this.state.comments)
+  }
+
+  render(){
+    const {classes} = this.props
+    const post = this.state.posts.map((post) =>
+      <Grid item xs={12}>
+      <RowPostView post={post} />
+      </Grid>
+    );
+
+    const listcomments = this.state.comments.map((comment) =>
+    <Grid item xs={12}>
+      <RowCommentView comment={comment} />
+      </Grid>
+    )
 
 
-
-const PostDetailView = (props) => {
-  let {id} = useParams()
-  console.log("id"+id)
-  let post = getPostById(id)
-  console.log("post "+ post)
-    console.log("coucou")
     return(
       <div>
-        <h1>"coucou"</h1>
-      { post ? (
-       
-          <Grid item xs={12}>
-          <RowPostView post={post} />
-          </Grid>
-        
-      ): null
-    }
-  
-    </div>
-  )
+       {post}
+       {listcomments}
+
+
+      </div>
+    )
   }
 
 
 
-/*
-export default function PostDetailView(props) {
-  const [open, setOpen] = React.useState(false);
-  console.log("coucou")
-  console.log(this.props.match.params.post)
-  const useStyles = makeStyles(theme => ({
-    card: {
-      boxShadow: "10px 10px 10px #9E9E9E",
-      marginTop: 50
-    },
-    paper: {
-      marginTop: theme.spacing(4),
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-    },
-    form: {
-      width: '100%', // Fix IE 11 issue.
-      marginTop: theme.spacing(5),
-    },
-    
-    fields: {
-      marginBottom: theme.spacing(5)
-    },
-    
-  }));
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const classes = useStyles();
-  return (
-      
-    <div>
-      <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-        Ajouter un commentaire
-      </Button>
-      <Dialog open={open} onClose={handleClose} aria-labelledby="form-dialog-title">
-        <DialogTitle id="form-dialog-title">Ajouter un commentaire</DialogTitle>
-        <DialogContent>
-          
-        <FormControlLabel className={classes.fields}
-          value="isAnonyme"
-          control={<Checkbox color="primary" />}
-          label="Poster ce commentaire en Anonyme"
-          labelPlacement="end"
-          />
-          <TextField className={classes.fields} id="filled-basic"
-          label="Titre"
-          name="titre"
-          placeholder="Titre du Commentaire"
-          required
-          fullWidth
-          autoFocus
-          />
-          <TextField className={classes.fields} id="outlined-multiline-static-label"
-          label="Texte"
-          name="texte"
-          placeholder="Texte de votre commentaire"
-          multiline
-          required
-          fullWidth
-          autoFocus
-          marginTop
-          />
-
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Annuler
-          </Button>
-          <Button onClick={handleClose} color="primary">
-            Poster le commentaire
-          </Button>
-        </DialogActions>
-      </Dialog>
-    </div>
-  );
 }
-*/
-export default (PostDetailView)
+
+export default (PostDetailViewTest)

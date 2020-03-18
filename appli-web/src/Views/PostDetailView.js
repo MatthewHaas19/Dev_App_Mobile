@@ -11,21 +11,24 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { createMuiTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import RowPostView from '../Views/RowPostView'
+import { useParams } from 'react-router-dom';
+import { getPostById } from '../API/PostApi';
+
 
 
 const PostDetailView = (props) => {
-  
-  
+  let {id} = useParams()
+  console.log("id"+id)
+  let post = getPostById(id)
+  console.log("post "+ post)
     console.log("coucou")
-    //console.log("about",props.location.aboutProps)
-    console.log(props.match.params.post)
     return(
       <div>
         <h1>"coucou"</h1>
-      { props.match.params.post ? (
+      { post ? (
        
           <Grid item xs={12}>
-          <RowPostView post={props.match.params.post} />
+          <RowPostView post={post} />
           </Grid>
         
       ): null

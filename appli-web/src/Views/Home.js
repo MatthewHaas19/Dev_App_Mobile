@@ -15,6 +15,7 @@ import {
 } from "react-router-dom";
 import {getAllPostsFromDb} from '../API/PostApi'
 import RowPostView from '../Views/RowPostView'
+import Filter from '../Views/Filter'
 
 
 
@@ -26,9 +27,6 @@ const useStyles = theme => ({
     marginRight: 50,
     marginBottom: 50,
     color:'white',
-  },
-  filterView: {
-    backgroundColor:"blue",
   },
   actionProfileView: {
     backgroundColor:"red",
@@ -64,121 +62,10 @@ class Home extends React.Component {
 
       <div className={classes.mainPage}>
       <Grid container>
-
       <Grid item className={classes.filterView} xs={3}>
-      <h1 align="center"> Partie filter </h1>
-      <Typography component="h3" variant="bold" align="center" fontFamily="bold">
-  Séléctionnez les catégories :
-</Typography>
-          <Grid className={classes.categoriesItem} container spacing={0}>
-            <Grid item xs={6}>
-              <FormControlLabel
-              value="Amis"
-              control={<Checkbox color="primary" />}
-              label="Entre amis"
-              labelPlacement="end"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormControlLabel
-              value="Couple"
-              control={<Checkbox color="primary" />}
-              label="Dans mon couple"
-              labelPlacement="end"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormControlLabel
-              value="Ecole"
-              control={<Checkbox color="primary" />}
-              label="A l'école"
-              labelPlacement="end"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormControlLabel
-              value="Famille"
-              control={<Checkbox color="primary" />}
-              label="En famille"
-              labelPlacement="end"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormControlLabel
-              value="Rue"
-              control={<Checkbox color="primary" />}
-              label="Dans la rue"
-              labelPlacement="end"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormControlLabel
-              value="Soiree"
-              control={<Checkbox color="primary" />}
-              label="En soirée"
-              labelPlacement="end"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormControlLabel
-              value="Sport"
-              control={<Checkbox color="primary" />}
-              label="Au sport"
-              labelPlacement="end"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormControlLabel
-              value="Transport"
-              control={<Checkbox color="primary" />}
-              label="Dans les transports"
-              labelPlacement="end"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormControlLabel
-              value="Travail"
-              control={<Checkbox color="primary" />}
-              label="Au travail"
-              labelPlacement="end"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormControlLabel
-              value="TV"
-              control={<Checkbox color="primary" />}
-              label="A la télé"
-              labelPlacement="end"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormControlLabel
-              value="Voisin"
-              control={<Checkbox color="primary" />}
-              label="Mes voisins"
-              labelPlacement="end"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <FormControlLabel
-              value="Web"
-              control={<Checkbox color="primary" />}
-              label="Sur le web"
-              labelPlacement="end"
-              />
-            </Grid>
-            <Grid item xs={3}></Grid>
-            <Grid item xs={6}>
-              <FormControlLabel
-              value="Autre"
-              control={<Checkbox color="primary" />}
-              label="Autres..."
-              labelPlacement="end"
-              />
-            </Grid>
-            <Grid item xs={3}></Grid>
-          </Grid>
+      <Filter />
       </Grid>
+
 
       <Grid item className={classes.listView} xs={6}>
       {this.state.posts ? (

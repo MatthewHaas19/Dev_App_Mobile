@@ -16,11 +16,11 @@ import ListItem from '@material-ui/core/ListItem';
 import Paper from '@material-ui/core/Paper';
 import Chip from '@material-ui/core/Chip';
 import FaceIcon from '@material-ui/icons/Face';
+import Switch from '@material-ui/core/Switch';
 import DoneIcon from '@material-ui/icons/Done';
 import Slider from '@material-ui/core/Slider';
 import {
   BrowserRouter as Router,
-  Switch,
   Route,
   Link
 } from "react-router-dom";
@@ -143,7 +143,8 @@ class Filter extends React.Component {
       type : 0,
       tags : ["exemple"],
       tag:"",
-      localisation:"60"
+      localisation:"60",
+      checked:false,
     }
   }
 
@@ -159,6 +160,10 @@ class Filter extends React.Component {
     this.setState({tag:e.target.value})
 
   }
+
+  handleChange = name => event => {
+    this.setState({ [name]: event.target.checked });
+  };
 
   onAddTag = () => {
     var tab = this.state.tags
@@ -235,7 +240,7 @@ class Filter extends React.Component {
           <Typography component="h1" variant="h5" className={classes.subtitle} >
             Filtrer avec des tags
           </Typography>
-          <div style={{ width: '80%' }}>
+          <div style={{ width: '90%' }}>
           <Grid container justify = "center">
           <Box component="div" display="inline" >
 
@@ -257,7 +262,7 @@ class Filter extends React.Component {
           </Fab>
 
           </Box>
-</Grid>
+          </Grid>
           <Paper className={classes.paperTag}>
           <List className={classes.list}>
 
@@ -284,6 +289,27 @@ class Filter extends React.Component {
               onChange={(e, val) => this.onChangeLoc(val)}
               />
           </Grid>
+
+
+
+          <Grid container justify = "center">
+            <Typography component="h1" variant="h5" className={classes.subtitle} >
+              Filtrer par Catégorie
+            </Typography>
+
+            </Grid>
+            <Grid container justify = "center">
+            <FormControlLabel
+            control={
+              <Switch checked={this.state.checked}
+              onChange={this.handleChange("checked")
+            } color="primary" />
+            }
+            label="All"
+            />
+            </Grid>
+
+
           <Grid container justify = "center">
             <ColorButton variant="contained" color="primary" className={classes.margin} onClick={() => this.onSubmit()}>
               Filter

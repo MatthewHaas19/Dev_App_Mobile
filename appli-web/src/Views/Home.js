@@ -7,7 +7,12 @@ import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Slider from '@material-ui/core/Slider';
-
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import {getAllPostsFromDb} from '../API/PostApi'
 import RowPostView from '../Views/RowPostView'
 
@@ -180,7 +185,9 @@ class Home extends React.Component {
         <Grid container className={classes.listView} >
         {this.state.posts.map(currentPost => (
           <Grid item xs={12}>
-          <RowPostView post={currentPost} />
+             <Link to="/postdetailview" params={{ post : currentPost }} >
+                <RowPostView post={currentPost} />
+             </Link>
           </Grid>
         )
       )}

@@ -14,12 +14,18 @@ import RowPostView from '../Views/RowPostView'
 
 
 const PostDetailView = (props) => {
-   
+  
+  
+    console.log("coucou")
+    //console.log("about",props.location.aboutProps)
+    console.log(props.match.params.post)
     return(
       <div>
-      { props.post ? (
+        <h1>"coucou"</h1>
+      { props.match.params.post ? (
+       
           <Grid item xs={12}>
-          <RowPostView post={props.post} />
+          <RowPostView post={props.match.params.post} />
           </Grid>
         
       ): null
@@ -31,8 +37,11 @@ const PostDetailView = (props) => {
 
 
 
-export default function FormDialog() {
+/*
+export default function PostDetailView(props) {
   const [open, setOpen] = React.useState(false);
+  console.log("coucou")
+  console.log(this.props.match.params.post)
   const useStyles = makeStyles(theme => ({
     card: {
       boxShadow: "10px 10px 10px #9E9E9E",
@@ -111,4 +120,5 @@ export default function FormDialog() {
     </div>
   );
 }
-
+*/
+export default (PostDetailView)

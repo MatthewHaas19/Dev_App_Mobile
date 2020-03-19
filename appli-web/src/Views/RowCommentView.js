@@ -59,42 +59,20 @@ const useStyles = makeStyles({
   },
 });
 
-
-class RowCommentView extends React.Component{
+const RowCommentView = (props) => {
+  const classes = useStyles();
+  console.log("recup dans row comment les comments "+ props.commments)
+  //console.log("recup dans row comment le post "+ props.post)
+  //const col = [props.post.couleur[0]*255 +1 ,props.post.couleur[1]*255 +1 ,props.post.couleur[2]*255 +1]
   
-  state = {
-    post:[],
-    comments:[]
-  }
-
-  constructor(props){
-    super(props)
-    this.setState({comments: props.comment})
-    let id =  props.comment.postId
-    console.log("ID"+id)
-    getPostById(id).then(data => {
-      const post = data
-      this.setState({posts: data})
-      console.log(data)
-    }).catch((error) => {
-      console.log("Erreur fetch")
-    })
-  }
-
-  render(){
-    const classes = useStyles();
-    const idpost = this.state.comments.postId; 
-    console.log("idPost" +idpost)
-    const post = this.state.post
-    console.log("Post" +post)
-    const col = [post.couleur[0]*255 +1 ,post.couleur[1]*255 +1 ,post.couleur[2]*255 +1]
+  
 
     return(
       <div>
-      { this.state.comments ? (
+      { props.comments ? (
         <Card >
         <CardActionArea>
-    <CardContent className={classes.root} style={{ background: `rgb(${col})` }}>
+    <CardContent className={classes.root} style={{ background: `rgb([100,50,10])` }}>
     <Container className={classes.content}>
     <Grid container alignItems="center">
     <Grid item xs={1} align="right">
@@ -102,7 +80,7 @@ class RowCommentView extends React.Component{
     </Grid>
     <Grid item xs={7} >
       <div className={classes.username} >
-        {this.state.comments.user}
+        {props.comments.user}
       </div>
       </Grid>
       <Grid item xs={3} align="right">
@@ -116,13 +94,13 @@ class RowCommentView extends React.Component{
     </Grid>
   
     <Grid container>
-   =
+   
       <Grid item xs={10}>
         <Typography className={classes.titre}>
-          {this.state.comments.titreCom}
+          {props.comments.titreCom}
         </Typography>
         <Typography className={classes.texte} >
-          {this.state.comments.texteCom}
+          {props.comments.texteCom}
         </Typography>
       </Grid>
   
@@ -132,7 +110,7 @@ class RowCommentView extends React.Component{
             <Button><KeyboardArrowUpIcon className={classes.chevron} /></Button>
           </Grid>
           <Grid item xs={12}>
-            <div className={classes.note} align="center" >{this.state.comments.voteCom}</div>
+            <div className={classes.note} align="center" >{props.comments.voteCom}</div>
           </Grid>
           <Grid item xs={12} align="center">
             <Button><KeyboardArrowDownIcon className={classes.chevron} /></Button>
@@ -154,7 +132,6 @@ class RowCommentView extends React.Component{
     </div>
   )
   }
-}
 
 
 

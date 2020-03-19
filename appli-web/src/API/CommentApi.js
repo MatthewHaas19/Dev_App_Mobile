@@ -1,7 +1,6 @@
 
-
-export function getAllCommentFromPost (idpost) {
-  const url = "https://dev-mobile-ig.herokuapp.com/comments/"+idpost
+export function getAllCommentFromPost (id){
+  const url = "https://dev-mobile-ig.herokuapp.com/comments/"+id
 
   return fetch(url,{
     method: 'GET'
@@ -9,7 +8,6 @@ export function getAllCommentFromPost (idpost) {
   .then((response) => response.json())
   .catch((error) => console.log(error))
 }
-
 
 
 

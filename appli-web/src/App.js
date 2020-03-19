@@ -40,7 +40,7 @@ class App extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        console.log(data)
+        //console.log(data)
         this.setState({ data })
       });
   }
@@ -95,7 +95,7 @@ class App extends Component {
               <Filter />
             </Route>
             
-            <Route path="/postdetailview/:id" component={PostDetailViewTest} />
+            <Route path="/postdetailview/:id" component={PostDetailView} />
 
             <PrivateProfile path="/profile">
               <Profile />

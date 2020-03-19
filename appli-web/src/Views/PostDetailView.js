@@ -43,21 +43,24 @@ class PostDetailViewTest extends React.Component{
   constructor(props){
     super(props)
     let id = this.props.match.params.id
+    
+    console.log("l'id du post"+id)
     getPostById(id).then(data => {
       const post = data
       this.setState({posts: data})
-      console.log(data)
+      console.log("Le post" +data)
+     
     }).catch((error) => {
       console.log("Erreur fetch")
     })
    getAllCommentFromPost(id).then(data => {
       const comments = data
       this.setState({comments: data})
-      console.log(data)
+      console.log("dans get all comments les com :" + data)
     }).catch((error) => {
-      console.log("Erreur dans le constructeur")
+      console.log("Erreur dans la recuperation des comments")
     })
-    console.log(this.state.comments)
+
   }
 
   render(){
@@ -70,7 +73,7 @@ class PostDetailViewTest extends React.Component{
 
     const listcomments = this.state.comments.map((comment) =>
     <Grid item xs={12}>
-      <RowCommentView comment={comment} />
+      <RowCommentView comments={comment} />
       </Grid>
     )
 

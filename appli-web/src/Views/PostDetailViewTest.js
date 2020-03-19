@@ -27,7 +27,7 @@ class PostDetailViewTest extends React.Component{
     getPostById(id).then(data => {
       const post = data
       this.setState({posts: data})
-      console.log(data)
+      console.log("Les post :" +data)
     }).catch((error) => {
       console.log("Erreur fetch")
     })
@@ -42,7 +42,6 @@ class PostDetailViewTest extends React.Component{
     );
     return(
       <div>
-        <h1>"coucou"</h1>
        {post}
 
 

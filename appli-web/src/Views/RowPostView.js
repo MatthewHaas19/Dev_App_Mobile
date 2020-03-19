@@ -74,7 +74,7 @@ const RowPostView = (props) => {
     { props.post ? (
       <Card >
       <CardActionArea>
-      <Link to={"/postdetailview/"+ props.post._id}> 
+      <Link to={"/postdetailview/"+ props.post._id}  style={{ textDecoration: 'none' }}> 
   <CardContent className={classes.root} style={{ background: `rgb(${col})` }}>
   <Container className={classes.content}>
   <Grid container alignItems="center">

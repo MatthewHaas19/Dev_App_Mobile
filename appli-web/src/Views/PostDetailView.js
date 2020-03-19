@@ -15,6 +15,8 @@ import RowCommentView from '../Views/RowCommentView'
 import { useParams } from 'react-router-dom';
 import { getPostById } from '../API/PostApi';
 import { getAllCommentFromPost } from '../API/CommentApi';
+import AddComButton from '../Views/component/AddComButton'
+
 
 const useStyles = theme => ({
   mainPage: {
@@ -30,7 +32,14 @@ const useStyles = theme => ({
   },
   listView: {
     backgroundColor:"green",
-  }
+  },
+  fields: {
+    marginBottom: theme.spacing(5)
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(5),
+  },
 });
 
 class PostDetailViewTest extends React.Component{
@@ -63,26 +72,40 @@ class PostDetailViewTest extends React.Component{
 
   }
 
+  
+
   render(){
+
+
     const {classes} = this.props
+    
+    this.state.posts.map((post) => 
+        console.log("couleur" + post.couleur)
+    );
     const post = this.state.posts.map((post) =>
       <Grid item xs={12}>
       <RowPostView post={post} />
       </Grid>
     );
 
+    
     const listcomments = this.state.comments.map((comment) =>
     <Grid item xs={12}>
       <RowCommentView comments={comment} />
       </Grid>
     )
+   
 
+    
+
+  
 
     return(
       <div>
+        <Grid item xs={12}>
        {post}
        {listcomments}
-
+      </Grid>
 
       </div>
     )

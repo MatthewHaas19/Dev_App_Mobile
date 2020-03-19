@@ -83,14 +83,7 @@ const RowCommentView = (props) => {
         {props.comments.user}
       </div>
       </Grid>
-      <Grid item xs={3} align="right">
-      <Typography className={classes.localisation}  gutterBottom>
-       123 km
-      </Typography>
-      </Grid>
-      <Grid item xs={1} align="left">
-      <ExploreTwoToneIcon className={classes.logosTop}/>
-      </Grid>
+     
     </Grid>
 
     <Grid container>

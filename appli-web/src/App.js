@@ -15,6 +15,7 @@ import { connect } from 'react-redux'
 import { push } from 'react-router-redux';
 import cookie from 'react-cookies';
 import {getAllPostsFromDb} from './API/PostApi'
+import {getUserFromDb} from './API/UserApi'
 import {
   Router,
   Switch,
@@ -55,6 +56,15 @@ class App extends Component {
     if(cooki){
       var action = { type: "TOGGLE_AUTH"}
       this.props.dispatch(action)
+
+
+      getUserFromDb(cooki)
+        .then(data => {
+          var action = { type: "TOGGLE_USER", currentUser: data[0]}
+          this.props.dispatch(action)
+        })
+
+
     }else{
       var action = { type: "TOGGLE_UNAUTH"}
       this.props.dispatch(action)
@@ -127,7 +137,7 @@ class App extends Component {
             <Route path="/filter">
               <HomeSwitcher val={0} />
             </Route>
-            
+
             <Route path="/postdetailview/:id" component={PostDetailView} />
 
             <PrivateProfile path="/profile">

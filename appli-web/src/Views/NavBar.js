@@ -95,7 +95,7 @@ export default function NavBar({changeValue}) {
     <div className={classes.root}>
       <AppBar position="static" style={{ background: "#ffffff" }}>
         <Toolbar>
-          <Link to="/">
+          <Link to="/filter">
           <Button>
             <Avatar variant="square" src="/assets/H2R.png"  />
           </Button>
@@ -103,7 +103,7 @@ export default function NavBar({changeValue}) {
           <ThemeProvider theme={theme}>
     <CssBaseline />
           <div className={classes.title}>
-          <Link to="/" style={{textDecoration: 'none',color:'black'}}>
+          <Link to="/filter" style={{textDecoration: 'none',color:'black'}}>
           <h1>How to react</h1>
           </Link>
           </div>

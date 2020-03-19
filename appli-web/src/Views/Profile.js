@@ -138,7 +138,7 @@ class Profile extends React.Component {
           </IconButton>
           </Grid>
           <Grid justify="flex-end">
-          <IconButton aria-label="search" color="red">
+          <IconButton aria-label="search" color="red" onClick={()=>this._Deco()}>
             <PowerSettingsNewIcon />
           </IconButton>
           </Grid>
@@ -151,7 +151,7 @@ class Profile extends React.Component {
             <Avatar alt="Remy Sharp" src="https://media-exp1.licdn.com/dms/image/C4D03AQEE5KO1Z6RuCQ/profile-displayphoto-shrink_200_200/0?e=1589414400&v=beta&t=9AxoJc_fUOa-wRgfFmObUI9_QiWOZ1ZGa3BLuswyL9c" className={classes.large} />
 
             <Typography component="h3" variant="p" className={classes.title} >
-              Juju
+              {this.props.currentUser.username}
             </Typography>
 
 

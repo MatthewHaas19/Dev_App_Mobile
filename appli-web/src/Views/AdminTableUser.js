@@ -44,41 +44,37 @@ const useStyles = makeStyles({
 
 
 
-
-const AdminTablePost = (props) => {
-    const classes = useStyles();
+const AdminTableUser = (props) => {
 
 
-    async function NbComment(props) {
-      getAllCommentFromPost(props.idPost, (comments => {
-        return (<TableCell align="center"><Link className={classes.tableContent}>{comments.length}</Link></TableCell>)
-      }))
-    }
+  const classes = useStyles();
+
+
 
 
     return (
 
       <div className={classes.mainPage}>
 
-      {props.posts ? (
+      {props.users ? (
       <TableContainer>
       <Table className={classes.table}>
         <TableHead >
           <TableRow >
-            <TableCell className={classes.nomColonne} align="center">Post</TableCell>
-            <TableCell className={classes.nomColonne} align="center">User</TableCell>
-            <TableCell className={classes.nomColonne} align="center">Note</TableCell>
+            <TableCell className={classes.nomColonne} align="center">Username</TableCell>
+            <TableCell className={classes.nomColonne} align="center">Email</TableCell>
+            <TableCell className={classes.nomColonne} align="center">Posts</TableCell>
             <TableCell className={classes.nomColonne} align="center">NbComment</TableCell>
             <TableCell className={classes.nomColonne} align="center">NbReports</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-        {props.posts.map(currentPost => (
-           <TableRow key={currentPost.id}>
-          <TableCell><Link className={classes.tableContent}> {currentPost.titre} </Link></TableCell>
-          <TableCell align="center"><Link className={classes.tableContent}>{currentPost.user} </Link></TableCell>
-          <TableCell align="center"><Link className={classes.tableContent}>{currentPost.note} </Link></TableCell>
-          {NbComment(currentPost._id)}
+        {props.users.map(currentUser => (
+           <TableRow key={currentUser.id}>
+          <TableCell><Link className={classes.tableContent}> {currentUser.username} </Link></TableCell>
+          <TableCell align="center"><Link className={classes.tableContent}>{currentUser.email} </Link></TableCell>
+          <TableCell align="center"><Link className={classes.tableContent}>A faire </Link></TableCell>
+          <TableCell align="center"><Link className={classes.tableContent}> A faire</Link></TableCell>
           <TableCell align="center"><Link className={classes.tableContent}>A faire</Link></TableCell>
           </TableRow>
 
@@ -97,4 +93,4 @@ const AdminTablePost = (props) => {
 
 }
 
-export default (AdminTablePost)
+export default (AdminTableUser)

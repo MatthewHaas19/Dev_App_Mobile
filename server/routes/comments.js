@@ -26,6 +26,19 @@ router.get("/:post", function(req,res,next){
     })
   })
 
+  router.get("/user/:emailUser", function(req,res,next){
+      const id = req.params.emailUser
+      db.comments.find({
+        user: id
+      },function(err,comments){
+        if(err){
+          res.send(err);
+        }
+        res.json(comments);
+      })
+    })
+
+
   router.post("/", function(req,res,next){
     var comment = req.body
     db.comments.insertOne(comment,function(err,post){
@@ -53,6 +66,7 @@ router.get("/:post", function(req,res,next){
       });
     })
   })
+
 
   router.put("/addVote/:vote",function(req,res,next){
     var id = ObjectId(req.body._id)

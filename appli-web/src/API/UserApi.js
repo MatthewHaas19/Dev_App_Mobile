@@ -10,6 +10,16 @@ export function getUserFromDb (name) {
   .catch((error) => console.log(error))
 }
 
+export function getAllUsersFromDb () {
+  const url = "https://dev-mobile-ig.herokuapp.com/users/"
+
+  return fetch(url,{
+    method: 'GET'
+  })
+  .then((response) => response.json())
+  .catch((error) => console.log(error))
+}
+
 export function setUserDb (user) {
   const url = "https://dev-mobile-ig.herokuapp.com/users/"
 

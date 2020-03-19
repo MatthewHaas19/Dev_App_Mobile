@@ -5,6 +5,7 @@ import Card from '@material-ui/core/Card';
 import { green, blue, red , white} from '@material-ui/core/colors';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
+import Button from '@material-ui/core/Button';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Slider from '@material-ui/core/Slider';
 import {
@@ -14,7 +15,11 @@ import {
   Link
 } from "react-router-dom";
 import {getAllPostsFromDb} from '../API/PostApi'
+import {getAllUsersFromDb} from '../API/UserApi'
+
 import AdminTablePost from '../Views/AdminTablePost'
+import AdminTableUser from '../Views/AdminTableUser'
+
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -52,13 +57,26 @@ const useStyles = theme => ({
   table: {
     backgroundColor: "purple"
   },
+  buttonMenu: {
+    backgroundColor:"grey",
+    color:"white",
+    marginTop:50,
+    width:200,
+    hover : "red",
+    "&:hover": {
+     background: "red"
+   },
+
+  },
 });
 
 
 
 class AdminHome extends React.Component {
   state = {
-    posts:[]
+    posts:[],
+    users:[],
+    displayPost: true
   }
 
   constructor(props){
@@ -66,7 +84,13 @@ class AdminHome extends React.Component {
     getAllPostsFromDb().then(data => {
       const posts = data
       this.setState({posts: data})
-      console.log(data)
+      getAllUsersFromDb().then(users => {
+        this.setState({users:users})
+        console.log(posts)
+      }).catch((error) => {
+        console.log("Erreur dans le constructeur")
+      })
+
     }).catch((error) => {
       console.log("Erreur dans le constructeur")
     })
@@ -76,6 +100,16 @@ class AdminHome extends React.Component {
 
     const {classes} = this.props
 
+    function TableDisplay(props) {
+      const afficherPost = props.afficherPost
+      if(afficherPost) {
+        return (<AdminTablePost posts={props.posts}/>)
+      }
+      else {
+        return ( <AdminTableUser users={props.users}/> )
+      }
+    }
+
     return (
 
       <div className={classes.mainPage}>
@@ -84,16 +118,20 @@ class AdminHome extends React.Component {
       <Grid item className={classes.filterView} xs={3}>
       <h1 align="center"> Partie filter </h1>
       <Typography component="h3" variant="bold" align="center" fontFamily="bold">
-      Choisissez vos filtres :
+      Afficher par :
     </Typography>
-
+      <Grid container>
+      <Grid item xs={12} align="center">
+    <Button className={classes.buttonMenu} onClick={() => {this.setState({displayPost:true})}} >Les posts</Button>
+    </Grid>
+    <Grid item xs={12} align="center">
+  <Button className={classes.buttonMenu} onClick={() => {this.setState({displayPost:false})}} >Les Utilisateurs</Button>
+  </Grid>
+    </Grid>
       </Grid>
 
       <Grid item className={classes.listView} xs={9}>
-
-      <AdminTablePost/>
-
-
+      <TableDisplay afficherPost={this.state.displayPost} users={this.state.users} posts={this.state.posts}/>
 
     </Grid>
 

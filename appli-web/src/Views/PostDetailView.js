@@ -34,7 +34,7 @@ const useStyles = theme => ({
 });
 
 class PostDetailViewTest extends React.Component{
-  
+
   state = {
     posts:[],
     comments:[]
@@ -43,13 +43,13 @@ class PostDetailViewTest extends React.Component{
   constructor(props){
     super(props)
     let id = this.props.match.params.id
-    
+
     console.log("l'id du post"+id)
     getPostById(id).then(data => {
       const post = data
       this.setState({posts: data})
       console.log("Le post" +data)
-     
+
     }).catch((error) => {
       console.log("Erreur fetch")
     })

@@ -22,7 +22,7 @@ const useStyles = makeStyles({
   root: {
     minWidth: 275,
     height:200,
-    color:"white"
+    color:"black"
   },
   content: {
     margin:20,
@@ -64,8 +64,8 @@ const RowCommentView = (props) => {
   console.log("recup dans row comment les comments "+ props.commments)
   //console.log("recup dans row comment le post "+ props.post)
   //const col = [props.post.couleur[0]*255 +1 ,props.post.couleur[1]*255 +1 ,props.post.couleur[2]*255 +1]
-  
-  
+
+
 
     return(
       <div>
@@ -92,9 +92,9 @@ const RowCommentView = (props) => {
       <ExploreTwoToneIcon className={classes.logosTop}/>
       </Grid>
     </Grid>
-  
+
     <Grid container>
-   
+
       <Grid item xs={10}>
         <Typography className={classes.titre}>
           {props.comments.titreCom}
@@ -103,7 +103,7 @@ const RowCommentView = (props) => {
           {props.comments.texteCom}
         </Typography>
       </Grid>
-  
+
       <Grid item xs={2} className={classes.notefleches}>
         <Grid container align="right">
           <Grid item xs={12} align="center">
@@ -116,11 +116,11 @@ const RowCommentView = (props) => {
             <Button><KeyboardArrowDownIcon className={classes.chevron} /></Button>
           </Grid>
         </Grid>
-  
-  
-  
+
+
+
       </Grid>
-  
+
     </Grid>
     </Container>
     </CardContent>
@@ -128,7 +128,7 @@ const RowCommentView = (props) => {
   </Card>
       ): null
     }
-  
+
     </div>
   )
   }

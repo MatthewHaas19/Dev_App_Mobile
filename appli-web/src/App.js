@@ -16,6 +16,10 @@ import { push } from 'react-router-redux';
 import cookie from 'react-cookies';
 import {getAllPostsFromDb} from './API/PostApi'
 import {getUserFromDb} from './API/UserApi'
+
+import AdminHome from './Views/AdminHome.js'
+import AdminNavBar from './Views/AdminNavBar.js'
+
 import {
   Router,
   Switch,
@@ -116,7 +120,17 @@ class App extends Component {
 
       <Router history={history}>
         <div>
-           <NavBar changeValue={(val) => this.handleSwitch(val)} />
+            <Switch>
+             <Route exact path="/adminhome">
+               <AdminNavBar />
+             </Route>
+             <Route path="/">
+                <NavBar changeValue={(val) => this.handleSwitch(val)} />
+             </Route>
+           </Switch>
+
+
+
           <Switch>
             <Route exact path="/">
               <HomeSwitcher val={this.state.vue} />
@@ -133,6 +147,10 @@ class App extends Component {
             <PrivateLogin path="/login">
               <Login />
             </PrivateLogin>
+
+            <Route path="/adminhome">
+             <AdminHome />
+           </Route>
 
             <Route path="/filter">
               <HomeSwitcher val={0} />

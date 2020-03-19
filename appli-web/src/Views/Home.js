@@ -29,9 +29,6 @@ const useStyles = theme => ({
     marginBottom: 50,
     color:'white',
   },
-  listView: {
-    backgroundColor:"green",
-  }
 });
 
 
@@ -53,7 +50,7 @@ class Home extends React.Component {
 
       var action = { type: "ADD_POSTS", posts: data}
       this.props.dispatch(action)
-
+      window.scroll({top: 0, left: 0, behavior: 'smooth' })
 
     }).catch((error) => {
       console.log("erreur filter")
@@ -78,7 +75,7 @@ class Home extends React.Component {
         </Grid>
 
 
-        <Grid item className={classes.listView} xs={8}>
+        <Grid item  xs={8}>
         {this.props.posts ? (
           <Grid container className={classes.listView} >
           {this.props.posts.map(currentPost => (
@@ -100,7 +97,7 @@ class Home extends React.Component {
       <div className={classes.mainPage}>
       <Grid container>
 
-      <Grid item className={classes.listView} xs={8}>
+      <Grid item  xs={8}>
       {this.props.posts ? (
         <Grid container className={classes.listView} >
         {this.props.posts.map(currentPost => (

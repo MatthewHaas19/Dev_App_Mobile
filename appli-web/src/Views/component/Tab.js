@@ -43,6 +43,10 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(2),
     marginBottom: theme.spacing(5),
   },
+  mid:{
+    flexGrow: 1,
+    width: "50%"
+  }
 }));
 
 export default function MyTabs({changeValue}) {
@@ -59,8 +63,8 @@ export default function MyTabs({changeValue}) {
       <AppBar position="static" color="default">
         <Tabs value={value} onChange={handleChange}  indicatorColor="primary"
         textColor="primary" variant="fullWidth">
-          <Tab label="Plus recent" {...a11yProps(0)} />
-          <Tab label="Plus populaire" {...a11yProps(1)} />
+          <Tab label="Plus recent" {...a11yProps(0)} className={classes.mid} />
+          <Tab label="Plus populaire" {...a11yProps(1)} className={classes.mid} />
         </Tabs>
       </AppBar>
 

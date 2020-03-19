@@ -15,7 +15,7 @@ import '../App.css';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
-
+import history from '../history';
 import {
   BrowserRouter as Router,
   Switch,
@@ -84,6 +84,7 @@ export default function NavBar({changeValue}) {
   const classes = useStyles();
 
   function handleClick(newValue){
+    history.push('/');
     if(newValue=="filter"){
       changeValue(0)
     }else{

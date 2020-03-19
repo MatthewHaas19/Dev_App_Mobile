@@ -9,9 +9,9 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import {getAllPostsFromDb} from '../API/PostApi'
+import {getAllUsersFromDb} from '../API/UserApi'
 import {getAllCommentFromPost} from '../API/CommentApi'
-
+import {getAllReportFromPost} from '../API/ReportApi'
 import RowPostView from '../Views/RowPostView'
 import Table from '@material-ui/core/Table';
 import Button from '@material-ui/core/Button';
@@ -23,7 +23,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 
-const useStyles = makeStyles({
+const useStyles = theme => ({
   table: {
     minWidth: 650,
   },
@@ -44,19 +44,35 @@ const useStyles = makeStyles({
 
 
 
-const AdminTableUser = (props) => {
+class AdminTableUser extends React.Component {
+  state = {
+    users:[],
+
+  }
+
+  constructor(props){
+    super(props)
+    getAllUsersFromDb().then(data => {
+      const users = data
+      this.setState({users:users})
+
+    }).catch((error) => {
+      console.log("Erreur dans le constructeur")
+    })
+  }
 
 
-  const classes = useStyles();
+  render(){
 
 
+    const {classes} = this.props
 
 
     return (
 
       <div className={classes.mainPage}>
 
-      {props.users ? (
+      {this.state.users ? (
       <TableContainer>
       <Table className={classes.table}>
         <TableHead >
@@ -69,12 +85,12 @@ const AdminTableUser = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-        {props.users.map(currentUser => (
+        {this.state.users.map(currentUser => (
            <TableRow key={currentUser.id}>
-          <TableCell><Link className={classes.tableContent}> {currentUser.username} </Link></TableCell>
-          <TableCell align="center"><Link className={classes.tableContent}>{currentUser.email} </Link></TableCell>
-          <TableCell align="center"><Link className={classes.tableContent}>A faire </Link></TableCell>
-          <TableCell align="center"><Link className={classes.tableContent}> A faire</Link></TableCell>
+           <TableCell><Link className={classes.tableContent}> {currentUser.username} </Link></TableCell>
+             <TableCell align="center"><Link className={classes.tableContent}>{currentUser.email} </Link></TableCell>
+             <TableCell align="center"><Link className={classes.tableContent}>A faire </Link></TableCell>
+             <TableCell align="center"><Link className={classes.tableContent}> A faire</Link></TableCell>
           <TableCell align="center"><Link className={classes.tableContent}>A faire</Link></TableCell>
           </TableRow>
 
@@ -90,7 +106,7 @@ const AdminTableUser = (props) => {
 
     </div>
   )
-
+}
 }
 
-export default (AdminTableUser)
+export default withStyles(useStyles)(AdminTableUser)

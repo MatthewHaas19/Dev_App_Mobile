@@ -17,6 +17,7 @@ import {
 import {getAllPostsFromDb} from '../API/PostApi'
 import {getAllUsersFromDb} from '../API/UserApi'
 import {getAllCommentFromPost} from '../API/CommentApi'
+import {getAllReportFromPost} from '../API/ReportApi'
 import AdminTablePost from '../Views/AdminTablePost'
 import AdminTableUser from '../Views/AdminTableUser'
 
@@ -74,40 +75,12 @@ const useStyles = theme => ({
 
 class AdminHome extends React.Component {
   state = {
-    posts:[],
-    users:[],
     displayPost: true
   }
 
   constructor(props){
     super(props)
-    getAllPostsFromDb().then(data => {
-      const posts = data
-      this.setState({posts: data})
-      getAllUsersFromDb().then(users => {
-        this.setState({users:users})
-        console.log(posts)
 
-
-        for(let i=0;i<posts.length;i++){
-          getAllCommentFromPost(posts[i]._id).then(res => {
-            posts[i].commentaire.push(res.length)
-            this.setState({posts: posts})
-          })
-        }
-
-
-      }).catch((error) => {
-        console.log("Erreur dans le constructeur")
-      })
-
-
-
-
-
-    }).catch((error) => {
-      console.log("Erreur dans le constructeur")
-    })
   }
 
   render(){
@@ -117,10 +90,10 @@ class AdminHome extends React.Component {
     function TableDisplay(props) {
       const afficherPost = props.afficherPost
       if(afficherPost) {
-        return (<AdminTablePost posts={props.posts}/>)
+        return (<AdminTablePost />)
       }
       else {
-        return ( <AdminTableUser users={props.users}/> )
+        return ( <AdminTableUser /> )
       }
     }
 

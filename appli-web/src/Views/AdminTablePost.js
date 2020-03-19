@@ -11,7 +11,7 @@ import {
 } from "react-router-dom";
 import {getAllPostsFromDb} from '../API/PostApi'
 import {getAllCommentFromPost} from '../API/CommentApi'
-
+import {getAllReportFromPost} from '../API/ReportApi'
 import RowPostView from '../Views/RowPostView'
 import Table from '@material-ui/core/Table';
 import Button from '@material-ui/core/Button';
@@ -23,7 +23,7 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 
 
-const useStyles = makeStyles({
+const useStyles = theme => ({
   table: {
     minWidth: 650,
   },
@@ -44,19 +44,46 @@ const useStyles = makeStyles({
 
 
 
+class AdminTablePost extends React.Component {
+  state = {
+    posts:[],
+  }
 
-const AdminTablePost = (props) => {
-    const classes = useStyles();
+  constructor(props){
+    super(props)
+    getAllPostsFromDb().then(data => {
+      var posts = data
+
+      Object.assign(posts, {reports: []});
+        for(let i=0;i<posts.length;i++){
+          getAllCommentFromPost(posts[i]._id).then(res => {
+            posts[i].commentaire.push(res.length)
+            getAllReportFromPost(posts[i]._id).then(reports => {
+              console.log(reports)
+              this.setState({posts: posts})
+            })
+          })
+        }
+
+        console.log(posts)
+
+    }).catch((error) => {
+      console.log("Erreur dans le constructeur")
+    })
+  }
 
 
+  render(){
 
+
+    const {classes} = this.props
 
 
     return (
 
       <div className={classes.mainPage}>
 
-      {props.posts ? (
+      {this.state.posts ? (
       <TableContainer>
       <Table className={classes.table}>
         <TableHead >
@@ -69,13 +96,12 @@ const AdminTablePost = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-        {props.posts.map(currentPost => (
+        {this.state.posts.map(currentPost => (
            <TableRow key={currentPost.id}>
           <TableCell><Link className={classes.tableContent}> {currentPost.titre} </Link></TableCell>
           <TableCell align="center"><Link className={classes.tableContent}>{currentPost.user} </Link></TableCell>
           <TableCell align="center"><Link className={classes.tableContent}>{currentPost.note} </Link></TableCell>
           <TableCell align="center"><Link className={classes.tableContent}>{(currentPost.commentaire.length>0) ? currentPost.commentaire[0] : 0 }</Link></TableCell>
-          <TableCell align="center"><Link className={classes.tableContent}>A faire</Link></TableCell>
           </TableRow>
 
         )
@@ -90,7 +116,7 @@ const AdminTablePost = (props) => {
 
     </div>
   )
-
+}
 }
 
-export default (AdminTablePost)
+export default withStyles(useStyles)(AdminTablePost)

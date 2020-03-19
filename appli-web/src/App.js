@@ -39,7 +39,8 @@ class App extends Component {
       this.state = {
         data: [],
         vue: 0,
-        posts:[]
+        posts:[],
+        open:false
       };
     }
 
@@ -88,9 +89,12 @@ class App extends Component {
 
   handleSwitch(val){
     if(val==1 && !this.props.isAuth){
-      history.push('/login')
+      this.setState({open:true})
+      this.setState({vue:0})
+      history.push('/')
     }
     else{
+      this.setState({open:false})
       if(val==0){
         history.push('/')
       }
@@ -133,7 +137,7 @@ class App extends Component {
 
           <Switch>
             <Route exact path="/">
-              <HomeSwitcher val={this.state.vue} />
+              <HomeSwitcher val={this.state.vue} open={this.state.open} />
             </Route>
 
             <Route path="/addpost">

@@ -70,6 +70,7 @@ export default function HomeSwitcher(props) {
   const theme = useTheme();
   const [setValue] = React.useState(0);
   const value = props.val
+  const open = props.open
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -95,10 +96,11 @@ export default function HomeSwitcher(props) {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <Home switcher={true} />
+          {open}
+          <Home switcher={true} open={open}  />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <Home switcher={false} />
+          <Home switcher={false} open={false} />
         </TabPanel>
       </SwipeableViews>
 

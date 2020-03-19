@@ -57,8 +57,7 @@ const useStyles = theme => ({
     margin: theme.spacing(3, 0, 2),
   },
   card: {
-    boxShadow: "10px 10px 10px #9E9E9E",
-    marginTop: 50
+
   },
   title: {
     flexGrow: 1,
@@ -127,7 +126,7 @@ class Login extends React.Component {
 
             action = { type: "TOGGLE_AUTH"}
             this.props.dispatch(action)
-            history.push('/');
+            history.push('/filter');
           }else{
             console.log("password incorrect")
           }
@@ -143,8 +142,7 @@ class Login extends React.Component {
 
   return (
     <Container component="main" maxWidth="xs" maxHeight="xs">
-    <Card className={classes.card}>
-      <CardContent>
+
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar alt="Remy Sharp" src="/assets/H2R.png" className={classes.large} />
@@ -195,8 +193,7 @@ class Login extends React.Component {
           </Grid>
         </form>
       </div>
-      </CardContent>
-    </Card>
+
     </Container>
   );
 }

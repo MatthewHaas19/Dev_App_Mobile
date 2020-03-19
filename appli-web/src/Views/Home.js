@@ -14,22 +14,20 @@ import {
   Link
 } from "react-router-dom";
 import {getAllPostsFromDb} from '../API/PostApi'
+import {filterPostDb} from '../API/PostApi'
 import RowPostView from '../Views/RowPostView'
 import Filter from '../Views/Filter'
-
+import Profile from '../Views/Profile'
+import { connect } from 'react-redux'
 
 
 const useStyles = theme => ({
   mainPage: {
-    boxShadow: "10px 10px 10px #9E9E9E",
     marginTop: 50,
     marginLeft: 50,
     marginRight: 50,
     marginBottom: 50,
     color:'white',
-  },
-  actionProfileView: {
-    backgroundColor:"red",
   },
   listView: {
     backgroundColor:"green",
@@ -39,18 +37,26 @@ const useStyles = theme => ({
 
 
 class Home extends React.Component {
-  state = {
-    posts:[]
-  }
+
 
   constructor(props){
     super(props)
-    getAllPostsFromDb().then(data => {
+
+  }
+
+  filter(filter){
+    console.log(filter)
+    filterPostDb(filter).then(data => {
       const posts = data
-      this.setState({posts: data})
       console.log(data)
+      this.setState({posts: data})
+
+      var action = { type: "ADD_POSTS", posts: data}
+      this.props.dispatch(action)
+
+
     }).catch((error) => {
-      console.log("Erreur dans le constructeur")
+      console.log("erreur filter")
     })
   }
 
@@ -60,35 +66,72 @@ class Home extends React.Component {
 
     return (
 
+      <div>
+      {this.props.switcher ? (
+
+        <div className={classes.mainPage}>
+        <Grid container>
+        <Grid item className={classes.filterView} xs={4}>
+        <Filter
+          filter={(filterValue) => this.filter(filterValue)}
+        />
+        </Grid>
+
+
+        <Grid item className={classes.listView} xs={8}>
+        {this.props.posts ? (
+          <Grid container className={classes.listView} >
+          {this.props.posts.map(currentPost => (
+            <Grid item xs={12}>
+
+                  <RowPostView post={currentPost} />
+
+            </Grid>
+          )
+        )}
+        </Grid>
+      ) : "Il n'y a pas de posts"}
+      </Grid>
+      </Grid>
+      </div>
+
+
+    ) : (
       <div className={classes.mainPage}>
       <Grid container>
-      <Grid item className={classes.filterView} xs={3}>
-      <Filter />
-      </Grid>
 
-
-      <Grid item className={classes.listView} xs={6}>
-      {this.state.posts ? (
+      <Grid item className={classes.listView} xs={8}>
+      {this.props.posts ? (
         <Grid container className={classes.listView} >
-        {this.state.posts.map(currentPost => (
+        {this.props.posts.map(currentPost => (
           <Grid item xs={12}>
-             
+
                 <RowPostView post={currentPost} />
-            
+
           </Grid>
         )
       )}
       </Grid>
     ) : "Il n'y a pas de posts"}
     </Grid>
-
-    <Grid item className={classes.actionProfileView} xs={3}>
-    <h1 align="center" > Partie profil </h1>
+    <Grid item xs={4}>
+    <Profile />
     </Grid>
     </Grid>
+    </div>
+    )}
     </div>
   )
 }
 }
 
-export default withStyles(useStyles)(Home)
+
+const mapStateToProps = state =>{
+  return {
+    isAuth: state.auth.isAuth,
+    currentUser: state.user.currentUser,
+    posts: state.posts.posts
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(useStyles)(Home))

@@ -38,3 +38,22 @@ export function setNewPostDb (post) {
   .then((response) => response.text())
   .catch((error) => console.log(error))
 }
+
+export function filterPostDb (filter) {
+  const url = "https://dev-mobile-ig.herokuapp.com/posts/filter/filter"
+
+  const data = JSON.stringify(filter)
+
+  console.log(data)
+
+  return fetch(url,{
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: data
+  })
+  .then((response) => response.json())
+  .catch((error) => console.log(error))
+}

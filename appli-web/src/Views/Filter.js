@@ -72,7 +72,6 @@ const useStyles = theme => ({
   },
   card: {
     boxShadow: "10px 10px 10px #9E9E9E",
-    marginTop: 50
   },
   title: {
     flexGrow: 1,
@@ -208,10 +207,11 @@ class Filter extends React.Component {
     const filter = {
       type: type,
       tags: this.state.tags,
-      localisation: this.state.localisation,
+      localisation: 9999,
       categorie: res
     }
     console.log(filter)
+    this.props.filter(filter)
   }
 
   onChangeLoc = (value) => {

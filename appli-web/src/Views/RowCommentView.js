@@ -15,13 +15,14 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExploreTwoToneIcon from '@material-ui/icons/ExploreTwoTone';
+import { getPostById } from '../API/PostApi';
 
 
 const useStyles = makeStyles({
   root: {
     minWidth: 275,
     height:200,
-    color:"white"
+    color:"black"
   },
   content: {
     margin:20,
@@ -58,76 +59,80 @@ const useStyles = makeStyles({
   },
 });
 
-
-
-
 const RowCommentView = (props) => {
   const classes = useStyles();
-  
-  return(
-    <div>
-    { props.comment ? (
-      <Card >
-      <CardActionArea>
-  <CardContent className={classes.root} style={{ background: `rgb(${col})` }}>
-  <Container className={classes.content}>
-  <Grid container alignItems="center">
-  <Grid item xs={1} align="right">
-  <AccountCircleIcon className={classes.logosTop}/>
-  </Grid>
-  <Grid item xs={7} >
-    <div className={classes.username} >
-      {props.comment.user}
-    </div>
-    </Grid>
-    <Grid item xs={3} align="right">
-    <Typography className={classes.localisation}  gutterBottom>
-     123 km
-    </Typography>
-    </Grid>
-    <Grid item xs={1} align="left">
-    <ExploreTwoToneIcon className={classes.logosTop}/>
-    </Grid>
-  </Grid>
+  console.log("recup dans row comment les comments "+ props.commments)
+  //console.log("recup dans row comment le post "+ props.post)
+  //const col = [props.post.couleur[0]*255 +1 ,props.post.couleur[1]*255 +1 ,props.post.couleur[2]*255 +1]
 
-  <Grid container>
 
-    <Grid item xs={10}>
-      <Typography className={classes.titre}>
-        {props.comment.titreCom}
+
+    return(
+      <div>
+      { props.comments ? (
+        <Card >
+        <CardActionArea>
+    <CardContent className={classes.root} style={{ background: `rgb([100,50,10])` }}>
+    <Container className={classes.content}>
+    <Grid container alignItems="center">
+    <Grid item xs={1} align="right">
+    <AccountCircleIcon className={classes.logosTop}/>
+    </Grid>
+    <Grid item xs={7} >
+      <div className={classes.username} >
+        {props.comments.user}
+      </div>
+      </Grid>
+      <Grid item xs={3} align="right">
+      <Typography className={classes.localisation}  gutterBottom>
+       123 km
       </Typography>
-      <Typography className={classes.texte} >
-        {props.comment.texteCom}
-      </Typography>
+      </Grid>
+      <Grid item xs={1} align="left">
+      <ExploreTwoToneIcon className={classes.logosTop}/>
+      </Grid>
     </Grid>
 
-    <Grid item xs={2} className={classes.notefleches}>
-      <Grid container align="right">
-        <Grid item xs={12} align="center">
-          <Button><KeyboardArrowUpIcon className={classes.chevron} /></Button>
-        </Grid>
-        <Grid item xs={12}>
-          <div className={classes.note} align="center" >{props.comment.voteCom}</div>
-        </Grid>
-        <Grid item xs={12} align="center">
-          <Button><KeyboardArrowDownIcon className={classes.chevron} /></Button>
-        </Grid>
+    <Grid container>
+
+      <Grid item xs={10}>
+        <Typography className={classes.titre}>
+          {props.comments.titreCom}
+        </Typography>
+        <Typography className={classes.texte} >
+          {props.comments.texteCom}
+        </Typography>
       </Grid>
 
+      <Grid item xs={2} className={classes.notefleches}>
+        <Grid container align="right">
+          <Grid item xs={12} align="center">
+            <Button><KeyboardArrowUpIcon className={classes.chevron} /></Button>
+          </Grid>
+          <Grid item xs={12}>
+            <div className={classes.note} align="center" >{props.comments.voteCom}</div>
+          </Grid>
+          <Grid item xs={12} align="center">
+            <Button><KeyboardArrowDownIcon className={classes.chevron} /></Button>
+          </Grid>
+        </Grid>
 
+
+
+      </Grid>
 
     </Grid>
+    </Container>
+    </CardContent>
+    </CardActionArea>
+  </Card>
+      ): null
+    }
 
-  </Grid>
-  </Container>
-  </CardContent>
-  </CardActionArea>
-</Card>
-    ): null
+    </div>
+  )
   }
 
-  </div>
-)
-}
+
 
 export default (RowCommentView)

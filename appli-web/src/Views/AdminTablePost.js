@@ -49,11 +49,7 @@ const AdminTablePost = (props) => {
     const classes = useStyles();
 
 
-    async function NbComment(props) {
-      getAllCommentFromPost(props.idPost, (comments => {
-        return (<TableCell align="center"><Link className={classes.tableContent}>{comments.length}</Link></TableCell>)
-      }))
-    }
+
 
 
     return (
@@ -78,7 +74,7 @@ const AdminTablePost = (props) => {
           <TableCell><Link className={classes.tableContent}> {currentPost.titre} </Link></TableCell>
           <TableCell align="center"><Link className={classes.tableContent}>{currentPost.user} </Link></TableCell>
           <TableCell align="center"><Link className={classes.tableContent}>{currentPost.note} </Link></TableCell>
-          {NbComment(currentPost._id)}
+          <TableCell align="center"><Link className={classes.tableContent}>{(currentPost.commentaire.length>0) ? currentPost.commentaire[0] : 0 }</Link></TableCell>
           <TableCell align="center"><Link className={classes.tableContent}>A faire</Link></TableCell>
           </TableRow>
 

@@ -16,7 +16,7 @@ import {
 } from "react-router-dom";
 import {getAllPostsFromDb} from '../API/PostApi'
 import {getAllUsersFromDb} from '../API/UserApi'
-
+import {getAllCommentFromPost} from '../API/CommentApi'
 import AdminTablePost from '../Views/AdminTablePost'
 import AdminTableUser from '../Views/AdminTableUser'
 
@@ -87,9 +87,23 @@ class AdminHome extends React.Component {
       getAllUsersFromDb().then(users => {
         this.setState({users:users})
         console.log(posts)
+
+
+        for(let i=0;i<posts.length;i++){
+          getAllCommentFromPost(posts[i]._id).then(res => {
+            posts[i].commentaire.push(res.length)
+            this.setState({posts: posts})
+          })
+        }
+
+
       }).catch((error) => {
         console.log("Erreur dans le constructeur")
       })
+
+
+
+
 
     }).catch((error) => {
       console.log("Erreur dans le constructeur")

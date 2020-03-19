@@ -72,7 +72,6 @@ const useStyles = theme => ({
   },
   card: {
     boxShadow: "10px 10px 10px #9E9E9E",
-    marginTop: 50
   },
   title: {
     flexGrow: 1,

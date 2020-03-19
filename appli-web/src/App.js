@@ -5,6 +5,7 @@ import Login from './Views/Login.js'
 import NavBar from './Views/NavBar.js'
 import AddPost from './Views/AddPost.js'
 import Home from './Views/Home.js'
+import HomeSwitcher from './Views/HomeSwitcher.js'
 import Profile from './Views/Profile.js'
 import Filter from './Views/Filter.js'
 import PostDetailView from './Views/PostDetailView.js'
@@ -13,6 +14,7 @@ import Register from './Views/Register.js'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux';
 import cookie from 'react-cookies';
+import {getAllPostsFromDb} from './API/PostApi'
 import {
   Router,
   Switch,
@@ -30,7 +32,9 @@ class App extends Component {
   constructor(props) {
       super(props);
       this.state = {
-        data: []
+        data: [],
+        vue: 0,
+        posts:[]
       };
     }
 
@@ -55,7 +59,36 @@ class App extends Component {
       var action = { type: "TOGGLE_UNAUTH"}
       this.props.dispatch(action)
     }
+    getAllPostsFromDb().then(data => {
+      const posts = data
+      this.setState({posts: data})
+      console.log(data)
+
+      var action = { type: "ADD_POSTS", posts: data}
+      this.props.dispatch(action)
+
+    }).catch((error) => {
+      console.log("Erreur dans le constructeur")
+    })
   }
+
+  handleSwitch(val){
+    if(val==1 && !this.props.isAuth){
+      history.push('/login')
+    }
+    else{
+      if(val==0){
+        history.push('/')
+      }
+
+      if(val != this.state.vue){
+        this.setState({vue:val})
+      }
+      console.log(this.state.vue)
+    }
+
+  }
+
 
 
   render(){
@@ -73,10 +106,10 @@ class App extends Component {
 
       <Router history={history}>
         <div>
-           <NavBar />
+           <NavBar changeValue={(val) => this.handleSwitch(val)} />
           <Switch>
             <Route exact path="/">
-              <Home />
+              <HomeSwitcher val={this.state.vue} />
             </Route>
 
             <Route path="/addpost">
@@ -92,7 +125,7 @@ class App extends Component {
             </PrivateLogin>
 
             <Route path="/filter">
-              <Filter />
+              <HomeSwitcher val={0} />
             </Route>
             
             <Route path="/postdetailview/:id" component={PostDetailView} />
@@ -188,7 +221,8 @@ function PrivateLogin({ children, ...rest }) {
 const mapStateToProps = state =>{
   return {
     isAuth: state.auth.isAuth,
-    currentUser: state.user.currentUser
+    currentUser: state.user.currentUser,
+    posts: state.posts.posts
   }
 }
 

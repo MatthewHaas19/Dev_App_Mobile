@@ -80,9 +80,17 @@ const image =
 
 
 
-export default function NavBar() {
+export default function NavBar({changeValue}) {
   const classes = useStyles();
-  
+
+  function handleClick(newValue){
+    if(newValue=="filter"){
+      changeValue(0)
+    }else{
+      changeValue(1)
+    }
+  };
+
   return (
     <div className={classes.root}>
       <AppBar position="static" style={{ background: "#ffffff" }}>
@@ -100,16 +108,12 @@ export default function NavBar() {
           </Link>
           </div>
           </ThemeProvider>
-          <Link to="/filter">
-          <IconButton aria-label="search" color="inherit" className={classes.menuButton}>
+          <IconButton aria-label="search" color="inherit" className={classes.menuButton} onClick={() => handleClick("filter")}>
             <SearchIcon />
           </IconButton>
-          </Link>
-          <Link to="/login">
-          <IconButton aria-label="search" color="inherit" className={classes.menuButton}>
+          <IconButton aria-label="search" color="inherit" className={classes.menuButton} onClick={() => handleClick("profile")}>
             <AccountCircle />
           </IconButton>
-          </Link>
         </Toolbar>
       </AppBar>
     </div>

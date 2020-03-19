@@ -50,6 +50,7 @@ const useStyles = theme => ({
   large: {
     width: theme.spacing(15),
     height: theme.spacing(15),
+    margin: 15
   },
   margin: {
     margin: theme.spacing(1),

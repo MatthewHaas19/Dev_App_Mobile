@@ -19,6 +19,14 @@ import RowPostView from '../Views/RowPostView'
 import Filter from '../Views/Filter'
 import Profile from '../Views/Profile'
 import { connect } from 'react-redux'
+import Dialog from '@material-ui/core/Dialog';
+import Login from './Login.js'
+import Slide from '@material-ui/core/Slide';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 
 
 const useStyles = theme => ({
@@ -38,7 +46,16 @@ class Home extends React.Component {
 
   constructor(props){
     super(props)
+    this.state = {
+      open:false
+    }
+  }
 
+  componentWillReceiveProps(nextProps) {
+  
+    if (nextProps.open !== this.state.open) {
+      this.setState({ open: nextProps.open });
+    }
   }
 
   filter(filter){
@@ -56,6 +73,15 @@ class Home extends React.Component {
       console.log("erreur filter")
     })
   }
+
+
+  handleClickOpen = () => {
+    this.setState({open:true});
+  };
+
+  handleClose = () => {
+    this.setState({open:false});
+  };
 
   render(){
 
@@ -117,6 +143,22 @@ class Home extends React.Component {
     </Grid>
     </div>
     )}
+
+
+
+    <Dialog
+        open={this.state.open}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={this.handleClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <Login />
+      </Dialog>
+
+
+
     </div>
   )
 }

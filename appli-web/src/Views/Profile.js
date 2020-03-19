@@ -10,12 +10,14 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import Badge from '@material-ui/core/Badge';
 import {
   BrowserRouter as Router,
   Switch,
   Route,
   Link
 } from "react-router-dom";
+import AddAPhotoIcon from '@material-ui/icons/AddAPhoto';
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -25,6 +27,8 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import {getUserFromDb} from '../API/UserApi'
+import {getPostByUser} from '../API/PostApi'
+import {getAllCommentFromUser} from '../API/CommentApi'
 import Noteworthy from '../fonts/Noteworthy-Lt.woff';
 import EditIcon from '@material-ui/icons/Edit';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
@@ -58,6 +62,7 @@ const useStyles = theme => ({
   },
   card: {
     boxShadow: "10px 10px 10px #9E9E9E",
+    height: "100%"
   },
   title: {
     flexGrow: 1,
@@ -110,7 +115,22 @@ class Profile extends React.Component {
 
   constructor(props){
     super(props)
+    this.state = {
+      nbPost : 0,
+      nbCom : 0,
+    }
 
+    getAllCommentFromUser(this.props.currentUser.email).then(data => {
+      this.setState({nbCom: data.length})
+    }).catch((error) => {
+      console.log("erreur comment")
+    })
+
+    getPostByUser(this.props.currentUser.email).then(data => {
+      this.setState({nbPost: data.length})
+    }).catch((error) => {
+      console.log("erreur post")
+    })
   }
 
   _Deco(){
@@ -124,7 +144,7 @@ class Profile extends React.Component {
     const {classes} = this.props
       return (
         <div>
-        <Container component="main"  maxHeight="xs">
+        <Container component="main"  >
         <Card className={classes.card}>
           <CardContent>
           <CssBaseline />
@@ -148,7 +168,19 @@ class Profile extends React.Component {
           <Typography component="h1" variant="p" className={classes.numbers} >
             Mon Profile
           </Typography>
-            <Avatar alt="Remy Sharp" src="https://media-exp1.licdn.com/dms/image/C4D03AQEE5KO1Z6RuCQ/profile-displayphoto-shrink_200_200/0?e=1589414400&v=beta&t=9AxoJc_fUOa-wRgfFmObUI9_QiWOZ1ZGa3BLuswyL9c" className={classes.large} />
+
+
+
+            <Badge
+            overlap="circle"
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'right',
+            }}
+            badgeContent={<IconButton aria-label="search" color="inherit" ><AddAPhotoIcon /></IconButton>}
+            >
+              <Avatar alt="Remy Sharp" src="https://media-exp1.licdn.com/dms/image/C4D03AQEE5KO1Z6RuCQ/profile-displayphoto-shrink_200_200/0?e=1589414400&v=beta&t=9AxoJc_fUOa-wRgfFmObUI9_QiWOZ1ZGa3BLuswyL9c" className={classes.large} />
+            </Badge>
 
             <Typography component="h3" variant="p" className={classes.title} >
               {this.props.currentUser.username}
@@ -164,7 +196,7 @@ class Profile extends React.Component {
             <Grid container justify = "center" >
 
             <Typography component="h3" variant="p" className={classes.numbers} >
-              0
+              {this.state.nbPost}
             </Typography>
             <Typography component="h3" variant="p" className={classes.title} >
               Posts
@@ -175,7 +207,7 @@ class Profile extends React.Component {
             <Grid>
             <Grid container justify = "center" >
             <Typography component="h3" variant="p"  className={classes.numbers} >
-              0
+              {this.state.nbCom}
             </Typography>
             <Typography component="h3" variant="p" className={classes.title} >
               Comments

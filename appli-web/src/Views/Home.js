@@ -17,20 +17,17 @@ import {getAllPostsFromDb} from '../API/PostApi'
 import {filterPostDb} from '../API/PostApi'
 import RowPostView from '../Views/RowPostView'
 import Filter from '../Views/Filter'
+import Profile from '../Views/Profile'
 import { connect } from 'react-redux'
 
 
 const useStyles = theme => ({
   mainPage: {
-    boxShadow: "10px 10px 10px #9E9E9E",
     marginTop: 50,
     marginLeft: 50,
     marginRight: 50,
     marginBottom: 50,
     color:'white',
-  },
-  actionProfileView: {
-    backgroundColor:"red",
   },
   listView: {
     backgroundColor:"green",
@@ -117,8 +114,8 @@ class Home extends React.Component {
       </Grid>
     ) : "Il n'y a pas de posts"}
     </Grid>
-    <Grid item className={classes.actionProfileView} xs={4}>
-    <h1 align="center" > Partie profil </h1>
+    <Grid item xs={4}>
+    <Profile />
     </Grid>
     </Grid>
     </div>

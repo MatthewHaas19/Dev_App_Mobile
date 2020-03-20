@@ -68,8 +68,8 @@ export function filterPostDb (filter) {
 }
 
 export function votePost(vote,post) {
-  const url = ""
-  if(vote="+"){
+  var url = ""
+  if(vote=="+"){
       url = "https://dev-mobile-ig.herokuapp.com/posts/addVote/true"
   }
   else{

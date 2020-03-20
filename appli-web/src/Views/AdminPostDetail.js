@@ -10,6 +10,7 @@ import {
   Link
 } from "react-router-dom";
 import {getAllPostsFromDb} from '../API/PostApi'
+import {getPostById} from '../API/PostApi'
 import {getAllCommentFromPost} from '../API/CommentApi'
 import {getAllReportFromPost} from '../API/ReportApi'
 import RowPostView from '../Views/RowPostView'
@@ -38,21 +39,18 @@ const useStyles = theme => ({
 
 
 
-class AdminProfilUser extends React.Component {
+class AdminPostDetail extends React.Component {
   state = {
-    user:{},
+    post:{}
   }
 
   constructor(props){
     super(props)
+
+
   }
 
-  componentWillReceiveProps(nextProps) {
 
-    if (nextProps.user !== this.state.user) {
-      this.setState({ user: nextProps.user });
-    }
-  }
 
 
   render(){
@@ -64,8 +62,14 @@ class AdminProfilUser extends React.Component {
     return (
 
       <div className={classes.mainPage}>
-      <h1>Profil de l'tulisateur </h1>
-      {this.props.userAdmin ? <h1>{this.props.userAdmin.username}</h1> : <h1>ça marche pas</h1>}
+      <h1>Détail du post : </h1>
+      {this.props.adminCurrentPost ?
+
+        <h1>{this.props.adminCurrentPost.titre}</h1>
+
+
+
+      : <h1>ça marche pas</h1>}
 
 
 
@@ -77,8 +81,8 @@ class AdminProfilUser extends React.Component {
 const mapStateToProps = state =>{
   return {
     isAuth: state.auth.isAuth,
-    userAdmin: state.userAdmin.user
+    adminCurrentPost: state.posts.adminCurrentPost,
   }
 }
 
-export default connect(mapStateToProps)(withStyles(useStyles)(AdminProfilUser))
+export default connect(mapStateToProps)(withStyles(useStyles)(AdminPostDetail))

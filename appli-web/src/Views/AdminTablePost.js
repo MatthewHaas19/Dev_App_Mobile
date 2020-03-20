@@ -9,10 +9,14 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import { connect } from 'react-redux'
 import {getAllPostsFromDb} from '../API/PostApi'
+import {getUserFromDb} from '../API/UserApi'
 import {getAllCommentFromPost} from '../API/CommentApi'
 import {getAllReportFromPost} from '../API/ReportApi'
 import RowPostView from '../Views/RowPostView'
+import AdminPostDetail from '../Views/AdminPostDetail'
+import AdminProfilUser from '../Views/AdminProfilUser'
 import Table from '@material-ui/core/Table';
 import Button from '@material-ui/core/Button';
 import TableBody from '@material-ui/core/TableBody';
@@ -21,7 +25,12 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Dialog from '@material-ui/core/Dialog';
+import Slide from '@material-ui/core/Slide';
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const useStyles = theme => ({
   table: {
@@ -47,13 +56,16 @@ const useStyles = theme => ({
 class AdminTablePost extends React.Component {
   state = {
     posts:[],
+    openPost: false,
+    openUser: false,
+    currentPost: {},
+    currentUser: {}
   }
 
   constructor(props){
     super(props)
     getAllPostsFromDb().then(data => {
       var posts = data
-
 
         for(let i=0;i<posts.length;i++){
           Object.assign(posts[i], {reports: 0});
@@ -64,7 +76,11 @@ class AdminTablePost extends React.Component {
               if(reports.length>0) {
                 posts[i].reports=reports.length
               }
-              this.setState({posts: posts})
+              Object.assign(posts[i], {completeUser: {}});
+              getUserFromDb(posts[i].user).then(user => {
+                posts[i].completeUser=user
+                this.setState({posts: posts})
+              })
 
             }).catch((error) => {
               console.log("Erreur dans le constructeur")
@@ -82,6 +98,25 @@ class AdminTablePost extends React.Component {
     })
   }
 
+  handleClose = () => {
+    this.setState({openUser:false, openPost:false});
+  };
+
+  displayPost(post){
+    var action = { type: 'ADMIN_CURRENT_POST', adminCurrentPost: post}
+    this.props.dispatch(action)
+    this.setState({openPost:true, currentPost:post})
+  }
+
+  displayUser(emailUser){
+    getUserFromDb(emailUser).then(user => {
+      console.log(user)
+      var action = { type: "TOGGLE_USER_ADMIN", currentUser:user}
+      this.props.dispatch(action)
+      this.setState({openUser:true, currentUser:user})
+    })
+
+  }
 
   render(){
 
@@ -108,8 +143,8 @@ class AdminTablePost extends React.Component {
         <TableBody>
         {this.state.posts.map(currentPost => (
            <TableRow key={currentPost.id}>
-          <TableCell><Link className={classes.tableContent}> {currentPost.titre} </Link></TableCell>
-          <TableCell align="center"><Link className={classes.tableContent}>{currentPost.user} </Link></TableCell>
+          <TableCell><Link onClick={() => this.displayPost(currentPost)} className={classes.tableContent}> {currentPost.titre} </Link></TableCell>
+          <TableCell align="center"><Link onClick={() => this.displayUser(currentPost.user)} className={classes.tableContent}>{currentPost.user} </Link></TableCell>
           <TableCell align="center"><Link className={classes.tableContent}>{currentPost.note} </Link></TableCell>
           <TableCell align="center"><Link className={classes.tableContent}>{(currentPost.commentaire.length>0) ? currentPost.commentaire[0] : 0 }</Link></TableCell>
           <TableCell align="center"><Link className={classes.tableContent}>{currentPost.reports} </Link></TableCell>
@@ -125,9 +160,39 @@ class AdminTablePost extends React.Component {
 
 
 
+    <Dialog
+        open={this.state.openPost}
+        TransitionComponent={Transition}
+        onClose={this.handleClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+      <AdminPostDetail/>
+    </Dialog>
+
+    <Dialog
+        open={this.state.openUser}
+        TransitionComponent={Transition}
+        onClose={this.handleClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <h1>Pute</h1>
+        <AdminProfilUser/>
+    </Dialog>
+
+
     </div>
   )
 }
 }
 
-export default withStyles(useStyles)(AdminTablePost)
+const mapStateToProps = state =>{
+  return {
+    isAuth: state.auth.isAuth,
+    adminCurrentPost: state.posts.adminCurrentPost,
+    userAdmin: state.userAdmin.user
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(useStyles)(AdminTablePost))

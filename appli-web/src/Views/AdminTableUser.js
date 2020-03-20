@@ -16,6 +16,8 @@ import {getAllCommentFromUser} from '../API/CommentApi'
 import {getAllReportFromUser} from '../API/ReportApi'
 import RowPostView from '../Views/RowPostView'
 import AdminProfilUser from '../Views/AdminProfilUser'
+import AdminPostsUser from '../Views/AdminPostsUser'
+import AdminCommentsUser from '../Views/AdminCommentsUser'
 import Table from '@material-ui/core/Table';
 import Button from '@material-ui/core/Button';
 import TableBody from '@material-ui/core/TableBody';
@@ -109,19 +111,26 @@ class AdminTableUser extends React.Component {
   };
 
   displayUsers(user){
-
-
     var action = { type: "TOGGLE_USER_ADMIN", currentUser:user}
     this.props.dispatch(action)
-this.setState({openUser:true, currentUser:user})
+    this.setState({openUser:true, currentUser:user})
   }
+
   displayPosts(user){
+    var action = { type: "TOGGLE_USER_ADMIN", currentUser:user}
+    this.props.dispatch(action)
     this.setState({openPosts:true, currentUser:user})
   }
+
   displayComments(user){
+    var action = { type: "TOGGLE_USER_ADMIN", currentUser:user}
+    this.props.dispatch(action)
     this.setState({openComments:true, currentUser:user})
   }
+
   displayReports(user){
+    var action = { type: "TOGGLE_USER_ADMIN", currentUser:user}
+    this.props.dispatch(action)
     this.setState({openReports:true, currentUser:user})
   }
 
@@ -130,7 +139,6 @@ this.setState({openUser:true, currentUser:user})
 
 
     const {classes} = this.props
-    console.log(this.state.users)
 
     return (
 
@@ -145,7 +153,7 @@ this.setState({openUser:true, currentUser:user})
             <TableCell className={classes.nomColonne} align="center">Email</TableCell>
             <TableCell className={classes.nomColonne} align="center">Posts</TableCell>
             <TableCell className={classes.nomColonne} align="center">NbComment</TableCell>
-            <TableCell className={classes.nomColonne} align="center">NbReports</TableCell>
+            <TableCell className={classes.nomColonne} align="center">Action</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -163,7 +171,7 @@ this.setState({openUser:true, currentUser:user})
         </TableBody>
       </Table>
     </TableContainer>
-  ) : "Il n'y a pas de posts"}
+  ) : "Il n'y a pas de users"}
 
 
   <Dialog
@@ -185,7 +193,7 @@ this.setState({openUser:true, currentUser:user})
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
     >
-    <h1>TEST</h1>
+    <AdminPostsUser user={this.state.currentUser}/>
   </Dialog>
 
   <Dialog
@@ -196,7 +204,7 @@ this.setState({openUser:true, currentUser:user})
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
     >
-    <h1>TEST</h1>
+    <AdminCommentsUser user={this.state.currentUser}/>
   </Dialog>
 
   <Dialog
@@ -207,7 +215,7 @@ this.setState({openUser:true, currentUser:user})
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
     >
-      <h1>TEST</h1>
+      <h1>Dialog confirmation suppr</h1>
   </Dialog>
 
 
@@ -222,7 +230,6 @@ const mapStateToProps = state =>{
   return {
     isAuth: state.auth.isAuth,
     currentIdPost: state.posts.currentIdPost,
-
     userAdmin: state.userAdmin.user
   }
 }

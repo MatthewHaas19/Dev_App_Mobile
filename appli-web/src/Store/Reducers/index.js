@@ -8,5 +8,5 @@ export default combineReducers({
     user: toggleUser,
     auth: toggleAuth,
     posts: togglePosts,
-    userAdmin: toggleUserAdmin
+    userAdmin: toggleUserAdmin,
 });

@@ -38,7 +38,7 @@ const useStyles = theme => ({
 
 
 
-class AdminProfilUser extends React.Component {
+class AdminCommentsUser extends React.Component {
   state = {
     user:{},
   }
@@ -64,7 +64,7 @@ class AdminProfilUser extends React.Component {
     return (
 
       <div className={classes.mainPage}>
-      <h1>Profil de l'tulisateur </h1>
+      <h1>Posts de l'tulisateur </h1>
       {this.props.userAdmin ? <h1>{this.props.userAdmin.username}</h1> : <h1>ça marche pas</h1>}
 
 
@@ -81,4 +81,4 @@ const mapStateToProps = state =>{
   }
 }
 
-export default connect(mapStateToProps)(withStyles(useStyles)(AdminProfilUser))
+export default connect(mapStateToProps)(withStyles(useStyles)(AdminCommentsUser))

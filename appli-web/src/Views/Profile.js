@@ -33,6 +33,8 @@ import Noteworthy from '../fonts/Noteworthy-Lt.woff';
 import EditIcon from '@material-ui/icons/Edit';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import IconButton from '@material-ui/core/IconButton';
+import Notifications from './component/Notifications';
+
 const useStyles = theme => ({
   paper: {
     marginTop: theme.spacing(8),
@@ -216,6 +218,10 @@ class Profile extends React.Component {
             </Grid>
 
             </Grid>
+
+            <Notifications />
+            
+
 
         <Button variant="contained" color="primary" onClick={()=>this._Deco()} className={classes.spacer}>
           Deconnexion

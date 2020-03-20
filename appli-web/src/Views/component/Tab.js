@@ -57,6 +57,7 @@ export default function MyTabs({changeValue}) {
     setValue(newValue);
     changeValue(newValue)
   };
+  
 
   return (
     <div className={classes.root}>

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import { createMuiTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import { createMuiTheme, withStyles,withTheme, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
 import { green, blue, red , white} from '@material-ui/core/colors';
@@ -22,11 +22,11 @@ import { connect } from 'react-redux'
 import Dialog from '@material-ui/core/Dialog';
 import Login from './Login.js'
 import Slide from '@material-ui/core/Slide';
+import Drawer from "@material-ui/core/Drawer";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
-
 
 
 const useStyles = theme => ({
@@ -47,14 +47,38 @@ class Home extends React.Component {
   constructor(props){
     super(props)
     this.state = {
-      open:false
+      open:false,
+      width: window.innerWidth,
+      height: window.innerHeight,
+      mobileOpen: false
     }
+
+
+  }
+
+  updateDimensions = () => {
+      this.setState({ width: window.innerWidth, height: window.innerHeight });
+    };
+
+  componentDidMount() {
+    window.addEventListener('resize', this.updateDimensions);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions);
   }
 
   componentWillReceiveProps(nextProps) {
-  
+
     if (nextProps.open !== this.state.open) {
       this.setState({ open: nextProps.open });
+    }
+
+    if (nextProps.openfilter !== this.state.openfilter) {
+      this.setState({ openfilter: nextProps.openfilter });
+    }
+
+    if (nextProps.openprofile !== this.state.openprofile) {
+      this.setState({ openprofile: nextProps.openprofile });
     }
   }
 
@@ -74,6 +98,10 @@ class Home extends React.Component {
     })
   }
 
+  handleDrawerToggle = () => {
+    this.setState({openfilter:false});
+    this.setState({openprofile:false});
+  };
 
   handleClickOpen = () => {
     this.setState({open:true});
@@ -85,11 +113,12 @@ class Home extends React.Component {
 
   render(){
 
-    const {classes} = this.props
-
+    const {classes,theme} = this.props
     return (
 
       <div>
+      {this.state.width > 1275 ?(
+        <div>
       {this.props.switcher ? (
 
         <div className={classes.mainPage}>
@@ -143,8 +172,69 @@ class Home extends React.Component {
     </Grid>
     </div>
     )}
+    </div>
+  ) : (
 
 
+
+    <div className={classes.mainPage}>
+    <Grid container>
+
+
+
+    <Grid item  xs={12}>
+    {this.props.posts ? (
+      <Grid container className={classes.listView} >
+      {this.props.posts.map(currentPost => (
+        <Grid item xs={12}>
+
+              <RowPostView post={currentPost} />
+
+        </Grid>
+      )
+    )}
+    </Grid>
+  ) : "Il n'y a pas de posts"}
+  </Grid>
+  </Grid>
+
+
+
+  <Drawer
+    variant="temporary"
+    anchor={theme.direction === 'rtl' ? 'right' : 'left'}
+    open={this.state.openfilter}
+    onClose={this.handleDrawerToggle}
+    classes={{
+    paper: classes.drawerPaper,
+    }}
+    ModalProps={{
+      keepMounted: true, // Better open performance on mobile.
+    }}
+    >
+    <Filter />
+    </Drawer>
+
+    <Drawer
+      variant="temporary"
+      anchor={theme.direction === 'rtl' ? 'left' : 'right'}
+      open={this.state.openprofile}
+      onClose={this.handleDrawerToggle}
+      classes={{
+      paper: classes.drawerPaper,
+      }}
+      ModalProps={{
+        keepMounted: true, // Better open performance on mobile.
+      }}
+      >
+      {this.state.openprofile ? <Profile /> : null}
+      </Drawer>
+  </div>
+
+
+
+
+  )}
 
     <Dialog
         open={this.state.open}
@@ -173,4 +263,4 @@ const mapStateToProps = state =>{
   }
 }
 
-export default connect(mapStateToProps)(withStyles(useStyles)(Home))
+export default connect(mapStateToProps)(withTheme(withStyles(useStyles)(Home)))

@@ -40,7 +40,12 @@ class App extends Component {
         data: [],
         vue: 0,
         posts:[],
-        open:false
+        open:false,
+        openfilter:false,
+        openprofile:false,
+
+        width: window.innerWidth,
+        height: window.innerHeight,
       };
     }
 
@@ -87,6 +92,18 @@ class App extends Component {
     })
   }
 
+  updateDimensions = () => {
+      this.setState({ width: window.innerWidth, height: window.innerHeight });
+    };
+
+  componentDidMount() {
+    window.addEventListener('resize', this.updateDimensions);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions);
+  }
+
+
   handleSwitch(val){
     if(val==1 && !this.props.isAuth){
       this.setState({open:true})
@@ -95,10 +112,15 @@ class App extends Component {
     }
     else{
       this.setState({open:false})
+      this.setState({openfilter:false})
+      this.setState({openprofile:false})
       if(val==0){
         history.push('/')
+        this.setState({openfilter:true})
       }
-
+      else{
+        this.setState({openprofile:true})
+      }
       if(val != this.state.vue){
         this.setState({vue:val})
       }
@@ -137,7 +159,7 @@ class App extends Component {
 
           <Switch>
             <Route exact path="/">
-              <HomeSwitcher val={this.state.vue} open={this.state.open} />
+              {this.state.width > 1275 ? (<HomeSwitcher val={this.state.vue} open={this.state.open} openfilter={this.state.openfilter} openprofile={this.state.openprofile}/>) : <Home switcher={true} open={this.state.open} openfilter={this.state.openfilter} openprofile={this.state.openprofile}  />}
             </Route>
 
             <Route path="/addpost">

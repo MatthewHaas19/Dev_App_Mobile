@@ -66,6 +66,9 @@ const useStyles = theme => ({
     fontFamily: 'Noteworthy Light',
     fontWeight: 400,
   },
+  spacer:{
+    marginBottom: theme.spacing(7),
+  }
 });
 
 const ColorButton = withStyles(theme => ({
@@ -185,7 +188,7 @@ class Login extends React.Component {
             <Grid item xs>
 
             </Grid>
-            <Grid item>
+            <Grid item className={classes.spacer}>
               <Link to="/register">
                 {"Pas encore de compte ?"}
               </Link>

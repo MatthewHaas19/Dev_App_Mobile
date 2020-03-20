@@ -15,7 +15,14 @@ import RowCommentView from '../Views/RowCommentView'
 import { useParams } from 'react-router-dom';
 import { getPostById } from '../API/PostApi';
 import { getAllCommentFromPost } from '../API/CommentApi';
-import AddComButton from '../Views/component/AddComButton'
+import AddComment from './AddComment';
+import Slide from '@material-ui/core/Slide';
+import { connect } from 'react-redux'
+import Icon from '@material-ui/core/Icon';
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 
 
 const useStyles = theme => ({
@@ -46,23 +53,26 @@ class PostDetailViewTest extends React.Component{
 
   state = {
     posts:[],
-    comments:[]
+    comments:[],
+    openAddComment:false,
+    idPost:''
   }
 
   constructor(props){
     super(props)
-    let id = this.props.match.params.id
-
-    console.log("l'id du post"+id)
-    getPostById(id).then(data => {
+    let idPost = this.props.match.params.id
+    console.log("l'id du post"+idPost)
+    getPostById(idPost).then(data => {
       const post = data
       this.setState({posts: data})
+      this.setState({idPost: idPost})
+      console.log("id"+this.state.idPost)
       console.log("Le post" +data)
 
     }).catch((error) => {
       console.log("Erreur fetch")
     })
-   getAllCommentFromPost(id).then(data => {
+   getAllCommentFromPost(idPost).then(data => {
       const comments = data
       this.setState({comments: data})
       console.log("dans get all comments les com :" + data)
@@ -70,16 +80,26 @@ class PostDetailViewTest extends React.Component{
       console.log("Erreur dans la recuperation des comments")
     })
 
+
   }
 
-  
+  handleClickOpen = () => {
+    var action = { type: "CURRENT_POST", currentIdPost: this.state.idPost}
+    this.props.dispatch(action)
+    this.setState({openAddComment:true});
+  };
+
+  handleClose = () => {
+    this.setState({openAddComment:false});
+  };
+
 
   render(){
 
 
     const {classes} = this.props
-    
-    this.state.posts.map((post) => 
+
+    this.state.posts.map((post) =>
         console.log("couleur" + post.couleur)
     );
     const post = this.state.posts.map((post) =>
@@ -88,24 +108,39 @@ class PostDetailViewTest extends React.Component{
       </Grid>
     );
 
-    
+
     const listcomments = this.state.comments.map((comment) =>
     <Grid item xs={12}>
       <RowCommentView comments={comment} />
       </Grid>
     )
-   
 
-    
 
-  
+
+
+
 
     return(
       <div>
         <Grid item xs={12}>
        {post}
+       <Button variant="contained" color="primary" onClick={this.handleClickOpen} >
+        Ajouter un commentaire
+      </Button>
        {listcomments}
       </Grid>
+
+      <Dialog
+        open={this.state.openAddComment}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={this.handleClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <AddComment idpost={this.state.idPost}/>
+      </Dialog>
+
 
       </div>
     )
@@ -115,4 +150,12 @@ class PostDetailViewTest extends React.Component{
 
 }
 
-export default (PostDetailViewTest)
+const mapStateToProps = state =>{
+  return {
+    isAuth: state.auth.isAuth,
+    currentUser: state.user.currentUser,
+    currentIdPost: state.posts.currentIdPost
+  }
+}
+
+export default connect(mapStateToProps)(PostDetailViewTest)

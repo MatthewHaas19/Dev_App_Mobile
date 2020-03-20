@@ -26,7 +26,7 @@ router.get("/posts/:post", function(req,res,next){
     })
   })
 
-  router.get("users/:emailUser", function(req,res,next){
+  router.get("/users/:emailUser", function(req,res,next){
       const id = req.params.emailUser
       db.reports.find({
         emailUser: id

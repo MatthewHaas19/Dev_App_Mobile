@@ -23,11 +23,10 @@ export function getAllCommentFromUser (emailUser) {
 }
 
 
+export function setNewCommentDb (comment) {
+  const url = "https://dev-mobile-ig.herokuapp.com/comments/"
 
-export function setNewPostDb (post) {
-  const url = "https://dev-mobile-ig.herokuapp.com/posts/"
-
-  const data = JSON.stringify(post)
+  const data = JSON.stringify(comment)
 
   console.log(data)
 

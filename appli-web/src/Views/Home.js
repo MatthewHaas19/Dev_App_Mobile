@@ -14,6 +14,7 @@ import {
   Link
 } from "react-router-dom";
 import {getAllPostsFromDb} from '../API/PostApi'
+import {addVote} from '../API/VoteApi'
 import {filterPostDb} from '../API/PostApi'
 import RowPostView from '../Views/RowPostView'
 import Filter from '../Views/Filter'
@@ -111,6 +112,22 @@ class Home extends React.Component {
     this.setState({open:false});
   };
 
+  handleVote(val,post){
+    console.log(post)
+    if(this.props.currentUser){
+
+      const vote = {
+        user:this.props.currentUser.email,
+        post:post._id
+      }
+
+      addVote(vote).then(data => {
+        console.log(data)
+      })
+    }
+  }
+
+
   render(){
 
     const {classes,theme} = this.props
@@ -136,7 +153,7 @@ class Home extends React.Component {
           {this.props.posts.map(currentPost => (
             <Grid item xs={12}>
 
-                  <RowPostView post={currentPost} />
+                  <RowPostView post={currentPost} handlevote={(val) => this.handleVote(val)} />
 
             </Grid>
           )
@@ -158,7 +175,7 @@ class Home extends React.Component {
         {this.props.posts.map(currentPost => (
           <Grid item xs={12}>
 
-                <RowPostView post={currentPost} />
+                <RowPostView post={currentPost} handlevote={(val) => this.handleVote(val)} />
 
           </Grid>
         )
@@ -188,7 +205,7 @@ class Home extends React.Component {
       {this.props.posts.map(currentPost => (
         <Grid item xs={12}>
 
-              <RowPostView post={currentPost} />
+              <RowPostView post={currentPost} handlevote={(val) => this.handleVote(val,currentPost)} />
 
         </Grid>
       )
@@ -197,6 +214,7 @@ class Home extends React.Component {
   ) : "Il n'y a pas de posts"}
   </Grid>
   </Grid>
+
 
 
 
@@ -244,8 +262,8 @@ class Home extends React.Component {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <Login />
-      </Dialog>
+      <Login />
+    </Dialog>
 
 
 

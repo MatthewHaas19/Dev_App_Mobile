@@ -44,7 +44,7 @@ const useStyles = makeStyles({
   chevron: {
     fontSize:40,
     alignItems:"center",
-    color:"white"
+    color:"black"
   },
   notefleches:{
     margin:0,
@@ -62,7 +62,7 @@ const useStyles = makeStyles({
 const RowCommentView = (props) => {
   const classes = useStyles();
   console.log("recup dans row comment les comments "+ props.commments)
-  //console.log("recup dans row comment le post "+ props.post)
+  //console.log("recup dans row comment le post "+ props.post.titre)
   //const col = [props.post.couleur[0]*255 +1 ,props.post.couleur[1]*255 +1 ,props.post.couleur[2]*255 +1]
 
 

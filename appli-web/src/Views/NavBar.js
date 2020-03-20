@@ -112,7 +112,7 @@ export default function NavBar({changeValue}) {
           <IconButton aria-label="search" color="inherit" className={classes.menuButton} onClick={() => handleClick("filter")}>
             <SearchIcon />
           </IconButton>
-          <IconButton aria-label="search" color="inherit" className={classes.menuButton} onClick={() => handleClick("profile")}>
+          <IconButton aria-label="profil" color="inherit" className={classes.menuButton} onClick={() => handleClick("profile")}>
             <AccountCircle />
           </IconButton>
         </Toolbar>

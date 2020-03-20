@@ -7,6 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -94,23 +95,28 @@ class AddComment extends React.Component {
 
   constructor(props){
     super(props)
-    
+
     this.state = {
       titreCom: '',
       texteCom: '',
       isAnonyme : false,
       idPost:''
     }
-    
+
+    console.log("test")
+
   }
 
-  componentWillReceiveProps(nextProps) {
 
-    if (nextProps.idPost !== this.state.idPost) {
-      this.setState({ idPost: nextProps.idPost });
+
+  componentWillReceiveProps(nextProps) {
+    console.log("test")
+    console.log(nextProps.idpost)
+    if (nextProps.idpost !== this.state.idPost) {
+      this.setState({ idPost: nextProps.idpost });
     }
 
-    
+
   }
 
 
@@ -125,6 +131,7 @@ class AddComment extends React.Component {
   }
 
   onSubmit = (e) => {
+    this.setState({idPost:this.props.currentIdPost})
     var today = new Date()
     var yyyy = today.getFullYear()
     var mm = (today.getMonth()+1)
@@ -213,7 +220,7 @@ class AddComment extends React.Component {
           marginTop
           onChange={this.onChange}
           />
-          
+
 
           <ColorButton variant="contained" color="primary" className={classes.margin} type="submit"
             fullWidth>
@@ -232,7 +239,8 @@ class AddComment extends React.Component {
 const mapStateToProps = state =>{
   return {
     isAuth: state.auth.isAuth,
-    currentUser: state.user.currentUser
+    currentUser: state.user.currentUser,
+    currentIdPost: state.posts.currentIdPost
   }
 }
 

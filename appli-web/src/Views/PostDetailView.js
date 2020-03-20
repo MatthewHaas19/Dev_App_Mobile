@@ -17,6 +17,7 @@ import { getPostById } from '../API/PostApi';
 import { getAllCommentFromPost } from '../API/CommentApi';
 import AddComment from './AddComment';
 import Slide from '@material-ui/core/Slide';
+import { connect } from 'react-redux'
 import Icon from '@material-ui/core/Icon';
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -60,11 +61,12 @@ class PostDetailViewTest extends React.Component{
   constructor(props){
     super(props)
     let idPost = this.props.match.params.id
-    this.setState({idPost: idPost})
     console.log("l'id du post"+idPost)
     getPostById(idPost).then(data => {
       const post = data
       this.setState({posts: data})
+      this.setState({idPost: idPost})
+      console.log("id"+this.state.idPost)
       console.log("Le post" +data)
 
     }).catch((error) => {
@@ -82,20 +84,22 @@ class PostDetailViewTest extends React.Component{
   }
 
   handleClickOpen = () => {
+    var action = { type: "CURRENT_POST", currentIdPost: this.state.idPost}
+    this.props.dispatch(action)
     this.setState({openAddComment:true});
   };
 
   handleClose = () => {
     this.setState({openAddComment:false});
   };
-  
+
 
   render(){
 
 
     const {classes} = this.props
-    
-    this.state.posts.map((post) => 
+
+    this.state.posts.map((post) =>
         console.log("couleur" + post.couleur)
     );
     const post = this.state.posts.map((post) =>
@@ -104,23 +108,23 @@ class PostDetailViewTest extends React.Component{
       </Grid>
     );
 
-    
+
     const listcomments = this.state.comments.map((comment) =>
     <Grid item xs={12}>
       <RowCommentView comments={comment} />
       </Grid>
     )
-   
 
-    
 
-  
+
+
+
 
     return(
       <div>
         <Grid item xs={12}>
        {post}
-       <Button variant="contained" color="primary" onClick={() => this.setState({openAddComment:true})} >
+       <Button variant="contained" color="primary" onClick={this.handleClickOpen} >
         Ajouter un commentaire
       </Button>
        {listcomments}
@@ -136,7 +140,7 @@ class PostDetailViewTest extends React.Component{
       >
         <AddComment idpost={this.state.idPost}/>
       </Dialog>
-      
+
 
       </div>
     )
@@ -146,4 +150,12 @@ class PostDetailViewTest extends React.Component{
 
 }
 
-export default (PostDetailViewTest)
+const mapStateToProps = state =>{
+  return {
+    isAuth: state.auth.isAuth,
+    currentUser: state.user.currentUser,
+    currentIdPost: state.posts.currentIdPost
+  }
+}
+
+export default connect(mapStateToProps)(PostDetailViewTest)

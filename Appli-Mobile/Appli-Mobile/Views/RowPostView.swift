@@ -13,11 +13,13 @@ import FirebaseFirestore
 struct RowPostView: View {
     var user:[User]?
     @ObservedObject var userDAO = UserDAO()
+    @ObservedObject var commentDAO = CommentDAO()
     @State var afficherSheet = false
     
     var currentUserEmail : String?
     
     var post: Post
+    @State var comments = [Comment]()
     @State var username : String=""
     
     
@@ -39,7 +41,14 @@ struct RowPostView: View {
                     Button(action:{
                         //self.navigatePost(self.post)
                         print("appluie sur bouton")
-                        self.afficherSheet = true
+                        self.commentDAO.loadData(postId: self.post._id, navigateComment:  {
+                            comments in
+                            self.comments = comments
+                            print("comments : " )
+                            print(self.comments)
+                            self.afficherSheet = true
+                        })
+                        
                     }){
                         VStack(alignment:.leading, spacing:5){
                             HStack{
@@ -105,7 +114,7 @@ struct RowPostView: View {
                     }
                     .sheet(isPresented: self.$afficherSheet, content: {
                         
-                        PostDetailView(post: self.post, currentUser : self.currentUserEmail, position: self.localisation ,afficherDetail: {
+                        PostDetailView(post: self.post, comments: self.comments,currentUser : self.currentUserEmail, position: self.localisation ,afficherDetail: {
                             afficher in
                             self.afficherSheet=afficher
                         })

@@ -13,8 +13,7 @@ struct ListCommentView: View {
     
     var post : Post
     var currentUser : String?
-    @State var comments = [Comment]()
-    @ObservedObject var commentDAO = CommentDAO()
+    @State var comments : [Comment]
     @ObservedObject var userDAO = UserDAO()
     
     
@@ -123,11 +122,8 @@ struct ListCommentView: View {
             }
             
         }.onAppear {
-            self.commentDAO.loadData(postId: self.post._id, navigateComment:  {
-                comments in
-                self.comments = comments
-            })
-            
+            print("comments in List")
+            print(self.comments)
         }
     }
     

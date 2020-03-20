@@ -40,14 +40,18 @@ const useStyles = theme => ({
 
 class AdminProfilUser extends React.Component {
   state = {
-    user:this.props.user,
+    user:{},
   }
 
   constructor(props){
     super(props)
-    this.setState({user:this.props.user})
-    console.log("dans le constructeur du modal")
-    console.log(this.props.user)
+  }
+
+  componentWillReceiveProps(nextProps) {
+
+    if (nextProps.user !== this.state.user) {
+      this.setState({ user: nextProps.user });
+    }
   }
 
 
@@ -55,12 +59,12 @@ class AdminProfilUser extends React.Component {
 
 
     const {classes} = this.props
-
+console.log("SUCE MA BITE PUTIN")
 
     return (
 
       <div className={classes.mainPage}>
-
+      <h1>Pute</h1>
       <h1>{this.state.user.unsername}</h1>
 
 

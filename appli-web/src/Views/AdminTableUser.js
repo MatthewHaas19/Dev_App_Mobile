@@ -145,7 +145,7 @@ class AdminTableUser extends React.Component {
         </TableHead>
         <TableBody>
         {this.state.users.map(currentUser => (
-           <TableRow key={currentUser.id}>
+           <TableRow key={currentUser.emailUser}>
            <TableCell><Link onClick={() => this.displayUsers(currentUser)} className={classes.tableContent}> {currentUser.username} </Link></TableCell>
              <TableCell align="center"><Link onClick={() => this.displayUsers(currentUser)} className={classes.tableContent}>{currentUser.email} </Link></TableCell>
              <TableCell align="center"><Link onClick={() => this.displayPosts(currentUser)} className={classes.tableContent}> {currentUser.posts}</Link></TableCell>
@@ -168,6 +168,7 @@ class AdminTableUser extends React.Component {
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
     >
+      <h1>Pute</h1>
       <AdminProfilUser user={this.state.currentUser}/>
   </Dialog>
 

@@ -16,6 +16,7 @@ import {
 import {getAllPostsFromDb} from '../API/PostApi'
 import {addVote} from '../API/VoteApi'
 import {filterPostDb} from '../API/PostApi'
+import {votePost} from '../API/PostApi'
 import RowPostView from '../Views/RowPostView'
 import Filter from '../Views/Filter'
 import Profile from '../Views/Profile'
@@ -116,13 +117,73 @@ class Home extends React.Component {
     console.log(post)
     if(this.props.currentUser){
 
+      var add = "true"
+      if(val=="-"){
+        add="false"
+      }
       const vote = {
         user:this.props.currentUser.email,
-        post:post._id
+        post:post._id,
+        like:add
       }
+      console.log(vote)
 
       addVote(vote).then(data => {
         console.log(data)
+        if(data.res=='exists'){
+          console.log("tu as deja voté pour ce post")
+        }else{
+          if(data.res=="change"){
+            votePost(val,post).then(res=>{
+              votePost(val,post).then(data=>{
+                console.log("change")
+                console.log(data)
+                  var posts = this.props.posts
+
+
+                  var index = posts.indexOf(post);
+                  if (index !== -1) {
+                    if(val=="-"){
+                      post.note = post.note - 2
+                    }else{
+                      post.note =  post.note + 2
+                    }
+                      posts[index] = post;
+                      var action = { type: "ADD_POSTS", posts: posts}
+                      this.props.dispatch(action)
+                      this.setState({posts: data})
+                      console.log("vote")
+                  }
+              })
+            })
+          }else{
+            if(data.res=="correct"){
+              votePost(val,post).then(data=>{
+                votePost(val,post).then(data=>{
+                  console.log("add")
+                  console.log("change")
+                  console.log(data)
+                    var posts = this.props.posts
+
+
+                    var index = posts.indexOf(post);
+                    if (index !== -1) {
+                      if(val=="-"){
+                        post.note = post.note - 1
+                      }else{
+                        post.note =  post.note + 1
+                      }
+                        posts[index] = post;
+                        var action = { type: "ADD_POSTS", posts: posts}
+                        this.props.dispatch(action)
+                        this.setState({posts: data})
+                        console.log("vote")
+                    }
+                })
+              })
+            }
+          }
+        }
       })
     }
   }
@@ -153,7 +214,7 @@ class Home extends React.Component {
           {this.props.posts.map(currentPost => (
             <Grid item xs={12}>
 
-                  <RowPostView post={currentPost} handlevote={(val) => this.handleVote(val)} />
+                  <RowPostView post={currentPost} handlevote={(val) => this.handleVote(val,currentPost)} />
 
             </Grid>
           )
@@ -175,7 +236,7 @@ class Home extends React.Component {
         {this.props.posts.map(currentPost => (
           <Grid item xs={12}>
 
-                <RowPostView post={currentPost} handlevote={(val) => this.handleVote(val)} />
+                <RowPostView post={currentPost} handlevote={(val) => this.handleVote(val,currentPost)} />
 
           </Grid>
         )
@@ -266,6 +327,8 @@ class Home extends React.Component {
     </Dialog>
 
 
+
+    
 
     </div>
   )

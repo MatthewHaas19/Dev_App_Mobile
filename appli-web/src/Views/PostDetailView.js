@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Button from '@material-ui/core/Button';
+import ColorButton from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -14,6 +14,9 @@ import RowPostView from '../Views/RowPostView'
 import RowCommentView from '../Views/RowCommentView'
 import { useParams } from 'react-router-dom';
 import { getPostById } from '../API/PostApi';
+import {votePost} from '../API/PostApi'
+import {getAllPostsFromDb} from '../API/PostApi'
+import {addVote} from '../API/VoteApi'
 import { getAllCommentFromPost } from '../API/CommentApi';
 import AddComment from './AddComment';
 import Slide from '@material-ui/core/Slide';
@@ -47,6 +50,9 @@ const useStyles = theme => ({
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(5),
   },
+  button:{
+    marginTop: theme.spacing(5),
+  }
 });
 
 class PostDetailViewTest extends React.Component{
@@ -93,6 +99,77 @@ class PostDetailViewTest extends React.Component{
   handleClose = () => {
     this.setState({openAddComment:false});
   };
+  handleVote(val,post){
+    console.log(post)
+    if(this.props.currentUser){
+
+      var add = "true"
+      if(val=="-"){
+        add="false"
+      }
+      const vote = {
+        user:this.props.currentUser.email,
+        post:post._id,
+        like:add
+      }
+      console.log(vote)
+
+      addVote(vote).then(data => {
+        console.log(data)
+        if(data.res=='exists'){
+          console.log("tu as deja voté pour ce post")
+        }else{
+          if(data.res=="change"){
+            votePost(val,post).then(res=>{
+              votePost(val,post).then(data=>{
+                console.log("change")
+                console.log(data)
+                  var posts = this.state.posts
+
+
+                  var index = posts.indexOf(post);
+                  if (index !== -1) {
+                    if(val=="-"){
+                      post.note = post.note - 2
+                    }else{
+                      post.note =  post.note + 2
+                    }
+                      posts[index] = post;
+                      this.setState({posts: posts})
+                      console.log("vote")
+                  }
+              })
+            })
+          }else{
+            if(data.res=="correct"){
+              votePost(val,post).then(data=>{
+                votePost(val,post).then(data=>{
+                  console.log("add")
+                  console.log("change")
+                  console.log(data)
+                    var posts = this.state.posts
+
+
+                    var index = posts.indexOf(post);
+                    if (index !== -1) {
+                      if(val=="-"){
+                        post.note = post.note - 1
+                      }else{
+                        post.note =  post.note + 1
+                      }
+                        posts[index] = post;
+
+                        this.setState({posts: posts})
+                        console.log("vote")
+                    }
+                })
+              })
+            }
+          }
+        }
+      })
+    }
+  }
 
 
   render(){
@@ -105,7 +182,7 @@ class PostDetailViewTest extends React.Component{
     );
     const post = this.state.posts.map((post) =>
       <Grid item xs={12}>
-      <RowPostView post={post} />
+      <RowPostView post={post} handlevote={(val) => this.handleVote(val,post)} />
       </Grid>
     );
 
@@ -125,9 +202,9 @@ class PostDetailViewTest extends React.Component{
       <div>
         <Grid item xs={12}>
        {post}
-       <Button variant="contained" color="primary" onClick={this.handleClickOpen} >
+       <ColorButton variant="outlined" color="primary" onClick={this.handleClickOpen} >
         Ajouter un commentaire
-      </Button>
+      </ColorButton>
        {listcomments}
       </Grid>
 

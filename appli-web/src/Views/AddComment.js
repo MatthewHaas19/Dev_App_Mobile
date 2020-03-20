@@ -168,12 +168,13 @@ class AddComment extends React.Component {
         .then(data => {
           if(data == "{\"res\":\"correct\",\"message\":\"add comment ok\"}"){
             console.log("Comment Bien ajouté")
-            history.push('/');
+            history.push('/postdetailview/'+this.state.idPost);
           }
           else{
             console.log("erreur add Comment")
           }
         })
+
     }
 
 

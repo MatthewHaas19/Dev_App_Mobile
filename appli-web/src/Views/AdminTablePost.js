@@ -54,14 +54,24 @@ class AdminTablePost extends React.Component {
     getAllPostsFromDb().then(data => {
       var posts = data
 
-      Object.assign(posts, {reports: []});
+
         for(let i=0;i<posts.length;i++){
+          Object.assign(posts[i], {reports: 0});
           getAllCommentFromPost(posts[i]._id).then(res => {
             posts[i].commentaire.push(res.length)
             getAllReportFromPost(posts[i]._id).then(reports => {
               console.log(reports)
+              if(reports.length>0) {
+                posts[i].reports=reports.length
+              }
               this.setState({posts: posts})
+
+            }).catch((error) => {
+              console.log("Erreur dans le constructeur")
             })
+
+          }).catch((error) => {
+            console.log("Erreur dans le constructeur")
           })
         }
 
@@ -102,6 +112,7 @@ class AdminTablePost extends React.Component {
           <TableCell align="center"><Link className={classes.tableContent}>{currentPost.user} </Link></TableCell>
           <TableCell align="center"><Link className={classes.tableContent}>{currentPost.note} </Link></TableCell>
           <TableCell align="center"><Link className={classes.tableContent}>{(currentPost.commentaire.length>0) ? currentPost.commentaire[0] : 0 }</Link></TableCell>
+          <TableCell align="center"><Link className={classes.tableContent}>{currentPost.reports} </Link></TableCell>
           </TableRow>
 
         )

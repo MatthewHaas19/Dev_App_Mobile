@@ -22,18 +22,17 @@ import {
   Link
 } from "react-router-dom";
 
-const useStyles = makeStyles({
+const useStyles = theme => ({
   root: {
     minWidth: 275,
     height:200,
-    color:"white"
+    color:"black",
   },
-  content: {
-    margin:20,
-  },
+
   username: {
     fontSize: 14,
     fontWeight: "bold",
+    color:"white",
   },
   texte: {
     marginTop:18,
@@ -44,6 +43,8 @@ const useStyles = makeStyles({
   note: {
     fontSize:20,
     fontWeight:"bold",
+    alignItems:"center",
+    color:"white"
   },
   chevron: {
     fontSize:40,
@@ -51,39 +52,64 @@ const useStyles = makeStyles({
     color:"white"
   },
   notefleches:{
-    margin:0,
+    marginTop:35,
+    margin:20,
+    color:"white",
   },
   localisation: {
     marginRight:20,
     fontWeight:"bold",
+    color:"white",
   },
   logosTop: {
     fontSize:20,
     marginRight:10,
+    color:"white",
   },
+  text:{
+    margin:20,
+    color:"white",
+  }
 });
 
 
 
 
-const RowPostView = (props) => {
-  const classes = useStyles();
-  const col = [props.post.couleur[0]*255,props.post.couleur[1]*255,props.post.couleur[2]*255]
+class RowPostView extends React.Component{
+
+  constructor(props){
+    super(props)
+
+  }
+
+  vote(vote){
+    this.props.handlevote(vote)
+  }
+
+
+  render(){
+  const {classes} = this.props
+
+
+
+
   return(
     <div>
-    { props.post ? (
+    { this.props.post ? (
       <Card >
-      <CardActionArea>
-      <Link to={"/postdetailview/"+ props.post._id}  style={{ textDecoration: 'none' }}> 
-  <CardContent className={classes.root} style={{ background: `rgb(${col})` }}>
-  <Container className={classes.content}>
-  <Grid container alignItems="center">
+
+  <Grid container>
+  <Grid item xs={10} align="left" style={{ background: `rgb(${[this.props.post.couleur[0]*255,this.props.post.couleur[1]*255,this.props.post.couleur[2]*255]}` }}>
+  <CardActionArea className={classes.root}>
+  <Link to={"/postdetailview/"+ this.props.post._id}  style={{ textDecoration: 'none' }} >
+
+  <Grid container alignItems="center" className={classes.content} >
   <Grid item xs={1} align="right">
   <AccountCircleIcon className={classes.logosTop}/>
   </Grid>
   <Grid item xs={7} >
     <div className={classes.username} >
-      {props.post.user}
+      {this.props.post.user}
     </div>
     </Grid>
     <Grid item xs={3} align="right">
@@ -96,41 +122,45 @@ const RowPostView = (props) => {
     </Grid>
   </Grid>
 
-  <Grid container>
+  <Grid container alignItems="center">
 
-    <Grid item xs={10}>
+    <Grid item  className={classes.text} alignItems="center">
       <Typography className={classes.titre}>
-        {props.post.titre}
+        {this.props.post.titre}
       </Typography>
       <Typography className={classes.texte} >
-        {props.post.texte}
+        {this.props.post.texte}
       </Typography>
     </Grid>
 
-    <Grid item xs={2} className={classes.notefleches}>
-      <Grid container align="right">
-        <Grid item xs={12} align="center">
-          <Button><KeyboardArrowUpIcon className={classes.chevron} /></Button>
-        </Grid>
-        <Grid item xs={12}>
-          <div className={classes.note} align="center" >{props.post.note}</div>
-        </Grid>
-        <Grid item xs={12} align="center">
-          <Button><KeyboardArrowDownIcon className={classes.chevron} /></Button>
-        </Grid>
+
+  </Grid>
+  </Link>
+  </CardActionArea>
+  </Grid>
+  <Grid item xs={2} align="right" style={{ background: `rgb(${[this.props.post.couleur[0]*255,this.props.post.couleur[1]*255,this.props.post.couleur[2]*255]})` }}>
+  <Grid item className={classes.notefleches} >
+    <Grid container align="right">
+      <Grid item xs={12} align="center">
+        <Button onClick={() => this.vote("+")}><KeyboardArrowUpIcon className={classes.chevron} /></Button>
+      </Grid>
+      <Grid item xs={12} align="center">
+        <div className={classes.note} align="center" >{this.props.post.note}</div>
+      </Grid>
+      <Grid item xs={12} align="center">
+        <Button onClick={() => this.vote("-")}><KeyboardArrowDownIcon className={classes.chevron} /></Button>
       </Grid>
     </Grid>
   </Grid>
-  </Container>
-  </CardContent>
-  </Link>
-  </CardActionArea>
+  </Grid>
+  </Grid>
+
 </Card>
     ): null
   }
 
   </div>
 )
-}
+}}
 
-export default (RowPostView)
+export default withStyles(useStyles)(RowPostView)

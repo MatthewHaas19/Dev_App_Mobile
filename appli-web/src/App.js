@@ -184,10 +184,6 @@ class App extends Component {
 
             <Route path="/postdetailview/:id" component={PostDetailView} />
 
-            <PrivateProfile path="/profile">
-              <Profile />
-            </PrivateProfile>
-
           </Switch>
           </div>
       </Router>
@@ -208,26 +204,6 @@ const myAuth = {
   }
 };
 
-
-function PrivateProfile({ children, ...rest }) {
-  return (
-    <Route
-    {...rest}
-    render={({location}) =>
-      myAuth.isAuthenticated ? (
-        children
-      ) : (
-        <Redirect
-          to = {{
-            pathname: "/login",
-            state: { from: location}
-          }}
-        />
-      )
-    }
-    />
-  )
-}
 
 
 function PrivateRegister({ children, ...rest }) {

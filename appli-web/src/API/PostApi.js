@@ -67,3 +67,28 @@ export function filterPostDb (filter) {
   .then((response) => response.json())
   .catch((error) => console.log(error))
 }
+
+export function votePost(vote,post) {
+  const url = ""
+  if(vote="+"){
+      url = "https://dev-mobile-ig.herokuapp.com/posts/addVote/true"
+  }
+  else{
+      url = "https://dev-mobile-ig.herokuapp.com/posts/addVote/false"
+  }
+
+  const data = JSON.stringify(post)
+
+  console.log(data)
+
+  return fetch(url,{
+    method: 'PUT',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: data
+  })
+  .then((response) => response.json())
+  .catch((error) => console.log(error))
+}

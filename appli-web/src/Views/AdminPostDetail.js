@@ -22,16 +22,31 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux'
 
 const useStyles = theme => ({
 
   mainPage: {
-    backgroundColor: "purple",
-    width: 500,
+    backgroundColor: "white",
+    width: 1000,
     height: 500,
-    color: "white",
+    color: "black",
 
+  },
+  title: {
+    flexGrow: 1,
+    color: "black",
+    marginLeft: 20,
+    marginTop:30,
+    fontFamily: 'Noteworthy Light',
+    fontWeight: 400,
+    fontSize:23,
+  },
+  deleteButton: {
+    marginTop:50,
+    color:"white",
+    backgroundColor:"red",
   },
 
 });
@@ -46,12 +61,7 @@ class AdminPostDetail extends React.Component {
 
   constructor(props){
     super(props)
-
-
   }
-
-
-
 
   render(){
 
@@ -62,15 +72,39 @@ class AdminPostDetail extends React.Component {
     return (
 
       <div className={classes.mainPage}>
-      <h1>Détail du post : </h1>
-      {this.props.adminCurrentPost ?
+      <h1 align="center">Détail du post : </h1>
 
-        <h1>{this.props.adminCurrentPost.titre}</h1>
+        <Grid container>
+        <Grid item xs={1}>
+        </Grid>
+        <Grid item xs={10}>
+        <Typography component="h3" variant="p" className={classes.title} >
+          Note : {this.props.adminCurrentPost.note}
+        </Typography>
+        <Typography component="h3" variant="p" className={classes.title} >
+          Email utilisateur : {this.props.adminCurrentPost.user}
+        </Typography>
+        <Typography component="h3" variant="p" className={classes.title} >
+          Titre : {this.props.adminCurrentPost.titre}
+        </Typography>
+        <Typography component="h3" variant="p" className={classes.title} >
+          Description : {this.props.adminCurrentPost.texte}
+        </Typography>
+        </Grid>
 
+        <Grid item xs={1}>
+        </Grid>
+        </Grid>
 
-
-      : <h1>ça marche pas</h1>}
-
+        <Grid container>
+        <Grid item xs={3}>
+        </Grid>
+        <Grid item xs={6} align="center">
+        <Button className={classes.deleteButton} align="center">Supprimer le post</Button>
+        </Grid>
+        <Grid item xs={3}>
+        </Grid>
+        </Grid>
 
 
       </div>

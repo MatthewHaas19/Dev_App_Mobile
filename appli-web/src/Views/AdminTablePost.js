@@ -72,7 +72,6 @@ class AdminTablePost extends React.Component {
           getAllCommentFromPost(posts[i]._id).then(res => {
             posts[i].commentaire.push(res.length)
             getAllReportFromPost(posts[i]._id).then(reports => {
-              console.log(reports)
               if(reports.length>0) {
                 posts[i].reports=reports.length
               }
@@ -91,8 +90,6 @@ class AdminTablePost extends React.Component {
           })
         }
 
-        console.log(posts)
-
     }).catch((error) => {
       console.log("Erreur dans le constructeur")
     })
@@ -110,10 +107,9 @@ class AdminTablePost extends React.Component {
 
   displayUser(emailUser){
     getUserFromDb(emailUser).then(user => {
-      console.log(user)
-      var action = { type: "TOGGLE_USER_ADMIN", currentUser:user}
+      var action = { type: "TOGGLE_USER_ADMIN", currentUser:user[0]}
       this.props.dispatch(action)
-      this.setState({openUser:true, currentUser:user})
+      this.setState({openUser:true, currentUser:user[0]})
     })
 
   }
@@ -161,6 +157,7 @@ class AdminTablePost extends React.Component {
 
 
     <Dialog
+        maxWidth="md"
         open={this.state.openPost}
         TransitionComponent={Transition}
         onClose={this.handleClose}
@@ -177,7 +174,6 @@ class AdminTablePost extends React.Component {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <h1>Pute</h1>
         <AdminProfilUser/>
     </Dialog>
 

@@ -21,6 +21,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux'
 
 const useStyles = theme => ({
@@ -47,12 +48,6 @@ class AdminPostsUser extends React.Component {
     super(props)
   }
 
-  componentWillReceiveProps(nextProps) {
-
-    if (nextProps.user !== this.state.user) {
-      this.setState({ user: nextProps.user });
-    }
-  }
 
 
   render(){
@@ -64,11 +59,12 @@ class AdminPostsUser extends React.Component {
     return (
 
       <div className={classes.mainPage}>
-      <h1>Posts de l'tulisateur </h1>
-      {this.props.userAdmin ? <h1>{this.props.userAdmin.username}</h1> : <h1>ça marche pas</h1>}
+      <h1>Posts de l'utilisateur </h1>
 
 
-
+      <Typography component="h3" variant="p" className={classes.title}  >
+        Liste des posts
+      </Typography>
       </div>
     )
   }
@@ -77,7 +73,8 @@ class AdminPostsUser extends React.Component {
 const mapStateToProps = state =>{
   return {
     isAuth: state.auth.isAuth,
-    userAdmin: state.userAdmin.user
+    userAdmin: state.userAdmin.user,
+    adminListPost: state.posts.adminListPost
   }
 }
 

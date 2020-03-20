@@ -100,7 +100,6 @@ class AdminTableUser extends React.Component {
             console.log("Erreur dans le constructeur")
           })
         }
-        console.log(users)
     }).catch((error) => {
       console.log("Erreur dans le constructeur")
     })
@@ -119,7 +118,12 @@ class AdminTableUser extends React.Component {
   displayPosts(user){
     var action = { type: "TOGGLE_USER_ADMIN", currentUser:user}
     this.props.dispatch(action)
-    this.setState({openPosts:true, currentUser:user})
+    getPostByUser(user.email).then(listposts => {
+      var action = { type: 'ADMIN_LIST_POST', adminListPost:listposts}
+      this.props.dispatch(action)
+      this.setState({openPosts:true, currentUser:user})
+    })
+
   }
 
   displayComments(user){
@@ -181,7 +185,6 @@ class AdminTableUser extends React.Component {
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
     >
-      <h1>Pute</h1>
       <AdminProfilUser user={this.state.currentUser}/>
   </Dialog>
 
@@ -230,7 +233,8 @@ const mapStateToProps = state =>{
   return {
     isAuth: state.auth.isAuth,
     currentIdPost: state.posts.currentIdPost,
-    userAdmin: state.userAdmin.user
+    userAdmin: state.userAdmin.user,
+    adminListPost: state.posts.adminListPost
   }
 }
 

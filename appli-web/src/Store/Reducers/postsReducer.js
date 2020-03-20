@@ -1,4 +1,4 @@
-const initialState = { posts: [], currentIdPost:"", adminCurrentPost:{}}
+const initialState = { posts: [], currentIdPost:"", adminCurrentPost:{}, adminListPost:[]}
 
 function togglePosts(state = initialState, action) {
   let nextState
@@ -9,6 +9,8 @@ function togglePosts(state = initialState, action) {
     state = {posts:state.posts,currentIdPost:action.currentIdPost}
     case 'ADMIN_CURRENT_POST':
     state = {posts:state.posts,adminCurrentPost:action.adminCurrentPost}
+    case 'ADMIN_LIST_POST':
+    state = {posts:state.posts,adminListPost:action.adminListPost}
     return state
   default:
     return state

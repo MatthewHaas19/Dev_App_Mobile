@@ -14,7 +14,6 @@ export function getAllCommentFromPost (idPost) {
 
 export function getAllCommentFromUser (emailUser) {
   const url = "https://dev-mobile-ig.herokuapp.com/comments/user/"+emailUser
-  console.log(url)
   return fetch(url,{
     method: 'GET'
   })

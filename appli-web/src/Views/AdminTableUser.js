@@ -9,6 +9,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import { connect } from 'react-redux'
 import {getAllUsersFromDb} from '../API/UserApi'
 import {getPostByUser} from '../API/PostApi'
 import {getAllCommentFromUser} from '../API/CommentApi'
@@ -108,7 +109,11 @@ class AdminTableUser extends React.Component {
   };
 
   displayUsers(user){
-    this.setState({openUser:true, currentUser:user})
+
+
+    var action = { type: "TOGGLE_USER_ADMIN", currentUser:user}
+    this.props.dispatch(action)
+this.setState({openUser:true, currentUser:user})
   }
   displayPosts(user){
     this.setState({openPosts:true, currentUser:user})
@@ -213,4 +218,13 @@ class AdminTableUser extends React.Component {
 
 
 
-export default withStyles(useStyles)(AdminTableUser)
+const mapStateToProps = state =>{
+  return {
+    isAuth: state.auth.isAuth,
+    currentIdPost: state.posts.currentIdPost,
+
+    userAdmin: state.userAdmin.user
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(useStyles)(AdminTableUser))

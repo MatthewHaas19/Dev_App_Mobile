@@ -21,7 +21,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-
+import { connect } from 'react-redux'
 
 const useStyles = theme => ({
 
@@ -65,7 +65,7 @@ console.log("SUCE MA BITE PUTIN")
 
       <div className={classes.mainPage}>
       <h1>Pute</h1>
-      <h1>{this.state.user.unsername}</h1>
+      {this.props.userAdmin ? <h1>{this.props.userAdmin.username}</h1> : <h1>ça marche pas</h1>}
 
 
 
@@ -74,4 +74,11 @@ console.log("SUCE MA BITE PUTIN")
   }
 }
 
-export default withStyles(useStyles)(AdminProfilUser)
+const mapStateToProps = state =>{
+  return {
+    isAuth: state.auth.isAuth,
+    userAdmin: state.userAdmin.user
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(useStyles)(AdminProfilUser))

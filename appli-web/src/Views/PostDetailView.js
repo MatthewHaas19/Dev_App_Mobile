@@ -89,6 +89,7 @@ class PostDetailViewTest extends React.Component{
   handleClickOpen = () => {
     var action = { type: "CURRENT_POST", currentIdPost: this.state.idPost}
     this.props.dispatch(action)
+
     this.setState({openAddComment:true});
   };
 

@@ -1,5 +1,5 @@
 import React, {Component} from 'react';
-import Button from '@material-ui/core/Button';
+import ColorButton from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
@@ -47,6 +47,9 @@ const useStyles = theme => ({
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(5),
   },
+  button:{
+    marginTop: theme.spacing(5),
+  }
 });
 
 class PostDetailViewTest extends React.Component{
@@ -124,9 +127,9 @@ class PostDetailViewTest extends React.Component{
       <div>
         <Grid item xs={12}>
        {post}
-       <Button variant="contained" color="primary" onClick={this.handleClickOpen} >
+       <ColorButton variant="outlined" color="primary" onClick={this.handleClickOpen} >
         Ajouter un commentaire
-      </Button>
+      </ColorButton>
        {listcomments}
       </Grid>
 

@@ -26,7 +26,7 @@ struct AddCommentView: View {
     
 
     var afficherAdd : (Bool) -> ()
-    var navigatePost : (Post) -> ()
+    var navigateComment : ([Comment]) -> ()
     
     
 
@@ -183,7 +183,12 @@ struct AddCommentView: View {
             
                 res in
                 if(res){
-                    self.afficherAdd(false)
+                    self.commentDao.loadData(postId: self.post._id, navigateComment: {
+                        comments in
+                        self.navigateComment(comments)
+                        self.afficherAdd(false)
+                    })
+                    
                 }
                 else{
                     print("add comment error")

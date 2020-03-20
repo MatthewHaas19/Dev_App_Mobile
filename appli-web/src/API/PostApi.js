@@ -20,9 +20,8 @@ export function getPostById (id){
   .catch((error) => console.log(error))
 }
 
-export function getPostByUser (id){
+export function getPostByUser(id){
   const url = "https://dev-mobile-ig.herokuapp.com/posts/user/"+id
-
   return fetch(url,{
     method: 'GET'
   })

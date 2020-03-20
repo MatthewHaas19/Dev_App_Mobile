@@ -14,11 +14,13 @@ struct PostDetailView: View {
     @ObservedObject var voteDAO = VotesDAO()
     @ObservedObject var postDAO = PostDAO()
     @ObservedObject var userDAO = UserDAO()
+    @ObservedObject var commentDAO = CommentDAO()
     
     @State private var showingAlert = false
     @State var afficherSheet = false
     
     @State var post : Post
+    @State var comments : [Comment]
     var currentUser : String?
     var position : String
     var afficherDetail: (Bool) -> ()
@@ -232,9 +234,10 @@ struct PostDetailView: View {
                     
                     HStack {
                         
-                        ListCommentView(post:post, currentUser : currentUser)
+                        ListCommentView(post:post, currentUser : currentUser, comments:self.comments)
                             
-                    }.cornerRadius(30)
+                    }
+                    .cornerRadius(30)
                     .padding()
                     .padding(.top,0)
                     .frame(height:500)
@@ -254,16 +257,22 @@ struct PostDetailView: View {
                 AddCommentView(post : self.post ,emailUser : self.currentUser , afficherAdd : {
                     afficher in
                     self.afficherSheet=afficher
-                    self.afficherDetail(false)
+                    self.commentDAO.loadData(postId: self.post._id, navigateComment:  {
+                        comments in
+                        self.comments = comments
+                    })
                 }
-                 , navigatePost : {
-                    post in
+                 , navigateComment : {
+                    comments in
+                    self.comments = comments 
                 })
                 
             })
+                
                
             Spacer()
         }.edgesIgnoringSafeArea(.all)
+        
     }
     
     

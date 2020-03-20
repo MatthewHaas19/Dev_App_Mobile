@@ -14,7 +14,7 @@ router.get("/", function(req,res,next){
   })
 })
 
-router.get("/:post", function(req,res,next){
+router.get("/posts/:post", function(req,res,next){
     const id = req.params.post
     db.reports.find({
       idPost: id
@@ -25,6 +25,18 @@ router.get("/:post", function(req,res,next){
       res.json(comments);
     })
   })
+
+  router.get("users/:emailUser", function(req,res,next){
+      const id = req.params.emailUser
+      db.reports.find({
+        emailUser: id
+      },function(err,comments){
+        if(err){
+          res.send(err);
+        }
+        res.json(comments);
+      })
+    })
 
 router.get("/:post/:user", function(req,res,next){
   const idpost = req.params.idpost

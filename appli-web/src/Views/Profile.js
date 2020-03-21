@@ -139,6 +139,10 @@ class Profile extends React.Component {
     cookie.remove('userId', { path: '/' })
     var action = { type: "TOGGLE_UNAUTH"}
     this.props.dispatch(action)
+    var action = { type: "TOGGLE_USER_VOTE", userVote: []}
+    this.props.dispatch(action)
+
+    this.props.dispatch(action)
     history.push('/filter');
   }
 
@@ -220,7 +224,7 @@ class Profile extends React.Component {
             </Grid>
 
             <Notifications />
-            
+
 
 
         <Button variant="contained" color="primary" onClick={()=>this._Deco()} className={classes.spacer}>

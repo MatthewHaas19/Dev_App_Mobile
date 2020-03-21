@@ -19,6 +19,7 @@ import FaceIcon from '@material-ui/icons/Face';
 import Switch from '@material-ui/core/Switch';
 import DoneIcon from '@material-ui/icons/Done';
 import Slider from '@material-ui/core/Slider';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import {
   BrowserRouter as Router,
   Route,
@@ -45,10 +46,14 @@ var bcrypt = require('bcryptjs');
 
 const useStyles = theme => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+  },
+  buttonBack:{
+    marginTop: theme.spacing(4),
+    marginBottom: theme.spacing(4),
   },
   avatar: {
     margin: theme.spacing(1),
@@ -148,7 +153,21 @@ class Filter extends React.Component {
       tag:"",
       localisation:"60",
       checked:[false,false,false,false,false,false,false,false,false,false,false,false,false],
+      width: window.innerWidth,
+      height: window.innerHeight,
     }
+  }
+
+
+  updateDimensions = () => {
+      this.setState({ width: window.innerWidth, height: window.innerHeight });
+    };
+
+  componentDidMount() {
+    window.addEventListener('resize', this.updateDimensions);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions);
   }
 
   onChange = (e) => {
@@ -262,6 +281,14 @@ class Filter extends React.Component {
       <CssBaseline />
       <div className={classes.paper}>
 
+      {this.state.width < 1275 ?
+        <Grid container justify = "left" className={classes.buttonBack}>
+      <IconButton aria-label="search" color="inherit" onClick={()=>this.props.back()}>
+        <ArrowBackIcon />
+      </IconButton>
+      </Grid>
+
+      : null}
 
         <Typography component="h1" variant="h3" className={classes.title} >
           Filtrer les Posts
@@ -275,7 +302,7 @@ class Filter extends React.Component {
           <Typography component="h1" variant="h5" className={classes.subtitle} >
             Filtrer selon le type
           </Typography>
-          <div style={{ width: '80%' }}>
+          <div style={{ width: this.state.width>1580 ? '80%' : '100%' }}>
           <MyTabs
             changeValue={(newValue) => this.onChangeType(newValue)}
           />

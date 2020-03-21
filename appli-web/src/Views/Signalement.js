@@ -7,6 +7,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+
 import {
   BrowserRouter as Router,
   Switch,
@@ -22,25 +23,22 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import {getUserFromDb} from '../API/UserApi'
-import {getVoteByUser} from '../API/VoteApi'
 import Noteworthy from '../fonts/Noteworthy-Lt.woff';
 import cookie from 'react-cookies';
 import {store} from '../Store/store'
 import { connect } from 'react-redux'
 import history from '../history';
+import { setNewCommentDb } from '../API/CommentApi';
 var bcrypt = require('bcryptjs');
 
 const useStyles = theme => ({
   paper: {
-    marginTop: theme.spacing(8),
+    marginTop: theme.spacing(4),
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
   },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
+
   form: {
     width: '100%', // Fix IE 11 issue.
     marginTop: theme.spacing(1),
@@ -57,15 +55,22 @@ const useStyles = theme => ({
     margin: theme.spacing(1),
     margin: theme.spacing(3, 0, 2),
   },
-  card: {
-
+  fields: {
+    marginBottom: theme.spacing(5)
   },
   title: {
     flexGrow: 1,
     color: "black",
     marginLeft: 10,
-    fontFamily: 'Noteworthy Light',
+    fontWeight: "bold",
+  },
+  subtitle: {
+    marginTop: theme.spacing(3),
+    flexGrow: 1,
+    color: "black",
+    marginLeft: 10,
     fontWeight: 400,
+    fontSize:15
   },
   spacer:{
     marginBottom: theme.spacing(7),
@@ -93,55 +98,48 @@ const theme = createMuiTheme({
 
 
 
-class Login extends React.Component {
+class Signalement extends React.Component {
 
   constructor(props){
     super(props)
+
     this.state = {
-      email: '',
-      password: ''
+      titreCom: '',
+      texteCom: '',
+      isAnonyme : false,
+      idPost:''
+    }
+
+    console.log("test")
+
+  }
+
+
+
+  componentWillReceiveProps(nextProps) {
+    console.log("test")
+    console.log(nextProps.idpost)
+    if (nextProps.idpost !== this.state.idPost) {
+      this.setState({ idPost: nextProps.idpost });
+    }
+
+
+  }
+
+
+  onChange = (e) => {
+
+    if (e.target.name == "isAnonyme") {
+      this.setState({[e.target.name]: e.target.checked })
+    }
+    else {
+      this.setState({[e.target.name]: e.target.value })
     }
   }
 
-  onChange = (e) => {
-    this.setState({[e.target.name]: e.target.value })
-  }
-
   onSubmit = (e) => {
-    e.preventDefault();
-    const user = {
-      email : this.state.email,
-      password: this.state.password
-    };
-    console.log(user);
 
-    getUserFromDb(user.email)
-      .then(data => {
-        console.log(data)
-        if(data.length==0){
-          console.log("email incorrect")
-        }
-        else{
-          if(bcrypt.compareSync(user.password,data[0].password)){
-            getVoteByUser(data[0].email).then(votes => {
-              var action = { type: "TOGGLE_USER_VOTE", userVote: votes}
-              this.props.dispatch(action)
 
-            })
-
-            var action = { type: "TOGGLE_USER", currentUser: data[0]}
-            this.props.dispatch(action)
-
-            cookie.save('userId', user.email, { path: '/' })
-
-            action = { type: "TOGGLE_AUTH"}
-            this.props.dispatch(action)
-            history.push('/filter');
-          }else{
-            console.log("password incorrect")
-          }
-        }
-      })
   }
 
 
@@ -155,52 +153,26 @@ class Login extends React.Component {
 
       <CssBaseline />
       <div className={classes.paper}>
-        <Avatar alt="Remy Sharp" src="/assets/H2R.png" className={classes.large} />
-
         <Typography component="h1" variant="h5" className={classes.title} >
-          Login
+          Signaler le post
+        </Typography>
+        <Typography component="h1" variant="h5" className={classes.subtitle} >
+          Etes-vous sûr de vouloir signaler le post ?
         </Typography>
         <form className={classes.form} noValidate onSubmit={this.onSubmit}>
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            id="email"
-            label="E-mail"
-            name="email"
-            autoComplete="email"
-            autoFocus
-            onChange={this.onChange}
-          />
-          <TextField
-            variant="outlined"
-            margin="normal"
-            required
-            fullWidth
-            name="password"
-            label="Mot de passe"
-            type="password"
-            id="password"
-            autoComplete="current-password"
-            onChange={this.onChange}
-          />
 
-          <ColorButton variant="contained" color="primary" className={classes.margin} type="submit"
-            fullWidth>
-            Login
-          </ColorButton>
+        <Grid container justify="space-between"
+  alignItems="center">
 
-          <Grid container>
-            <Grid item xs>
-
-            </Grid>
-            <Grid item className={classes.spacer}>
-              <Link to="/register">
-                {"Pas encore de compte ?"}
-              </Link>
-            </Grid>
-          </Grid>
+          <Button  color="primary" className={classes.margin} onClick={() => this.props.back() }
+            >
+           Retour
+          </Button>
+          <Button  color="secondary" className={classes.margin} type="submit"
+            >
+           Signaler
+          </Button>
+        </Grid>
         </form>
       </div>
 
@@ -213,8 +185,9 @@ class Login extends React.Component {
 const mapStateToProps = state =>{
   return {
     isAuth: state.auth.isAuth,
-    currentUser: state.user.currentUser
+    currentUser: state.user.currentUser,
+    currentIdPost: state.posts.currentIdPost
   }
 }
 
-export default connect(mapStateToProps)(withStyles(useStyles)(Login))
+export default connect(mapStateToProps)(withStyles(useStyles)(Signalement))

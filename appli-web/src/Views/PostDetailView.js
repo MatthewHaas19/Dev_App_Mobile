@@ -19,9 +19,11 @@ import {getAllPostsFromDb} from '../API/PostApi'
 import {addVote} from '../API/VoteApi'
 import { getAllCommentFromPost } from '../API/CommentApi';
 import AddComment from './AddComment';
+import Signalement from './Signalement';
 import Slide from '@material-ui/core/Slide';
 import { connect } from 'react-redux'
 import Icon from '@material-ui/core/Icon';
+import {getVoteByUser} from '../API/VoteApi'
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -61,6 +63,7 @@ class PostDetailViewTest extends React.Component{
     posts:[],
     comments:[],
     openAddComment:false,
+    openAddSignalement:false,
     idPost:''
   }
 
@@ -96,8 +99,16 @@ class PostDetailViewTest extends React.Component{
     this.setState({openAddComment:true});
   };
 
+  handleSignalement = () => {
+    var action = { type: "CURRENT_POST", currentIdPost: this.state.idPost}
+    this.props.dispatch(action)
+
+    this.setState({openAddSignalement:true});
+  };
+
   handleClose = () => {
     this.setState({openAddComment:false});
+    this.setState({openAddSignalement:false});
   };
   handleVote(val,post){
     console.log(post)
@@ -136,7 +147,11 @@ class PostDetailViewTest extends React.Component{
                     }
                       posts[index] = post;
                       this.setState({posts: posts})
-                      console.log("vote")
+                      getVoteByUser(this.props.currentUser.email).then(votes => {
+                        var action = { type: "TOGGLE_USER_VOTE", userVote: votes}
+                        this.props.dispatch(action)
+
+                      })
                   }
               })
             })
@@ -160,7 +175,11 @@ class PostDetailViewTest extends React.Component{
                         posts[index] = post;
 
                         this.setState({posts: posts})
-                        console.log("vote")
+                        getVoteByUser(this.props.currentUser.email).then(votes => {
+                          var action = { type: "TOGGLE_USER_VOTE", userVote: votes}
+                          this.props.dispatch(action)
+
+                        })
                     }
                 })
               })
@@ -180,11 +199,13 @@ class PostDetailViewTest extends React.Component{
     this.state.posts.map((post) =>
         console.log("couleur" + post.couleur)
     );
+
     const post = this.state.posts.map((post) =>
       <Grid item xs={12}>
       <RowPostView post={post} handlevote={(val) => this.handleVote(val,post)} />
       </Grid>
     );
+
 
 
     const listcomments = this.state.comments.map((comment) =>
@@ -202,9 +223,14 @@ class PostDetailViewTest extends React.Component{
       <div>
         <Grid item xs={12}>
        {post}
-       <ColorButton variant="outlined" color="primary" onClick={this.handleClickOpen} >
+       <div style={{ display: 'flex', alignItems: 'center',justifyContent: 'center', paddingTop: '10px',paddingBottom: '10px'}}>
+        <ColorButton variant="outlined" color="primary" onClick={this.handleClickOpen} >
         Ajouter un commentaire
       </ColorButton>
+      <ColorButton variant="outlined" color="secondary" onClick={this.handleSignalement} >
+       Signaler ce Post
+       </ColorButton>
+       </div>
        {listcomments}
       </Grid>
 
@@ -217,6 +243,17 @@ class PostDetailViewTest extends React.Component{
         aria-describedby="alert-dialog-slide-description"
       >
         <AddComment idpost={this.state.idPost}/>
+      </Dialog>
+
+      <Dialog
+        open={this.state.openAddSignalement}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={this.handleClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <Signalement idpost={this.state.idPost} back={this.handleClose}/>
       </Dialog>
 
 

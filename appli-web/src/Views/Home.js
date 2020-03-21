@@ -14,6 +14,7 @@ import {
   Link
 } from "react-router-dom";
 import {getAllPostsFromDb} from '../API/PostApi'
+import {getVoteByUser} from '../API/VoteApi'
 import {addVote} from '../API/VoteApi'
 import {filterPostDb} from '../API/PostApi'
 import {votePost} from '../API/PostApi'
@@ -25,6 +26,7 @@ import Dialog from '@material-ui/core/Dialog';
 import Login from './Login.js'
 import Slide from '@material-ui/core/Slide';
 import Drawer from "@material-ui/core/Drawer";
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -34,11 +36,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const useStyles = theme => ({
   mainPage: {
     marginTop: 50,
-    marginLeft: 50,
-    marginRight: 50,
     marginBottom: 50,
     color:'white',
   },
+  filterView:{
+    margin:0
+  }
 });
 
 
@@ -153,6 +156,11 @@ class Home extends React.Component {
                       this.props.dispatch(action)
                       this.setState({posts: data})
                       console.log("vote")
+                      getVoteByUser(this.props.currentUser.email).then(votes => {
+                        var action = { type: "TOGGLE_USER_VOTE", userVote: votes}
+                        this.props.dispatch(action)
+
+                      })
                   }
               })
             })
@@ -178,6 +186,11 @@ class Home extends React.Component {
                         this.props.dispatch(action)
                         this.setState({posts: data})
                         console.log("vote")
+                        getVoteByUser(this.props.currentUser.email).then(votes => {
+                          var action = { type: "TOGGLE_USER_VOTE", userVote: votes}
+                          this.props.dispatch(action)
+
+                        })
                     }
                 })
               })
@@ -199,7 +212,8 @@ class Home extends React.Component {
         <div>
       {this.props.switcher ? (
 
-        <div className={classes.mainPage}>
+        <div className={classes.mainPage} style={{marginRight: this.state.width>1670 ? 50 : 0 ,
+        marginLeft: this.state.width>1670 ? 50 : 5}}>
         <Grid container>
         <Grid item className={classes.filterView} xs={4}>
         <Filter
@@ -214,13 +228,13 @@ class Home extends React.Component {
           {this.props.posts.map(currentPost => (
             <Grid item xs={12}>
 
-                  <RowPostView post={currentPost} handlevote={(val) => this.handleVote(val,currentPost)} />
+                  <RowPostView post={currentPost}  handlevote={(val) => this.handleVote(val,currentPost)} />
 
             </Grid>
           )
         )}
         </Grid>
-      ) : "Il n'y a pas de posts"}
+      ) : <CircularProgress />}
       </Grid>
       </Grid>
       </div>
@@ -236,13 +250,13 @@ class Home extends React.Component {
         {this.props.posts.map(currentPost => (
           <Grid item xs={12}>
 
-                <RowPostView post={currentPost} handlevote={(val) => this.handleVote(val,currentPost)} />
+                <RowPostView post={currentPost}  handlevote={(val) => this.handleVote(val,currentPost)} />
 
           </Grid>
         )
       )}
       </Grid>
-    ) : "Il n'y a pas de posts"}
+    ) : <CircularProgress />}
     </Grid>
     <Grid item xs={4}>
     <Profile />
@@ -266,13 +280,13 @@ class Home extends React.Component {
       {this.props.posts.map(currentPost => (
         <Grid item xs={12}>
 
-              <RowPostView post={currentPost} handlevote={(val) => this.handleVote(val,currentPost)} />
+              <RowPostView post={currentPost}  handlevote={(val) => this.handleVote(val,currentPost)} />
 
         </Grid>
       )
     )}
     </Grid>
-  ) : "Il n'y a pas de posts"}
+  ) : <CircularProgress />}
   </Grid>
   </Grid>
 
@@ -291,7 +305,7 @@ class Home extends React.Component {
       keepMounted: true, // Better open performance on mobile.
     }}
     >
-    <Filter />
+    <Filter back={this.handleDrawerToggle}/>
     </Drawer>
 
     <Drawer
@@ -328,7 +342,7 @@ class Home extends React.Component {
 
 
 
-    
+
 
     </div>
   )
@@ -340,7 +354,8 @@ const mapStateToProps = state =>{
   return {
     isAuth: state.auth.isAuth,
     currentUser: state.user.currentUser,
-    posts: state.posts.posts
+    posts: state.posts.posts,
+    votes: state.votes
   }
 }
 

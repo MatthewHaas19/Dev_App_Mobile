@@ -57,15 +57,15 @@ export default function MyTabs({changeValue}) {
     setValue(newValue);
     changeValue(newValue)
   };
-  
+
 
   return (
     <div className={classes.root}>
       <AppBar position="static" color="default">
         <Tabs value={value} onChange={handleChange}  indicatorColor="primary"
         textColor="primary" variant="fullWidth">
-          <Tab label="Plus recent" {...a11yProps(0)} className={classes.mid} />
-          <Tab label="Plus populaire" {...a11yProps(1)} className={classes.mid} />
+          <Tab label="Le plus recent" {...a11yProps(0)} className={classes.mid} />
+          <Tab label="Le plus populaire" {...a11yProps(1)} className={classes.mid} />
         </Tabs>
       </AppBar>
 

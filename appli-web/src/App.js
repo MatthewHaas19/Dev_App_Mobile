@@ -16,7 +16,7 @@ import { push } from 'react-router-redux';
 import cookie from 'react-cookies';
 import {getAllPostsFromDb} from './API/PostApi'
 import {getUserFromDb} from './API/UserApi'
-
+import {getVoteByUser} from './API/VoteApi'
 import AdminHome from './Views/AdminHome.js'
 import AdminNavBar from './Views/AdminNavBar.js'
 
@@ -72,6 +72,11 @@ class App extends Component {
         .then(data => {
           var action = { type: "TOGGLE_USER", currentUser: data[0]}
           this.props.dispatch(action)
+          getVoteByUser(data[0].email).then(votes => {
+            var action = { type: "TOGGLE_USER_VOTE", userVote: votes}
+            this.props.dispatch(action)
+
+          })
         })
 
 

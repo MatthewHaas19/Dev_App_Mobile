@@ -97,6 +97,8 @@ class RowPostView extends React.Component{
       }else{
         return 50
       }
+    }else{
+      return 40
     }
   }
   getArrowUp(){
@@ -109,6 +111,8 @@ class RowPostView extends React.Component{
       }else{
         return 40
       }
+    }else{
+      return 40
     }
   }
 

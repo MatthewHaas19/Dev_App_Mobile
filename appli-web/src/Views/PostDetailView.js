@@ -189,11 +189,13 @@ class PostDetailViewTest extends React.Component{
     this.state.posts.map((post) =>
         console.log("couleur" + post.couleur)
     );
+    
     const post = this.state.posts.map((post) =>
       <Grid item xs={12}>
       <RowPostView post={post} handlevote={(val) => this.handleVote(val,post)} />
       </Grid>
     );
+    
 
 
     const listcomments = this.state.comments.map((comment) =>
@@ -211,9 +213,12 @@ class PostDetailViewTest extends React.Component{
       <div>
         <Grid item xs={12}>
        {post}
-       <ColorButton variant="outlined" color="primary" onClick={this.handleClickOpen} >
+       <div style={{ display: 'flex', alignItems: 'center',justifyContent: 'center', paddingTop: '10px',paddingBottom: '10px'}}>
+        <ColorButton variant="outlined" color="primary" onClick={this.handleClickOpen} >
         Ajouter un commentaire
       </ColorButton>
+      </div>
+       
        {listcomments}
       </Grid>
 

@@ -85,7 +85,7 @@ export default function AdminNavBar() {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" style={{ background: "#F45C3C" }}>
+      <AppBar position="static" style={{ background: "#FAA65F" }}>
         <Toolbar>
           <Link to="/">
           <Button>

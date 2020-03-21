@@ -20,6 +20,7 @@ import {getAllCommentFromPost} from '../API/CommentApi'
 import {getAllReportFromPost} from '../API/ReportApi'
 import AdminTablePost from '../Views/AdminTablePost'
 import AdminTableUser from '../Views/AdminTableUser'
+import AdminTableComment from '../Views/AdminTableComment'
 
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -37,16 +38,16 @@ const useStyles = theme => ({
     marginLeft: 50,
     marginRight: 50,
     marginBottom: 50,
-    color:'white',
+    color:'black',
   },
   filterView: {
-    backgroundColor:"blue",
+    backgroundColor:"#FAA65F",
   },
   actionProfileView: {
     backgroundColor:"red",
   },
   listView: {
-    backgroundColor:"green",
+    backgroundColor:"#FAA65F",
   },
   table: {
     minWidth: 650,
@@ -56,16 +57,15 @@ const useStyles = theme => ({
     fontSize: 20,
   },
   table: {
-    backgroundColor: "purple"
+    backgroundColor: "#FAA65F"
   },
   buttonMenu: {
-    backgroundColor:"grey",
-    color:"white",
+    backgroundColor:"#CFCECD",
+    color:"black",
     marginTop:50,
     width:200,
-    hover : "red",
     "&:hover": {
-     background: "red"
+     background: "#B7B7B6"
    },
 
   },
@@ -75,7 +75,7 @@ const useStyles = theme => ({
 
 class AdminHome extends React.Component {
   state = {
-    displayPost: true
+    display: "post"
   }
 
   constructor(props){
@@ -88,12 +88,15 @@ class AdminHome extends React.Component {
     const {classes} = this.props
 
     function TableDisplay(props) {
-      const afficherPost = props.afficherPost
-      if(afficherPost) {
+      const afficher = props.afficher
+      if(afficher == "post") {
         return (<AdminTablePost />)
       }
-      else {
+      else if (afficher == "user"){
         return ( <AdminTableUser /> )
+      }
+      else {
+        return ( <AdminTableComment /> )
       }
     }
 
@@ -109,16 +112,19 @@ class AdminHome extends React.Component {
     </Typography>
       <Grid container>
       <Grid item xs={12} align="center">
-    <Button className={classes.buttonMenu} onClick={() => {this.setState({displayPost:true})}} >Les posts</Button>
+    <Button className={classes.buttonMenu} onClick={() => {this.setState({display:"post"})}} >Les posts</Button>
     </Grid>
     <Grid item xs={12} align="center">
-  <Button className={classes.buttonMenu} onClick={() => {this.setState({displayPost:false})}} >Les Utilisateurs</Button>
+  <Button className={classes.buttonMenu} onClick={() => {this.setState({display:"user"})}} >Les Utilisateurs</Button>
+  </Grid>
+  <Grid item xs={12} align="center">
+  <Button className={classes.buttonMenu} onClick={() => {this.setState({display:"comment"})}} >Les Commentaires</Button>
   </Grid>
     </Grid>
       </Grid>
 
       <Grid item className={classes.listView} xs={9}>
-      <TableDisplay afficherPost={this.state.displayPost} users={this.state.users} posts={this.state.posts}/>
+      <TableDisplay afficher={this.state.display}/>
 
     </Grid>
 

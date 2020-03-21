@@ -10,12 +10,12 @@ import {
   Link
 } from "react-router-dom";
 import { connect } from 'react-redux'
-import {getAllPostsFromDb} from '../API/PostApi'
+import {getAllCommentFromDb} from '../API/CommentApi'
 import {getUserFromDb} from '../API/UserApi'
-import {getAllCommentFromPost} from '../API/CommentApi'
-import {getAllReportFromPost} from '../API/ReportApi'
+import {getPostById} from '../API/PostApi'
+import {getAllReportFromComment} from '../API/ReportApi'
 import RowPostView from '../Views/RowPostView'
-import AdminPostDetail from '../Views/AdminPostDetail'
+import AdminCommentDetail from '../Views/AdminCommentDetail'
 import AdminProfilUser from '../Views/AdminProfilUser'
 import Table from '@material-ui/core/Table';
 import Button from '@material-ui/core/Button';
@@ -56,56 +56,60 @@ const useStyles = theme => ({
 
 
 
-class AdminTablePost extends React.Component {
+class AdminTableComment extends React.Component {
   state = {
-    posts:[],
+    comments:[],
     openPost: false,
     openUser: false,
-    currentPost: {},
+    openComment: false,
+    currentComment: {},
     currentUser: {}
   }
 
   constructor(props){
     super(props)
-    getAllPostsFromDb().then(data => {
-      var posts = data
+    getAllCommentFromDb().then(data => {
+      var comments = data
 
-        for(let i=0;i<posts.length;i++){
-          Object.assign(posts[i], {reports: 0});
-          getAllCommentFromPost(posts[i]._id).then(res => {
-            posts[i].commentaire.push(res.length)
-            getAllReportFromPost(posts[i]._id).then(reports => {
+        for(let i=0;i<comments.length;i++){
+          Object.assign(comments[i], {reports: 0});
+
+            getAllReportFromComment(comments[i]._id).then(reports => {
               if(reports.length>0) {
-                posts[i].reports=reports.length
+                comments[i].reports=reports.length
               }
-              Object.assign(posts[i], {completeUser: {}});
-              getUserFromDb(posts[i].user).then(user => {
-                posts[i].completeUser=user
-                this.setState({posts: posts})
-              })
 
-            }).catch((error) => {
-              console.log("Erreur dans le constructeur")
-            })
+                this.setState({comments: comments})
 
           }).catch((error) => {
-            console.log("Erreur dans le constructeur")
+            console.log("Erreur dans le constructeur 1")
           })
         }
 
     }).catch((error) => {
-      console.log("Erreur dans le constructeur")
+      console.log("Erreur dans le constructeur 2")
     })
   }
 
   handleClose = () => {
-    this.setState({openUser:false, openPost:false});
+    this.setState({openUser:false, openPost:false, openComment:false});
   };
 
-  displayPost(post){
-    var action = { type: "ADMIN_CURRENT_POST", adminCurrentPost: post}
-    this.props.dispatch(action)
-    this.setState({openPost:true, currentPost:post})
+
+
+  displayPost(comment,idPost){
+    getPostById(idPost).then(post => {
+      console.log(post)
+      console.log(comment)
+      var action = { type: "ADMIN_CURRENT_COMMENT", adminCurrentComment: comment}
+      this.props.dispatch(action)
+
+      var action = { type: "ADMIN_CURRENT_POST", adminCurrentPost: post[0]}
+      this.props.dispatch(action)
+
+      this.setState({openPost:true, currentComment:comment})
+    })
+
   }
 
   displayUser(emailUser){
@@ -122,34 +126,30 @@ class AdminTablePost extends React.Component {
 
     const {classes} = this.props
 
-
     return (
 
       <div className={classes.mainPage}>
 
-      {this.state.posts ? (
+      {this.state.comments ? (
       <TableContainer>
       <Table className={classes.table}>
         <TableHead >
           <TableRow >
-            <TableCell className={classes.nomColonne} align="center">Post</TableCell>
+            <TableCell className={classes.nomColonne} align="center">Commentaire</TableCell>
             <TableCell className={classes.nomColonne} align="center">User</TableCell>
             <TableCell className={classes.nomColonne} align="center">Note</TableCell>
-            <TableCell className={classes.nomColonne} align="center">Com</TableCell>
             <TableCell className={classes.nomColonne} align="center">Reports</TableCell>
             <TableCell className={classes.nomColonne} align="center"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-        {this.state.posts.map(currentPost => (
-           <TableRow key={currentPost.id}>
-          <TableCell><Link onClick={() => this.displayPost(currentPost)} className={classes.tableContent}> {currentPost.titre} </Link></TableCell>
-          <TableCell align="center"><Link onClick={() => this.displayUser(currentPost.user)} className={classes.tableContent}  style={{fontWeight:"bold"}}>{currentPost.user} </Link></TableCell>
-          <TableCell align="center" className={classes.tableContent}>{currentPost.note}</TableCell>
-          <TableCell align="center" className={classes.tableContent}>{(currentPost.commentaire.length>0) ? currentPost.commentaire[0] : 0 }</TableCell>
-          <TableCell align="center" className={classes.tableContent}>{currentPost.reports} </TableCell>
-          <TableCell align="center"><Button onClick={() => this.displayPost(currentPost)} className={classes.detailsButton}> détails </Button></TableCell>
-
+        {this.state.comments.map(currentComment => (
+           <TableRow key={currentComment.id}>
+          <TableCell><Link onClick={() => this.displayPost(currentComment, currentComment.postId)} className={classes.tableContent}> {currentComment.titreCom} </Link></TableCell>
+          <TableCell align="center"><Link onClick={() => this.displayUser(currentComment.user)} className={classes.tableContent}>{currentComment.user} </Link></TableCell>
+          <TableCell align="center"><Link className={classes.tableContent}>{currentComment.voteCom} </Link></TableCell>
+          <TableCell align="center"><Link className={classes.tableContent}>{currentComment.reports} </Link></TableCell>
+          <TableCell align="center"><Button onClick={() => this.displayPost(currentComment, currentComment.postId)} className={classes.detailsButton}> détails </Button></TableCell>
           </TableRow>
 
         )
@@ -170,7 +170,7 @@ class AdminTablePost extends React.Component {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-      <AdminPostDetail/>
+      <AdminCommentDetail/>
     </Dialog>
 
     <Dialog
@@ -193,8 +193,8 @@ const mapStateToProps = state =>{
   return {
     isAuth: state.auth.isAuth,
     adminCurrentPost: state.posts.adminCurrentPost,
-    userAdmin: state.userAdmin.user
+    adminCurrentComment: state.comments.adminCurrentComment
   }
 }
 
-export default connect(mapStateToProps)(withStyles(useStyles)(AdminTablePost))
+export default connect(mapStateToProps)(withStyles(useStyles)(AdminTableComment))

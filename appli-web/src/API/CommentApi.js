@@ -1,4 +1,13 @@
 
+export function getAllCommentFromDb () {
+  const url = "https://dev-mobile-ig.herokuapp.com/comments/"
+
+  return fetch(url,{
+    method: 'GET'
+  })
+  .then((response) => response.json())
+  .catch((error) => console.log(error))
+}
 
 
 export function getAllCommentFromPost (idPost) {

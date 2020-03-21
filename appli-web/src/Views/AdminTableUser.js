@@ -42,12 +42,15 @@ const useStyles = theme => ({
     fontSize: 20,
   },
   table: {
-    backgroundColor: "purple"
+    backgroundColor: "#FAA65F"
   },
   tableContent: {
     color: "black",
     fontSize: 17,
     textDecoration: "none",
+  },
+  profilButton: {
+    backgroundColor: "#FAB65F"
   },
 });
 
@@ -116,10 +119,10 @@ class AdminTableUser extends React.Component {
   }
 
   displayPosts(user){
-    var action = { type: "TOGGLE_USER_ADMIN", currentUser:user}
-    this.props.dispatch(action)
     getPostByUser(user.email).then(listposts => {
-      var action = { type: 'ADMIN_LIST_POST', adminListPost:listposts}
+      var action = { type: "ADMIN_LIST_POST", adminListPost:listposts}
+      this.props.dispatch(action)
+      var action = { type: "TOGGLE_USER_ADMIN", currentUser:user}
       this.props.dispatch(action)
       this.setState({openPosts:true, currentUser:user})
     })
@@ -157,7 +160,7 @@ class AdminTableUser extends React.Component {
             <TableCell className={classes.nomColonne} align="center">Email</TableCell>
             <TableCell className={classes.nomColonne} align="center">Posts</TableCell>
             <TableCell className={classes.nomColonne} align="center">NbComment</TableCell>
-            <TableCell className={classes.nomColonne} align="center">Action</TableCell>
+            <TableCell className={classes.nomColonne} align="center"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -167,7 +170,7 @@ class AdminTableUser extends React.Component {
              <TableCell align="center"><Link onClick={() => this.displayUsers(currentUser)} className={classes.tableContent}>{currentUser.email} </Link></TableCell>
              <TableCell align="center"><Link onClick={() => this.displayPosts(currentUser)} className={classes.tableContent}> {currentUser.posts}</Link></TableCell>
              <TableCell align="center"><Link onClick={() => this.displayComments(currentUser)} className={classes.tableContent}> {currentUser.comments}</Link></TableCell>
-             <TableCell align="center"><Link onClick={() => this.displayReports(currentUser)} className={classes.tableContent}> {currentUser.reports}</Link></TableCell>
+             <TableCell align="center"><Button onClick={() => this.displayUsers(currentUser)} className={classes.profilButton}> Profil</Button></TableCell>
           </TableRow>
 
         )
@@ -189,20 +192,19 @@ class AdminTableUser extends React.Component {
   </Dialog>
 
   <Dialog
+      maxWidth="md"
       open={this.state.openPosts}
       TransitionComponent={Transition}
-      keepMounted
       onClose={this.handleClose}
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
     >
-    <AdminPostsUser user={this.state.currentUser}/>
+    <AdminPostsUser/>
   </Dialog>
 
   <Dialog
       open={this.state.openComments}
       TransitionComponent={Transition}
-      keepMounted
       onClose={this.handleClose}
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
@@ -213,7 +215,6 @@ class AdminTableUser extends React.Component {
   <Dialog
       open={this.state.openReports}
       TransitionComponent={Transition}
-      keepMounted
       onClose={this.handleClose}
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"

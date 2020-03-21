@@ -14,6 +14,20 @@ router.get("/", function(req,res,next){
   })
 })
 
+
+router.get("/:comment", function(req,res,next){
+    const id = req.params.comment
+    db.reports.find({
+      idCom: id
+    },function(err,comments){
+      if(err){
+        res.send(err);
+      }
+      res.json(comments);
+    })
+  })
+
+
 router.get("/:comment/:user", function(req,res,next){
   const idCom = req.params.idCom
   const mailUser = req.params.user
@@ -27,6 +41,7 @@ router.get("/:comment/:user", function(req,res,next){
     res.json(comReports);
   })
 })
+
 
 
 router.post("/", function(req,res,next){

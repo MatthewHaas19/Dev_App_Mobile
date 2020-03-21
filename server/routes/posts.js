@@ -7,7 +7,7 @@ ObjectId = require('mongodb').ObjectID;
 var db = mongojs("mongodb+srv://devmobileIG4:devmobileIG4@devmobile-vr63q.mongodb.net/DevMobile?retryWrites=true&w=majority",["posts"])
 
 router.get("/", function(req,res,next){
-  db.posts.find(function(err,posts){
+  db.posts.find({}).sort({date:-1}).toArray(function(err,posts){
     if(err){
       res.send(err);
     }
@@ -89,7 +89,8 @@ router.post("/", function(req,res,next){
 })
 
 router.get("/:id", function(req,res,next) {
-  const id = req.params.id
+
+  const id = ObjectId(req.body._id)
   db.posts.find({
     _id : id
   }, function(err,posts) {
@@ -104,24 +105,52 @@ router.get("/:id", function(req,res,next) {
 router.delete("/", function(req,res,next) {
   var id = ObjectId(req.body._id)
   var idString = req.body._id
-  await db.posts.remove({"_id" : id})
-
-    const commentsList = await db.comments.find({"postId" : idString});
-    for await (c of commentsList) {
-      console.log("Dans la boucle")
-      await db.reportsCom.remove({"idCom":c._id});
+  var str = ""
+  db.posts.remove({"_id" : id}, async function(err,post){
+    if(err){
+      console.log("Erreur remove post")
+      res.send(err);
     }
+
+    await db.comments.find({
+      "postId" : idString
+    },async function(err,comments){
+      if(err){
+        res.send(err);
+      }
+      for await (c of comments) {
+        str = String(c._id)
+        console.log(str)
+        await db.comReports.remove({"idCom":str}, function(err,msg){
+          if(err){
+            console.log("Erreur remove commentReport")
+            res.send(err);
+          }
+          console.log("Remove commentReport")
+        })
+        await db.votesComment.remove({"idCom":str}, function(err,msg){
+          if(err){
+            console.log("Erreur remove votesComment")
+            res.send(err);
+          }
+          console.log("Remove votesComment")
+        })
+      }
+    })
+
+
     await db.reports.remove({"idPost":idString})
+    console.log("reports remove")
     await db.comments.remove({"postId" : idString})
+    console.log("comments remove")
     await db.votes.remove({"post" : idString})
-    
+    console.log("votes remove")
     res.json({
       res:"correct",
       message:"delete post, reports, comment and votes ok"
     });
-
+  })
 })
-
 
 
 router.put("/filter/:categorie", function(req,res,next){

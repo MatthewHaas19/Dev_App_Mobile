@@ -32,14 +32,14 @@ struct AddPostView: View {
         iv.backgroundColor = .lightGray
         return iv
     }()
-
-   
-
+    
+    
+    
     @State var afficherImagePicker = false
     @State var imageInBlackBox = UIImage()
     @State var uploadImage = false
-
-
+    
+    
     var currentPosition:[String]?
     var currentUser : String?
     var afficherAdd : (Bool) -> ()
@@ -50,7 +50,7 @@ struct AddPostView: View {
     
     @State var isAnonyme = false
     
-     @ObservedObject var postDAO = PostDAO()
+    @ObservedObject var postDAO = PostDAO()
     @ObservedObject private var keyboard = KeyboardResponder()
     
     init(currentPosition : [String]?,currentUser : String? , afficherAdd : @escaping (Bool) -> ()){
@@ -67,58 +67,59 @@ struct AddPostView: View {
         ZStack {
             Color.white
             VStack{
-                Form{
-                
-                // Form{
+                //Form{
+                    
+                    // Form{
+                ScrollView {
                     HStack{
                         
                         Spacer()
                         
                         Text("Ajouter un post")
                             .font(.custom("Noteworthy", size: 40))
-                        .font(.largeTitle)
-                        .fontWeight(.semibold)
-                        .padding(.bottom, 40)
-                        .padding(.top, 60)
+                            .font(.largeTitle)
+                            .fontWeight(.semibold)
+                            .padding(.bottom, 40)
+                            .padding(.top, 60)
                         
                         Spacer()
                     }
-                
                     
-                
-                Toggle(isOn: self.$isAnonyme){
-                    Text("Publier en Anonyme")
-                }.padding(.top,20)
-                
-                
-                TextField("Titre : ", text: $title)
-                .padding()
-                .background(Color(red:0.95,green:0.95,blue:0.95))
-                .cornerRadius(5.0)
-                .padding(.bottom, 20)
-                .padding(.top, 20)
-                
-                
-                
-                TextView(
-                    text: $description,
-                    isEditing: $isEditing,
-                    placeholder: "Description : ",
-                    placeholderHorizontalPadding: 15,
-                    placeholderVerticalPadding: 10,
-                    placeholderColor: Color(red:0.72,green:0.72,blue:0.72),
-                    backgroundColor: UIColor(red:0.95,green:0.95,blue:0.95, alpha:1)
                     
-                ).frame(height:200)
-                    .cornerRadius(5.0)
-                    .padding(.bottom,20)
-                    .padding(.top, 20)
-
+                    
+                    Toggle(isOn: self.$isAnonyme){
+                        Text("Publier en Anonyme")
+                    }.padding(.top,20)
+                    
+                    
+                    TextField("Titre : ", text: $title)
+                        .padding()
+                        .background(Color(red:0.95,green:0.95,blue:0.95))
+                        .cornerRadius(5.0)
+                        .padding(.bottom, 20)
+                        .padding(.top, 20)
+                    
+                    
+                    
+                    TextView(
+                        text: $description,
+                        isEditing: $isEditing,
+                        placeholder: "Description : ",
+                        placeholderHorizontalPadding: 15,
+                        placeholderVerticalPadding: 10,
+                        placeholderColor: Color(red:0.72,green:0.72,blue:0.72),
+                        backgroundColor: UIColor(red:0.95,green:0.95,blue:0.95, alpha:1)
+                        
+                    ).frame(height:200)
+                        .cornerRadius(5.0)
+                        .padding(.bottom,20)
+                        .padding(.top, 20)
+                    
                     HStack{
                         Spacer()
                         Image(uiImage: imageInBlackBox)
-                        .resizable()
-                        .scaledToFill()
+                            .resizable()
+                            .scaledToFill()
                             .frame(width : 100, height : 100)
                             .border(Color.blue, width: 1)
                             .clipped()
@@ -126,11 +127,11 @@ struct AddPostView: View {
                         Button(action:{
                             self.afficherImagePicker.toggle()
                             self.uploadImage = true
-                            }){
-                                Text("Ajouter une image")
-                            }.padding(.top,20)
+                        }){
+                            Text("Ajouter une image")
+                        }.padding(.top,20)
                             .padding(.bottom,20)
-                                .foregroundColor(Color(red:0,green:0.8,blue:0.9))
+                            .foregroundColor(Color(red:0,green:0.8,blue:0.9))
                             .sheet(isPresented: $afficherImagePicker, content: {
                                 ImagePickerView(isPresented : self.$afficherImagePicker, selectedImage: self.$imageInBlackBox)
                             })
@@ -145,7 +146,7 @@ struct AddPostView: View {
                         Text("Séléctionnez les catégories")
                             .fontWeight(.semibold)
                             .padding()
-                            
+                        
                         Toggle(isOn: self.$listCategorieResult[0]){
                             Text("Amis")
                         }
@@ -190,8 +191,8 @@ struct AddPostView: View {
                         }
                     }
                     
-
-              Spacer()
+                    
+                    Spacer()
                     HStack {
                         Spacer()
                         Button(action:{
@@ -218,32 +219,32 @@ struct AddPostView: View {
                         Spacer()
                     }.padding(.bottom,50)
                     
-                   
+                    
                     
                 }
                 
                 
-  
+                
             }.padding()
             
             
- 
+            
         }.padding(.bottom, keyboard.currentHeight)
-        .edgesIgnoringSafeArea(.bottom)
-        .animation(.easeOut(duration: 0.16))
+            .edgesIgnoringSafeArea(.bottom)
+            .animation(.easeOut(duration: 0.16))
         
         
     }
     
     /*var colors:[[Double]] = [
-    [61/255,173/255,171/255],[27/255,159/255,156/255],[4/255,176/255,186/255],[84/255,188/255,194/255],[27/255,197/255,167/255],[232/255,231/255,18/255],[225/255,218/255,0/255],[240/255,212/255,11/255]
-    ]*/
+     [61/255,173/255,171/255],[27/255,159/255,156/255],[4/255,176/255,186/255],[84/255,188/255,194/255],[27/255,197/255,167/255],[232/255,231/255,18/255],[225/255,218/255,0/255],[240/255,212/255,11/255]
+     ]*/
     var colors:[[Double]] = [
-    [0/255,176/255,166/255],[5/255,93/255,107/255],[0/255,128/255,137/255],[225/255,170/255,18/255],[1/255,58/255,103/255],[7/255,36/255,70/255]
+        [0/255,176/255,166/255],[5/255,93/255,107/255],[0/255,128/255,137/255],[225/255,170/255,18/255],[1/255,58/255,103/255],[7/255,36/255,70/255]
     ]
     
     func createPost() {
-       
+        
         var listCat = [String]()
         var i = 0
         for cat in self.listCategorieResult {
@@ -257,10 +258,10 @@ struct AddPostView: View {
                 res in
                 print("res")
                 print(res)
-
-
+                
+                
                 let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:res, localisation:self.currentPosition, categorie:listCat, note:0, date:"", user:self.currentUser!, isAnonyme:self.isAnonyme, couleur: self.colors.randomElement()! )
-
+                
                 
                 self.postDAO.addPost(post: post, completionHandler: {
                     res in
@@ -274,20 +275,20 @@ struct AddPostView: View {
             })
         }
         else{
-        
-
+            
+            
             let post = PostPost(titre:self.title, texte:self.description,  nbSignalement:0, image:nil, localisation:self.currentPosition, categorie:listCat, note:0, date:"", user:self.currentUser!, isAnonyme: self.isAnonyme, couleur: self.colors.randomElement()!)
-
-                
-                self.postDAO.addPost(post: post, completionHandler: {
-                    res in
-                    if(res){
-                        self.afficherAdd(false)
-                    }
-                    else{
-                        print("add post error")
-                    }
-                })
+            
+            
+            self.postDAO.addPost(post: post, completionHandler: {
+                res in
+                if(res){
+                    self.afficherAdd(false)
+                }
+                else{
+                    print("add post error")
+                }
+            })
         }
     }
     
@@ -342,7 +343,7 @@ struct AddPostView: View {
                     }
                     
                     UserDefaults.standard.set(documentUid, forKey: MyKeys.uid)
-
+                    
                     print("image added to database")
                     
                     
@@ -405,7 +406,7 @@ struct AddPostView_Previews: PreviewProvider {
     static var previews: some View {
         AddPostView(currentPosition:nil,currentUser: "Tom",afficherAdd: {
             afficher in
-
+            
         })
     }
 }

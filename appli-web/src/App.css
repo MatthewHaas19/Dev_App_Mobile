@@ -36,3 +36,16 @@
     transform: rotate(360deg);
   }
 }
+
+@font-face {
+font-family: 'Noteworthy Light';
+font-style: normal;
+font-weight: normal;
+src: local('Noteworthy Light'), url('./fonts/Noteworthy-Lt.woff') format('woff');
+}
+
+.titleNav {
+    font-family: Noteworthy Light, Arial, serif;
+    font-weight: black;
+    color:black;
+}

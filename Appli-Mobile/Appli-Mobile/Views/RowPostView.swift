@@ -13,11 +13,13 @@ import FirebaseFirestore
 struct RowPostView: View {
     var user:[User]?
     @ObservedObject var userDAO = UserDAO()
+    @ObservedObject var commentDAO = CommentDAO()
     @State var afficherSheet = false
     
     var currentUserEmail : String?
     
     var post: Post
+    @State var comments = [Comment]()
     @State var username : String=""
     
     
@@ -39,7 +41,14 @@ struct RowPostView: View {
                     Button(action:{
                         //self.navigatePost(self.post)
                         print("appluie sur bouton")
-                        self.afficherSheet = true
+                        self.commentDAO.loadData(postId: self.post._id, navigateComment:  {
+                            comments in
+                            self.comments = comments
+                            print("comments : " )
+                            print(self.comments)
+                            self.afficherSheet = true
+                        })
+                        
                     }){
                         VStack(alignment:.leading, spacing:5){
                             HStack{
@@ -70,25 +79,26 @@ struct RowPostView: View {
                             
                             Text(post.titre).foregroundColor(Color.white)
                                 .font(.system(size:25))
-                            if(image == nil){
+                            if(post.image == nil){
                                 Spacer().frame(height:10)
                             }
                             
                             
                             
-                            if(image != nil){
+                            if(post.image != nil){
                                 HStack{ Text(post.texte).foregroundColor(Color.white)
-                                    
+                                    VStack{
                                     
                                     Image(systemName:"photo")
-                                
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
-                                        .frame(width: 60, height: 60)
+                                        .frame(width: 30, height: 30)
                                         //.clipped()
                                     .foregroundColor(Color.white)
-                                    
+                                    }.padding(.leading,10)
                                 }.padding(.bottom, 20)
+                                    .padding(.trailing,10)
+                                    
                             }else
                             {
                                 Text(post.texte).foregroundColor(Color.white)
@@ -104,7 +114,7 @@ struct RowPostView: View {
                     }
                     .sheet(isPresented: self.$afficherSheet, content: {
                         
-                        PostDetailView(post: self.post, currentUser : self.currentUserEmail, position: self.localisation ,afficherDetail: {
+                        PostDetailView(post: self.post, comments: self.comments,currentUser : self.currentUserEmail, position: self.localisation ,afficherDetail: {
                             afficher in
                             self.afficherSheet=afficher
                         })
@@ -131,10 +141,7 @@ struct RowPostView: View {
                     }
                 }.frame(height:getHeight())
             }.fixedSize(horizontal : false, vertical : true)
-        }.onAppear { if(self.post.image != nil) {self.downloadImage(completion: {
-            res in
-            self.image = res
-        }) }}
+        }
         
         
         

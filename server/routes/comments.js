@@ -26,6 +26,19 @@ router.get("/:post", function(req,res,next){
     })
   })
 
+  router.get("/user/:emailUser", function(req,res,next){
+      const id = req.params.emailUser
+      db.comments.find({
+        user: id
+      },function(err,comments){
+        if(err){
+          res.send(err);
+        }
+        res.json(comments);
+      })
+    })
+
+
   router.post("/", function(req,res,next){
     var comment = req.body
     db.comments.insertOne(comment,function(err,post){
@@ -52,6 +65,40 @@ router.get("/:post", function(req,res,next){
         message:"delete comment ok"
       });
     })
+  })
+
+
+  router.put("/addVote/:vote",function(req,res,next){
+    var id = ObjectId(req.body._id)
+    if(req.params.vote=="true"){
+      db.comments.updateOne({"_id":id},{$inc: { "voteCom" : 1}},function(err,users){
+        if(err){
+          res.json({
+            res:"not correct",
+            message:err
+          });
+        }
+        res.json({
+          res:"correct",
+          message:"increment ok"
+        });
+      })
+    }
+    else{
+      db.comments.updateOne({"_id" : id},{$inc: { "voteCom" : -1}},function(err,users){
+        if(err){
+          res.json({
+            res:"not correct",
+            message:err
+          });
+        }
+        res.json({
+          res:"correct",
+          message:"decrement ok"
+        });
+      })
+    }
+
   })
 
 

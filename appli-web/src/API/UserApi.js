@@ -1,7 +1,7 @@
 
 
 export function getUserFromDb (name) {
-  const url = "https://polytech-beer.herokuapp.com/run/users/"+name
+  const url = "https://dev-mobile-ig.herokuapp.com/users/"+name
 
   return fetch(url,{
     method: 'GET'
@@ -10,12 +10,23 @@ export function getUserFromDb (name) {
   .catch((error) => console.log(error))
 }
 
+export function getAllUsersFromDb () {
+  const url = "https://dev-mobile-ig.herokuapp.com/users/"
 
-export function modifyUserDb (user) {
-  const url = "https://polytech-beer.herokuapp.com/run/users/"
+  return fetch(url,{
+    method: 'GET'
+  })
+  .then((response) => response.json())
+  .catch((error) => console.log(error))
+}
+
+export function setUserDb (user) {
+  const url = "https://dev-mobile-ig.herokuapp.com/users/"
+
   const data = JSON.stringify(user)
 
   console.log(data)
+
   return fetch(url,{
     method: 'POST',
     headers: {

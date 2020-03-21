@@ -7,7 +7,12 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-import Link from '@material-ui/core/Link';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
 import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
@@ -17,9 +22,14 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import {getUserFromDb} from '../API/UserApi'
+import Noteworthy from '../fonts/Noteworthy-Lt.woff';
+import cookie from 'react-cookies';
+import {store} from '../Store/store'
+import { connect } from 'react-redux'
+import history from '../history';
+var bcrypt = require('bcryptjs');
 
-
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
   paper: {
     marginTop: theme.spacing(8),
     display: 'flex',
@@ -47,10 +57,19 @@ const useStyles = makeStyles(theme => ({
     margin: theme.spacing(3, 0, 2),
   },
   card: {
-    boxShadow: "10px 10px 10px #9E9E9E",
-    marginTop: 50
+
+  },
+  title: {
+    flexGrow: 1,
+    color: "black",
+    marginLeft: 10,
+    fontFamily: 'Noteworthy Light',
+    fontWeight: 400,
+  },
+  spacer:{
+    marginBottom: theme.spacing(7),
   }
-}));
+});
 
 const ColorButton = withStyles(theme => ({
   root: {
@@ -63,28 +82,78 @@ const ColorButton = withStyles(theme => ({
 }))(Button);
 
 
-
-
 const theme = createMuiTheme({
   palette: {
     primary: green,
   },
 });
 
-export default function Login() {
-  const classes = useStyles();
+
+
+
+
+class Login extends React.Component {
+
+  constructor(props){
+    super(props)
+    this.state = {
+      email: '',
+      password: ''
+    }
+  }
+
+  onChange = (e) => {
+    this.setState({[e.target.name]: e.target.value })
+  }
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    const user = {
+      email : this.state.email,
+      password: this.state.password
+    };
+    console.log(user);
+
+    getUserFromDb(user.email)
+      .then(data => {
+        console.log(data)
+        if(data.length==0){
+          console.log("email incorrect")
+        }
+        else{
+          if(bcrypt.compareSync(user.password,data[0].password)){
+            var action = { type: "TOGGLE_USER", currentUser: data[0]}
+            this.props.dispatch(action)
+
+            cookie.save('userId', user.email, { path: '/' })
+
+            action = { type: "TOGGLE_AUTH"}
+            this.props.dispatch(action)
+            history.push('/filter');
+          }else{
+            console.log("password incorrect")
+          }
+        }
+      })
+  }
+
+
+  render(){
+
+  const {classes} = this.props
+
 
   return (
     <Container component="main" maxWidth="xs" maxHeight="xs">
-    <Card className={classes.card}>
-      <CardContent>
+
       <CssBaseline />
       <div className={classes.paper}>
         <Avatar alt="Remy Sharp" src="/assets/H2R.png" className={classes.large} />
-        <Typography component="h1" variant="h5">
+
+        <Typography component="h1" variant="h5" className={classes.title} >
           Login
         </Typography>
-        <form className={classes.form} noValidate>
+        <form className={classes.form} noValidate onSubmit={this.onSubmit}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -95,6 +164,7 @@ export default function Login() {
             name="email"
             autoComplete="email"
             autoFocus
+            onChange={this.onChange}
           />
           <TextField
             variant="outlined"
@@ -106,6 +176,7 @@ export default function Login() {
             type="password"
             id="password"
             autoComplete="current-password"
+            onChange={this.onChange}
           />
 
           <ColorButton variant="contained" color="primary" className={classes.margin} type="submit"
@@ -115,20 +186,28 @@ export default function Login() {
 
           <Grid container>
             <Grid item xs>
-              <Link href="#" variant="body2">
-                Mdp oublié ?
-              </Link>
+
             </Grid>
-            <Grid item>
-              <Link href="#" variant="body2">
+            <Grid item className={classes.spacer}>
+              <Link to="/register">
                 {"Pas encore de compte ?"}
               </Link>
             </Grid>
           </Grid>
         </form>
       </div>
-      </CardContent>
-    </Card>
+
     </Container>
   );
 }
+}
+
+
+const mapStateToProps = state =>{
+  return {
+    isAuth: state.auth.isAuth,
+    currentUser: state.user.currentUser
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(useStyles)(Login))

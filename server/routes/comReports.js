@@ -6,32 +6,47 @@ var mongojs = require("mongojs")
 var db = mongojs("mongodb+srv://devmobileIG4:devmobileIG4@devmobile-vr63q.mongodb.net/DevMobile?retryWrites=true&w=majority",["comReports"])
 
 router.get("/", function(req,res,next){
-  db.reportsCom.find(function(err,reportsCom){
+  db.comReports.find(function(err,comReports){
     if(err){
       res.send(err);
     }
-    res.json(reportsCom);
+    res.json(comReports);
   })
 })
+
+
+router.get("/:comment", function(req,res,next){
+    const id = req.params.comment
+    db.comReports.find({
+      idCom: id
+    },function(err,comments){
+      if(err){
+        res.send(err);
+      }
+      res.json(comments);
+    })
+  })
+
 
 router.get("/:comment/:user", function(req,res,next){
   const idCom = req.params.idCom
   const mailUser = req.params.user
-  db.reportsCom.find({
+  db.comReports.find({
     emailUser: mailUser,
     idCom: idCom
-  },function(err,reportsCom){
+  },function(err,comReports){
     if(err){
       res.send(err);
     }
-    res.json(reportsCom);
+    res.json(comReports);
   })
 })
 
 
+
 router.post("/", function(req,res,next){
   var report = req.body
-  db.reportsCom.find({
+  db.comReports.find({
     emailUser: report.emailUser,
     idCom: report.idCom
   },function(err,reports){
@@ -40,7 +55,7 @@ router.post("/", function(req,res,next){
     }
     else{
         if(reports.length==0){
-          db.reportsCom.insertOne(report,function(err,report){
+          db.comReports.insertOne(report,function(err,report){
             if(err){
               res.send(err);
             }

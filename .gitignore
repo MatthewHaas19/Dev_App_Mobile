@@ -1,2 +1,7 @@
+.gitignore
+node_modules
 node-modules/
-./server/node-modules/
+server/node-modules/
+server/node-modules
+appli-web/node_modules/
+appli-web/node_modules

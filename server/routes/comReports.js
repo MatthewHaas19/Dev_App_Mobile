@@ -17,7 +17,7 @@ router.get("/", function(req,res,next){
 
 router.get("/:comment", function(req,res,next){
     const id = req.params.comment
-    db.reports.find({
+    db.comReports.find({
       idCom: id
     },function(err,comments){
       if(err){

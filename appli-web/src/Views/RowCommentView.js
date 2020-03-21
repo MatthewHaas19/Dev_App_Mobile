@@ -24,18 +24,19 @@ const useStyles = makeStyles({
     height:200,
     color:"black"
   },
-  content: {
-    margin:20,
-  },
+  
   username: {
     fontSize: 14,
     fontWeight: "bold",
+    
   },
   texte: {
     marginTop:18,
+    paddingLeft : 20,
   },
   titre: {
     fontSize:22,
+    paddingLeft : 20,
   },
   note: {
     fontSize:20,
@@ -44,19 +45,18 @@ const useStyles = makeStyles({
   chevron: {
     fontSize:40,
     alignItems:"center",
-    color:"black"
+    color:"black",
   },
   notefleches:{
     margin:0,
   },
-  localisation: {
-    marginRight:20,
-    fontWeight:"bold",
-  },
+  
   logosTop: {
     fontSize:20,
     marginRight:10,
+    flexBasis : 0,
   },
+  
 });
 
 const RowCommentView = (props) => {
@@ -70,35 +70,43 @@ const RowCommentView = (props) => {
     return(
       <div>
       { props.comments ? (
-        <Card >
-        <CardActionArea>
-    <CardContent className={classes.root} style={{ background: `rgb([100,50,10])` }}>
-    <Container className={classes.content}>
-    <Grid container alignItems="center">
-    <Grid item xs={1} align="right">
-    <AccountCircleIcon className={classes.logosTop}/>
-    </Grid>
-    <Grid item xs={7} >
-      <div className={classes.username} >
+ <Card >
+
+ <Grid container>
+ <Grid item xs={10} align="left" style={{ background: `rgb([100,50,10])` }}>
+ <CardActionArea className={classes.root}>
+
+ <Grid container alignItems="right" className={classes.content} >
+ <Grid item xs={1} align="right">
+ <AccountCircleIcon className={classes.logosTop}/>
+ </Grid>
+
+ <Grid item xs={7} >
+      <div className={classes.username}  alignItems="left" >
         {props.comments.user}
       </div>
       </Grid>
      
-    </Grid>
+</Grid>
 
-    <Grid container>
+ <Grid container alignItems="center">
 
-      <Grid item xs={10}>
+   <Grid item xs={10}>
         <Typography className={classes.titre}>
           {props.comments.titreCom}
         </Typography>
         <Typography className={classes.texte} >
           {props.comments.texteCom}
         </Typography>
-      </Grid>
+   </Grid>
 
-      <Grid item xs={2} className={classes.notefleches}>
-        <Grid container align="right">
+
+ </Grid>
+ </CardActionArea>
+ </Grid>
+ <Grid item xs={2} className={classes.notefleches}>
+   <div  style={{ display: 'flex', alignItems: 'center',justifyContent: 'center', paddingTop: '40px'}}>
+     <Grid container align="right">
           <Grid item xs={12} align="center">
             <Button><KeyboardArrowUpIcon className={classes.chevron} /></Button>
           </Grid>
@@ -109,16 +117,16 @@ const RowCommentView = (props) => {
             <Button><KeyboardArrowDownIcon className={classes.chevron} /></Button>
           </Grid>
         </Grid>
+   </div>
+        
 
 
 
       </Grid>
+ </Grid>
 
-    </Grid>
-    </Container>
-    </CardContent>
-    </CardActionArea>
-  </Card>
+</Card>
+
       ): null
     }
 

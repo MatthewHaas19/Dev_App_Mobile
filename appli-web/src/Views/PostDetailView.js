@@ -22,6 +22,7 @@ import AddComment from './AddComment';
 import Slide from '@material-ui/core/Slide';
 import { connect } from 'react-redux'
 import Icon from '@material-ui/core/Icon';
+import {getVoteByUser} from '../API/VoteApi'
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -136,7 +137,11 @@ class PostDetailViewTest extends React.Component{
                     }
                       posts[index] = post;
                       this.setState({posts: posts})
-                      console.log("vote")
+                      getVoteByUser(this.props.currentUser.email).then(votes => {
+                        var action = { type: "TOGGLE_USER_VOTE", userVote: votes}
+                        this.props.dispatch(action)
+
+                      })
                   }
               })
             })
@@ -160,7 +165,11 @@ class PostDetailViewTest extends React.Component{
                         posts[index] = post;
 
                         this.setState({posts: posts})
-                        console.log("vote")
+                        getVoteByUser(this.props.currentUser.email).then(votes => {
+                          var action = { type: "TOGGLE_USER_VOTE", userVote: votes}
+                          this.props.dispatch(action)
+
+                        })
                     }
                 })
               })

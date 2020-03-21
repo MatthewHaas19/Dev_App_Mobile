@@ -16,3 +16,15 @@ export function addVote(vote) {
   .then((response) => response.json())
   .catch((error) => console.log(error))
 }
+
+
+
+export function getVoteByUser (name) {
+  const url = "http://dev-mobile-ig.herokuapp.com/votes/user/"+name
+
+  return fetch(url,{
+    method: 'GET'
+  })
+  .then((response) => response.json())
+  .catch((error) => console.log(error))
+}

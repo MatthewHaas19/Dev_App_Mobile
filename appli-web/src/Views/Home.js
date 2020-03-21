@@ -14,6 +14,7 @@ import {
   Link
 } from "react-router-dom";
 import {getAllPostsFromDb} from '../API/PostApi'
+import {getVoteByUser} from '../API/VoteApi'
 import {addVote} from '../API/VoteApi'
 import {filterPostDb} from '../API/PostApi'
 import {votePost} from '../API/PostApi'
@@ -153,6 +154,11 @@ class Home extends React.Component {
                       this.props.dispatch(action)
                       this.setState({posts: data})
                       console.log("vote")
+                      getVoteByUser(this.props.currentUser.email).then(votes => {
+                        var action = { type: "TOGGLE_USER_VOTE", userVote: votes}
+                        this.props.dispatch(action)
+
+                      })
                   }
               })
             })
@@ -178,6 +184,11 @@ class Home extends React.Component {
                         this.props.dispatch(action)
                         this.setState({posts: data})
                         console.log("vote")
+                        getVoteByUser(this.props.currentUser.email).then(votes => {
+                          var action = { type: "TOGGLE_USER_VOTE", userVote: votes}
+                          this.props.dispatch(action)
+
+                        })
                     }
                 })
               })
@@ -214,7 +225,7 @@ class Home extends React.Component {
           {this.props.posts.map(currentPost => (
             <Grid item xs={12}>
 
-                  <RowPostView post={currentPost} handlevote={(val) => this.handleVote(val,currentPost)} />
+                  <RowPostView post={currentPost}  handlevote={(val) => this.handleVote(val,currentPost)} />
 
             </Grid>
           )
@@ -236,7 +247,7 @@ class Home extends React.Component {
         {this.props.posts.map(currentPost => (
           <Grid item xs={12}>
 
-                <RowPostView post={currentPost} handlevote={(val) => this.handleVote(val,currentPost)} />
+                <RowPostView post={currentPost}  handlevote={(val) => this.handleVote(val,currentPost)} />
 
           </Grid>
         )
@@ -266,7 +277,7 @@ class Home extends React.Component {
       {this.props.posts.map(currentPost => (
         <Grid item xs={12}>
 
-              <RowPostView post={currentPost} handlevote={(val) => this.handleVote(val,currentPost)} />
+              <RowPostView post={currentPost}  handlevote={(val) => this.handleVote(val,currentPost)} />
 
         </Grid>
       )
@@ -328,7 +339,7 @@ class Home extends React.Component {
 
 
 
-    
+
 
     </div>
   )
@@ -340,7 +351,8 @@ const mapStateToProps = state =>{
   return {
     isAuth: state.auth.isAuth,
     currentUser: state.user.currentUser,
-    posts: state.posts.posts
+    posts: state.posts.posts,
+    votes: state.votes
   }
 }
 

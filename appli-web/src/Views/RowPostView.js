@@ -15,6 +15,7 @@ import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExploreTwoToneIcon from '@material-ui/icons/ExploreTwoTone';
+import { connect } from 'react-redux'
 import {
   BrowserRouter as Router,
   Switch,
@@ -47,7 +48,6 @@ const useStyles = theme => ({
     color:"white"
   },
   chevron: {
-    fontSize:40,
     alignItems:"center",
     color:"white"
   },
@@ -79,7 +79,37 @@ class RowPostView extends React.Component{
 
   constructor(props){
     super(props)
+    this.state={
+      up:false,
+      down:false
+    }
 
+  }
+
+
+  getArrowDown(){
+    var votes = this.props.votes
+    let vote = votes.votes.filter(item => item.post == this.props.post._id)
+    if(vote.length > 0){
+      if(vote[0].like=="true"){
+        console.log("true true")
+        return 40
+      }else{
+        return 50
+      }
+    }
+  }
+  getArrowUp(){
+    var votes = this.props.votes
+    let vote = votes.votes.filter(item => item.post == this.props.post._id)
+    if(vote.length > 0){
+      if(vote[0].like=="true"){
+        console.log("true true")
+        return 50
+      }else{
+        return 40
+      }
+    }
   }
 
   vote(vote){
@@ -95,6 +125,7 @@ class RowPostView extends React.Component{
 
   return(
     <div>
+    <p></p>
     { this.props.post ? (
       <Card >
 
@@ -142,13 +173,13 @@ class RowPostView extends React.Component{
   <Grid item className={classes.notefleches} >
     <Grid container align="right">
       <Grid item xs={12} align="center">
-        <Button onClick={() => this.vote("+")}><KeyboardArrowUpIcon className={classes.chevron} /></Button>
+        <Button onClick={() => this.vote("+")}><KeyboardArrowUpIcon style={{fontSize: this.props.votes ? this.getArrowUp() : 40}}className={classes.chevron} /></Button>
       </Grid>
       <Grid item xs={12} align="center">
         <div className={classes.note} align="center" >{this.props.post.note}</div>
       </Grid>
       <Grid item xs={12} align="center">
-        <Button onClick={() => this.vote("-")}><KeyboardArrowDownIcon className={classes.chevron} /></Button>
+        <Button onClick={() => this.vote("-")}><KeyboardArrowDownIcon style={{fontSize: this.props.votes ? this.getArrowDown() : 40}} className={classes.chevron} /></Button>
       </Grid>
     </Grid>
   </Grid>
@@ -163,4 +194,14 @@ class RowPostView extends React.Component{
 )
 }}
 
-export default withStyles(useStyles)(RowPostView)
+
+const mapStateToProps = state =>{
+  return {
+    isAuth: state.auth.isAuth,
+    currentUser: state.user.currentUser,
+    posts: state.posts.posts,
+    votes: state.votes
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(useStyles)(RowPostView))

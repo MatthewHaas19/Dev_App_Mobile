@@ -10,9 +10,11 @@ import {
   Link
 } from "react-router-dom";
 import {getAllPostsFromDb} from '../API/PostApi'
+import {getPostById} from '../API/PostApi'
 import {getAllCommentFromPost} from '../API/CommentApi'
 import {getAllReportFromPost} from '../API/ReportApi'
 import RowPostViewAdmin from '../Views/RowPostViewAdmin'
+import RowCommentViewAdmin from '../Views/RowCommentViewAdmin'
 import Table from '@material-ui/core/Table';
 import Button from '@material-ui/core/Button';
 import TableBody from '@material-ui/core/TableBody';
@@ -23,41 +25,44 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux'
-import Menu from '@material-ui/core/Menu';
-import MenuItem from '@material-ui/core/MenuItem';
+
 const useStyles = theme => ({
 
   mainPage: {
-    backgroundColor: "purple",
-    width: 800,
+    backgroundColor: "#FAA65F",
+    width: 1000,
     height: 500,
-    color: "white",
-  },
-  scollableView: {
-    backgroundColor: "purple",
+    color: "black",
 
   },
-  maintitle: {
+  title: {
+    flexGrow: 1,
+    color: "black",
     marginLeft: 20,
-    fontSize:40,
-  }
+    marginTop:30,
+    fontFamily: 'Noteworthy Light',
+    fontWeight: 400,
+    fontSize:23,
+  },
+  deleteButton: {
+    marginTop:50,
+    color:"white",
+    backgroundColor:"red",
+  },
 
 });
 
 
 
 
-class AdminPostsUser extends React.Component {
+class AdminCommentDetail extends React.Component {
   state = {
-    currentPostAction: {},
-    openMenu: false,
+    post:{}
   }
 
   constructor(props){
     super(props)
-
   }
-
 
   render(){
 
@@ -65,30 +70,28 @@ class AdminPostsUser extends React.Component {
     const {classes} = this.props
 
 
-
     return (
 
-
-
       <div className={classes.mainPage}>
-      <Typography component="h3" variant="p" className={classes.maintitle} > Posts de l'utilisateur </Typography>
+      <h1 align="center">Post et commentaire : </h1>
+
+        <Grid container>
+        <Grid item xs={1}>
+        </Grid>
+        <Grid item xs={10}>
+
+          <RowPostViewAdmin post={this.props.adminCurrentPost}  />
+          <RowCommentViewAdmin comments={this.props.adminCurrentComment} />
 
 
-      <Typography component="h3" variant="p" className={classes.title} align="center" > Utilisateur : {this.props.userAdmin.username} </Typography>
-      <br /><br />
-      <Grid container className={classes.scollableView}>
-      <Grid xs={2}>
-      </Grid>
-      <Grid xs={8}>
-      {  this.props.adminListPost.map(currentPostUser => (
-          <RowPostViewAdmin post={currentPostUser}  />
-      ))}
-      <br /><br />
-      </Grid>
-      <Grid xs={2}>
-      
-      </Grid>
-      </Grid>
+        </Grid>
+
+        <Grid item xs={1}>
+        </Grid>
+        </Grid>
+
+
+
 
       </div>
     )
@@ -98,9 +101,9 @@ class AdminPostsUser extends React.Component {
 const mapStateToProps = state =>{
   return {
     isAuth: state.auth.isAuth,
-    userAdmin: state.userAdmin.user,
-    adminListPost: state.posts.adminListPost
+    adminCurrentPost: state.posts.adminCurrentPost,
+    adminCurrentComment: state.comments.adminCurrentComment,
   }
 }
 
-export default connect(mapStateToProps)(withStyles(useStyles)(AdminPostsUser))
+export default connect(mapStateToProps)(withStyles(useStyles)(AdminCommentDetail))

@@ -8,9 +8,9 @@ function togglePosts(state = initialState, action) {
     case 'CURRENT_POST':
     state = {posts:state.posts,currentIdPost:action.currentIdPost}
     case 'ADMIN_CURRENT_POST':
-    state = {posts:state.posts,adminCurrentPost:action.adminCurrentPost}
+    state = {posts:state.posts,adminListPost:state.adminListPost,adminCurrentPost:action.adminCurrentPost}
     case 'ADMIN_LIST_POST':
-    state = {posts:state.posts,adminListPost:action.adminListPost}
+    state = {posts:state.posts,adminCurrentPost:state.adminCurrentPost,adminListPost:action.adminListPost}
     return state
   default:
     return state

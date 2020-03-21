@@ -85,7 +85,8 @@ struct RowPostView: View {
                                         .resizable()
                                         .aspectRatio(contentMode: .fill)
                                         .frame(width: 60, height: 60)
-                                        .clipped()
+                                        //.clipped()
+                                    .foregroundColor(Color.white)
                                     
                                 }.padding(.bottom, 20)
                             }else

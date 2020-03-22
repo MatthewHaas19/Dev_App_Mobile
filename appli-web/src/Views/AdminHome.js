@@ -21,7 +21,7 @@ import {getAllReportFromPost} from '../API/ReportApi'
 import AdminTablePost from '../Views/AdminTablePost'
 import AdminTableUser from '../Views/AdminTableUser'
 import AdminTableComment from '../Views/AdminTableComment'
-
+import { connect } from 'react-redux'
 import Table from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
 import TableCell from '@material-ui/core/TableCell';
@@ -89,10 +89,11 @@ class AdminHome extends React.Component {
 
     function TableDisplay(props) {
       const afficher = props.afficher
-      if(afficher == "post") {
+      console.log(afficher)
+      if(afficher == "posts") {
         return (<AdminTablePost />)
       }
-      else if (afficher == "user"){
+      else if (afficher == "users"){
         return ( <AdminTableUser /> )
       }
       else {
@@ -105,26 +106,10 @@ class AdminHome extends React.Component {
       <div className={classes.mainPage}>
       <Grid container>
 
-      <Grid item className={classes.filterView} md={3} xs={12}>
-      <h1 align="center"> Partie filter </h1>
-      <Typography component="h3" variant="bold" align="center" fontFamily="bold">
-      Afficher par :
-    </Typography>
-      <Grid container>
-      <Grid item xs={12} align="center">
-    <Button className={classes.buttonMenu} onClick={() => {this.setState({display:"post"})}} >Les posts</Button>
-    </Grid>
-    <Grid item xs={12} align="center">
-  <Button className={classes.buttonMenu} onClick={() => {this.setState({display:"user"})}} >Les Utilisateurs</Button>
-  </Grid>
-  <Grid item xs={12} align="center">
-  <Button className={classes.buttonMenu} onClick={() => {this.setState({display:"comment"})}} >Les Commentaires</Button>
-  </Grid>
-    </Grid>
-      </Grid>
 
-      <Grid item className={classes.listView} md={9} xs={12}>
-      <TableDisplay afficher={this.state.display}/>
+
+      <Grid item className={classes.listView} xs={12}>
+      <TableDisplay afficher={this.props.pageToShow}/>
 
     </Grid>
 
@@ -135,4 +120,10 @@ class AdminHome extends React.Component {
 }
 }
 
-export default withStyles(useStyles)(AdminHome)
+const mapStateToProps = state =>{
+  return {
+    pageToShow: state.adminPage.pageToShow,
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(useStyles)(AdminHome))

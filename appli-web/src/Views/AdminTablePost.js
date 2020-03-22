@@ -32,6 +32,9 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
+import UpArrow from '@material-ui/icons/KeyboardArrowUp';
+import DownArrow from '@material-ui/icons/KeyboardArrowDown';
+import orderBy from "lodash/orderBy"
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -44,6 +47,8 @@ const useStyles = theme => ({
   nomColonne: {
     fontWeight: "bold",
     fontSize: 20,
+    textDecoration: "none",
+    color: "black",
   },
   table: {
     backgroundColor: "#FAA65F"
@@ -69,6 +74,11 @@ const useStyles = theme => ({
 });
 
 
+const invertDirection = {
+  asc: "desc",
+  desc: "asc"
+}
+
 
 
 
@@ -82,6 +92,8 @@ class AdminTablePost extends React.Component {
     currentUser: {},
     query: '',
     columnToQuery:'titre',
+    columnToSort: 'reports',
+    sortDirection: 'desc',
   }
 
   constructor(props){
@@ -90,6 +102,11 @@ class AdminTablePost extends React.Component {
       var posts = data
 
         for(let i=0;i<posts.length;i++){
+
+          if(posts[i].titre.length > 0 ) {
+            posts[i].titre = posts[i].titre[0].toUpperCase() + posts[i].titre.slice(1)
+          }
+
           Object.assign(posts[i], {reports: 0});
           getAllCommentFromPost(posts[i]._id).then(res => {
             posts[i].commentaire.push(res.length)
@@ -97,10 +114,13 @@ class AdminTablePost extends React.Component {
               if(reports.length>0) {
                 posts[i].reports=reports.length
               }
-                this.setState({posts: posts})
+
+                  this.setState({posts: posts})
+
+
 
             }).catch((error) => {
-              console.log("Erreur dans le constructeur")
+              console.log("Erreur dans le constructeur reports")
             })
 
           }).catch((error) => {
@@ -117,6 +137,16 @@ class AdminTablePost extends React.Component {
     this.setState({openUser:false, openPost:false});
   };
 
+
+
+  handleSort(columnName) {
+    this.setState(state => ({
+      columnToSort: columnName,
+      sortDirection: state.columnToSort===columnName ? invertDirection[state.sortDirection] : 'asc'
+    }))
+  }
+
+
   displayPost(post){
     var action = { type: "ADMIN_CURRENT_POST", adminCurrentPost: post}
     this.props.dispatch(action)
@@ -131,6 +161,7 @@ class AdminTablePost extends React.Component {
     })
 
   }
+
 
 
 
@@ -176,16 +207,104 @@ class AdminTablePost extends React.Component {
         <TableHead >
           <TableRow >
             <TableCell style={{display:"none"}} className={classes.nomColonne} align="center">idPost</TableCell>
-            <TableCell className={classes.nomColonne} align="center">Post</TableCell>
-            <TableCell className={classes.nomColonne} align="center">User</TableCell>
-            <TableCell className={classes.nomColonne} align="center">Note</TableCell>
-            <TableCell className={classes.nomColonne} align="center">Com</TableCell>
-            <TableCell className={classes.nomColonne} align="center">Reports</TableCell>
+
+
+            <TableCell align="center">
+            <Link
+            style={{display:"flex", justifyContent: "center", alignItems:"center"}}
+            className={classes.nomColonne}
+            onClick={() => this.handleSort("titre")}>
+            <span>
+            Post
+            </span>
+            {this.state.columnToSort==="titre" ? (this.state.sortDirection==="asc" ? (
+              <UpArrow/>
+            ) : (
+              <DownArrow/>
+          )): null }
+          </Link>
+            </TableCell>
+
+
+
+            <TableCell className={classes.nomColonne} align="center">
+            <Link
+            style={{display:"flex", justifyContent: "center", alignItems:"center"}}
+            className={classes.nomColonne}
+            onClick={() => this.handleSort("user")}>
+            <span>
+            User
+            </span>
+            {this.state.columnToSort==="user" ? (this.state.sortDirection==="asc" ? (
+              <UpArrow/>
+            ) : (
+              <DownArrow/>
+            )): null }
+            </Link>
+            </TableCell>
+
+
+
+            <TableCell className={classes.nomColonne} align="center">
+            <Link
+            style={{display:"flex", justifyContent: "center", alignItems:"center"}}
+            className={classes.nomColonne}
+            onClick={() => this.handleSort("note")}>
+            <span>
+            Note
+            </span>
+            {this.state.columnToSort==="note" ? (this.state.sortDirection==="asc" ? (
+              <UpArrow/>
+            ) : (
+              <DownArrow/>
+            )): null }
+            </Link>
+            </TableCell>
+
+
+
+            <TableCell className={classes.nomColonne} align="center">
+            <Link
+            style={{display:"flex", justifyContent: "center", alignItems:"center"}}
+            className={classes.nomColonne}
+            onClick={() => this.handleSort("commentaire")}>
+            <span>
+            Com
+            </span>
+            {this.state.columnToSort==="commentaire" ? (this.state.sortDirection==="asc" ? (
+              <UpArrow/>
+            ) : (
+              <DownArrow/>
+            )): null }
+            </Link>
+            </TableCell>
+
+
+
+            <TableCell className={classes.nomColonne} align="center">
+            <Link
+            style={{display:"flex", justifyContent: "center", alignItems:"center"}}
+            className={classes.nomColonne}
+            onClick={() => this.handleSort("reports")}>
+            <span>
+            Reports
+            </span>
+            {this.state.columnToSort==="reports" ? (this.state.sortDirection==="asc" ? (
+              <UpArrow/>
+            ) : (
+              <DownArrow/>
+            )): null }
+            </Link>
+            </TableCell>
+
+
+
             <TableCell className={classes.nomColonne} align="center"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-        {this.state.posts.filter(x => x[this.state.columnToQuery].toLowerCase().includes(lowerCaseQuery)).map(currentPost => (
+        {
+          orderBy(this.state.posts,this.state.columnToSort,this.state.sortDirection).filter(x => x[this.state.columnToQuery].toLowerCase().includes(lowerCaseQuery)).map(currentPost => (
            <TableRow key={currentPost.id}>
           <TableCell style={{display:"none"}} className={classes.nomColonne} align="center">{currentPost._id}</TableCell>
           <TableCell><Link onClick={() => this.displayPost(currentPost)} className={classes.tableContent}> {currentPost.titre} </Link></TableCell>
@@ -216,7 +335,13 @@ class AdminTablePost extends React.Component {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-      <AdminPostDetail/>
+      <AdminPostDetail
+      show={(val) => this.setState({openPost:val})}
+      postHasBeenDeleted={() => {
+        const newPosts = this.state.posts.filter(post => post._id !== this.props.adminCurrentPost._id);
+        this.setState({ posts: newPosts });
+      }}
+      />
     </Dialog>
 
     <Dialog
@@ -226,7 +351,13 @@ class AdminTablePost extends React.Component {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <AdminProfilUser/>
+        <AdminProfilUser
+        show={(val) => this.setState({openUser:val})}
+        userHasBeenDeleted={() => {
+          const newPosts = this.state.posts.filter(post => post.user !== this.props.userAdmin.email);
+          this.setState({ posts: newPosts });
+        }}
+        />
     </Dialog>
 
 

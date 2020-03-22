@@ -71,7 +71,14 @@ class AdminProfilUser extends React.Component {
     console.log(this.props.userAdmin)
   }
 
-
+  deleteUserFunction(id){
+    //eletePost(id).then(res => {
+      this.props.show(false)
+      this.props.userHasBeenDeleted()
+  //  }).catch((error) => {
+  //    console.log("Erreur dans la suppression")
+  //  })
+  }
 
 
   render(){
@@ -110,7 +117,7 @@ class AdminProfilUser extends React.Component {
         <Grid item xs={3}>
         </Grid>
         <Grid item xs={6} align="center">
-        <Button className={classes.deleteButton} align="center">Supprimer l'utilisateur</Button>
+        <Button className={classes.deleteButton} align="center" onClick={() => this.deleteUserFunction(this.props.userAdmin._id)}>Supprimer l'utilisateur</Button>
         </Grid>
         <Grid item xs={3}>
         </Grid>

@@ -33,6 +33,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import UpArrow from '@material-ui/icons/KeyboardArrowUp';
+import DownArrow from '@material-ui/icons/KeyboardArrowDown';
+import orderBy from "lodash/orderBy"
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -46,6 +49,8 @@ const useStyles = theme => ({
   nomColonne: {
     fontWeight: "bold",
     fontSize: 20,
+    textDecoration: "none",
+    color: "black",
   },
   table: {
     backgroundColor: "#FAA65F"
@@ -70,6 +75,11 @@ const useStyles = theme => ({
   },
 });
 
+const invertDirection = {
+  asc: "desc",
+  desc: "asc"
+}
+
 
 
 
@@ -81,6 +91,8 @@ class AdminTableUser extends React.Component {
     openPosts: false,
     query: '',
     columnToQuery:'username',
+    columnToSort: 'posts',
+    sortDirection: 'desc',
   }
 
   constructor(props){
@@ -90,6 +102,10 @@ class AdminTableUser extends React.Component {
 
 
         for(let i=0;i<users.length;i++){
+          
+
+
+
           getPostByUser(users[i].email).then(res => {
             Object.assign(users[i], {posts: 0});
             if(res.length>0) {
@@ -106,7 +122,10 @@ class AdminTableUser extends React.Component {
                 if(reports!=null) {
                   users[i].reports=reports.length
                 }
-                this.setState({users: users})
+
+
+                    this.setState({users: users})
+
               })
 
 
@@ -124,6 +143,14 @@ class AdminTableUser extends React.Component {
     })
   }
 
+
+
+  handleSort(columnName) {
+    this.setState(state => ({
+      columnToSort: columnName,
+      sortDirection: state.columnToSort===columnName ? invertDirection[state.sortDirection] : 'asc'
+    }))
+  }
 
 
   displayUsers(user){
@@ -200,15 +227,86 @@ class AdminTableUser extends React.Component {
         <TableHead >
           <TableRow >
             <TableCell style={{display:"none"}} className={classes.nomColonne} align="center">idUser</TableCell>
-            <TableCell className={classes.nomColonne} align="center">Username</TableCell>
-            <TableCell className={classes.nomColonne} align="center">Email</TableCell>
-            <TableCell className={classes.nomColonne} align="center">Posts</TableCell>
-            <TableCell className={classes.nomColonne} align="center">NbComment</TableCell>
+
+
+
+            <TableCell className={classes.nomColonne} align="center">
+            <Link
+            style={{display:"flex", justifyContent: "center", alignItems:"center"}}
+            className={classes.nomColonne}
+            onClick={() => this.handleSort("username")}>
+            <span>
+            Username
+            </span>
+            {this.state.columnToSort==="username" ? (this.state.sortDirection==="asc" ? (
+              <UpArrow/>
+            ) : (
+              <DownArrow/>
+            )): null }
+            </Link>
+            </TableCell>
+
+
+
+            <TableCell className={classes.nomColonne} align="center">
+            <Link
+            style={{display:"flex", justifyContent: "center", alignItems:"center"}}
+            className={classes.nomColonne}
+            onClick={() => this.handleSort("email")}>
+            <span>
+            Email
+            </span>
+            {this.state.columnToSort==="email" ? (this.state.sortDirection==="asc" ? (
+              <UpArrow/>
+            ) : (
+              <DownArrow/>
+            )): null }
+            </Link>
+            </TableCell>
+
+
+
+            <TableCell onClick={() => this.handleSort("posts")} className={classes.nomColonne} align="center">
+            <Link
+            style={{display:"flex", justifyContent: "center", alignItems:"center"}}
+            className={classes.nomColonne}
+            onClick={() => this.handleSort("posts")}>
+            <span>
+            Posts
+            </span>
+            {this.state.columnToSort==="posts" ? (this.state.sortDirection==="asc" ? (
+              <UpArrow/>
+            ) : (
+              <DownArrow/>
+            )): null }
+            </Link>
+            </TableCell>
+
+
+
+            <TableCell onClick={() => this.handleSort("comments")} className={classes.nomColonne} align="center">
+            <Link
+            style={{display:"flex", justifyContent: "center", alignItems:"center"}}
+            className={classes.nomColonne}
+            onClick={() => this.handleSort("comments")}>
+            <span>
+            Comments
+            </span>
+            {this.state.columnToSort==="comments" ? (this.state.sortDirection==="asc" ? (
+              <UpArrow/>
+            ) : (
+              <DownArrow/>
+            )): null }
+            </Link>
+            </TableCell>
+
+
+
             <TableCell className={classes.nomColonne} align="center"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-        {this.state.users.filter(x => x[this.state.columnToQuery].toLowerCase().includes(lowerCaseQuery)).map(currentUser => (
+        {orderBy(this.state.users,this.state.columnToSort,this.state.sortDirection).filter(x => x[this.state.columnToQuery].toLowerCase().includes(lowerCaseQuery)).map(currentUser => (
            <TableRow key={currentUser.id}>
            <TableCell style={{display:"none"}} className={classes.nomColonne} align="center">{currentUser._id}</TableCell>
            <TableCell><Link onClick={() => this.displayUsers(currentUser)} className={classes.tableContent}> {currentUser.username} </Link></TableCell>

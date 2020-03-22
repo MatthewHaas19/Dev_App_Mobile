@@ -336,7 +336,7 @@ class AdminTablePost extends React.Component {
       show={(val) => this.setState({openPost:val})}
       postHasBeenDeleted={() => {
         const newPosts = this.state.posts.filter(post => post._id !== this.props.adminCurrentPost._id);
-        this.setState({ posts: newPosts });
+        this.setState({ posts: newPosts , openPost:false});
       }}
       />
     </Dialog>

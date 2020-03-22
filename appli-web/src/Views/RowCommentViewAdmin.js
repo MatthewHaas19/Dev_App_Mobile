@@ -33,7 +33,7 @@ const useStyles = theme => ({
   root: {
     minWidth: 275,
     height:200,
-    color:"black"
+    color:"black",
   },
   content: {
     margin:20,

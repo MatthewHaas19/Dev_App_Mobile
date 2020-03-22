@@ -25,16 +25,17 @@ import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux'
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
+
 const useStyles = theme => ({
 
   mainPage: {
-    backgroundColor: "purple",
+    backgroundColor: "#FAA65F",
     width: 800,
     height: 500,
     color: "white",
   },
   scollableView: {
-    backgroundColor: "purple",
+    backgroundColor: "#FAA65F",
 
   },
   maintitle: {

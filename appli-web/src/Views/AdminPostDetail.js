@@ -1,171 +1,187 @@
-import React, {Component, useCallback} from 'react';
-import { createMuiTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
-import Grid from '@material-ui/core/Grid';
-import Card from '@material-ui/core/Card';
-import { green, blue, red , white} from '@material-ui/core/colors';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Link
-} from "react-router-dom";
-import {getAllPostsFromDb} from '../API/PostApi'
-import {getPostById} from '../API/PostApi'
-import {deletePost} from '../API/PostApi'
-import {getAllCommentFromPost} from '../API/CommentApi'
-import {getAllReportFromPost} from '../API/ReportApi'
-import RowPostView from '../Views/RowPostView'
-import Table from '@material-ui/core/Table';
-import Button from '@material-ui/core/Button';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
-import Typography from '@material-ui/core/Typography';
-import { connect } from 'react-redux'
+import React, {Component} from 'react';
+import ColorButton from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import { createMuiTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
+import Grid from '@material-ui/core/Grid';
+import RowPostViewAdmin from '../Views/RowPostViewAdmin'
+import RowCommentViewAdmin from '../Views/RowCommentViewAdmin'
+import { useParams } from 'react-router-dom';
+import { getPostById } from '../API/PostApi';
+import {votePost} from '../API/PostApi'
+import {voteComment} from '../API/CommentApi'
+import {getAllPostsFromDb} from '../API/PostApi'
+import {addVote} from '../API/VoteApi'
+import {addVoteComment} from '../API/VoteApi'
+import { getAllCommentFromPost } from '../API/CommentApi';
+import AddComment from './AddComment';
+import Signalement from './Signalement';
 import Slide from '@material-ui/core/Slide';
-
+import Container from '@material-ui/core/Container';
+import Typography from '@material-ui/core/Typography';
+import { connect } from 'react-redux'
+import Icon from '@material-ui/core/Icon';
+import {getVoteByUser} from '../API/VoteApi'
+import {getVoteCommentByUser} from '../API/VoteApi'
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
+
+
 const useStyles = theme => ({
-
+  dialog: {
+    backgroundColor:"#FAA65F",
+    width:800,
+    height:500,
+  },
   mainPage: {
-    backgroundColor: "#FAA65F",
-    width: 1000,
-    height: 500,
-    color: "black",
+    color:'white',
+    backgroundColor:"#FAA65F"
+  },
+scrollableView: {
+  backgroundColor:"#FAA65F"
+},
 
+  fields: {
+    marginBottom: theme.spacing(5)
   },
-  title: {
-    flexGrow: 1,
-    color: "black",
-    marginLeft: 20,
-    marginTop:30,
-    fontFamily: 'Noteworthy Light',
-    fontWeight: 400,
-    fontSize:23,
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(5),
   },
-  deleteButton: {
-    marginTop:50,
-    color:"white",
-    backgroundColor:"red",
+  button:{
+    marginTop: theme.spacing(5),
   },
-
+  title:{
+    fontSize:24,
+    marginBottom:50,
+  },
 });
 
+class AdminPostDetail extends React.Component{
 
-
-
-class AdminPostDetail extends React.Component {
   state = {
-    post:{},
-    showDialogComfirm: false,
-
+    posts:[],
+    comments:[],
+    openAddComment:false,
+    openAddSignalement:false,
+    idPost:''
   }
 
   constructor(props){
     super(props)
+    let idPost = this.props.adminCurrentPost._id
+    getPostById(idPost).then(data => {
+      const post = data
+      this.setState({posts: data})
+      this.setState({idPost: idPost})
+      getAllCommentFromPost(idPost).then(commentList => {
+        console.log(commentList)
+         this.setState({comments: commentList})
+       }).catch((error) => {
+         console.log("Erreur dans la recuperation des comments")
+       })
+    }).catch((error) => {
+      console.log("Erreur fetch")
+    })
+
+
+
   }
 
-  deletePostFunction(id){
-    //deletePost(id).then(res => {
-      this.setState({showDialogComfirm:false})
-      this.props.show(false)
-      this.props.postHasBeenDeleted()
-    //}).catch((error) => {
-    //  console.log("Erreur dans la suppression")
-  //  })
-  }
+  handleClickOpen = () => {
+    if(this.state.idPost!='' && this.state.idPost!=this.props.currentIdPost){
+      var action = { type: "CURRENT_POST", currentIdPost: this.state.idPost}
+      this.props.dispatch(action)
+
+    }
+    this.setState({openAddComment:true});
+  };
+
+  handleSignalement = () => {
+    var action = { type: "CURRENT_POST", currentIdPost: this.state.idPost}
+    this.props.dispatch(action)
+
+    this.setState({openAddSignalement:true});
+  };
+
+  handleClose = () => {
+    this.setState({openAddComment:false});
+    this.setState({openAddSignalement:false});
+  };
+
+
+
+
 
   render(){
 
 
     const {classes} = this.props
-    const handleClose = () => {
-        this.setState({showDialogComfirm:false});
-      };
 
-    return (
+    this.state.posts.map((post) =>
+        console.log("couleur" + post.couleur)
+    );
 
-      <div className={classes.mainPage}>
-      <h1 align="center">Détail du post : </h1>
+    const post = this.state.posts.map((post) =>
+      <Grid item xs={12}>
+      <RowPostViewAdmin post={post} postHasBeenDeleted={() => {
+        this.props.postHasBeenDeleted()
+      }} />      </Grid>
+    );
 
-        <Grid container>
-        <Grid item xs={1}>
-        </Grid>
-        <Grid item xs={10}>
-        <Typography component="h3" variant="p" className={classes.title} >
-          Note : {this.props.adminCurrentPost.note}
+
+
+    const listcomments = this.state.comments.map((comment) =>
+    <Grid item xs={12}>
+    <RowCommentViewAdmin comments={comment}
+    commentHasBeenDeleted={() => {
+      const newComments = this.state.comments.filter(com => com._id !== comment._id);
+      this.setState({comments:newComments})
+    }}
+    />
+    </Grid>
+    )
+
+
+
+
+
+
+    return(
+      <div className={classes.dialog}>
+      <Container className={classes.mainPage}>
+        <Grid item xs={12} className={classes.scrollableView}>
+        <Typography component="h3" variant="p" className={classes.title}  >
+          Détail du post :
         </Typography>
-        <Typography component="h3" variant="p" className={classes.title} >
-          Email utilisateur : {this.props.adminCurrentPost.user}
-        </Typography>
-        <Typography component="h3" variant="p" className={classes.title} >
-          Titre : {this.props.adminCurrentPost.titre}
-        </Typography>
-        <Typography component="h3" variant="p" className={classes.title} >
-          Description : {this.props.adminCurrentPost.texte}
-        </Typography>
-        </Grid>
+       {post}
+       {listcomments}
+      </Grid>
+      </Container>
 
-        <Grid item xs={1}>
-        </Grid>
-        </Grid>
-
-        <Grid container>
-        <Grid item xs={3}>
-        </Grid>
-        <Grid item xs={6} align="center">
-        <Button className={classes.deleteButton} align="center" onClick={() => this.setState({showDialogComfirm:true})}>Supprimer le post</Button>
-        </Grid>
-        <Grid item xs={3}>
-        </Grid>
-        </Grid>
-
-
-        <Dialog
-            open={this.state.showDialogComfirm}
-            TransitionComponent={Transition}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-slide-title"
-            aria-describedby="alert-dialog-slide-description"
-          >
-          <DialogTitle id="alert-dialog-title">Confirmer la suppression</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Supprimer un post est irréversible.
-            Tous ses commentaires et votes seront supprimés en même temps
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Annuler
-          </Button>
-          <Button onClick={() => this.deletePostFunction(this.props.adminCurrentPost._id)}
-           style={{backgroundColor:"red", color:"white"}} autoFocus>
-            Supprimer
-          </Button>
-        </DialogActions>
-        </Dialog>
 
 
       </div>
     )
   }
+
+
+
 }
 
 const mapStateToProps = state =>{
   return {
     isAuth: state.auth.isAuth,
+    currentUser: state.user.currentUser,
+    currentIdPost: state.posts.currentIdPost,
     adminCurrentPost: state.posts.adminCurrentPost,
   }
 }

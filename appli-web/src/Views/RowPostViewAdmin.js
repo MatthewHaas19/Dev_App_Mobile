@@ -41,6 +41,9 @@ const useStyles = theme => ({
     height:200,
     color:"black",
   },
+  content: {
+    marginTop:20,
+  },
 
   username: {
     fontSize: 14,

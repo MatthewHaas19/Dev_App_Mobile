@@ -20,6 +20,7 @@ import {getVoteByUser} from './API/VoteApi'
 import {getVoteCommentByUser} from './API/VoteApi'
 import AdminHome from './Views/AdminHome.js'
 import AdminNavBar from './Views/AdminNavBar.js'
+import Localisation from './Views/component/Localisation.js'
 
 import {
   Router,
@@ -44,11 +45,25 @@ class App extends Component {
         open:false,
         openfilter:false,
         openprofile:false,
-
+        positionActive: false,
         width: window.innerWidth,
         height: window.innerHeight,
       };
+
+
+      var options = {
+        enableHighAccuracy: true,
+        timeout: 5000,
+        maximumAge: 0
+      };
+
     }
+
+
+
+
+
+
 
   componentDidMount() {
     fetch('https://dev-mobile-ig.herokuapp.com/users/users',{
@@ -152,11 +167,13 @@ class App extends Component {
       myAuth.isAuthenticated = false
     }
 
+
     return (
 
 
       <Router history={history}>
         <div>
+            <Localisation />
             <Switch>
              <Route exact path="/adminhome">
                <AdminNavBar />
@@ -175,6 +192,10 @@ class App extends Component {
 
             <Route path="/addpost">
               <AddPost />
+            </Route>
+
+            <Route path="/localisation">
+              <Localisation />
             </Route>
 
             <PrivateRegister path="/register">
@@ -263,7 +284,8 @@ const mapStateToProps = state =>{
   return {
     isAuth: state.auth.isAuth,
     currentUser: state.user.currentUser,
-    posts: state.posts.posts
+    posts: state.posts.posts,
+    position: state.position.position
   }
 }
 

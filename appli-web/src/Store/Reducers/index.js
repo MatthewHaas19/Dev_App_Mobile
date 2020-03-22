@@ -5,6 +5,7 @@ import toggleAuth from './authReducer'
 import togglePosts from './postsReducer'
 import toggleUserVote from './voteReducer'
 import toggleComments from './commentsReducer'
+import togglePos from './positionReducer'
 
 export default combineReducers({
     user: toggleUser,
@@ -13,4 +14,5 @@ export default combineReducers({
     userAdmin: toggleUserAdmin,
     votes: toggleUserVote,
     comments: toggleComments,
+    position: togglePos
 });

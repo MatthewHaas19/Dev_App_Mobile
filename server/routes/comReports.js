@@ -15,15 +15,15 @@ router.get("/", function(req,res,next){
 })
 
 
-router.get("/:comment", function(req,res,next){
+router.get("/comments/:comment", function(req,res,next){
     const id = req.params.comment
     db.comReports.find({
       idCom: id
-    },function(err,comments){
+    },function(err,comReports){
       if(err){
         res.send(err);
       }
-      res.json(comments);
+      res.json(comReports);
     })
   })
 

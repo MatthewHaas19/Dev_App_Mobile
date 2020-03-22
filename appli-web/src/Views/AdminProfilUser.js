@@ -26,6 +26,17 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { connect } from 'react-redux'
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
+
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const useStyles = theme => ({
 
@@ -64,6 +75,7 @@ const useStyles = theme => ({
 class AdminProfilUser extends React.Component {
   state = {
     user:{},
+    showDialogComfirm: false,
   }
 
   constructor(props){
@@ -71,8 +83,13 @@ class AdminProfilUser extends React.Component {
     console.log(this.props.userAdmin)
   }
 
+  handleClose () {
+    this.setState({showDialogComfirm:false});
+  };
+
   deleteUserFunction(id){
     //eletePost(id).then(res => {
+      this.state.showDialogComfirm = false
       this.props.show(false)
       this.props.userHasBeenDeleted()
   //  }).catch((error) => {
@@ -85,7 +102,9 @@ class AdminProfilUser extends React.Component {
 
 
     const {classes} = this.props
-
+    const handleClose = () => {
+        this.setState({showDialogComfirm:false});
+      };
     return (
 
       <div className={classes.mainPage}>
@@ -117,12 +136,37 @@ class AdminProfilUser extends React.Component {
         <Grid item xs={3}>
         </Grid>
         <Grid item xs={6} align="center">
-        <Button className={classes.deleteButton} align="center" onClick={() => this.deleteUserFunction(this.props.userAdmin._id)}>Supprimer l'utilisateur</Button>
+        <Button className={classes.deleteButton} align="center" onClick={() => this.setState({showDialogComfirm:true})}>Supprimer l'utilisateur</Button>
         </Grid>
         <Grid item xs={3}>
         </Grid>
         </Grid>
 
+
+        <Dialog
+            open={this.state.showDialogComfirm}
+            TransitionComponent={Transition}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-slide-title"
+            aria-describedby="alert-dialog-slide-description"
+          >
+          <DialogTitle id="alert-dialog-title">Confirmer la suppression</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Supprimer un utilisateur est irréversible.
+            Tous ses posts, commentaires et votes seront supprimés en même temps
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Annuler
+          </Button>
+          <Button onClick={() => this.deleteUserFunction(this.props.userAdmin._id)}
+           style={{backgroundColor:"red", color:"white"}} autoFocus>
+            Supprimer
+          </Button>
+        </DialogActions>
+        </Dialog>
 
 
 

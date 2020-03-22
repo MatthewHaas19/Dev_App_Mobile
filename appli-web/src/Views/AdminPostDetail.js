@@ -25,6 +25,16 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Typography from '@material-ui/core/Typography';
 import { connect } from 'react-redux'
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const useStyles = theme => ({
 
@@ -57,7 +67,9 @@ const useStyles = theme => ({
 
 class AdminPostDetail extends React.Component {
   state = {
-    post:{}
+    post:{},
+    showDialogComfirm: false,
+
   }
 
   constructor(props){
@@ -65,19 +77,22 @@ class AdminPostDetail extends React.Component {
   }
 
   deletePostFunction(id){
-    deletePost(id).then(res => {
+    //deletePost(id).then(res => {
+      this.setState({showDialogComfirm:false})
       this.props.show(false)
       this.props.postHasBeenDeleted()
-    }).catch((error) => {
-      console.log("Erreur dans la suppression")
-    })
+    //}).catch((error) => {
+    //  console.log("Erreur dans la suppression")
+  //  })
   }
 
   render(){
 
 
     const {classes} = this.props
-
+    const handleClose = () => {
+        this.setState({showDialogComfirm:false});
+      };
 
     return (
 
@@ -110,11 +125,37 @@ class AdminPostDetail extends React.Component {
         <Grid item xs={3}>
         </Grid>
         <Grid item xs={6} align="center">
-        <Button className={classes.deleteButton} align="center" onClick={() => this.deletePostFunction(this.props.adminCurrentPost._id)}>Supprimer le post</Button>
+        <Button className={classes.deleteButton} align="center" onClick={() => this.setState({showDialogComfirm:true})}>Supprimer le post</Button>
         </Grid>
         <Grid item xs={3}>
         </Grid>
         </Grid>
+
+
+        <Dialog
+            open={this.state.showDialogComfirm}
+            TransitionComponent={Transition}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-slide-title"
+            aria-describedby="alert-dialog-slide-description"
+          >
+          <DialogTitle id="alert-dialog-title">Confirmer la suppression</DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            Supprimer un post est irréversible.
+            Tous ses commentaires et votes seront supprimés en même temps
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose} color="primary">
+            Annuler
+          </Button>
+          <Button onClick={() => this.deletePostFunction(this.props.adminCurrentPost._id)}
+           style={{backgroundColor:"red", color:"white"}} autoFocus>
+            Supprimer
+          </Button>
+        </DialogActions>
+        </Dialog>
 
 
       </div>

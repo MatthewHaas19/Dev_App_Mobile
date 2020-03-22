@@ -80,8 +80,12 @@ class AdminCommentDetail extends React.Component {
         </Grid>
         <Grid item xs={10}>
 
-          <RowPostViewAdmin post={this.props.adminCurrentPost}  />
-          <RowCommentViewAdmin comments={this.props.adminCurrentComment} />
+          <RowPostViewAdmin post={this.props.adminCurrentPost}
+            postHasBeenDeleted={ () => {this.props.postHasBeenDeleted()}}
+          />
+          <RowCommentViewAdmin comments={this.props.adminCurrentComment}
+            commentHasBeenDeleted={() => {this.props.commentHasBeenDeleted()}}
+          />
 
 
         </Grid>

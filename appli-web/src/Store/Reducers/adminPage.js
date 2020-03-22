@@ -1,4 +1,4 @@
-const initialState = {pageToShow:"posts"}
+const initialState = {pageToShow:"users"}
 
 function toggleAdminPage(state = initialState, action) {
   let nextState

@@ -133,9 +133,6 @@ class AdminTablePost extends React.Component {
     })
   }
 
-  handleClose () {
-    this.setState({openUser:false, openPost:false});
-  };
 
 
 

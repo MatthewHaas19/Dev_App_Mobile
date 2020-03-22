@@ -22,6 +22,18 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
+import {deletePost} from '../API/PostApi'
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
+
 
 const useStyles = theme => ({
   root: {
@@ -86,16 +98,31 @@ const useStyles = theme => ({
 
 class RowPostViewAdmin extends React.Component{
 
+  state = {
+    showDialogComfirm:false,
+    modif:false,
+  }
+
   constructor(props){
     super(props)
 
   }
 
+  deletePostFunction(id){
+    //deletePost(id).then(res => {
+      this.setState({showDialogComfirm:false, modif:true})
+      this.props.postHasBeenDeleted()
+    //}).catch((error) => {
+    //  console.log("Erreur dans la suppression")
+  //  })
+  }
 
 
   render(){
   const {classes} = this.props
-
+  const handleClose = () => {
+    this.setState({showDialogComfirm:false});
+    };
 
 
 
@@ -106,8 +133,6 @@ class RowPostViewAdmin extends React.Component{
 
   <Grid container style={{verticalAlign: 'baseline'}}>
   <Grid item xs={10} align="left" style={{ background: `rgb(${[this.props.post.couleur[0]*255,this.props.post.couleur[1]*255,this.props.post.couleur[2]*255]}` }}>
-  <CardActionArea className={classes.root}>
-  <Link to={"/postdetailview/"+ this.props.post._id}  style={{ textDecoration: 'none' }} >
 
   <Grid container alignItems="center" className={classes.content} >
   <Grid item xs={1} align="right">
@@ -141,15 +166,47 @@ class RowPostViewAdmin extends React.Component{
 
 
   </Grid>
-  </Link>
-  </CardActionArea>
+
+
   </Grid>
   <Grid item xs={2} align="center" style={{ background: `rgb(${[this.props.post.couleur[0]*255,this.props.post.couleur[1]*255,this.props.post.couleur[2]*255]})` }}>
-    <Button className={classes.deleteButton} > {<DeleteIcon />} </Button>
+    <Button className={classes.deleteButton} onClick={() => this.setState({showDialogComfirm:true})} > {<DeleteIcon />} </Button>
   </Grid>
   </Grid>
 
+
+  <Dialog
+      open={this.state.showDialogComfirm}
+      TransitionComponent={Transition}
+      onClose={handleClose}
+      aria-labelledby="alert-dialog-slide-title"
+      aria-describedby="alert-dialog-slide-description"
+    >
+    <DialogTitle id="alert-dialog-title">Confirmer la suppression</DialogTitle>
+  <DialogContent>
+    <DialogContentText id="alert-dialog-description">
+      Supprimer un post est irréversible.
+      Tous ses commentaires et votes seront supprimés en même temps
+    </DialogContentText>
+  </DialogContent>
+  <DialogActions>
+    <Button onClick={handleClose} color="primary">
+      Annuler
+    </Button>
+    <Button onClick={() => this.deletePostFunction(this.props.post._id)}
+     style={{backgroundColor:"red", color:"white"}} autoFocus>
+      Supprimer
+    </Button>
+  </DialogActions>
+  </Dialog>
+
+
+
 </Card>
+
+
+
+
     ): null
   }
 

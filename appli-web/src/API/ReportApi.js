@@ -12,8 +12,7 @@ export function getAllReportFromPost (idPost) {
 }
 
 export function getAllReportFromComment (idComment) {
-  const url = "https://dev-mobile-ig.herokuapp.com/comReports/"+idComment
-
+  const url = "https://dev-mobile-ig.herokuapp.com/comReports/comments/"+idComment
   return fetch(url,{
     method: 'GET'
   })

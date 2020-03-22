@@ -81,12 +81,17 @@ class AdminPostsUser extends React.Component {
       </Grid>
       <Grid xs={8}>
       {  this.props.adminListPost.map(currentPostUser => (
-          <RowPostViewAdmin post={currentPostUser}  />
+          <RowPostViewAdmin post={currentPostUser} postHasBeenDeleted={() => {
+            const newPosts = this.props.adminListPost.filter(post => post._id !== currentPostUser._id);
+            var action = { type: "ADMIN_LIST_POST", adminListPost:newPosts}
+            this.props.dispatch(action)
+            this.props.hasBeenModified()
+          }} />
       ))}
       <br /><br />
       </Grid>
       <Grid xs={2}>
-      
+
       </Grid>
       </Grid>
 

@@ -75,7 +75,7 @@ const useStyles = theme => ({
 
 class AdminHome extends React.Component {
   state = {
-    display: "post"
+    display: ""
   }
 
   constructor(props){

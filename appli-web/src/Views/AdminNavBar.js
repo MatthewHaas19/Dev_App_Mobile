@@ -95,7 +95,7 @@ const image =
 class AdminNavBar extends React.Component  {
 
   state= {
-    pageToShow: "posts"
+    pageToShow: "users"
   }
 
   changePage(page) {

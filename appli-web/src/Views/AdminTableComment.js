@@ -104,7 +104,7 @@ class AdminTableComment extends React.Component {
           if(comments[i].titreCom.length > 0 ) {
             comments[i].titreCom = comments[i].titreCom[0].toUpperCase() + comments[i].titreCom.slice(1)
           }
-      
+
 
           Object.assign(comments[i], {reports: 0});
 
@@ -283,7 +283,7 @@ class AdminTableComment extends React.Component {
            <TableRow key={currentComment.id}>
            <TableCell style={{display:"none"}} className={classes.nomColonne} align="center">{currentComment._id}</TableCell>
           <TableCell><Link onClick={() => this.displayPost(currentComment, currentComment.postId)} className={classes.tableContent}> {currentComment.titreCom} </Link></TableCell>
-          <TableCell align="center"><Link onClick={() => this.displayUser(currentComment.user)} className={classes.tableContent}>{currentComment.user} </Link></TableCell>
+          <TableCell align="center"><Link onClick={() => this.displayUser(currentComment.user)} className={classes.tableContent} style={{fontWeight:"bold"}}>{currentComment.user} </Link></TableCell>
           <TableCell align="center"><Link className={classes.tableContent}>{currentComment.voteCom} </Link></TableCell>
           <TableCell align="center"><Link className={classes.tableContent}>{currentComment.reports} </Link></TableCell>
           <TableCell align="center"><Button onClick={() => this.displayPost(currentComment, currentComment.postId)} className={classes.detailsButton}> détails </Button></TableCell>
@@ -308,7 +308,16 @@ class AdminTableComment extends React.Component {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-      <AdminCommentDetail/>
+      <AdminCommentDetail
+        postHasBeenDeleted= {() => {
+          const newComments = this.state.comments.filter(comment => comment.postId !== this.props.adminCurrentPost._id);
+          this.setState({ comments: newComments, openPost:false });
+        }}
+        commentHasBeenDeleted= {() => {
+          const newComments = this.state.comments.filter(comment => comment._id !== this.props.adminCurrentComment._id);
+          this.setState({ comments: newComments, openPost:false });
+        }}
+      />
     </Dialog>
 
     <Dialog
@@ -318,7 +327,13 @@ class AdminTableComment extends React.Component {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <AdminProfilUser/>
+        <AdminProfilUser
+        show={(val) => this.setState({openUser:val})}
+        userHasBeenDeleted={() => {
+          const newComments = this.state.comments.filter(comment => comment.user !== this.props.userAdmin.email);
+          this.setState({ comments: newComments });
+        }}
+        />
     </Dialog>
 
 
@@ -331,7 +346,8 @@ const mapStateToProps = state =>{
   return {
     isAuth: state.auth.isAuth,
     adminCurrentPost: state.posts.adminCurrentPost,
-    adminCurrentComment: state.comments.adminCurrentComment
+    adminCurrentComment: state.comments.adminCurrentComment,
+    userAdmin: state.userAdmin.user,
   }
 }
 

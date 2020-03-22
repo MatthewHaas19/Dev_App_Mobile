@@ -17,9 +17,19 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExploreTwoToneIcon from '@material-ui/icons/ExploreTwoTone';
 import { getPostById } from '../API/PostApi';
 import DeleteIcon from '@material-ui/icons/Delete';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Slide from '@material-ui/core/Slide';
+import {deletePost} from '../API/PostApi'
 
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
-const useStyles = makeStyles({
+const useStyles = theme => ({
   root: {
     minWidth: 275,
     height:200,
@@ -68,19 +78,38 @@ const useStyles = makeStyles({
   }
 });
 
-const RowCommentView = (props) => {
-  const classes = useStyles();
-  console.log("recup dans row comment les comments "+ props.commments)
-  //console.log("recup dans row comment le post "+ props.post.titre)
-  //const col = [props.post.couleur[0]*255 +1 ,props.post.couleur[1]*255 +1 ,props.post.couleur[2]*255 +1]
+class RowCommentViewAdmin extends React.Component{
+
+  state = {
+      showDialogComfirm:false,
+    }
+
+    constructor(props){
+      super(props)
+    }
+
+    deleteCommentFunction(id){
+      //deleteComment(id).then(res => {
+        this.setState({showDialogComfirm:false})
+        this.props.commentHasBeenDeleted()
+      //}).catch((error) => {
+      //  console.log("Erreur dans la suppression")
+    //  })
+    }
+
+
+  render(){
+      const {classes} = this.props
+      const handleClose = () => {
+        this.setState({showDialogComfirm:false});
+      }
 
 
 
     return(
       <div>
-      { props.comments ? (
+      { this.props.comments ? (
         <Card >
-        <CardActionArea>
     <CardContent className={classes.root} style={{ background: `rgb([100,50,10])` }}>
     <Container className={classes.content}>
     <Grid container alignItems="center">
@@ -89,7 +118,7 @@ const RowCommentView = (props) => {
     </Grid>
     <Grid item xs={7} >
       <div className={classes.username} >
-        {props.comments.user}
+        { this.props.comments.user}
       </div>
       </Grid>
 
@@ -99,16 +128,16 @@ const RowCommentView = (props) => {
 
       <Grid item xs={10}>
         <Typography className={classes.titre}>
-          {props.comments.titreCom}
+          { this.props.comments.titreCom}
         </Typography>
         <Typography className={classes.texte} >
-          {props.comments.texteCom}
+          { this.props.comments.texteCom}
         </Typography>
       </Grid>
 
       <Grid item xs={2} className={classes.notefleches}>
 
-        <Button className={classes.deleteButton} > {<DeleteIcon />} </Button>
+        <Button className={classes.deleteButton} onClick={() => this.setState({showDialogComfirm:true})} > {<DeleteIcon />} </Button>
         </Grid>
 
 
@@ -118,7 +147,33 @@ const RowCommentView = (props) => {
     </Grid>
     </Container>
     </CardContent>
-    </CardActionArea>
+
+    <Dialog
+        open={this.state.showDialogComfirm}
+        TransitionComponent={Transition}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+      <DialogTitle id="alert-dialog-title">Confirmer la suppression</DialogTitle>
+    <DialogContent>
+      <DialogContentText id="alert-dialog-description">
+        Supprimer un Commentaire est irréversible.
+        Tous ses votes seront supprimés en même temps
+      </DialogContentText>
+    </DialogContent>
+    <DialogActions>
+      <Button onClick={handleClose} color="primary">
+        Annuler
+      </Button>
+      <Button onClick={() => this.deleteCommentFunction(this.props.comments._id)}
+       style={{backgroundColor:"red", color:"white"}} autoFocus>
+        Supprimer
+      </Button>
+    </DialogActions>
+    </Dialog>
+
+
   </Card>
       ): null
     }
@@ -126,7 +181,8 @@ const RowCommentView = (props) => {
     </div>
   )
   }
+}
 
 
 
-export default (RowCommentView)
+  export default withStyles(useStyles)(RowCommentViewAdmin)

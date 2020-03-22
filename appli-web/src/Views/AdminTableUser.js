@@ -17,7 +17,6 @@ import {getAllReportFromUser} from '../API/ReportApi'
 import RowPostView from '../Views/RowPostView'
 import AdminProfilUser from '../Views/AdminProfilUser'
 import AdminPostsUser from '../Views/AdminPostsUser'
-import AdminCommentsUser from '../Views/AdminCommentsUser'
 import Table from '@material-ui/core/Table';
 import Button from '@material-ui/core/Button';
 import TableBody from '@material-ui/core/TableBody';
@@ -93,6 +92,7 @@ class AdminTableUser extends React.Component {
     columnToQuery:'username',
     columnToSort: 'posts',
     sortDirection: 'desc',
+    hasBeenModified: false,
   }
 
   constructor(props){
@@ -102,8 +102,6 @@ class AdminTableUser extends React.Component {
 
 
         for(let i=0;i<users.length;i++){
-          
-
 
 
           getPostByUser(users[i].email).then(res => {
@@ -170,17 +168,7 @@ class AdminTableUser extends React.Component {
 
   }
 
-  displayComments(user){
-    var action = { type: "TOGGLE_USER_ADMIN", currentUser:user}
-    this.props.dispatch(action)
-    this.setState({openComments:true, currentUser:user})
-  }
 
-  displayReports(user){
-    var action = { type: "TOGGLE_USER_ADMIN", currentUser:user}
-    this.props.dispatch(action)
-    this.setState({openReports:true, currentUser:user})
-  }
 
 
   render(){
@@ -191,6 +179,13 @@ class AdminTableUser extends React.Component {
     const handleClose = () => {
         this.setState({openUser:false, openPosts:false});
       };
+    const handleClosePost = () => {
+          this.setState({openUser:false, openPosts:false});
+          if(this.state.hasBeenModified) {
+            window.location.reload(false)
+            
+          }
+        };
 
 
     return (
@@ -332,18 +327,26 @@ class AdminTableUser extends React.Component {
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
     >
-      <AdminProfilUser user={this.state.currentUser}/>
+    <AdminProfilUser
+    show={(val) => this.setState({openUser:val})}
+    userHasBeenDeleted={() => {
+      const newUser = this.state.users.filter(user => user._id !== this.props.userAdmin._id);
+      this.setState({ users: newUser });
+    }}
+    />
   </Dialog>
 
   <Dialog
       maxWidth="md"
       open={this.state.openPosts}
       TransitionComponent={Transition}
-      onClose={handleClose}
+      onClose={handleClosePost}
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
     >
-    <AdminPostsUser/>
+    <AdminPostsUser
+    hasBeenModified={() => this.setState({hasBeenModified:true})}
+    />
   </Dialog>
 
 

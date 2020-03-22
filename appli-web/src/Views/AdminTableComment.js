@@ -110,9 +110,9 @@ class AdminTableComment extends React.Component {
 
             getAllReportFromComment(comments[i]._id).then(reports => {
               if(reports.length>0) {
+
                 comments[i].reports=reports.length
               }
-
                 this.setState({comments: comments})
 
           }).catch((error) => {

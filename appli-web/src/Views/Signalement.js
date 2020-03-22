@@ -23,6 +23,8 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import {getUserFromDb} from '../API/UserApi'
+import {setNewReport} from '../API/ReportApi'
+
 import Noteworthy from '../fonts/Noteworthy-Lt.woff';
 import cookie from 'react-cookies';
 import {store} from '../Store/store'
@@ -114,19 +116,6 @@ class Signalement extends React.Component {
 
   }
 
-
-
-  componentWillReceiveProps(nextProps) {
-    console.log("test")
-    console.log(nextProps.idpost)
-    if (nextProps.idpost !== this.state.idPost) {
-      this.setState({ idPost: nextProps.idpost });
-    }
-
-
-  }
-
-
   onChange = (e) => {
 
     if (e.target.name == "isAnonyme") {
@@ -138,6 +127,21 @@ class Signalement extends React.Component {
   }
 
   onSubmit = (e) => {
+    console.log("--------- Signalement ----------------")
+    this.setState({idPost:this.props.idpost})
+    if(this.props.isAuth){
+      let report = {
+        idPost: this.props.idpost,
+        emailUser: this.props.currentUser.email
+      }
+      setNewReport(report).then(data => {
+        console.log(data.res)
+        this.props.back()
+      })
+    }else{
+      console.log("tu ne peux pas voter sans être connecté")
+      this.props.back()
+    }
 
 
   }
@@ -150,7 +154,6 @@ class Signalement extends React.Component {
 
   return (
     <Container component="main" maxWidth="xs" maxHeight="xs">
-
       <CssBaseline />
       <div className={classes.paper}>
         <Typography component="h1" variant="h5" className={classes.title} >
@@ -159,7 +162,7 @@ class Signalement extends React.Component {
         <Typography component="h1" variant="h5" className={classes.subtitle} >
           Etes-vous sûr de vouloir signaler le post ?
         </Typography>
-        <form className={classes.form} noValidate onSubmit={this.onSubmit}>
+        <div className={classes.form}>
 
         <Grid container justify="space-between"
   alignItems="center">
@@ -168,12 +171,12 @@ class Signalement extends React.Component {
             >
            Retour
           </Button>
-          <Button  color="secondary" className={classes.margin} type="submit"
+          <Button  color="secondary" className={classes.margin} onClick={this.onSubmit}
             >
            Signaler
           </Button>
         </Grid>
-        </form>
+        </div>
       </div>
 
     </Container>

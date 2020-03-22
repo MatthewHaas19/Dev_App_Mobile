@@ -16,19 +16,19 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExploreTwoToneIcon from '@material-ui/icons/ExploreTwoTone';
 import { getPostById } from '../API/PostApi';
+import { connect } from 'react-redux'
 
-
-const useStyles = makeStyles({
+const useStyles = theme => ({
   root: {
     minWidth: 275,
     height:200,
     color:"black"
   },
-  
+
   username: {
     fontSize: 14,
     fontWeight: "bold",
-    
+
   },
   texte: {
     marginTop:18,
@@ -43,97 +43,150 @@ const useStyles = makeStyles({
     fontWeight:"bold",
   },
   chevron: {
-    fontSize:40,
+
     alignItems:"center",
     color:"black",
   },
   notefleches:{
     margin:0,
   },
-  
+
   logosTop: {
     fontSize:20,
     marginRight:10,
     flexBasis : 0,
   },
-  
+
 });
 
-const RowCommentView = (props) => {
-  const classes = useStyles();
-  console.log("recup dans row comment les comments "+ props.commments)
-  //console.log("recup dans row comment le post "+ props.post.titre)
-  //const col = [props.post.couleur[0]*255 +1 ,props.post.couleur[1]*255 +1 ,props.post.couleur[2]*255 +1]
 
 
 
-    return(
-      <div>
-      { props.comments ? (
- <Card >
+class RowCommentView extends React.Component {
 
- <Grid container>
- <Grid item xs={10} align="left" style={{ background: `rgb([100,50,10])` }}>
- <CardActionArea className={classes.root}>
+  constructor(props){
+    super(props)
 
- <Grid container alignItems="right" className={classes.content} >
- <Grid item xs={1} align="right">
- <AccountCircleIcon className={classes.logosTop}/>
- </Grid>
+  }
 
- <Grid item xs={7} >
-      <div className={classes.username}  alignItems="left" >
-        {props.comments.user}
-      </div>
-      </Grid>
-     
-</Grid>
+  vote(vote){
+    this.props.handlevote(vote)
+  }
 
- <Grid container alignItems="center">
-
-   <Grid item xs={10}>
-        <Typography className={classes.titre}>
-          {props.comments.titreCom}
-        </Typography>
-        <Typography className={classes.texte} >
-          {props.comments.texteCom}
-        </Typography>
-   </Grid>
-
-
- </Grid>
- </CardActionArea>
- </Grid>
- <Grid item xs={2} className={classes.notefleches}>
-   <div  style={{ display: 'flex', alignItems: 'center',justifyContent: 'center', paddingTop: '40px'}}>
-     <Grid container align="right">
-          <Grid item xs={12} align="center">
-            <Button><KeyboardArrowUpIcon className={classes.chevron} /></Button>
-          </Grid>
-          <Grid item xs={12}>
-            <div className={classes.note} align="center" >{props.comments.voteCom}</div>
-          </Grid>
-          <Grid item xs={12} align="center">
-            <Button><KeyboardArrowDownIcon className={classes.chevron} /></Button>
-          </Grid>
-        </Grid>
-   </div>
-        
-
-
-
-      </Grid>
- </Grid>
-
-</Card>
-
-      ): null
+  getArrowDown(){
+    var votes = this.props.votes
+    console.log(votes)
+    let vote = votes.votesComment.filter(item => item.comment == this.props.comments._id)
+    if(vote.length > 0){
+      if(vote[0].like=="true"){
+        console.log("true true")
+        return 40
+      }else{
+        return 50
+      }
+    }else{
+      return 40
     }
-
-    </div>
-  )
+  }
+  getArrowUp(){
+    var votes = this.props.votes
+    let vote = votes.votesComment.filter(item => item.comment == this.props.comments._id)
+    if(vote.length > 0){
+      if(vote[0].like=="true"){
+        console.log("true true")
+        return 50
+      }else{
+        return 40
+      }
+    }else{
+      return 40
+    }
   }
 
 
 
-export default (RowCommentView)
+  render(){
+
+    const {classes} = this.props
+
+
+      return(
+        <div>
+        { this.props.comments ? (
+    <Card >
+
+    <Grid container>
+    <Grid item xs={10} align="left" style={{ background: `rgb([100,50,10])` }}>
+    <CardActionArea className={classes.root}>
+
+    <Grid container alignItems="right" className={classes.content} >
+    <Grid item xs={1} align="right">
+    <AccountCircleIcon className={classes.logosTop}/>
+    </Grid>
+
+    <Grid item xs={7} >
+        <div className={classes.username}  alignItems="left" >
+          {this.props.comments.user}
+        </div>
+        </Grid>
+
+    </Grid>
+
+    <Grid container alignItems="center">
+
+     <Grid item xs={10}>
+          <Typography className={classes.titre}>
+            {this.props.comments.titreCom}
+          </Typography>
+          <Typography className={classes.texte} >
+            {this.props.comments.texteCom}
+          </Typography>
+     </Grid>
+
+
+    </Grid>
+    </CardActionArea>
+    </Grid>
+    <Grid item xs={2} className={classes.notefleches}>
+     <div  style={{ display: 'flex', alignItems: 'center',justifyContent: 'center', paddingTop: '40px'}}>
+       <Grid container align="right">
+            <Grid item xs={12} align="center">
+              <Button onClick={() => this.vote("+")}><KeyboardArrowUpIcon style={{fontSize: this.props.votes ? this.getArrowUp() : 40}} className={classes.chevron} /></Button>
+            </Grid>
+            <Grid item xs={12}>
+              <div className={classes.note} align="center" >{this.props.comments.voteCom}</div>
+            </Grid>
+            <Grid item xs={12} align="center">
+              <Button onClick={() => this.vote("-")}><KeyboardArrowDownIcon style={{fontSize: this.props.votes ? this.getArrowDown() : 40}} className={classes.chevron}   /></Button>
+            </Grid>
+          </Grid>
+     </div>
+
+
+
+
+        </Grid>
+    </Grid>
+
+    </Card>
+
+        ): null
+      }
+
+      </div>
+    )
+  }
+}
+
+
+
+const mapStateToProps = state =>{
+  return {
+    isAuth: state.auth.isAuth,
+    currentUser: state.user.currentUser,
+    posts: state.posts.posts,
+    votes: state.votes
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(useStyles)(RowCommentView))

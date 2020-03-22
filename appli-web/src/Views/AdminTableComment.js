@@ -27,6 +27,12 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -51,6 +57,16 @@ const useStyles = theme => ({
   detailsButton: {
     backgroundColor: "#FAB65F"
   },
+  searchfield: {
+    marginTop:20,
+    marginBottom:50,
+    width:200,
+    height:48,
+  },
+  titleSearch: {
+    marginTop: 30,
+    fontSize:21,
+  },
 });
 
 
@@ -63,7 +79,9 @@ class AdminTableComment extends React.Component {
     openUser: false,
     openComment: false,
     currentComment: {},
-    currentUser: {}
+    currentUser: {},
+    query: '',
+    columnToQuery:'titreCom',
   }
 
   constructor(props){
@@ -91,9 +109,7 @@ class AdminTableComment extends React.Component {
     })
   }
 
-  handleClose = () => {
-    this.setState({openUser:false, openPost:false, openComment:false});
-  };
+
 
 
 
@@ -123,18 +139,46 @@ class AdminTableComment extends React.Component {
 
   render(){
 
+    const handleClose = () => {
+      this.setState({openUser:false, openPost:false, openComment:false});
+    };
 
     const {classes} = this.props
-
+    const lowerCaseQuery = this.state.query.toLowerCase();
     return (
 
       <div className={classes.mainPage}>
 
       {this.state.comments ? (
+        <div>
+        <Container align="center" maxWidth="sm" >
+        <Typography component="h3" variant="bold" align="center" fontFamily="bold" className={classes.titleSearch}>
+        Faire une recherche :
+      </Typography>
+        <TextField className={classes.searchfield}
+        label="Recherche"
+        value={this.state.query}
+        placeholder="Recherche"
+        onChange={e => this.setState({query: e.target.value})}
+        />
+
+        <Select className={classes.searchfield}
+          floatingLabelText="Selectionnez un champ : "
+          value={this.state.columnToQuery}
+          onChange={(event) => this.setState({columnToQuery:event.target.value})}
+        >
+          <MenuItem value={"titreCom"}> Titre </MenuItem>
+          <MenuItem value={"user"}> Utilisateur </MenuItem>
+          <MenuItem value={"_id"}> IdCommentaire </MenuItem>
+
+        </Select>
+        </Container>
+
       <TableContainer>
       <Table className={classes.table}>
         <TableHead >
           <TableRow >
+          <TableCell style={{display:"none"}} className={classes.nomColonne} align="center">idComment</TableCell>
             <TableCell className={classes.nomColonne} align="center">Commentaire</TableCell>
             <TableCell className={classes.nomColonne} align="center">User</TableCell>
             <TableCell className={classes.nomColonne} align="center">Note</TableCell>
@@ -143,8 +187,9 @@ class AdminTableComment extends React.Component {
           </TableRow>
         </TableHead>
         <TableBody>
-        {this.state.comments.map(currentComment => (
+        {this.state.comments.filter(x => x[this.state.columnToQuery].toLowerCase().includes(lowerCaseQuery)).map(currentComment => (
            <TableRow key={currentComment.id}>
+           <TableCell style={{display:"none"}} className={classes.nomColonne} align="center">{currentComment._id}</TableCell>
           <TableCell><Link onClick={() => this.displayPost(currentComment, currentComment.postId)} className={classes.tableContent}> {currentComment.titreCom} </Link></TableCell>
           <TableCell align="center"><Link onClick={() => this.displayUser(currentComment.user)} className={classes.tableContent}>{currentComment.user} </Link></TableCell>
           <TableCell align="center"><Link className={classes.tableContent}>{currentComment.voteCom} </Link></TableCell>
@@ -157,6 +202,7 @@ class AdminTableComment extends React.Component {
         </TableBody>
       </Table>
     </TableContainer>
+    </div>
   ) : "Il n'y a pas de posts"}
 
 
@@ -166,7 +212,7 @@ class AdminTableComment extends React.Component {
         maxWidth="md"
         open={this.state.openPost}
         TransitionComponent={Transition}
-        onClose={this.handleClose}
+        onClose={handleClose}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
@@ -176,7 +222,7 @@ class AdminTableComment extends React.Component {
     <Dialog
         open={this.state.openUser}
         TransitionComponent={Transition}
-        onClose={this.handleClose}
+        onClose={handleClose}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >

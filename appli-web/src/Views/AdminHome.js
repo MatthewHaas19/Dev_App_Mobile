@@ -105,7 +105,7 @@ class AdminHome extends React.Component {
       <div className={classes.mainPage}>
       <Grid container>
 
-      <Grid item className={classes.filterView} xs={3}>
+      <Grid item className={classes.filterView} md={3} xs={12}>
       <h1 align="center"> Partie filter </h1>
       <Typography component="h3" variant="bold" align="center" fontFamily="bold">
       Afficher par :
@@ -123,7 +123,7 @@ class AdminHome extends React.Component {
     </Grid>
       </Grid>
 
-      <Grid item className={classes.listView} xs={9}>
+      <Grid item className={classes.listView} md={9} xs={12}>
       <TableDisplay afficher={this.state.display}/>
 
     </Grid>

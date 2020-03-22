@@ -28,6 +28,12 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import Dialog from '@material-ui/core/Dialog';
 import Slide from '@material-ui/core/Slide';
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+import TextField from '@material-ui/core/TextField';
+import Typography from '@material-ui/core/Typography';
+import Container from '@material-ui/core/Container';
+
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -52,6 +58,16 @@ const useStyles = theme => ({
   profilButton: {
     backgroundColor: "#FAB65F"
   },
+  searchfield: {
+    marginTop:20,
+    marginBottom:50,
+    width:200,
+    height:48,
+  },
+  titleSearch: {
+    marginTop: 30,
+    fontSize:21,
+  },
 });
 
 
@@ -63,8 +79,8 @@ class AdminTableUser extends React.Component {
     currentUser: {},
     openUser: false,
     openPosts: false,
-    openReports: false,
-    openComments: false,
+    query: '',
+    columnToQuery:'username',
   }
 
   constructor(props){
@@ -108,9 +124,7 @@ class AdminTableUser extends React.Component {
     })
   }
 
-  handleClose = () => {
-    this.setState({openUser:false, openPosts:false, openReports:false, openComments:false});
-  };
+
 
   displayUsers(user){
     var action = { type: "TOGGLE_USER_ADMIN", currentUser:user}
@@ -146,16 +160,46 @@ class AdminTableUser extends React.Component {
 
 
     const {classes} = this.props
+    const lowerCaseQuery = this.state.query.toLowerCase();
+    const handleClose = () => {
+        this.setState({openUser:false, openPosts:false});
+      };
+
 
     return (
 
       <div className={classes.mainPage}>
 
       {this.state.users ? (
+        <div>
+        <Container align="center" maxWidth="sm" >
+        <Typography component="h3" variant="bold" align="center" fontFamily="bold" className={classes.titleSearch}>
+        Faire une recherche :
+      </Typography>
+        <TextField className={classes.searchfield}
+        label="Recherche"
+        value={this.state.query}
+        placeholder="Recherche"
+        onChange={e => this.setState({query: e.target.value})}
+        />
+
+        <Select className={classes.searchfield}
+          floatingLabelText="Selectionnez un champ : "
+          value={this.state.columnToQuery}
+          onChange={(event) => this.setState({columnToQuery:event.target.value})}
+        >
+          <MenuItem value={"username"}> Username </MenuItem>
+          <MenuItem value={"email"}> Email </MenuItem>
+          <MenuItem value={"_id"}> IdUser </MenuItem>
+
+        </Select>
+        </Container>
+
       <TableContainer>
       <Table className={classes.table}>
         <TableHead >
           <TableRow >
+            <TableCell style={{display:"none"}} className={classes.nomColonne} align="center">idUser</TableCell>
             <TableCell className={classes.nomColonne} align="center">Username</TableCell>
             <TableCell className={classes.nomColonne} align="center">Email</TableCell>
             <TableCell className={classes.nomColonne} align="center">Posts</TableCell>
@@ -164,12 +208,13 @@ class AdminTableUser extends React.Component {
           </TableRow>
         </TableHead>
         <TableBody>
-        {this.state.users.map(currentUser => (
-           <TableRow key={currentUser.emailUser}>
+        {this.state.users.filter(x => x[this.state.columnToQuery].toLowerCase().includes(lowerCaseQuery)).map(currentUser => (
+           <TableRow key={currentUser.id}>
+           <TableCell style={{display:"none"}} className={classes.nomColonne} align="center">{currentUser._id}</TableCell>
            <TableCell><Link onClick={() => this.displayUsers(currentUser)} className={classes.tableContent}> {currentUser.username} </Link></TableCell>
              <TableCell align="center"><Link onClick={() => this.displayUsers(currentUser)} className={classes.tableContent}>{currentUser.email} </Link></TableCell>
              <TableCell align="center"><Link onClick={() => this.displayPosts(currentUser)} className={classes.tableContent}> {currentUser.posts}</Link></TableCell>
-             <TableCell align="center"><Link onClick={() => this.displayComments(currentUser)} className={classes.tableContent}> {currentUser.comments}</Link></TableCell>
+             <TableCell align="center"><Link  className={classes.tableContent}> {currentUser.comments}</Link></TableCell>
              <TableCell align="center"><Button onClick={() => this.displayUsers(currentUser)} className={classes.profilButton}> Profil</Button></TableCell>
           </TableRow>
 
@@ -178,13 +223,14 @@ class AdminTableUser extends React.Component {
         </TableBody>
       </Table>
     </TableContainer>
+    </div>
   ) : "Il n'y a pas de users"}
 
 
   <Dialog
       open={this.state.openUser}
       TransitionComponent={Transition}
-      onClose={this.handleClose}
+      onClose={handleClose}
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
     >
@@ -195,32 +241,14 @@ class AdminTableUser extends React.Component {
       maxWidth="md"
       open={this.state.openPosts}
       TransitionComponent={Transition}
-      onClose={this.handleClose}
+      onClose={handleClose}
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
     >
     <AdminPostsUser/>
   </Dialog>
 
-  <Dialog
-      open={this.state.openComments}
-      TransitionComponent={Transition}
-      onClose={this.handleClose}
-      aria-labelledby="alert-dialog-slide-title"
-      aria-describedby="alert-dialog-slide-description"
-    >
-    <AdminCommentsUser user={this.state.currentUser}/>
-  </Dialog>
 
-  <Dialog
-      open={this.state.openReports}
-      TransitionComponent={Transition}
-      onClose={this.handleClose}
-      aria-labelledby="alert-dialog-slide-title"
-      aria-describedby="alert-dialog-slide-description"
-    >
-      <h1>Dialog confirmation suppr</h1>
-  </Dialog>
 
 
     </div>

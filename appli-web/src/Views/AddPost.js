@@ -153,7 +153,7 @@ class AddPost extends React.Component {
         image: this.state.image,
         categorie: this.state.categorie,
         nbSignalement: 0,
-        localisation: ["23.3","22.5"],
+        localisation: [this.props.position.latitude,this.props.position.longitude],
         user: userMail,
         commentaire: [],
         date: yyyy + '-' + mm +'-' + dd + ' ' + hh + ":" + mn + ":" + ss ,
@@ -382,7 +382,8 @@ class AddPost extends React.Component {
 const mapStateToProps = state =>{
   return {
     isAuth: state.auth.isAuth,
-    currentUser: state.user.currentUser
+    currentUser: state.user.currentUser,
+    position: state.position.position
   }
 }
 

@@ -9,6 +9,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux'
@@ -28,6 +30,13 @@ const useStyles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+  },
+  title: {
+    flexGrow: 1,
+    color: "black",
+    marginLeft: 10,
+    fontFamily: 'Noteworthy Light',
+    fontWeight: 400,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -173,11 +182,13 @@ class AddPost extends React.Component {
     <Container component="main" maxWidth="xs" maxHeight="xs" className={classes.card}>
 
       <CssBaseline />
-      <div className={classes.backButton}><Button variant="outlined" onClick={() => this.props.back()}> Back </Button></div>
+      <div className={classes.backButton}><IconButton aria-label="search" color="inherit" onClick={()=>this.props.back()}>
+        <ArrowBackIcon />
+      </IconButton></div>
       <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
-          Ajoutez un post
-        </Typography>
+      <Typography component="h1" variant="h5" className={classes.title} >
+        Ajouter un Post
+      </Typography>
         <form className={classes.form} noValidate autoComplete="off" onSubmit={this.onSubmit}>
           <FormControlLabel className={classes.fields}
           value="isAnonyme"

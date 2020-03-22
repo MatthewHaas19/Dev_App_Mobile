@@ -26,6 +26,18 @@ router.get("/comment/:comment", function(req,res,next){
   })
 })
 
+router.get("/user/:user", function(req,res,next){
+  const user = req.params.user
+  db.votesComment.find({
+    user: user
+  },function(err,users){
+    if(err){
+      res.send(err);
+    }
+    res.json(users);
+  })
+})
+
 
 
 router.post("/", function(req,res,next){

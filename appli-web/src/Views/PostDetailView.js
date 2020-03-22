@@ -15,8 +15,10 @@ import RowCommentView from '../Views/RowCommentView'
 import { useParams } from 'react-router-dom';
 import { getPostById } from '../API/PostApi';
 import {votePost} from '../API/PostApi'
+import {voteComment} from '../API/CommentApi'
 import {getAllPostsFromDb} from '../API/PostApi'
 import {addVote} from '../API/VoteApi'
+import {addVoteComment} from '../API/VoteApi'
 import { getAllCommentFromPost } from '../API/CommentApi';
 import AddComment from './AddComment';
 import Signalement from './Signalement';
@@ -24,6 +26,7 @@ import Slide from '@material-ui/core/Slide';
 import { connect } from 'react-redux'
 import Icon from '@material-ui/core/Icon';
 import {getVoteByUser} from '../API/VoteApi'
+import {getVoteCommentByUser} from '../API/VoteApi'
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -93,9 +96,11 @@ class PostDetailViewTest extends React.Component{
   }
 
   handleClickOpen = () => {
-    var action = { type: "CURRENT_POST", currentIdPost: this.state.idPost}
-    this.props.dispatch(action)
+    if(this.state.idPost!='' && this.state.idPost!=this.props.currentIdPost){
+      var action = { type: "CURRENT_POST", currentIdPost: this.state.idPost}
+      this.props.dispatch(action)
 
+    }
     this.setState({openAddComment:true});
   };
 
@@ -110,6 +115,7 @@ class PostDetailViewTest extends React.Component{
     this.setState({openAddComment:false});
     this.setState({openAddSignalement:false});
   };
+
   handleVote(val,post){
     console.log(post)
     if(this.props.currentUser){
@@ -191,6 +197,90 @@ class PostDetailViewTest extends React.Component{
   }
 
 
+
+  handleVoteComment(val,comment){
+    console.log(comment)
+    if(this.props.currentUser){
+
+      var add = "true"
+      if(val=="-"){
+        add="false"
+      }
+      const vote = {
+        user:this.props.currentUser.email,
+        comment:comment._id,
+        like:add
+      }
+      console.log(vote)
+
+      addVoteComment(vote).then(data => {
+        console.log(data)
+        if(data.res=='exists'){
+          console.log("tu as deja voté pour ce commentaire")
+        }else{
+          if(data.res=="change"){
+            voteComment(val,comment).then(res=>{
+              voteComment(val,comment).then(data=>{
+                console.log("change")
+                console.log(data)
+                  var comments = this.state.comments
+
+
+                  var index = comments.indexOf(comment);
+                  if (index !== -1) {
+                    if(val=="-"){
+                      comment.note = comment.note - 2
+                    }else{
+                      comment.note =  comment.note + 2
+                    }
+                      comments[index] = comment;
+                      this.setState({comments: comments})
+                      getVoteCommentByUser(this.props.currentUser.email).then(votes => {
+                        var action = { type: "TOGGLE_USER_VOTE_COMMENT", userVote: votes}
+                        this.props.dispatch(action)
+
+                      })
+                  }
+              })
+            })
+          }else{
+            if(data.res=="correct"){
+              voteComment(val,comment).then(data=>{
+                voteComment(val,comment).then(data=>{
+                  console.log("add")
+                  console.log("change")
+                  console.log(data)
+                    var comments = this.state.comments
+
+
+                    var index = comments.indexOf(comment);
+                    if (index !== -1) {
+                      if(val=="-"){
+                        comment.note = comment.note - 1
+                      }else{
+                        comment.note =  comment.note + 1
+                      }
+                        comments[index] = comment;
+
+                        this.setState({comments: comments})
+                        getVoteCommentByUser(this.props.currentUser.email).then(votes => {
+                          var action = { type: "TOGGLE_USER_VOTE_COMMENT", userVote: votes}
+                          this.props.dispatch(action)
+
+                        })
+                    }
+                })
+              })
+            }
+          }
+        }
+      })
+    }
+  }
+
+
+
+
   render(){
 
 
@@ -210,7 +300,7 @@ class PostDetailViewTest extends React.Component{
 
     const listcomments = this.state.comments.map((comment) =>
     <Grid item xs={12}>
-      <RowCommentView comments={comment} />
+      <RowCommentView comments={comment} handlevote={(val) => this.handleVoteComment(val,comment)} />
       </Grid>
     )
 

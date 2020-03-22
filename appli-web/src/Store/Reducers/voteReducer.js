@@ -1,10 +1,13 @@
-const initialState = { votes: []}
+const initialState = { votes: [], votesComment: []}
 
 function toggleUserVote(state = initialState, action) {
   let nextState
   switch(action.type) {
     case 'TOGGLE_USER_VOTE':
-    state = {votes:action.userVote}
+    state = {votes:action.userVote,votesComment:state.votesComment}
+    return state
+    case 'TOGGLE_USER_VOTE_COMMENT':
+    state = {votes:state.votes,votesComment:action.userVote}
     return state
   default:
     return state

@@ -7,6 +7,7 @@ import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import CheckIcon from '@material-ui/icons/Check';
 import SaveIcon from '@material-ui/icons/Save';
+import {storage} from '../../firebase'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,6 +19,7 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
   },
   buttonSuccess: {
+
     backgroundColor: green[500],
     '&:hover': {
       backgroundColor: green[700],
@@ -30,6 +32,9 @@ const useStyles = makeStyles(theme => ({
     left: -6,
     zIndex: 1,
   },
+  button: {
+    margin:10,
+  },
   buttonProgress: {
     color: green[500],
     position: 'absolute',
@@ -38,12 +43,17 @@ const useStyles = makeStyles(theme => ({
     marginTop: -12,
     marginLeft: -12,
   },
+  input: {
+    display: 'none',
+  },
 }));
 
-export default function UploadButton() {
+export default function UploadButton({changeValue}) {
   const classes = useStyles();
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
+  const [image, setImage] = React.useState(null);
+  const [url, setUrl] = React.useState('');
   const timer = React.useRef();
 
   const buttonClassname = clsx({
@@ -58,22 +68,57 @@ export default function UploadButton() {
 
   const handleButtonClick = () => {
     if (!loading) {
-      setSuccess(false);
-      setLoading(true);
+      if(image && !success){
+        setSuccess(false);
+        setLoading(true);
 
-      
+        const uploadTask = storage.ref(`imagesFolder/${image.name}`).put(image)
+        uploadTask.on('state_changed', (snapshot) => {
+          // progress function
+        }, (error) => {
+          console.log()
+        }, () => {
+          storage.ref('imagesFolder').child(image.name).getDownloadURL().then(url => {
+            console.log(url)
+            setSuccess(true);
+            setLoading(false);
+            changeValue(url)
+
+          })
+        })
+      }
+
+    }
+  };
+
+  const handleChange = (e) => {
+    if(e.target.files[0]){
+      const image = e.target.files[0]
+      setImage(image);
+      console.log(image)
 
 
-      timer.current = setTimeout(() => {
-        setSuccess(true);
-        setLoading(false);
-      }, 2000);
     }
   };
 
   return (
     <div className={classes.root}>
-      <div className={classes.wrapper}>
+
+        <input
+          accept="image/*"
+          className={classes.input}
+          id="contained-button-file"
+          multiple
+          type="file"
+          onChange={handleChange}
+        />
+        <label htmlFor="contained-button-file">
+          <Button variant="contained" style={{backgroundColor: success ? green[400] :  blue[500] ,color:"white"}} component="span">
+            Choisir un fichier
+          </Button>
+        </label>
+
+        <div className={classes.wrapper}>
         <Fab
           aria-label="save"
           style={{backgroundColor: success ? green[400] :  blue[500] ,color:"white"}}
@@ -82,7 +127,9 @@ export default function UploadButton() {
         >
           {success ? <CheckIcon /> : <SaveIcon />}
         </Fab>
+
         {loading && <CircularProgress size={68} className={classes.fabProgress} />}
+
       </div>
 
     </div>

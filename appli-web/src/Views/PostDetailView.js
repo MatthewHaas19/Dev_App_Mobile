@@ -292,9 +292,11 @@ class PostDetailViewTest extends React.Component{
     const post = this.state.posts.map((post) =>
       <Grid item xs={12}>
       <RowPostView post={post} handlevote={(val) => this.handleVote(val,post)} />
+
+      {post.image ? <img src={post.image}  />: null}
+
       </Grid>
     );
-
 
 
     const listcomments = this.state.comments.map((comment) =>

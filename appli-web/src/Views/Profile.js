@@ -11,6 +11,8 @@ import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 import Badge from '@material-ui/core/Badge';
+import Fab from '@material-ui/core/Fab';
+import AddIcon from '@material-ui/icons/Add';
 import {
   BrowserRouter as Router,
   Switch,
@@ -92,6 +94,17 @@ const useStyles = theme => ({
     marginLeft: 10,
     fontFamily: 'Noteworthy Light',
     fontWeight:"fontWeightBold"
+  },
+  addButton:{
+    marginTop:theme.spacing(4),
+    backgroundColor:blue[400],
+    color:"white",
+    width: theme.spacing(8),
+    height: theme.spacing(8),
+  },
+  iconAdd:{
+    width: theme.spacing(6),
+    height: theme.spacing(6),
   }
 });
 
@@ -227,9 +240,9 @@ class Profile extends React.Component {
 
 
 
-        <Button variant="contained" color="primary" onClick={()=>this._Deco()} className={classes.spacer}>
-          Deconnexion
-        </Button>
+          <Fab className={classes.addButton} aria-label="add" onClick={() => this.props.openAddPost()}>
+            <AddIcon className={classes.iconAdd} />
+          </Fab>
         </div>
         </CardContent>
       </Card>

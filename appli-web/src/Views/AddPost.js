@@ -14,14 +14,14 @@ import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux'
 import history from '../history';
 import cookie from 'react-cookies';
+import UploadButton from './component/UploadButton'
 
 import { green, blue, purple } from '@material-ui/core/colors';
 import {setNewPostDb} from '../API/PostApi'
 
 const useStyles = theme => ({
   card: {
-    boxShadow: "10px 10px 10px #9E9E9E",
-    marginTop: 50
+    margin: 50
   },
   paper: {
     marginTop: theme.spacing(4),
@@ -165,11 +165,10 @@ class AddPost extends React.Component {
   const {classes} = this.props
 
   return (
-    <Container component="main" maxWidth="xs" maxHeight="xs">
-    <Card className={classes.card}>
-      <CardContent>
+    <Container component="main" maxWidth="xs" maxHeight="xs" className={classes.card}>
+
       <CssBaseline />
-      <div className={classes.backButton}><Button variant="outlined"> Back </Button></div>
+      <div className={classes.backButton}><Button variant="outlined" onClick={() => this.props.back()}> Back </Button></div>
       <div className={classes.paper}>
         <Typography component="h1" variant="h5">
           Ajoutez un post
@@ -205,8 +204,9 @@ class AddPost extends React.Component {
           onChange={this.onChange}
           />
 
-
-
+          <Grid container justify='center' className={classes.fields}>
+          <UploadButton />
+          </Grid>
 {/* --------------Categories ---------------------------------------------------------- */}
 
 
@@ -357,8 +357,7 @@ class AddPost extends React.Component {
 
         </form>
       </div>
-      </CardContent>
-    </Card>
+
     </Container>
   );
 }

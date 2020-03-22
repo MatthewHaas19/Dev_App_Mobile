@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React, {Component, useCallback} from 'react';
 import { createMuiTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -11,6 +11,7 @@ import {
 } from "react-router-dom";
 import {getAllPostsFromDb} from '../API/PostApi'
 import {getPostById} from '../API/PostApi'
+import {deletePost} from '../API/PostApi'
 import {getAllCommentFromPost} from '../API/CommentApi'
 import {getAllReportFromPost} from '../API/ReportApi'
 import RowPostView from '../Views/RowPostView'
@@ -63,6 +64,15 @@ class AdminPostDetail extends React.Component {
     super(props)
   }
 
+  deletePostFunction(id){
+    deletePost(id).then(res => {
+      this.props.show(false)
+      this.props.postHasBeenDeleted()
+    }).catch((error) => {
+      console.log("Erreur dans la suppression")
+    })
+  }
+
   render(){
 
 
@@ -100,7 +110,7 @@ class AdminPostDetail extends React.Component {
         <Grid item xs={3}>
         </Grid>
         <Grid item xs={6} align="center">
-        <Button className={classes.deleteButton} align="center">Supprimer le post</Button>
+        <Button className={classes.deleteButton} align="center" onClick={() => this.deletePostFunction(this.props.adminCurrentPost._id)}>Supprimer le post</Button>
         </Grid>
         <Grid item xs={3}>
         </Grid>

@@ -32,6 +32,9 @@ import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
+import UpArrow from '@material-ui/icons/KeyboardArrowUp';
+import DownArrow from '@material-ui/icons/KeyboardArrowDown';
+import orderBy from "lodash/orderBy"
 
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -45,6 +48,8 @@ const useStyles = theme => ({
   nomColonne: {
     fontWeight: "bold",
     fontSize: 20,
+    textDecoration: "none",
+    color: "black",
   },
   table: {
     backgroundColor: "#FAA65F"
@@ -69,7 +74,10 @@ const useStyles = theme => ({
   },
 });
 
-
+const invertDirection = {
+  asc: "desc",
+  desc: "asc"
+}
 
 
 class AdminTableComment extends React.Component {
@@ -82,6 +90,8 @@ class AdminTableComment extends React.Component {
     currentUser: {},
     query: '',
     columnToQuery:'titreCom',
+    columnToSort: 'reports',
+    sortDirection: 'desc',
   }
 
   constructor(props){
@@ -90,6 +100,12 @@ class AdminTableComment extends React.Component {
       var comments = data
 
         for(let i=0;i<comments.length;i++){
+
+          if(comments[i].titreCom.length > 0 ) {
+            comments[i].titreCom = comments[i].titreCom[0].toUpperCase() + comments[i].titreCom.slice(1)
+          }
+      
+
           Object.assign(comments[i], {reports: 0});
 
             getAllReportFromComment(comments[i]._id).then(reports => {
@@ -110,7 +126,12 @@ class AdminTableComment extends React.Component {
   }
 
 
-
+  handleSort(columnName) {
+    this.setState(state => ({
+      columnToSort: columnName,
+      sortDirection: state.columnToSort===columnName ? invertDirection[state.sortDirection] : 'asc'
+    }))
+  }
 
 
   displayPost(comment,idPost){
@@ -179,15 +200,86 @@ class AdminTableComment extends React.Component {
         <TableHead >
           <TableRow >
           <TableCell style={{display:"none"}} className={classes.nomColonne} align="center">idComment</TableCell>
-            <TableCell className={classes.nomColonne} align="center">Commentaire</TableCell>
-            <TableCell className={classes.nomColonne} align="center">User</TableCell>
-            <TableCell className={classes.nomColonne} align="center">Note</TableCell>
-            <TableCell className={classes.nomColonne} align="center">Reports</TableCell>
+
+
+
+            <TableCell className={classes.nomColonne} align="center">
+            <Link
+            style={{display:"flex", justifyContent: "center", alignItems:"center"}}
+            className={classes.nomColonne}
+            onClick={() => this.handleSort("titreCom")}>
+            <span>
+            Commentaire
+            </span>
+            {this.state.columnToSort==="titreCom" ? (this.state.sortDirection==="asc" ? (
+              <UpArrow/>
+            ) : (
+              <DownArrow/>
+            )): null }
+            </Link>
+            </TableCell>
+
+
+
+            <TableCell className={classes.nomColonne} align="center">
+            <Link
+            style={{display:"flex", justifyContent: "center", alignItems:"center"}}
+            className={classes.nomColonne}
+            onClick={() => this.handleSort("user")}>
+            <span>
+            User
+            </span>
+            {this.state.columnToSort==="user" ? (this.state.sortDirection==="asc" ? (
+              <UpArrow/>
+            ) : (
+              <DownArrow/>
+            )): null }
+            </Link>
+            </TableCell>
+
+
+
+            <TableCell className={classes.nomColonne} align="center">
+            <Link
+            style={{display:"flex", justifyContent: "center", alignItems:"center"}}
+            className={classes.nomColonne}
+            onClick={() => this.handleSort("voteCom")}>
+            <span>
+            Note
+            </span>
+            {this.state.columnToSort==="voteCom" ? (this.state.sortDirection==="asc" ? (
+              <UpArrow/>
+            ) : (
+              <DownArrow/>
+            )): null }
+            </Link>
+            </TableCell>
+
+
+
+            <TableCell className={classes.nomColonne} align="center">
+            <Link
+            style={{display:"flex", justifyContent: "center", alignItems:"center"}}
+            className={classes.nomColonne}
+            onClick={() => this.handleSort("reports")}>
+            <span>
+            Reports
+            </span>
+            {this.state.columnToSort==="reports" ? (this.state.sortDirection==="asc" ? (
+              <UpArrow/>
+            ) : (
+              <DownArrow/>
+            )): null }
+            </Link>
+            </TableCell>
+
+
+
             <TableCell className={classes.nomColonne} align="center"></TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-        {this.state.comments.filter(x => x[this.state.columnToQuery].toLowerCase().includes(lowerCaseQuery)).map(currentComment => (
+        {orderBy(this.state.comments,this.state.columnToSort,this.state.sortDirection).filter(x => x[this.state.columnToQuery].toLowerCase().includes(lowerCaseQuery)).map(currentComment => (
            <TableRow key={currentComment.id}>
            <TableCell style={{display:"none"}} className={classes.nomColonne} align="center">{currentComment._id}</TableCell>
           <TableCell><Link onClick={() => this.displayPost(currentComment, currentComment.postId)} className={classes.tableContent}> {currentComment.titreCom} </Link></TableCell>

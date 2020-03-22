@@ -91,3 +91,25 @@ export function votePost(vote,post) {
   .then((response) => response.json())
   .catch((error) => console.log(error))
 }
+
+
+
+export function deletePost(id){
+  const url = "https://dev-mobile-ig.herokuapp.com/posts/"
+  const postToDelete = {
+    "_id" : id,
+  }
+  console.log(postToDelete)
+  const data = JSON.stringify(postToDelete)
+
+  return fetch(url,{
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: data
+  })
+  .then((response) => response.json())
+  .catch((error) => console.log(error))
+}

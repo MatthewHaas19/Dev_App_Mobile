@@ -5,7 +5,6 @@ function toggleUserAdmin(state = initialState, action) {
   switch(action.type) {
     case 'TOGGLE_USER_ADMIN':
     state = {user:action.currentUser}
-    return state
   default:
     return state
   }

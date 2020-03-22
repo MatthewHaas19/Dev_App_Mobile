@@ -15,6 +15,10 @@ import '../App.css';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
+import { connect } from 'react-redux'
+import Select from '@material-ui/core/Select';
+import MenuItem from '@material-ui/core/MenuItem';
+
 
 import {
   BrowserRouter as Router,
@@ -51,7 +55,7 @@ const theme = createMuiTheme({
 
 
 
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
   root: {
     flexGrow: 1,
   },
@@ -69,7 +73,15 @@ const useStyles = makeStyles(theme => ({
     height: 50,
     width:50
   },
-}));
+  searchfield: {
+    width:200,
+    marginRight:50,
+  },
+  titleSearch: {
+    marginRight:30,
+    color:"black",
+  }
+});
 
 const image =
   {
@@ -80,8 +92,21 @@ const image =
 
 
 
-export default function AdminNavBar() {
-  const classes = useStyles();
+class AdminNavBar extends React.Component  {
+
+  state= {
+    pageToShow: "posts"
+  }
+
+  changePage(page) {
+    var action = { type: 'TOGGLE_ADMIN_PAGE', pageToShow: page}
+    this.props.dispatch(action)
+    this.setState({pageToShow:page})
+  }
+  render(){
+
+  const {classes} = this.props
+
 
   return (
     <div className={classes.root}>
@@ -100,18 +125,31 @@ export default function AdminNavBar() {
           </Link>
           </div>
           </ThemeProvider>
-          <Link to="/filter">
-          <IconButton aria-label="search" color="inherit" className={classes.menuButton}>
-            <SearchIcon />
-          </IconButton>
-          </Link>
-          <Link to="/login">
-          <IconButton aria-label="search" color="inherit" className={classes.menuButton}>
-            <AccountCircle />
-          </IconButton>
-          </Link>
+          <Typography component="h3" variant="bold" align="center" fontFamily="bold" className={classes.titleSearch}>
+          Filtrer par :
+        </Typography>
+          <Select className={classes.searchfield}
+            floatingLabelText="Selectionnez un champ : "
+            value={this.state.pageToShow}
+            onChange={(event) => this.changePage(event.target.value)}
+          >
+            <MenuItem value={"posts"}> Les posts </MenuItem>
+            <MenuItem value={"users"}> Les utilisateurs </MenuItem>
+            <MenuItem value={"comments"}> Les commentaires </MenuItem>
+
+          </Select>
+
         </Toolbar>
       </AppBar>
     </div>
   );
 }
+}
+
+const mapStateToProps = state =>{
+  return {
+    pageToShow: state.adminPage.pageToShow,
+  }
+}
+
+export default connect(mapStateToProps)(withStyles(useStyles)(AdminNavBar))

@@ -9,6 +9,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import Checkbox from '@material-ui/core/Checkbox';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Grid from '@material-ui/core/Grid';
 import { connect } from 'react-redux'
@@ -28,6 +30,13 @@ const useStyles = theme => ({
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
+  },
+  title: {
+    flexGrow: 1,
+    color: "black",
+    marginLeft: 10,
+    fontFamily: 'Noteworthy Light',
+    fontWeight: 400,
   },
   form: {
     width: '100%', // Fix IE 11 issue.
@@ -102,6 +111,11 @@ class AddPost extends React.Component {
     }
   }
 
+  handleChangeUrl(url){
+    this.setState({image:url})
+  }
+
+
   onSubmit = (e) => {
     var colors = [
         [0/255,176/255,166/255],[5/255,93/255,107/255],[0/255,128/255,137/255],[225/255,170/255,18/255],[1/255,58/255,103/255],[7/255,36/255,70/255]
@@ -136,10 +150,10 @@ class AddPost extends React.Component {
         titre: this.state.titre,
         texte : this.state.texte,
         isAnonyme: this.state.isAnonyme,
-        image: null,
+        image: this.state.image,
         categorie: this.state.categorie,
         nbSignalement: 0,
-        localisation: ["23.3","22.5"],
+        localisation: [this.props.position.latitude,this.props.position.longitude],
         user: userMail,
         commentaire: [],
         date: yyyy + '-' + mm +'-' + dd + ' ' + hh + ":" + mn + ":" + ss ,
@@ -151,7 +165,7 @@ class AddPost extends React.Component {
         .then(data => {
           if(data == "{\"res\":\"correct\",\"message\":\"add post ok\"}"){
             console.log("Bien ajouté")
-            history.push('/');
+            this.props.back()
           }
           else{
             console.log("erreur add Post")
@@ -168,11 +182,13 @@ class AddPost extends React.Component {
     <Container component="main" maxWidth="xs" maxHeight="xs" className={classes.card}>
 
       <CssBaseline />
-      <div className={classes.backButton}><Button variant="outlined" onClick={() => this.props.back()}> Back </Button></div>
+      <div className={classes.backButton}><IconButton aria-label="search" color="inherit" onClick={()=>this.props.back()}>
+        <ArrowBackIcon />
+      </IconButton></div>
       <div className={classes.paper}>
-        <Typography component="h1" variant="h5">
-          Ajoutez un post
-        </Typography>
+      <Typography component="h1" variant="h5" className={classes.title} >
+        Ajouter un Post
+      </Typography>
         <form className={classes.form} noValidate autoComplete="off" onSubmit={this.onSubmit}>
           <FormControlLabel className={classes.fields}
           value="isAnonyme"
@@ -205,7 +221,7 @@ class AddPost extends React.Component {
           />
 
           <Grid container justify='center' className={classes.fields}>
-          <UploadButton />
+          <UploadButton changeValue={(url) => this.handleChangeUrl(url)} />
           </Grid>
 {/* --------------Categories ---------------------------------------------------------- */}
 
@@ -366,7 +382,8 @@ class AddPost extends React.Component {
 const mapStateToProps = state =>{
   return {
     isAuth: state.auth.isAuth,
-    currentUser: state.user.currentUser
+    currentUser: state.user.currentUser,
+    position: state.position.position
   }
 }
 

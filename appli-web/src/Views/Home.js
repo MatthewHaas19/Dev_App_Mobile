@@ -24,6 +24,7 @@ import Profile from '../Views/Profile'
 import { connect } from 'react-redux'
 import Dialog from '@material-ui/core/Dialog';
 import Login from './Login.js'
+import AddPost from './AddPost.js'
 import Slide from '@material-ui/core/Slide';
 import Drawer from "@material-ui/core/Drawer";
 import CircularProgress from '@material-ui/core/CircularProgress';
@@ -53,6 +54,7 @@ class Home extends React.Component {
     super(props)
     this.state = {
       open:false,
+      openAdd:false,
       width: window.innerWidth,
       height: window.innerHeight,
       mobileOpen: false
@@ -92,9 +94,20 @@ class Home extends React.Component {
     filterPostDb(filter).then(data => {
       const posts = data
       console.log(data)
-      this.setState({posts: data})
 
-      var action = { type: "ADD_POSTS", posts: data}
+      var res = []
+
+      for(var i=0;i<posts.length;i++){
+        if(this.getDistance(posts[i].localisation)<filter.localisation){
+          res.push(posts[i])
+        }
+      }
+
+
+
+      this.setState({posts: res})
+
+      var action = { type: "ADD_POSTS", posts: res}
       this.props.dispatch(action)
       window.scroll({top: 0, left: 0, behavior: 'smooth' })
 
@@ -102,6 +115,41 @@ class Home extends React.Component {
       console.log("erreur filter")
     })
   }
+
+  getDistance(postPosition){
+    var userPosition = this.props.position
+
+    if(postPosition.length>1){
+      if(postPosition[0] && postPosition[1]){
+        return parseInt(this.distance(postPosition[0],postPosition[1],userPosition.latitude,userPosition.longitude,"K"))
+      }
+    }
+    return "Not known"
+  }
+
+  distance(lat1, lon1, lat2, lon2, unit) {
+	if ((lat1 == lat2) && (lon1 == lon2)) {
+		return 0;
+	}
+	else {
+		var radlat1 = Math.PI * lat1/180;
+		var radlat2 = Math.PI * lat2/180;
+		var theta = lon1-lon2;
+		var radtheta = Math.PI * theta/180;
+		var dist = Math.sin(radlat1) * Math.sin(radlat2) + Math.cos(radlat1) * Math.cos(radlat2) * Math.cos(radtheta);
+		if (dist > 1) {
+			dist = 1;
+		}
+		dist = Math.acos(dist);
+		dist = dist * 180/Math.PI;
+		dist = dist * 60 * 1.1515;
+		if (unit=="K") { dist = dist * 1.609344 }
+		if (unit=="N") { dist = dist * 0.8684 }
+		return dist;
+	}
+}
+
+
 
   handleDrawerToggle = () => {
     this.setState({openfilter:false});
@@ -112,8 +160,12 @@ class Home extends React.Component {
     this.setState({open:true});
   };
 
+  handleClickOpenAdd = () => {
+    this.setState({openAdd:true});
+  };
+
   handleClose = () => {
-    this.setState({open:false});
+    this.setState({open:false,openAdd:false});
   };
 
   handleVote(val,post){
@@ -259,7 +311,7 @@ class Home extends React.Component {
     ) : <CircularProgress />}
     </Grid>
     <Grid item xs={4}>
-    <Profile />
+    <Profile openAddPost={this.handleClickOpenAdd} />
     </Grid>
     </Grid>
     </div>
@@ -305,7 +357,7 @@ class Home extends React.Component {
       keepMounted: true, // Better open performance on mobile.
     }}
     >
-    <Filter back={this.handleDrawerToggle}/>
+    <Filter back={this.handleDrawerToggle} filter={(filterValue) => this.filter(filterValue)}/>
     </Drawer>
 
     <Drawer
@@ -320,7 +372,7 @@ class Home extends React.Component {
         keepMounted: true, // Better open performance on mobile.
       }}
       >
-      {this.state.openprofile ? <Profile /> : null}
+      {this.state.openprofile ? <Profile openAddPost={this.handleClickOpenAdd}/> : null}
       </Drawer>
   </div>
 
@@ -340,6 +392,17 @@ class Home extends React.Component {
       <Login />
     </Dialog>
 
+    <Dialog
+        open={this.state.openAdd}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={this.handleClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+      <AddPost back={this.handleClose} />
+    </Dialog>
+
 
 
 
@@ -355,7 +418,8 @@ const mapStateToProps = state =>{
     isAuth: state.auth.isAuth,
     currentUser: state.user.currentUser,
     posts: state.posts.posts,
-    votes: state.votes
+    votes: state.votes,
+    position: state.position.position
   }
 }
 

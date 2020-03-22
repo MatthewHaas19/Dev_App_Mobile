@@ -112,6 +112,7 @@ const useStyles = theme => ({
   },
   slider:{
     marginTop:theme.spacing(5),
+    marginBottom:theme.spacing(5),
   },
   paperTag:{
     overflow: 'auto',
@@ -155,6 +156,7 @@ class Filter extends React.Component {
       checked:[false,false,false,false,false,false,false,false,false,false,false,false,false],
       width: window.innerWidth,
       height: window.innerHeight,
+      loc:false
     }
   }
 
@@ -191,6 +193,11 @@ class Filter extends React.Component {
     this.setState({ checked: cat });
   };
 
+  handleChangeLoc = () => event => {
+
+    this.setState({ loc: event.target.checked });
+  };
+
   handleChange = (index) => event => {
     console.log(index)
     const cat = this.state.checked
@@ -223,10 +230,16 @@ class Filter extends React.Component {
       type = "Plus populaire"
     }
 
+    var localisation = 9999
+
+    if(this.state.loc){
+      localisation = parseInt(this.state.localisation)
+    }
+
     const filter = {
       type: type,
       tags: this.state.tags,
-      localisation: 9999,
+      localisation: localisation,
       categorie: res
     }
     console.log(filter)
@@ -348,7 +361,17 @@ class Filter extends React.Component {
           </Grid>
 
           <Grid item xs className={classes.slider}>
-            <Slider aria-labelledby="continuous-slider" defaultValue="60"
+          <Grid container justify = "center" className={classes.paperTag}>
+            <FormControlLabel
+            control={
+              <Switch checked={this.state.loc}
+              onChange={this.handleChangeLoc()
+            } color="primary" />
+            }
+            label={this.state.loc ? "Oui" : "Non"}
+            />
+            </Grid>
+            {this.state.loc ? <Slider aria-labelledby="continuous-slider" defaultValue="60"
               getAriaValueText={this.valuetext}
               aria-labelledby="discrete-slider"
               valueLabelDisplay="auto"
@@ -358,7 +381,8 @@ class Filter extends React.Component {
               id="localisation"
               name="localisation"
               onChange={(e, val) => this.onChangeLoc(val)}
-              />
+              /> : null}
+
           </Grid>
 
 

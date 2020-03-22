@@ -44,7 +44,7 @@ router.post("/", function(req,res,next){
   var votes = req.body
   db.votesComment.find({
     user: votes.user,
-    post: votes.post
+    comment: votes.comment
   },function(err,result){
     if(err){
       res.send(err);
@@ -65,7 +65,7 @@ router.post("/", function(req,res,next){
         if(result[0].like != votes.like){
           db.votesComment.updateOne({
             user: votes.user,
-            post: votes.post
+            comment: votes.comment
           },{$set: { "like" : votes.like}},function(err,users){
             if(err){
               res.json({

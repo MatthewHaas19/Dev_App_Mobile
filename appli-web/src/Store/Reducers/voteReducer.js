@@ -8,6 +8,8 @@ function toggleUserVote(state = initialState, action) {
     return state
     case 'TOGGLE_USER_VOTE_COMMENT':
     state = {votes:state.votes,votesComment:action.userVote}
+    console.log("COOOMMMENT")
+    console.log(action.userVote)
     return state
   default:
     return state

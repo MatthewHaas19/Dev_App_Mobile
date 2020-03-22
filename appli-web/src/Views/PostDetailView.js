@@ -225,13 +225,12 @@ class PostDetailViewTest extends React.Component{
                 console.log(data)
                   var comments = this.state.comments
 
-
                   var index = comments.indexOf(comment);
                   if (index !== -1) {
                     if(val=="-"){
-                      comment.note = comment.note - 2
+                      comment.voteCom = comment.voteCom - 2
                     }else{
-                      comment.note =  comment.note + 2
+                      comment.voteCom =  comment.voteCom + 2
                     }
                       comments[index] = comment;
                       this.setState({comments: comments})
@@ -256,9 +255,9 @@ class PostDetailViewTest extends React.Component{
                     var index = comments.indexOf(comment);
                     if (index !== -1) {
                       if(val=="-"){
-                        comment.note = comment.note - 1
+                        comment.voteCom = comment.voteCom - 1
                       }else{
-                        comment.note =  comment.note + 1
+                        comment.voteCom =  comment.voteCom + 1
                       }
                         comments[index] = comment;
 

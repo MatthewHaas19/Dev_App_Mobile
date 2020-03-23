@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import Login from './Views/Login.js'
 import NavBar from './Views/NavBar.js'
+import Grid from '@material-ui/core/Grid';
+import Fab from '@material-ui/core/Fab';
 import AddPost from './Views/AddPost.js'
 import Home from './Views/Home.js'
 import HomeSwitcher from './Views/HomeSwitcher.js'
@@ -20,6 +22,7 @@ import {getVoteCommentByUser} from './API/VoteApi'
 import AdminHome from './Views/AdminHome.js'
 import AdminNavBar from './Views/AdminNavBar.js'
 import Localisation from './Views/component/Localisation.js'
+import AddIcon from '@material-ui/icons/Add';
 
 import {
   Router,
@@ -71,7 +74,6 @@ class App extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        //console.log(data)
         this.setState({ data })
       });
   }
@@ -109,7 +111,6 @@ class App extends Component {
     getAllPostsFromDb().then(data => {
       const posts = data
       this.setState({posts: data})
-      console.log(data)
 
       var action = { type: "ADD_POSTS", posts: data}
       this.props.dispatch(action)
@@ -157,7 +158,6 @@ class App extends Component {
       if(val != this.state.vue){
         this.setState({vue:val})
       }
-      console.log(this.state.vue)
     }
 
   }
@@ -189,6 +189,7 @@ class App extends Component {
 
       <Router history={history}>
         <div>
+
             <Localisation />
             <Switch>
              <PrivateAdmin exact path="/adminhome">
@@ -203,7 +204,9 @@ class App extends Component {
 
           <Switch>
             <Route exact path="/">
+            
               {this.state.width > 1275 ? (<HomeSwitcher val={this.state.vue} close={()=>this.setState({openfilter:false,openprofile:false})} open={this.state.open} openfilter={this.state.openfilter} openprofile={this.state.openprofile}/>) : <Home switcher={true} close={()=>this.setState({openfilter:false,openprofile:false})} open={this.state.open} openfilter={this.state.openfilter} openprofile={this.state.openprofile}  />}
+
             </Route>
 
             <Route path="/addpost">
@@ -231,7 +234,7 @@ class App extends Component {
               </PrivateProfile>
 
             <Route path="/filter">
-              <HomeSwitcher val={0} />
+                  {this.state.width > 1275 ? (<HomeSwitcher val={0} close={()=>this.setState({openfilter:false,openprofile:false})} open={this.state.open} openfilter={this.state.openfilter} openprofile={this.state.openprofile}/>) : <Home switcher={true} close={()=>this.setState({openfilter:false,openprofile:false})} open={this.state.open} openfilter={this.state.openfilter} openprofile={this.state.openprofile}  />}
             </Route>
 
             <Route path="/postdetailview/:id" component={PostDetailView} />

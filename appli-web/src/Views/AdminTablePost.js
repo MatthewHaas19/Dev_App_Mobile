@@ -51,7 +51,7 @@ const useStyles = theme => ({
     color: "black",
   },
   table: {
-    backgroundColor: "#a1d0d3"
+
   },
   tableContent: {
     color: "black",
@@ -98,39 +98,7 @@ class AdminTablePost extends React.Component {
 
   constructor(props){
     super(props)
-    getAllPostsFromDb().then(data => {
-      var posts = data
 
-        for(let i=0;i<posts.length;i++){
-
-          if(posts[i].titre.length > 0 ) {
-            posts[i].titre = posts[i].titre[0].toUpperCase() + posts[i].titre.slice(1)
-          }
-
-          Object.assign(posts[i], {reports: 0});
-          getAllCommentFromPost(posts[i]._id).then(res => {
-            posts[i].commentaire.push(res.length)
-            getAllReportFromPost(posts[i]._id).then(reports => {
-              if(reports.length>0) {
-                posts[i].reports=reports.length
-              }
-
-                  this.setState({posts: posts})
-
-
-
-            }).catch((error) => {
-              console.log("Erreur dans le constructeur reports")
-            })
-
-          }).catch((error) => {
-            console.log("Erreur dans le constructeur")
-          })
-        }
-
-    }).catch((error) => {
-      console.log("Erreur dans le constructeur")
-    })
   }
 
 
@@ -301,7 +269,7 @@ class AdminTablePost extends React.Component {
         </TableHead>
         <TableBody>
         {
-          orderBy(this.state.posts,this.state.columnToSort,this.state.sortDirection).filter(x => x[this.state.columnToQuery].toLowerCase().includes(lowerCaseQuery)).map(currentPost => (
+          orderBy(this.props.infosHome.posts,this.state.columnToSort,this.state.sortDirection).filter(x => x[this.state.columnToQuery].toLowerCase().includes(lowerCaseQuery)).map(currentPost => (
            <TableRow key={currentPost.id}>
           <TableCell style={{display:"none"}} className={classes.nomColonne} align="center">{currentPost._id}</TableCell>
           <TableCell ><Link onClick={() => this.displayPost(currentPost)} className={classes.tableContent}> {currentPost.titre} </Link></TableCell>
@@ -335,8 +303,12 @@ class AdminTablePost extends React.Component {
       <AdminPostDetail
       show={(val) => this.setState({openPost:val})}
       postHasBeenDeleted={() => {
-        const newPosts = this.state.posts.filter(post => post._id !== this.props.adminCurrentPost._id);
-        this.setState({ posts: newPosts , openPost:false});
+        const newUser = this.props.infosHome.users
+        const newPosts = this.props.infosHome.posts.filter(post => post._id !== this.props.adminCurrentPost._id);
+        const newComments = this.props.infosHome.comments.filter(comment => comment.postId !== this.props.adminCurrentPost._id);
+        var action = { type: "TOGGLE_ADMIN_INFOS", listInfos: {posts:newPosts,comments:newComments,users:newUser }}
+        this.props.dispatch(action)
+        this.setState({  openPost:false});
       }}
       />
     </Dialog>
@@ -351,8 +323,11 @@ class AdminTablePost extends React.Component {
         <AdminProfilUser
         show={(val) => this.setState({openUser:val})}
         userHasBeenDeleted={() => {
-          const newPosts = this.state.posts.filter(post => post.user !== this.props.userAdmin.email);
-          this.setState({ posts: newPosts });
+          const newUser = this.props.infosHome.users.filter(user => user._id !== this.props.userAdmin._id);
+          const newPosts = this.props.infosHome.posts.filter(post => post.user !== this.props.userAdmin.email);
+          const newComments = this.props.infosHome.comments.filter(comment => comment.user !== this.props.userAdmin.email);
+          var action = { type: "TOGGLE_ADMIN_INFOS", listInfos: {posts:newPosts,comments:newComments,users:newUser }}
+          this.props.dispatch(action)
         }}
         />
     </Dialog>
@@ -367,7 +342,8 @@ const mapStateToProps = state =>{
   return {
     isAuth: state.auth.isAuth,
     adminCurrentPost: state.posts.adminCurrentPost,
-    userAdmin: state.userAdmin.user
+    userAdmin: state.userAdmin.user,
+    infosHome: state.adminHome.infos,
   }
 }
 

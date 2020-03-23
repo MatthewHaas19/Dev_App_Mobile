@@ -98,8 +98,8 @@ class RowPostView extends React.Component{
       }).catch((error) => {
         console.log("Erreur fetch")
       })
-    } 
-   
+    }
+
 
   }
 
@@ -226,7 +226,7 @@ class RowPostView extends React.Component{
       </Typography>
       </Box>
     </div>
-    
+
     </Grid>
 
 

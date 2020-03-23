@@ -81,13 +81,21 @@ class AdminPostsUser extends React.Component {
       <Grid xs={2}>
       </Grid>
       <Grid xs={8}>
-      {  this.props.adminListPost.map(currentPostUser => (
-          <RowPostViewAdmin post={currentPostUser} postHasBeenDeleted={() => {
-            const newPosts = this.props.adminListPost.filter(post => post._id !== currentPostUser._id);
-            var action = { type: "ADMIN_LIST_POST", adminListPost:newPosts}
+      {  this.props.infosHome.posts.filter(post => post.user == this.props.userAdmin.email).reverse().map(currentPostUser => (
+          <RowPostViewAdmin
+          post={currentPostUser}
+          postHasBeenDeleted={() => {
+            const newPosts2 = this.props.infosHome.posts.filter(post => post._id !== currentPostUser._id);
+            const newComments = this.props.infosHome.comments.filter(comment => comment.postId !== currentPostUser._id)
+            const newUser = this.props.infosHome.users
+            const index = newUser.findIndex(user => user._id == this.props.userAdmin._id)
+            newUser[index].posts = newUser[index].posts - 1
+            var action = { type: "TOGGLE_ADMIN_INFOS", listInfos: {posts:newPosts2,comments:newComments,users:newUser }}
             this.props.dispatch(action)
-            this.props.hasBeenModified()
-          }} />
+
+          }}
+
+           />
       ))}
       <br /><br />
       </Grid>
@@ -105,7 +113,9 @@ const mapStateToProps = state =>{
   return {
     isAuth: state.auth.isAuth,
     userAdmin: state.userAdmin.user,
-    adminListPost: state.posts.adminListPost
+    adminListPost: state.posts.adminListPost,
+    infosHome: state.adminHome.infos,
+
   }
 }
 

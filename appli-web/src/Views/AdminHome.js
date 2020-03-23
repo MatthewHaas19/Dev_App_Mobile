@@ -18,6 +18,13 @@ import {getAllPostsFromDb} from '../API/PostApi'
 import {getAllUsersFromDb} from '../API/UserApi'
 import {getAllCommentFromPost} from '../API/CommentApi'
 import {getAllReportFromPost} from '../API/ReportApi'
+import {getPostByUser} from '../API/PostApi'
+import {getAllCommentFromUser} from '../API/CommentApi'
+import {getAllReportFromUser} from '../API/ReportApi'
+import {getUserFromDb} from '../API/UserApi'
+import {getAllCommentFromDb} from '../API/CommentApi'
+import {getPostById} from '../API/PostApi'
+import {getAllReportFromComment} from '../API/ReportApi'
 import AdminTablePost from '../Views/AdminTablePost'
 import AdminTableUser from '../Views/AdminTableUser'
 import AdminTableComment from '../Views/AdminTableComment'
@@ -41,13 +48,11 @@ const useStyles = theme => ({
     color:'black',
   },
   filterView: {
-    backgroundColor:"#7bbcc0",
   },
   actionProfileView: {
     backgroundColor:"red",
   },
   listView: {
-    backgroundColor:"#7bbcc0",
   },
   table: {
     minWidth: 650,
@@ -57,7 +62,7 @@ const useStyles = theme => ({
     fontSize: 20,
   },
   table: {
-    backgroundColor: "#7bbcc0"
+
   },
   buttonMenu: {
     backgroundColor:"#CFCECD",
@@ -80,6 +85,109 @@ class AdminHome extends React.Component {
 
   constructor(props){
     super(props)
+    console.log("Entre dans le constructeur")
+
+    getAllCommentFromDb().then(resComments => {
+      var commentsGlobal = resComments
+        for(let i=0;i<commentsGlobal.length;i++){
+          if(commentsGlobal[i].titreCom.length > 0 ) {
+            commentsGlobal[i].titreCom = commentsGlobal[i].titreCom[0].toUpperCase() + commentsGlobal[i].titreCom.slice(1)
+          }
+          Object.assign(commentsGlobal[i], {reports: 0});
+            getAllReportFromComment(commentsGlobal[i]._id).then(reports => {
+              if(reports.length>0) {
+
+                commentsGlobal[i].reports=reports.length
+              }
+
+          }).catch((error) => {
+            console.log("Erreur dans le constructeur 1")
+          })
+        }
+
+
+
+
+        getAllPostsFromDb().then(listPosts => {
+          var postsGlobal = listPosts
+
+            for(let i=0;i<postsGlobal.length;i++){
+
+              if(postsGlobal[i].titre.length > 0 ) {
+                postsGlobal[i].titre = postsGlobal[i].titre[0].toUpperCase() + postsGlobal[i].titre.slice(1)
+              }
+
+              Object.assign(postsGlobal[i], {reports: 0});
+              getAllCommentFromPost(postsGlobal[i]._id).then(res => {
+                postsGlobal[i].commentaire.push(res.length)
+                getAllReportFromPost(postsGlobal[i]._id).then(reports => {
+                  if(reports.length>0) {
+                    postsGlobal[i].reports=reports.length
+                  }
+
+
+
+                }).catch((error) => {
+                  console.log("Erreur dans le constructeur reports")
+                })
+
+              }).catch((error) => {
+                console.log("Erreur dans le constructeur")
+              })
+            }
+
+
+
+            getAllUsersFromDb().then(listUsers => {
+              var usersGlobal = listUsers
+                for(let i=0;i<usersGlobal.length;i++){
+                  getPostByUser(usersGlobal[i].email).then(res => {
+                    Object.assign(usersGlobal[i], {posts: 0});
+                    if(res.length>0) {
+                      usersGlobal[i].posts=res.length
+                    }
+                    getAllCommentFromUser(usersGlobal[i].email).then(comments => {
+                      Object.assign(usersGlobal[i], {comments: 0});
+                      if(comments.length>0) {
+                        usersGlobal[i].comments=comments.length
+                      }
+                      getAllReportFromUser(usersGlobal[i].email).then(reports => {
+                        Object.assign(usersGlobal[i], {reports: 0});
+                        if(reports!=null) {
+                          usersGlobal[i].reports=reports.length
+                        }
+
+                        var action = { type: "TOGGLE_ADMIN_INFOS", listInfos: {posts:postsGlobal,comments:commentsGlobal,users:usersGlobal }}
+                        this.props.dispatch(action)
+
+                      })
+                    }).catch((error) => {
+                      console.log("Erreur dans le constructeur")
+                    })
+                  }).catch((error) => {
+                    console.log("Erreur dans le constructeur")
+                  })
+                }
+
+
+            }).catch((error) => {
+              console.log(error)
+              console.log("Erreur dans le constructeur")
+            })
+
+        }).catch((error) => {
+          console.log("Erreur dans le constructeur")
+        })
+
+
+
+
+
+    }).catch((error) => {
+      console.log("Erreur dans le constructeur 2")
+    })
+
+
 
   }
 
@@ -87,9 +195,9 @@ class AdminHome extends React.Component {
 
     const {classes} = this.props
 
+
     function TableDisplay(props) {
-      const afficher = props.afficher
-      console.log(afficher)
+      var afficher = props.afficher
       if(afficher == "posts") {
         return (<AdminTablePost />)
       }
@@ -123,6 +231,7 @@ class AdminHome extends React.Component {
 const mapStateToProps = state =>{
   return {
     pageToShow: state.adminPage.pageToShow,
+    infosHome: state.adminHome.infos,
   }
 }
 

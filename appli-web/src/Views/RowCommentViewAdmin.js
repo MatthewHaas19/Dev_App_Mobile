@@ -23,7 +23,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Slide from '@material-ui/core/Slide';
-import {deletePost} from '../API/PostApi'
+import {deleteComment} from '../API/CommentApi'
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -93,12 +93,12 @@ class RowCommentViewAdmin extends React.Component{
     }
 
     deleteCommentFunction(id){
-      //deleteComment(id).then(res => {
+      deleteComment(id).then(res => {
         this.setState({showDialogComfirm:false})
         this.props.commentHasBeenDeleted()
-      //}).catch((error) => {
-      //  console.log("Erreur dans la suppression")
-    //  })
+      }).catch((error) => {
+        console.log("Erreur dans la suppression comment")
+      })
     }
 
 

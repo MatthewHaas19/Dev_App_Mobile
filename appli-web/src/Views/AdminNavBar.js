@@ -65,7 +65,7 @@ const useStyles = theme => ({
   },
   title: {
     flexGrow: 1,
-    color: "black",
+    color: "white",
     marginLeft: 10,
     fontFamily: 'Noteworthy Light'
   },
@@ -76,10 +76,11 @@ const useStyles = theme => ({
   searchfield: {
     width:200,
     marginRight:50,
+    color:'white'
   },
   titleSearch: {
     marginRight:30,
-    color:"black",
+    color:"white",
   }
 });
 
@@ -120,7 +121,7 @@ class AdminNavBar extends React.Component  {
           <ThemeProvider theme={theme}>
     <CssBaseline />
           <div className={classes.title}>
-          <Link to="/adminhome" style={{textDecoration: 'none',color:'black'}}>
+          <Link to="/adminhome" style={{textDecoration: 'none',color:'white'}}>
           <h1>Interface Administrateur</h1>
           </Link>
           </div>

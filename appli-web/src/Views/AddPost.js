@@ -173,6 +173,10 @@ class AddPost extends React.Component {
 
     e.preventDefault();
     console.log(this.state.categorie)
+    var localisation = []
+    if(this.props.position){
+      localisation = [this.props.position.latitude.toString(),this.props.position.longitude.toString()]
+    }
       const post = {
         titre: this.state.titre,
         texte : this.state.texte,
@@ -180,7 +184,7 @@ class AddPost extends React.Component {
         image: this.state.image,
         categorie: this.state.categorie,
         nbSignalement: 0,
-        localisation: [this.props.position.latitude,this.props.position.longitude],
+        localisation: localisation,
         user: userMail,
         commentaire: [],
         date: yyyy + '-' + mm +'-' + dd + ' ' + hh + ":" + mn + ":" + ss ,

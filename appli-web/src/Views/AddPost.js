@@ -195,7 +195,12 @@ class AddPost extends React.Component {
         .then(data => {
           if(data == "{\"res\":\"correct\",\"message\":\"add post ok\"}"){
             console.log("Bien ajouté")
-            this.props.back()
+            var posts = this.props.posts
+            posts.unshift(post)
+            var action = { type: "ADD_POSTS", posts: posts}
+            console.log(posts)
+            this.props.dispatch(action)
+            this.props.back(posts)
           }
           else{
             console.log("erreur add Post")
@@ -422,7 +427,8 @@ const mapStateToProps = state =>{
   return {
     isAuth: state.auth.isAuth,
     currentUser: state.user.currentUser,
-    position: state.position.position
+    position: state.position.position,
+    posts: state.posts.posts,
   }
 }
 

@@ -128,7 +128,7 @@ class AddComment extends React.Component {
         errorMsg = "Votre texte ne doit pas être vide";
         }
     }
-      
+
     if(errorMsg) {
       this.setState({errorMsg})
       return false
@@ -138,11 +138,10 @@ class AddComment extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    console.log("test")
+
     console.log(nextProps.idpost)
-    if (nextProps.idpost !== this.state.idPost) {
-      this.setState({ idPost: nextProps.idpost });
-    }
+    this.setState({ idPost: nextProps.idpost });
+    console.log("CUOCOUCOUCOUCOU")
 
 
   }
@@ -192,14 +191,15 @@ class AddComment extends React.Component {
         user: userMail,
         texteCom : this.state.texteCom,
         voteCom: 0,
-        postId : this.props.currentIdPost, //A FAIRE
+        postId : this.state.idPost, //A FAIRE
       };
       console.log(comment)
       setNewCommentDb(comment)
         .then(data => {
           if(data == "{\"res\":\"correct\",\"message\":\"add comment ok\"}"){
             console.log("Comment Bien ajouté")
-            history.push('/postdetailview/'+this.state.idPost);
+
+            this.props.back(comment)
           }
           else{
             console.log("erreur add Comment")
@@ -229,6 +229,7 @@ class AddComment extends React.Component {
       <div className={classes.paper}>
         <Typography component="h1" variant="h5" className={classes.title} >
           Ajouter un commentaire
+          {this.state.idProps}
         </Typography>
         <form className={classes.form} noValidate onSubmit={this.onSubmit}>
         <FormControlLabel className={classes.fields}

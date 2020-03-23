@@ -5,6 +5,7 @@ function togglePosts(state = initialState, action) {
   switch(action.type) {
     case 'ADD_POSTS':
     state = {posts:action.posts}
+    console.log("addPost")
     case 'CURRENT_POST':
     state = {posts:state.posts,currentIdPost:action.currentIdPost}
     case 'ADMIN_CURRENT_POST':

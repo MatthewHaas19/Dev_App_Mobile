@@ -78,20 +78,20 @@ class PostDetailView extends React.Component{
     getPostById(idPost).then(data => {
       const post = data
       this.setState({posts: data})
-      this.setState({idPost: idPost})
+      this.setState({idPost: this.props.match.params.id})
       console.log("id"+this.state.idPost)
       console.log("Le post" +data)
-
+      getAllCommentFromPost(this.props.match.params.id).then(data => {
+         const comments = data
+         this.setState({comments: data})
+         console.log("dans get all comments les com :" + data)
+       }).catch((error) => {
+         console.log("Erreur dans la recuperation des comments")
+       })
     }).catch((error) => {
       console.log("Erreur fetch")
     })
-   getAllCommentFromPost(idPost).then(data => {
-      const comments = data
-      this.setState({comments: data})
-      console.log("dans get all comments les com :" + data)
-    }).catch((error) => {
-      console.log("Erreur dans la recuperation des comments")
-    })
+
 
 
   }
@@ -116,6 +116,15 @@ class PostDetailView extends React.Component{
     this.setState({openAddComment:false});
     this.setState({openAddSignalement:false});
   };
+
+  handleCloseAdd = (com) => {
+    this.setState({openAddComment:false});
+    this.setState({openAddSignalement:false});
+    var comments = this.state.comments
+    comments.unshift(com)
+    this.setState({comments:comments})
+  };
+
 
   handleVote(val,post){
     console.log(post)
@@ -345,7 +354,7 @@ class PostDetailView extends React.Component{
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <AddComment idpost={this.state.idPost} back={this.handleClose}/>
+        <AddComment idpost={this.state.idPost} back={(com) => this.handleCloseAdd(com)}/>
       </Dialog>
 
       <Dialog

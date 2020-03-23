@@ -154,6 +154,7 @@ class Home extends React.Component {
   handleDrawerToggle = () => {
     this.setState({openfilter:false});
     this.setState({openprofile:false});
+    this.props.close()
   };
 
   handleClickOpen = () => {
@@ -219,9 +220,7 @@ class Home extends React.Component {
           }else{
             if(data.res=="correct"){
               votePost(val,post).then(data=>{
-                votePost(val,post).then(data=>{
                   console.log("add")
-                  console.log("change")
                   console.log(data)
                     var posts = this.props.posts
 
@@ -244,7 +243,6 @@ class Home extends React.Component {
 
                         })
                     }
-                })
               })
             }
           }

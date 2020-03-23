@@ -164,9 +164,8 @@ class PostDetailViewTest extends React.Component{
           }else{
             if(data.res=="correct"){
               votePost(val,post).then(data=>{
-                votePost(val,post).then(data=>{
                   console.log("add")
-                  console.log("change")
+
                   console.log(data)
                     var posts = this.state.posts
 
@@ -187,7 +186,6 @@ class PostDetailViewTest extends React.Component{
 
                         })
                     }
-                })
               })
             }
           }
@@ -245,9 +243,7 @@ class PostDetailViewTest extends React.Component{
           }else{
             if(data.res=="correct"){
               voteComment(val,comment).then(data=>{
-                voteComment(val,comment).then(data=>{
                   console.log("add")
-                  console.log("change")
                   console.log(data)
                     var comments = this.state.comments
 
@@ -268,7 +264,6 @@ class PostDetailViewTest extends React.Component{
 
                         })
                     }
-                })
               })
             }
           }

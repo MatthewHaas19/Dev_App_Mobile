@@ -21,7 +21,7 @@ import Container from '@material-ui/core/Container';
 import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
-import {setUserDb} from '../API/UserApi'
+import {setUserDb, getUserFromDb} from '../API/UserApi'
 import Noteworthy from '../fonts/Noteworthy-Lt.woff';
 import cookie from 'react-cookies';
 import {store} from '../Store/store'
@@ -101,32 +101,67 @@ class Register extends React.Component {
       username: '',
       email: '',
       password: '',
-      cpassword:''
+      cpassword:'',
+      errorMsg:'',
     }
   }
+
+
+  validate = (i) => {
+    let errorMsg = '';
+
+    if(i == "mail" ) {
+      errorMsg = "Il existe déja un compte lié à cet email";
+    }
+    else {
+      if(i == "mdp" ) {
+        errorMsg = "Les deux mots de passe ne sont pas identiques";
+      }
+    }
+    if(errorMsg) {
+      this.setState({errorMsg})
+    }
+  }
+
 
   onChange = (e) => {
     this.setState({[e.target.name]: e.target.value })
   }
 
+
   onSubmit = (e) => {
     e.preventDefault();
-    if(e.password == e.cpassword){
+  
+    if(this.state.password == this.state.cpassword){
       const user = {
         username: this.state.username,
         post : [],
         password: bcrypt.hashSync(this.state.password, salt),
         email : this.state.email,
       };
-      setUserDb(user)
-        .then(data => {
-          if(data == "{\"res\":\"correct\",\"message\":\"register ok\"}"){
-            history.push('/login');
-          }
-          else{
-            console.log("erreur register")
-          }
-        })
+      
+      getUserFromDb(user.email)
+      .then(data => {
+        console.log(data)
+        if(!(data.length==0)){
+          console.log("email deja utilisé")
+          this.validate("mail")
+        }
+        else {
+          setUserDb(user)
+          .then(data => {
+            if(data == "{\"res\":\"correct\",\"message\":\"register ok\"}"){
+              history.push('/login');
+            }
+            else{
+              console.log("erreur register")
+            }
+          })
+        }
+      })
+    }
+    else {
+      this.validate("mdp");
     }
   }
 
@@ -152,7 +187,10 @@ class Register extends React.Component {
         <Typography component="h1" variant="h5" className={classes.title} >
           Register
         </Typography>
-        <form className={classes.form} noValidate onSubmit={this.onSubmit}>
+        { this.state.errorMsg ? (
+          <div style = {{color:"red", fontSize : 15}}>{this.state.errorMsg}</div>
+          ) : null }
+        <form className={classes.form}  onSubmit={this.onSubmit}>
           <TextField
             variant="outlined"
             margin="normal"

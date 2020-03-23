@@ -87,9 +87,9 @@ class AdminProfilUser extends React.Component {
     this.setState({showDialogComfirm:false});
   };
 
-  deleteUserFunction(id){
+  deleteUserFunction(email){
     console.log("in the funciton")
-    deleteUser(id).then(res => {
+    deleteUser(email).then(res => {
       console.log("OK delete")
       this.state.showDialogComfirm = false
       this.props.show(false)
@@ -163,7 +163,7 @@ class AdminProfilUser extends React.Component {
           <Button onClick={handleClose} color="primary">
             Annuler
           </Button>
-          <Button onClick={() => this.deleteUserFunction(this.props.userAdmin._id)}
+          <Button onClick={() => this.deleteUserFunction(this.props.userAdmin.email)}
            style={{backgroundColor:"red", color:"white"}} autoFocus>
             Supprimer
           </Button>

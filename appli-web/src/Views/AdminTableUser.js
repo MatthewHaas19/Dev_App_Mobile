@@ -268,8 +268,12 @@ class AdminTableUser extends React.Component {
            <TableCell style={{display:"none"}} className={classes.nomColonne} align="center">{currentUser._id}</TableCell>
            <TableCell><Link onClick={() => this.displayUsers(currentUser)} className={classes.tableContent}> {currentUser.username} </Link></TableCell>
              <TableCell align="center"><Link onClick={() => this.displayUsers(currentUser)} className={classes.tableContent}>{currentUser.email} </Link></TableCell>
-             <TableCell align="center"><Link onClick={() => this.displayPosts(currentUser)} className={classes.tableContent}> {currentUser.posts}</Link></TableCell>
-             <TableCell align="center" className={classes.tableContent} > {currentUser.comments}</TableCell>
+             <TableCell align="center"><Link onClick={() => this.displayPosts(currentUser)} className={classes.tableContent}>
+             {this.props.infosHome.posts.filter(post => post.user == currentUser.email).length}
+             </Link></TableCell>
+             <TableCell align="center" className={classes.tableContent} >
+             {this.props.infosHome.comments.filter(comment => comment.user == currentUser.email).length}
+             </TableCell>
              <TableCell align="center"><Button onClick={() => this.displayUsers(currentUser)} className={classes.profilButton}> Profil</Button></TableCell>
           </TableRow>
 

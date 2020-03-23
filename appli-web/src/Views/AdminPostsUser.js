@@ -88,8 +88,6 @@ class AdminPostsUser extends React.Component {
             const newPosts2 = this.props.infosHome.posts.filter(post => post._id !== currentPostUser._id);
             const newComments = this.props.infosHome.comments.filter(comment => comment.postId !== currentPostUser._id)
             const newUser = this.props.infosHome.users
-            const index = newUser.findIndex(user => user._id == this.props.userAdmin._id)
-            newUser[index].posts = newUser[index].posts - 1
             var action = { type: "TOGGLE_ADMIN_INFOS", listInfos: {posts:newPosts2,comments:newComments,users:newUser }}
             this.props.dispatch(action)
 

@@ -275,7 +275,9 @@ class AdminTablePost extends React.Component {
           <TableCell ><Link onClick={() => this.displayPost(currentPost)} className={classes.tableContent}> {currentPost.titre} </Link></TableCell>
           <TableCell align="center"><Link onClick={() => this.displayUser(currentPost.user)} className={classes.tableContent}  style={{fontWeight:"bold"}}>{currentPost.user} </Link></TableCell>
           <TableCell align="center" className={classes.tableContent}>{currentPost.note}</TableCell>
-          <TableCell align="center" className={classes.tableContent}>{(currentPost.commentaire.length>0) ? currentPost.commentaire[0] : 0 }</TableCell>
+          <TableCell align="center" className={classes.tableContent}>
+          {this.props.infosHome.comments.filter(comment => comment.postId == currentPost._id).length}
+          </TableCell>
           <TableCell align="center" className={classes.tableContent}>{currentPost.reports} </TableCell>
           <TableCell align="center"><Button onClick={() => this.displayPost(currentPost)} className={classes.detailsButton}> détails </Button></TableCell>
 

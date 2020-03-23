@@ -99,13 +99,39 @@ class Login extends React.Component {
     super(props)
     this.state = {
       email: '',
-      password: ''
+      password: '',
+      errorMsg:'',
     }
   }
 
   onChange = (e) => {
     this.setState({[e.target.name]: e.target.value })
   }
+  validate = (i) => {
+    let errorMsg = '';
+
+    if(i == "mail" ) {
+      errorMsg = "Aucun compte n'est lié à cet email";
+    }
+    else {
+      if(i == "mdp" ) {
+      errorMsg = "Mot de passe incorrect";
+    }
+    else{
+      if(i == "vide" ) {
+        errorMsg = "Les champs de saisie sont vides";
+      }
+
+    }
+    }
+    
+    if(errorMsg) {
+      this.setState({errorMsg})
+    }
+    
+
+  }
+ 
 
   onSubmit = (e) => {
     e.preventDefault();
@@ -114,12 +140,16 @@ class Login extends React.Component {
       password: this.state.password
     };
     console.log(user);
-
+    if ( !(user.email.length > 0) && !(user.email.password > 0)) {
+      this.validate("vide")
+    }
+    else {
     getUserFromDb(user.email)
       .then(data => {
         console.log(data)
         if(data.length==0){
           console.log("email incorrect")
+          this.validate("mail")
         }
         else{
           if(bcrypt.compareSync(user.password,data[0].password)){
@@ -140,9 +170,11 @@ class Login extends React.Component {
             history.push("/")
           }else{
             console.log("password incorrect")
+            this.validate("mdp")
           }
         }
       })
+    }
   }
 
 
@@ -161,6 +193,9 @@ class Login extends React.Component {
         <Typography component="h1" variant="h5" className={classes.title} >
           Login
         </Typography>
+        { this.state.errorMsg ? (
+          <div style = {{color:"red", fontSize : 15}}>{this.state.errorMsg}</div>
+          ) : null }
         <div className={classes.form}>
           <TextField
             variant="outlined"

@@ -131,7 +131,6 @@ class AddPost extends React.Component {
         }
     }
       
-  
     if(errorMsg) {
       this.setState({errorMsg})
       return false
@@ -209,7 +208,7 @@ class AddPost extends React.Component {
         })
       }
       else {
-        console.log('problem')
+        console.log('champs non complet dans add post')
       }
     }
 

@@ -7,6 +7,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import Checkbox from '@material-ui/core/Checkbox';
+import Card from '@material-ui/core/Card';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { createMuiTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
@@ -60,7 +61,7 @@ const useStyles = theme => ({
   }
 });
 
-class PostDetailViewTest extends React.Component{
+class PostDetailView extends React.Component{
 
   state = {
     posts:[],
@@ -285,18 +286,32 @@ class PostDetailViewTest extends React.Component{
     );
 
     const post = this.state.posts.map((post) =>
-      <Grid item xs={12}>
+
+    <Grid container >
+    <Grid item xs={1}>
+    </Grid>
+      <Grid item xs={10}>
       <RowPostDetailView post={post} handlevote={(val) => this.handleVote(val,post)} />
 
       {post.image ? <img src={post.image}  />: null}
 
       </Grid>
+      <Grid item xs={1}>
+      </Grid>
+      </Grid>
+
     );
 
 
     const listcomments = this.state.comments.map((comment) =>
-    <Grid item xs={12}>
+    <Grid container >
+    <Grid item xs={2}>
+    </Grid>
+    <Grid item xs={9}>
       <RowCommentView comments={comment} handlevote={(val) => this.handleVoteComment(val,comment)} />
+      </Grid>
+      <Grid item xs={1}>
+      </Grid>
       </Grid>
     )
 
@@ -307,9 +322,11 @@ class PostDetailViewTest extends React.Component{
 
     return(
       <div>
+      <Card className={classes.mainPage}>
+      <Grid container>
         <Grid item xs={12}>
        {post}
-       <div style={{ display: 'flex', alignItems: 'center',justifyContent: 'center', paddingTop: '10px',paddingBottom: '10px'}}>
+       <div style={{ display: 'flex', alignItems: 'center',justifyContent: 'center', paddingTop: '50px',paddingBottom: '30px'}}>
         <ColorButton variant="outlined" color="primary" onClick={this.handleClickOpen} >
         Ajouter un commentaire
       </ColorButton>
@@ -341,8 +358,9 @@ class PostDetailViewTest extends React.Component{
       >
         <Signalement idpost={this.state.idPost} back={this.handleClose}/>
       </Dialog>
-
-
+      </Grid>
+      <br /><br /><br /><br />
+      </Card>
       </div>
     )
   }
@@ -359,4 +377,4 @@ const mapStateToProps = state =>{
   }
 }
 
-export default connect(mapStateToProps)(PostDetailViewTest)
+export default connect(mapStateToProps)(withStyles(useStyles)(PostDetailView))

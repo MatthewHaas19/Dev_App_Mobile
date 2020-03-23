@@ -112,10 +112,7 @@ class RowPostViewAdmin extends React.Component{
   }
 
   deletePostFunction(id){
-    console.log("on veut delete ")
-    console.log(id)
     deletePost(id).then(res => {
-      console.log(res)
       this.setState({showDialogComfirm:false})
       this.props.postHasBeenDeleted()
     }).catch((error) => {

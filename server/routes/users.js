@@ -75,10 +75,8 @@ router.delete("/", async function(req,res,next) {
             res.send(err);
           }
           console.log("Je suis dans comments")
-          console.log(comments)
           for await (c of comments) {
             str = String(c._id)
-            console.log(str)
             await db.comReports.remove({"idCom":str}, function(err,msg){
               if(err){
                 console.log("Erreur remove commentReport")
@@ -113,13 +111,17 @@ router.delete("/", async function(req,res,next) {
 
     //Suppression des votes, reports... du user
 
-    await db.posts.remove({"user":user.email})
-    await db.votes.remove({"user":user.email})
-    await db.votesComment.remove({"user":user.email})
-    await db.reports.remove({"emailUser":user.email})
-    await db.comReports.remove({"emailUser":user.email})
+    await db.posts.remove({"user":email})
+    console.log("Tous les posts removed")
+    await db.votes.remove({"user":email})
+    console.log("Tous les votes removed")
+    await db.votesComment.remove({"user":email})
+    console.log("Tous les votesComment removed")
+    await db.reports.remove({"emailUser":email})
+    console.log("Tous les reports removed")
+    await db.comReports.remove({"emailUser":email})
+    console.log("Tous les com reports removed")
 
-    console.log("posts remove")
 
 
 
@@ -134,7 +136,6 @@ router.delete("/", async function(req,res,next) {
             res.send(err);
           }
           console.log("Je suis dans comments 2")
-          console.log(comments)
           for await (c of comments) {
             str = String(c._id)
             console.log(str)
@@ -155,8 +156,8 @@ router.delete("/", async function(req,res,next) {
           }
         })
         await db.comment.remove({"user": email})
+        console.log("Remove comments 2")
 
-      
   })
 
 })

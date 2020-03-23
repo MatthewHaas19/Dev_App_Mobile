@@ -9,7 +9,6 @@ import HomeSwitcher from './Views/HomeSwitcher.js'
 import Profile from './Views/Profile.js'
 import Filter from './Views/Filter.js'
 import PostDetailView from './Views/PostDetailView.js'
-import PostDetailViewTest from './Views/PostDetailViewTest.js'
 import Register from './Views/Register.js'
 import { connect } from 'react-redux'
 import { push } from 'react-router-redux';

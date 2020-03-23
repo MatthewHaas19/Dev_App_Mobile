@@ -187,7 +187,7 @@ class App extends Component {
 
           <Switch>
             <Route exact path="/">
-              {this.state.width > 1275 ? (<HomeSwitcher val={this.state.vue} open={this.state.open} openfilter={this.state.openfilter} openprofile={this.state.openprofile}/>) : <Home switcher={true} open={this.state.open} openfilter={this.state.openfilter} openprofile={this.state.openprofile}  />}
+              {this.state.width > 1275 ? (<HomeSwitcher val={this.state.vue} close={()=>this.setState({openfilter:false,openprofile:false})} open={this.state.open} openfilter={this.state.openfilter} openprofile={this.state.openprofile}/>) : <Home switcher={true} close={()=>this.setState({openfilter:false,openprofile:false})} open={this.state.open} openfilter={this.state.openfilter} openprofile={this.state.openprofile}  />}
             </Route>
 
             <Route path="/addpost">

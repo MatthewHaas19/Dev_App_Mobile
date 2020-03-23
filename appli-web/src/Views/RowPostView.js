@@ -69,6 +69,9 @@ const useStyles = theme => ({
   text:{
     margin:20,
     color:"white",
+  },
+  card:{
+    boxShadow: "10px 10px 10px #9E9E9E",
   }
 });
 
@@ -165,9 +168,9 @@ class RowPostView extends React.Component{
     <div>
     <p></p>
     { this.props.post ? (
-      <Card >
+      <Card className={classes.card}>
 
-  <Grid container>
+  <Grid container >
   <Grid item xs={10} align="left" style={{ background: `rgb(${[this.props.post.couleur[0]*255,this.props.post.couleur[1]*255,this.props.post.couleur[2]*255]}` }}>
   <CardActionArea className={classes.root}>
   <Link to={"/postdetailview/"+ this.props.post._id}  style={{ textDecoration: 'none' }} >

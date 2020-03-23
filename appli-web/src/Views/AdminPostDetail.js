@@ -83,7 +83,6 @@ class AdminPostDetail extends React.Component{
       this.setState({posts: data})
       this.setState({idPost: idPost})
       getAllCommentFromPost(idPost).then(commentList => {
-        console.log(commentList)
          this.setState({comments: commentList})
        }).catch((error) => {
          console.log("Erreur dans la recuperation des comments")
@@ -91,6 +90,8 @@ class AdminPostDetail extends React.Component{
     }).catch((error) => {
       console.log("Erreur fetch")
     })
+
+
 
 
 
@@ -126,28 +127,33 @@ class AdminPostDetail extends React.Component{
 
     const {classes} = this.props
 
-    this.state.posts.map((post) =>
-        console.log("couleur" + post.couleur)
-    );
 
-    const post = this.state.posts.map((post) =>
+
+    const post =
       <Grid item xs={12}>
-      <RowPostViewAdmin post={post} postHasBeenDeleted={() => {
+      <RowPostViewAdmin post={this.props.adminCurrentPost} postHasBeenDeleted={() => {
         this.props.postHasBeenDeleted()
       }} />  <br /><br />    </Grid>
-    );
+    ;
 
 
 
-    const listcomments = this.state.comments.map((comment) =>
+    const listcomments = this.props.infosHome.comments.filter(comment => comment.postId == this.props.adminCurrentPost._id).map((comment) =>
     <Grid container>
     <Grid item xs={1}>
     </Grid>
     <Grid item xs={11}>
     <RowCommentViewAdmin comments={comment}
     commentHasBeenDeleted={() => {
-      const newComments = this.state.comments.filter(com => com._id !== comment._id);
+
+
+      const newUser = this.props.infosHome.users
+      const newPosts = this.props.infosHome.posts
+      const newComments = this.props.infosHome.comments.filter(com => com._id !== comment._id);
+      var action = { type: "TOGGLE_ADMIN_INFOS", listInfos: {posts:newPosts,comments:newComments,users:newUser }}
+      this.props.dispatch(action)
       this.setState({comments:newComments})
+
     }}
     />
     <br />
@@ -188,6 +194,7 @@ const mapStateToProps = state =>{
     currentUser: state.user.currentUser,
     currentIdPost: state.posts.currentIdPost,
     adminCurrentPost: state.posts.adminCurrentPost,
+    infosHome: state.adminHome.infos,
   }
 }
 

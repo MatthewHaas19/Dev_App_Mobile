@@ -96,32 +96,7 @@ class AdminTableComment extends React.Component {
 
   constructor(props){
     super(props)
-    getAllCommentFromDb().then(data => {
-      var comments = data
 
-        for(let i=0;i<comments.length;i++){
-
-          if(comments[i].titreCom.length > 0 ) {
-            comments[i].titreCom = comments[i].titreCom[0].toUpperCase() + comments[i].titreCom.slice(1)
-          }
-
-          Object.assign(comments[i], {reports: 0});
-
-            getAllReportFromComment(comments[i]._id).then(reports => {
-              if(reports.length>0) {
-
-                comments[i].reports=reports.length
-              }
-                this.setState({comments: comments})
-
-          }).catch((error) => {
-            console.log("Erreur dans le constructeur 1")
-          })
-        }
-
-    }).catch((error) => {
-      console.log("Erreur dans le constructeur 2")
-    })
   }
 
 
@@ -135,8 +110,6 @@ class AdminTableComment extends React.Component {
 
   displayPost(comment,idPost){
     getPostById(idPost).then(post => {
-      console.log(post)
-      console.log(comment)
       var action = { type: "ADMIN_CURRENT_COMMENT", adminCurrentComment: comment}
       this.props.dispatch(action)
 
@@ -278,7 +251,7 @@ class AdminTableComment extends React.Component {
           </TableRow>
         </TableHead>
         <TableBody>
-        {orderBy(this.state.comments,this.state.columnToSort,this.state.sortDirection).filter(x => x[this.state.columnToQuery].toLowerCase().includes(lowerCaseQuery)).map(currentComment => (
+        {orderBy(this.props.infosHome.comments,this.state.columnToSort,this.state.sortDirection).filter(x => x[this.state.columnToQuery].toLowerCase().includes(lowerCaseQuery)).map(currentComment => (
            <TableRow key={currentComment.id}>
            <TableCell style={{display:"none"}} className={classes.nomColonne} align="center">{currentComment._id}</TableCell>
           <TableCell><Link onClick={() => this.displayPost(currentComment, currentComment.postId)} className={classes.tableContent}> {currentComment.titreCom} </Link></TableCell>
@@ -309,12 +282,20 @@ class AdminTableComment extends React.Component {
       >
       <AdminCommentDetail
         postHasBeenDeleted= {() => {
-          const newComments = this.state.comments.filter(comment => comment.postId !== this.props.adminCurrentPost._id);
-          this.setState({ comments: newComments, openPost:false });
+          const newUser = this.props.infosHome.users
+          const newPosts = this.props.infosHome.posts.filter(post => post._id !== this.props.adminCurrentPost._id);
+          const newComments = this.props.infosHome.comments.filter(comment => comment.postId !== this.props.adminCurrentPost._id);
+          var action = { type: "TOGGLE_ADMIN_INFOS", listInfos: {posts:newPosts,comments:newComments,users:newUser }}
+          this.props.dispatch(action)
+          this.setState({openPost:false });
         }}
         commentHasBeenDeleted= {() => {
-          const newComments = this.state.comments.filter(comment => comment._id !== this.props.adminCurrentComment._id);
-          this.setState({ comments: newComments, openPost:false });
+          const newUser = this.props.infosHome.users
+          const newPosts = this.props.infosHome.posts
+          const newComments = this.props.infosHome.comments.filter(comment => comment._id !== this.props.adminCurrentComment._id);
+          var action = { type: "TOGGLE_ADMIN_INFOS", listInfos: {posts:newPosts,comments:newComments,users:newUser }}
+          this.props.dispatch(action)
+          this.setState({openPost:false });
         }}
       />
     </Dialog>
@@ -329,8 +310,11 @@ class AdminTableComment extends React.Component {
         <AdminProfilUser
         show={(val) => this.setState({openUser:val})}
         userHasBeenDeleted={() => {
-          const newComments = this.state.comments.filter(comment => comment.user !== this.props.userAdmin.email);
-          this.setState({ comments: newComments });
+          const newUser = this.props.infosHome.users.filter(user => user._id !== this.props.userAdmin._id);
+          const newPosts = this.props.infosHome.posts.filter(post => post.user !== this.props.userAdmin.email);
+          const newComments = this.props.infosHome.comments.filter(comment => comment.user !== this.props.userAdmin.email);
+          var action = { type: "TOGGLE_ADMIN_INFOS", listInfos: {posts:newPosts,comments:newComments,users:newUser }}
+          this.props.dispatch(action)
         }}
         />
     </Dialog>
@@ -347,6 +331,7 @@ const mapStateToProps = state =>{
     adminCurrentPost: state.posts.adminCurrentPost,
     adminCurrentComment: state.comments.adminCurrentComment,
     userAdmin: state.userAdmin.user,
+    infosHome: state.adminHome.infos,
   }
 }
 

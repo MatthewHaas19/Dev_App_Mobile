@@ -80,7 +80,6 @@ class AdminProfilUser extends React.Component {
 
   constructor(props){
     super(props)
-    console.log(this.props.userAdmin)
   }
 
   handleClose () {

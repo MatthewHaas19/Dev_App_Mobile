@@ -70,7 +70,6 @@ class App extends Component {
     })
       .then(response => response.json())
       .then(data => {
-        //console.log(data)
         this.setState({ data })
       });
   }
@@ -107,7 +106,6 @@ class App extends Component {
     getAllPostsFromDb().then(data => {
       const posts = data
       this.setState({posts: data})
-      console.log(data)
 
       var action = { type: "ADD_POSTS", posts: data}
       this.props.dispatch(action)
@@ -149,7 +147,6 @@ class App extends Component {
       if(val != this.state.vue){
         this.setState({vue:val})
       }
-      console.log(this.state.vue)
     }
 
   }

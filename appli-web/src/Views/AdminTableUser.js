@@ -92,48 +92,12 @@ class AdminTableUser extends React.Component {
     columnToQuery:'username',
     columnToSort: 'posts',
     sortDirection: 'desc',
-    hasBeenModified: false,
+    nbDelete: 0,
   }
 
   constructor(props){
     super(props)
-    getAllUsersFromDb().then(data => {
-      var users = data
 
-        for(let i=0;i<users.length;i++){
-
-          getPostByUser(users[i].email).then(res => {
-            Object.assign(users[i], {posts: 0});
-            if(res.length>0) {
-              users[i].posts=res.length
-            }
-            getAllCommentFromUser(users[i].email).then(comments => {
-              Object.assign(users[i], {comments: 0});
-              if(comments.length>0) {
-                users[i].comments=comments.length
-              }
-
-              getAllReportFromUser(users[i].email).then(reports => {
-                Object.assign(users[i], {reports: 0});
-                if(reports!=null) {
-                  users[i].reports=reports.length
-                }
-
-                    this.setState({users: users})
-
-              })
-
-            }).catch((error) => {
-              console.log("Erreur dans le constructeur")
-            })
-
-          }).catch((error) => {
-            console.log("Erreur dans le constructeur")
-          })
-        }
-    }).catch((error) => {
-      console.log("Erreur dans le constructeur")
-    })
   }
 
 
@@ -174,20 +138,24 @@ class AdminTableUser extends React.Component {
     const handleClose = () => {
         this.setState({openUser:false, openPosts:false});
       };
-    const handleClosePost = () => {
-          this.setState({openUser:false, openPosts:false});
-          if(this.state.hasBeenModified) {
-            window.location.reload(false)
 
-          }
-        };
+    const handleClosePostUser = async () => {
+      if(this.state.nbDelete > 0) {
+        const newUser = this.props.infosHome.users
+        const index = await newUser.findIndex((user) => user._id == this.props.userAdmin._id)
+        newUser[index].posts =   newUser[index].posts - this.state.nbDelete
+      }
+        this.setState({openUser:false, openPosts:false, nbDelete:0});
+      };
+
+
 
 
     return (
 
       <div className={classes.mainPage}>
 
-      {this.state.users ? (
+      {this.props.infosHome.users ? (
         <div>
         <Container align="center" maxWidth="sm" >
         <Typography component="h3" variant="bold" align="center" fontFamily="bold" className={classes.titleSearch}>
@@ -296,13 +264,13 @@ class AdminTableUser extends React.Component {
           </TableRow>
         </TableHead>
         <TableBody>
-        {orderBy(this.state.users,this.state.columnToSort,this.state.sortDirection).filter(x => x[this.state.columnToQuery].toLowerCase().includes(lowerCaseQuery)).map(currentUser => (
+        {orderBy(this.props.infosHome.users,this.state.columnToSort,this.state.sortDirection).filter(x => x[this.state.columnToQuery].toLowerCase().includes(lowerCaseQuery)).map(currentUser => (
            <TableRow key={currentUser.id}>
            <TableCell style={{display:"none"}} className={classes.nomColonne} align="center">{currentUser._id}</TableCell>
            <TableCell><Link onClick={() => this.displayUsers(currentUser)} className={classes.tableContent}> {currentUser.username} </Link></TableCell>
              <TableCell align="center"><Link onClick={() => this.displayUsers(currentUser)} className={classes.tableContent}>{currentUser.email} </Link></TableCell>
              <TableCell align="center"><Link onClick={() => this.displayPosts(currentUser)} className={classes.tableContent}> {currentUser.posts}</Link></TableCell>
-             <TableCell align="center"><Link  className={classes.tableContent}> {currentUser.comments}</Link></TableCell>
+             <TableCell align="center" className={classes.tableContent} > {currentUser.comments}</TableCell>
              <TableCell align="center"><Button onClick={() => this.displayUsers(currentUser)} className={classes.profilButton}> Profil</Button></TableCell>
           </TableRow>
 
@@ -325,8 +293,11 @@ class AdminTableUser extends React.Component {
     <AdminProfilUser
     show={(val) => this.setState({openUser:val})}
     userHasBeenDeleted={() => {
-      const newUser = this.state.users.filter(user => user._id !== this.props.userAdmin._id);
-      this.setState({ users: newUser });
+      const newUser = this.props.infosHome.users.filter(user => user._id !== this.props.userAdmin._id);
+      const newPosts = this.props.infosHome.posts.filter(post => post.user !== this.props.userAdmin.email);
+      const newComments = this.props.infosHome.comments.filter(comment => comment.user !== this.props.userAdmin.email);
+      var action = { type: "TOGGLE_ADMIN_INFOS", listInfos: {posts:newPosts,comments:newComments,users:newUser }}
+      this.props.dispatch(action)
     }}
     />
   </Dialog>
@@ -335,12 +306,13 @@ class AdminTableUser extends React.Component {
       maxWidth="md"
       open={this.state.openPosts}
       TransitionComponent={Transition}
-      onClose={handleClosePost}
+      onClose={handleClose}
       aria-labelledby="alert-dialog-slide-title"
       aria-describedby="alert-dialog-slide-description"
     >
     <AdminPostsUser
-    hasBeenModified={() => this.setState({hasBeenModified:true})}
+    show={(val) => this.setState({openPost:val})}
+    hasBeenModified={()=> this.setState({openPost:true}) }
     />
   </Dialog>
 
@@ -359,7 +331,8 @@ const mapStateToProps = state =>{
     isAuth: state.auth.isAuth,
     currentIdPost: state.posts.currentIdPost,
     userAdmin: state.userAdmin.user,
-    adminListPost: state.posts.adminListPost
+    adminListPost: state.posts.adminListPost,
+    infosHome: state.adminHome.infos,
   }
 }
 

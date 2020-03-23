@@ -7,6 +7,8 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import IconButton from '@material-ui/core/IconButton';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 import {
   BrowserRouter as Router,
@@ -67,7 +69,11 @@ const useStyles = theme => ({
   },
   spacer:{
     marginBottom: theme.spacing(7),
-  }
+  },
+  backButton:{
+    marginTop: theme.spacing(3),
+    marginLeft: theme.spacing(3)
+  },
 });
 
 const ColorButton = withStyles(theme => ({
@@ -100,14 +106,36 @@ class AddComment extends React.Component {
       titreCom: '',
       texteCom: '',
       isAnonyme : false,
-      idPost:''
+      idPost:'',
+      errorMsg:'',
     }
 
     console.log("test")
 
   }
 
+  validate = () => {
+    let errorMsg = '';
 
+    if(!(this.state.titreCom.length>0) && !(this.state.texteCom.length>0) ) {
+      errorMsg = "Votre titre et texte ne doivent pas être vide";
+    }
+    else{
+      if(!(this.state.titreCom.length>0)) {
+      errorMsg = "Votre titre ne doit pas être vide";
+      }
+      if(!(this.state.texteCom.length>0)) {
+        errorMsg = "Votre texte ne doit pas être vide";
+        }
+    }
+      
+    if(errorMsg) {
+      this.setState({errorMsg})
+      return false
+    }
+    return true;
+
+  }
 
   componentWillReceiveProps(nextProps) {
     console.log("test")
@@ -131,6 +159,9 @@ class AddComment extends React.Component {
   }
 
   onSubmit = (e) => {
+    const isValid = this.validate();
+    if (isValid) {
+
     this.setState({idPost:this.props.currentIdPost})
     var today = new Date()
     var yyyy = today.getFullYear()
@@ -175,6 +206,11 @@ class AddComment extends React.Component {
           }
         })
 
+      }
+      else {
+        console.log("champs non complet dans add comment")
+      }
+
     }
 
 
@@ -187,6 +223,9 @@ class AddComment extends React.Component {
     <Container component="main" maxWidth="xs" maxHeight="xs">
 
       <CssBaseline />
+      <div className={classes.backButton}><IconButton aria-label="search" color="inherit" onClick={()=>this.props.back()}>
+        <ArrowBackIcon />
+      </IconButton></div>
       <div className={classes.paper}>
         <Typography component="h1" variant="h5" className={classes.title} >
           Ajouter un commentaire

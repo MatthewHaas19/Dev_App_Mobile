@@ -328,7 +328,7 @@ class PostDetailViewTest extends React.Component{
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <AddComment idpost={this.state.idPost}/>
+        <AddComment idpost={this.state.idPost} back={this.handleClose}/>
       </Dialog>
 
       <Dialog

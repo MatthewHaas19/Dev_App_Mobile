@@ -83,6 +83,7 @@ class AddPost extends React.Component {
       image: null,
       listCategorie : ["Amis","Couple","Ecole","Famille","Rue","Soiree","Sport","Transport","Travail","TV","Voisin","Web","Autres"],
       categorie: [],
+      errorMsg:'',
     }
   }
 
@@ -115,8 +116,33 @@ class AddPost extends React.Component {
     this.setState({image:url})
   }
 
+  validate = () => {
+    let errorMsg = '';
+
+    if(!(this.state.titre.length>0) && !(this.state.texte.length>0) ) {
+      errorMsg = "Votre titre et texte ne doivent pas être vide";
+    }
+    else{
+      if(!(this.state.titre.length>0)) {
+      errorMsg = "Votre titre ne doit pas être vide";
+      }
+      if(!(this.state.texte.length>0)) {
+        errorMsg = "Votre texte ne doit pas être vide";
+        }
+    }
+      
+    if(errorMsg) {
+      this.setState({errorMsg})
+      return false
+    }
+    return true;
+
+  }
 
   onSubmit = (e) => {
+    const isValid = this.validate();
+    if (isValid) {
+
     var colors = [
         [0/255,176/255,166/255],[5/255,93/255,107/255],[0/255,128/255,137/255],[225/255,170/255,18/255],[1/255,58/255,103/255],[7/255,36/255,70/255]
     ]
@@ -175,6 +201,10 @@ class AddPost extends React.Component {
             console.log("erreur add Post")
           }
         })
+      }
+      else {
+        console.log('champs non complet dans add post')
+      }
     }
 
 
@@ -194,6 +224,11 @@ class AddPost extends React.Component {
         Ajouter un Post
       </Typography>
         <form className={classes.form} noValidate autoComplete="off" onSubmit={this.onSubmit}>
+          
+          { this.state.errorMsg ? (
+          <div style = {{color:"red", fontSize : 15}}>{this.state.errorMsg}</div>
+          ) : null }
+
           <FormControlLabel className={classes.fields}
           value="isAnonyme"
           name= "isAnonyme"

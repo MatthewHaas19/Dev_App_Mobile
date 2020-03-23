@@ -5,7 +5,6 @@ function togglePos(state = initialState, action) {
   switch(action.type) {
     case 'TOGGLE_POSITION':
     state = {position:action.currentPosition}
-    console.log(action.currentPosition)
     return state
   default:
     return state

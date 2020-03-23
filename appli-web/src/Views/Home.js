@@ -79,7 +79,8 @@ class Home extends React.Component {
       width: window.innerWidth,
       height: window.innerHeight,
       mobileOpen: false,
-      openProps:true
+      openProps:true,
+      posts:[]
     }
 
 
@@ -100,6 +101,11 @@ class Home extends React.Component {
 
     if (nextProps.open !== this.state.open && this.state.openProps) {
       this.setState({ open: nextProps.open,openProps :false });
+    }
+
+    if (nextProps.posts.length !== this.state.posts.length) {
+      console.log("RAFRAICHIS")
+      this.setState({ posts: nextProps.posts});
     }
 
     if (nextProps.openfilter !== this.state.openfilter) {
@@ -192,6 +198,10 @@ class Home extends React.Component {
   handleClose = () => {
     this.setState({open:false,openAdd:false,openProps:false});
   };
+  handleCloseAdd = (posts) => {
+    console.log(posts)
+    this.setState({open:false,openAdd:false,openProps:false,posts:posts});
+  };
 
   handleCloseLogin = () => {
     this.setState({open:false,openAdd:false,openProps:true});
@@ -223,7 +233,7 @@ class Home extends React.Component {
               votePost(val,post).then(data=>{
                 console.log("change")
                 console.log(data)
-                  var posts = this.props.posts
+                  var posts = this.state.posts
 
 
                   var index = posts.indexOf(post);
@@ -251,7 +261,7 @@ class Home extends React.Component {
               votePost(val,post).then(data=>{
                   console.log("add")
                   console.log(data)
-                    var posts = this.props.posts
+                    var posts = this.state.posts
 
 
                     var index = posts.indexOf(post);
@@ -321,9 +331,9 @@ class Home extends React.Component {
           Ajouter un post
         </Button>
         </Grid> : null}
-        {this.props.posts ? (
+        {this.state.posts ? (
           <Grid container className={classes.listView} >
-          {this.props.posts.map(currentPost => (
+          {this.state.posts.map(currentPost => (
             <Grid item xs={12}>
 
                   <RowPostView post={currentPost}  handlevote={(val) => this.handleVote(val,currentPost)} />
@@ -356,9 +366,9 @@ class Home extends React.Component {
         Ajouter un post
       </Button>
       </Grid> : null }
-      {this.props.posts ? (
+      {this.state.posts ? (
         <Grid container className={classes.listView} >
-        {this.props.posts.map(currentPost => (
+        {this.state.posts.map(currentPost => (
           <Grid item xs={12}>
 
                 <RowPostView post={currentPost}  handlevote={(val) => this.handleVote(val,currentPost)} />
@@ -391,9 +401,9 @@ class Home extends React.Component {
     <Grid container justify="center">
 
     </Grid>
-    {this.props.posts ? (
+    {this.state.posts ? (
       <Grid container className={classes.listView} >
-      {this.props.posts.map(currentPost => (
+      {this.state.posts.map(currentPost => (
         <Grid item xs={12}>
 
               <RowPostView post={currentPost}  handlevote={(val) => this.handleVote(val,currentPost)} />
@@ -464,7 +474,7 @@ class Home extends React.Component {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-      <AddPost back={this.handleClose} />
+      <AddPost back={(posts) => this.handleCloseAdd(posts)} />
     </Dialog>
 
 

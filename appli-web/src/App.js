@@ -173,14 +173,11 @@ class App extends Component {
     const currentUser = this.props.currentUser
     if(isAuth){
       myAuth.isAuthenticated = true
-      console.log("AUUUUUUUTH" )
     }else{
       myAuth.isAuthenticated = false
     }
     if(currentUser){
       myAuth.currentUser = currentUser
-      console.log("AUUUUUUUTH2" )
-      console.log(myAuth.currentUser.isAdmin)
     }
     else{
       myAuth.currentUser = null
@@ -207,7 +204,7 @@ class App extends Component {
 
           <Switch>
             <Route exact path="/">
-            
+
               {this.state.width > 1275 ? (<HomeSwitcher val={this.state.vue} close={()=>this.setState({openfilter:false,openprofile:false})} open={this.state.open} openfilter={this.state.openfilter} openprofile={this.state.openprofile}/>) : <Home switcher={true} close={()=>this.setState({openfilter:false,openprofile:false})} open={this.state.open} openfilter={this.state.openfilter} openprofile={this.state.openprofile}  />}
 
             </Route>

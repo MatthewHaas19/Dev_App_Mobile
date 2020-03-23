@@ -41,13 +41,11 @@ const useStyles = theme => ({
     color:'black',
   },
   filterView: {
-    backgroundColor:"#7bbcc0",
   },
   actionProfileView: {
     backgroundColor:"red",
   },
   listView: {
-    backgroundColor:"#7bbcc0",
   },
   table: {
     minWidth: 650,
@@ -57,7 +55,7 @@ const useStyles = theme => ({
     fontSize: 20,
   },
   table: {
-    backgroundColor: "#7bbcc0"
+
   },
   buttonMenu: {
     backgroundColor:"#CFCECD",

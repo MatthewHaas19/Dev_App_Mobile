@@ -34,7 +34,7 @@ const useStyles = theme => ({
     minWidth: 275,
     minHeight:200,
     color:"black",
-    backgroundColor:"grey",
+    backgroundColor:"white",
     borderBottomColor: 'black',
     borderBottomWidth: 2,
     noWrap: false,

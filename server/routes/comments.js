@@ -104,5 +104,38 @@ router.get("/:post", function(req,res,next){
 
 
 
+  router.delete("/", function(req,res,next) {
+    var id = ObjectId(req.body._id)
+    var idString = req.body._id
+
+      db.comments.remove({
+        "_id" : id
+      },async function(err,comments){
+        if(err){
+          res.send(err);
+        }
+        await db.comReports.remove({"idCom":idString}, function(err,msg){
+          if(err){
+            console.log("Erreur remove commentReport")
+            res.send(err);
+          }
+          console.log("Remove commentReport")
+        })
+        await db.votesComment.remove({"idCom":idString}, function(err,msg){
+          if(err){
+            console.log("Erreur remove votesComment")
+            res.send(err);
+          }
+          console.log("Remove votesComment")
+        })
+
+        res.json({
+          res:"correct",
+          message:"delete post, reports, comment and votes ok"
+        });
+      })
+  })
+
+
 
 module.exports = router;

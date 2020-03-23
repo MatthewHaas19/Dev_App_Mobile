@@ -48,10 +48,10 @@ router.delete("/", async function(req,res,next) {
   var id = ObjectId(req.body._id)
   var idString = req.body._id
   var str = ""
-  db.users.find({"_id" : id}, async function(err, user) {
 
+  await db.users.find({"_id" : id}, async function(err, user) {
 
-    db.posts.find({"user" : user.email}, async function(err,posts){
+    await db.posts.find({"user" : user.email}, async function(err,posts){
       if(err){
         console.log("Erreur remove post")
         res.send(err);
@@ -59,7 +59,6 @@ router.delete("/", async function(req,res,next) {
 
       for await (p of posts) {
         postId = String(p._id)
-
 
 
         await db.comments.find({

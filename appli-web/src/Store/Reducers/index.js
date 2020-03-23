@@ -7,6 +7,7 @@ import toggleUserVote from './voteReducer'
 import toggleComments from './commentsReducer'
 import togglePos from './positionReducer'
 import toggleAdminPage from './adminPage'
+import toggleAdminHome from './adminHome'
 
 export default combineReducers({
     user: toggleUser,
@@ -17,4 +18,5 @@ export default combineReducers({
     comments: toggleComments,
     position: togglePos,
     adminPage: toggleAdminPage,
+    adminHome: toggleAdminHome,
 });

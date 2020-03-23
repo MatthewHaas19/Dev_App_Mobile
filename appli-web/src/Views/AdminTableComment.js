@@ -105,7 +105,6 @@ class AdminTableComment extends React.Component {
             comments[i].titreCom = comments[i].titreCom[0].toUpperCase() + comments[i].titreCom.slice(1)
           }
 
-
           Object.assign(comments[i], {reports: 0});
 
             getAllReportFromComment(comments[i]._id).then(reports => {

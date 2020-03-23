@@ -48,3 +48,22 @@ export function setNewReport (report) {
   .then((response) => response.json())
   .catch((error) => console.log(error))
 }
+
+export function setNewReportComment (report) {
+  const url = "https://dev-mobile-ig.herokuapp.com/comReports/"
+
+  const data = JSON.stringify(report)
+
+  console.log(data)
+
+  return fetch(url,{
+    method: 'POST',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: data
+  })
+  .then((response) => response.json())
+  .catch((error) => console.log(error))
+}

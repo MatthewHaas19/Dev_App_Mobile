@@ -23,6 +23,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import { getUserFromDb } from '../API/UserApi';
 
 const useStyles = theme => ({
   root: {
@@ -85,8 +86,20 @@ class RowPostView extends React.Component{
     super(props)
     this.state={
       up:false,
-      down:false
+      down:false,
+      username:'Anonyme'
     }
+    let email = this.props.post.user
+    if(this.props.post.isAnonyme == false) {
+      getUserFromDb(email).then(data => {
+        const user = data.username
+        this.setState({username: data[0].username})
+        console.log("username"+data[0].username)
+      }).catch((error) => {
+        console.log("Erreur fetch")
+      })
+    } 
+   
 
   }
 
@@ -182,7 +195,7 @@ class RowPostView extends React.Component{
   </Grid>
   <Grid item xs={7} >
     <div className={classes.username} >
-      {this.props.post.user}
+      {this.state.username}
     </div>
     </Grid>
     <Grid item xs={3} align="right">

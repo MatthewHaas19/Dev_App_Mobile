@@ -20,6 +20,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExploreTwoToneIcon from '@material-ui/icons/ExploreTwoTone';
 import { getPostById } from '../API/PostApi';
 import { connect } from 'react-redux'
+import { getUserFromDb } from '../API/UserApi';
 import Slide from '@material-ui/core/Slide';
 
 const Transition = React.forwardRef(function Transition(props, ref) {
@@ -74,9 +75,20 @@ class RowCommentView extends React.Component {
 
   constructor(props){
     super(props)
-    this.state = {
+    this.state={
+      username:'Anonyme',
       openAddSignalement:false,
     }
+    let email = this.props.comments.user
+    if(this.props.comments.isAnonyme == false) {
+      getUserFromDb(email).then(data => {
+        const user = data.username
+        this.setState({username: data[0].username})
+        console.log("username"+data[0].username)
+      }).catch((error) => {
+        console.log("Erreur fetch")
+      })
+    } 
   }
 
   vote(vote){
@@ -144,7 +156,7 @@ class RowCommentView extends React.Component {
 
     <Grid item xs={9} >
         <div className={classes.username}  alignItems="left" >
-          {this.props.comments.user}
+          {this.state.username}
         </div>
         </Grid>
         <ColorButton variant="outlined" color="secondary" onClick={this.handleSignalement} >

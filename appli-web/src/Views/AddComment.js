@@ -161,7 +161,7 @@ class AddComment extends React.Component {
         user: userMail,
         texteCom : this.state.texteCom,
         voteCom: 0,
-        postId : this.state.idPost, //A FAIRE
+        postId : this.props.currentIdPost, //A FAIRE
       };
       console.log(comment)
       setNewCommentDb(comment)

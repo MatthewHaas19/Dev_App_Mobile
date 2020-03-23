@@ -16,7 +16,6 @@ import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExploreTwoToneIcon from '@material-ui/icons/ExploreTwoTone';
 import { connect } from 'react-redux'
-import Box from '@material-ui/core/Box';
 import {
   BrowserRouter as Router,
   Switch,
@@ -27,7 +26,7 @@ import {
 const useStyles = theme => ({
   root: {
     minWidth: 275,
-    height:200,
+    minHeight:200,
     color:"black",
   },
 
@@ -79,7 +78,7 @@ const useStyles = theme => ({
 
 
 
-class RowPostView extends React.Component{
+class RowPostDetailView extends React.Component{
 
   constructor(props){
     super(props)
@@ -198,22 +197,12 @@ class RowPostView extends React.Component{
   <Grid container alignItems="center">
 
     <Grid item  className={classes.text} alignItems="center">
-    <div style={{ width: 690, whiteSpace: 'nowrap' }}>
-    <Box component="div"  my={2} textOverflow="ellipsis"  overflow="hidden"  >
-        <Typography className={classes.titre} >
+      <Typography className={classes.titre}>
         {this.props.post.titre}
-        </Typography>
-      </Box>
-    </div>
-
-    <div style={{ width: 690, whiteSpace: 'nowrap', height : 50 }}>
-    <Box component="div"  my={2} whiteSpace="normal"  >
-    <Typography className={classes.texte} >
+      </Typography>
+      <Typography className={classes.texte} >
         {this.props.post.texte}
       </Typography>
-      </Box>
-    </div>
-    
     </Grid>
 
 
@@ -257,4 +246,4 @@ const mapStateToProps = state =>{
   }
 }
 
-export default connect(mapStateToProps)(withStyles(useStyles)(RowPostView))
+export default connect(mapStateToProps)(withStyles(useStyles)(RowPostDetailView))

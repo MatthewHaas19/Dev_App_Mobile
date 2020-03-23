@@ -17,6 +17,7 @@ import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExploreTwoToneIcon from '@material-ui/icons/ExploreTwoTone';
 import { getPostById } from '../API/PostApi';
 import { connect } from 'react-redux'
+import { getUserFromDb } from '../API/UserApi';
 
 const useStyles = theme => ({
   root: {
@@ -66,6 +67,19 @@ class RowCommentView extends React.Component {
 
   constructor(props){
     super(props)
+    this.state={
+      username:'Anonyme'
+    }
+    let email = this.props.comments.user
+    if(this.props.comments.isAnonyme == false) {
+      getUserFromDb(email).then(data => {
+        const user = data.username
+        this.setState({username: data[0].username})
+        console.log("username"+data[0].username)
+      }).catch((error) => {
+        console.log("Erreur fetch")
+      })
+    } 
 
   }
 
@@ -126,7 +140,7 @@ class RowCommentView extends React.Component {
 
     <Grid item xs={7} >
         <div className={classes.username}  alignItems="left" >
-          {this.props.comments.user}
+          {this.state.username}
         </div>
         </Grid>
 

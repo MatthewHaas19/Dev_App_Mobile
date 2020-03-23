@@ -37,16 +37,16 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const useStyles = theme => ({
   dialog: {
-    backgroundColor:"#FAA65F",
+    backgroundColor:"#d7edef",
     width:800,
     height:500,
   },
   mainPage: {
-    color:'white',
-    backgroundColor:"#FAA65F"
+    color:'black',
+    backgroundColor:"#d7edef"
   },
 scrollableView: {
-  backgroundColor:"#FAA65F"
+  backgroundColor:"#d7edef"
 },
 
   fields: {

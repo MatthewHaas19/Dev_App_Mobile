@@ -29,13 +29,13 @@ import MenuItem from '@material-ui/core/MenuItem';
 const useStyles = theme => ({
 
   mainPage: {
-    backgroundColor: "#FAA65F",
+    backgroundColor: "#7bbcc0",
     width: 800,
     height: 500,
     color: "white",
   },
   scollableView: {
-    backgroundColor: "#FAA65F",
+    backgroundColor: "#7bbcc0",
 
   },
   maintitle: {

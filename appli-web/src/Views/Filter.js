@@ -122,7 +122,11 @@ const useStyles = theme => ({
   categories: {
     width: "100px",
     margin: "auto"
-  }
+  },
+  largeAvatar: {
+    width: theme.spacing(5),
+    height: theme.spacing(5),
+  },
 });
 
 const ColorButton = withStyles(theme => ({
@@ -276,7 +280,11 @@ class Filter extends React.Component {
 
   const filterCat = listCategorie.map((value,index) =>
   <Grid container>
-    <FormControlLabel
+    <Grid item xs={6}>
+      <Avatar alt="b" src={"/assets/"+value+".png"}  className={classes.largeAvatar}/>
+    </Grid>
+    <Grid item xs={6}>
+      <FormControlLabel
     control={
       <Switch checked={this.state.checked[index]}
       onChange={this.handleChange(index)
@@ -284,6 +292,8 @@ class Filter extends React.Component {
     }
     label={value}
     />
+    </Grid>
+    
     </Grid>
   );
 
@@ -396,8 +406,12 @@ class Filter extends React.Component {
 
             <div className={classes.categories}>
             <Grid container justify = "center" className={classes.categories}>
-            <Grid container>
-            <FormControlLabel
+            <Grid container justify = "center">
+            <Grid item xs={6}>
+              <Avatar alt="b" src={"/assets/All.png"}  className={classes.largeAvatar}/>
+           </Grid>
+           <Grid item xs={6}>
+             <FormControlLabel
             control={
               <Switch checked={this.state.checkedAll}
               onChange={this.handleChangeAll()
@@ -405,6 +419,9 @@ class Filter extends React.Component {
             }
             label="All"
             />
+           </Grid>
+
+            
             </Grid>
 
             {filterCat}

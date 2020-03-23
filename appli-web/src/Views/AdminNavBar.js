@@ -110,7 +110,7 @@ class AdminNavBar extends React.Component  {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static" style={{ background: "#FAA65F" }}>
+      <AppBar position="static" style={{ background: "#008089" }}>
         <Toolbar>
           <Link to="/">
           <Button>

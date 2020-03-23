@@ -42,10 +42,10 @@ export function setUserDb (user) {
 
 
 
-export function deleteUser(id){
+export function deleteUser(email){
   const url = "https://dev-mobile-ig.herokuapp.com/users/"
   const userToDelete = {
-    "_id" : id,
+    "email" : email,
   }
   const data = JSON.stringify(userToDelete)
 

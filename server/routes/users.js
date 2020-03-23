@@ -45,21 +45,28 @@ router.post("/", function(req,res,next){
 
 
 router.delete("/", async function(req,res,next) {
-  var id = ObjectId(req.body._id)
-  var idString = req.body._id
+
+  var email = req.body.email
   var str = ""
 
-  await db.users.find({"_id" : id}, async function(err, user) {
 
-    await db.posts.find({"user" : user.email}, async function(err,posts){
+  db.users.remove({"email" : email}, async function(err,user){
+    if(err){
+      console.log("Erreur remove post")
+      res.send(err);
+    }
+
+    //Suppression des posts postés par l'utilisateur
+
+    await db.posts.find({"user" : email}, async function(err,posts){
       if(err){
         console.log("Erreur remove post")
         res.send(err);
       }
-
+      console.log(posts)
       for await (p of posts) {
         postId = String(p._id)
-
+        console.log(p)
 
         await db.comments.find({
           "postId" : postId
@@ -67,6 +74,8 @@ router.delete("/", async function(req,res,next) {
           if(err){
             res.send(err);
           }
+          console.log("Je suis dans comments")
+          console.log(comments)
           for await (c of comments) {
             str = String(c._id)
             console.log(str)
@@ -93,23 +102,62 @@ router.delete("/", async function(req,res,next) {
         await db.comments.remove({"postId" : postId})
         console.log("comments remove")
         await db.votes.remove({"post" : postId})
+
         console.log("votes remove")
         res.json({
           res:"correct",
           message:"delete post, reports, comment and votes ok"
         });
-
       }
-
-      await db.posts.remove({"user":user.email})
-      console.log("posts remove")
-
     })
 
+    //Suppression des votes, reports... du user
 
+    await db.posts.remove({"user":user.email})
+    await db.votes.remove({"user":user.email})
+    await db.votesComment.remove({"user":user.email})
+    await db.reports.remove({"emailUser":user.email})
+    await db.comReports.remove({"emailUser":user.email})
+
+    console.log("posts remove")
+
+
+
+//Suppression des commentaires postés par l'utilisateur
+
+
+
+    await db.comments.find({
+          "user" : email
+        },async function(err,comments){
+          if(err){
+            res.send(err);
+          }
+          console.log("Je suis dans comments 2")
+          console.log(comments)
+          for await (c of comments) {
+            str = String(c._id)
+            console.log(str)
+            await db.comReports.remove({"idCom":str}, function(err,msg){
+              if(err){
+                console.log("Erreur remove commentReport")
+                res.send(err);
+              }
+              console.log("Remove commentReport")
+            })
+            await db.votesComment.remove({"idCom":str}, function(err,msg){
+              if(err){
+                console.log("Erreur remove votesComment")
+                res.send(err);
+              }
+              console.log("Remove votesComment")
+            })
+          }
+        })
+        await db.comment.remove({"user": email})
+
+      
   })
-  await db.users.remove({"_id":id})
-  console.log("user remove")
 
 })
 

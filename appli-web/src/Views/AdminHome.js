@@ -118,39 +118,25 @@ class AdminHome extends React.Component {
               }
 
               Object.assign(postsGlobal[i], {reports: 0});
-              getAllCommentFromPost(postsGlobal[i]._id).then(res => {
-                postsGlobal[i].commentaire.push(res.length)
+
                 getAllReportFromPost(postsGlobal[i]._id).then(reports => {
                   if(reports.length>0) {
                     postsGlobal[i].reports=reports.length
                   }
 
-
-
                 }).catch((error) => {
                   console.log("Erreur dans le constructeur reports")
                 })
 
-              }).catch((error) => {
-                console.log("Erreur dans le constructeur")
-              })
-            }
 
+            }
 
 
             getAllUsersFromDb().then(listUsers => {
               var usersGlobal = listUsers
                 for(let i=0;i<usersGlobal.length;i++){
-                  getPostByUser(usersGlobal[i].email).then(res => {
-                    Object.assign(usersGlobal[i], {posts: 0});
-                    if(res.length>0) {
-                      usersGlobal[i].posts=res.length
-                    }
-                    getAllCommentFromUser(usersGlobal[i].email).then(comments => {
-                      Object.assign(usersGlobal[i], {comments: 0});
-                      if(comments.length>0) {
-                        usersGlobal[i].comments=comments.length
-                      }
+
+
                       getAllReportFromUser(usersGlobal[i].email).then(reports => {
                         Object.assign(usersGlobal[i], {reports: 0});
                         if(reports!=null) {
@@ -160,13 +146,9 @@ class AdminHome extends React.Component {
                         var action = { type: "TOGGLE_ADMIN_INFOS", listInfos: {posts:postsGlobal,comments:commentsGlobal,users:usersGlobal }}
                         this.props.dispatch(action)
 
+                      }).catch((error) => {
+                        console.log("Erreur dans le constructeur reports user")
                       })
-                    }).catch((error) => {
-                      console.log("Erreur dans le constructeur")
-                    })
-                  }).catch((error) => {
-                    console.log("Erreur dans le constructeur")
-                  })
                 }
 
 
@@ -178,10 +160,6 @@ class AdminHome extends React.Component {
         }).catch((error) => {
           console.log("Erreur dans le constructeur")
         })
-
-
-
-
 
     }).catch((error) => {
       console.log("Erreur dans le constructeur 2")

@@ -94,7 +94,6 @@ class RowPostView extends React.Component{
       getUserFromDb(email).then(data => {
         const user = data.username
         this.setState({username: data[0].username})
-        console.log("username"+data[0].username)
       }).catch((error) => {
         console.log("Erreur fetch")
       })
@@ -109,7 +108,6 @@ class RowPostView extends React.Component{
     let vote = votes.votes.filter(item => item.post == this.props.post._id)
     if(vote.length > 0){
       if(vote[0].like=="true"){
-        console.log("true true")
         return 40
       }else{
         return 50
@@ -123,7 +121,6 @@ class RowPostView extends React.Component{
     let vote = votes.votes.filter(item => item.post == this.props.post._id)
     if(vote.length > 0){
       if(vote[0].like=="true"){
-        console.log("true true")
         return 50
       }else{
         return 40
@@ -140,7 +137,6 @@ class RowPostView extends React.Component{
   getDistance(){
     var postPosition = this.props.post.localisation
     var userPosition = this.props.position
-    console.log(this.props.position)
 
     if(postPosition.length>1){
       if(postPosition[0] && postPosition[1]){

@@ -37,16 +37,16 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 
 const useStyles = theme => ({
   dialog: {
-    backgroundColor:"#FAA65F",
+    backgroundColor:"#d7edef",
     width:800,
     height:500,
   },
   mainPage: {
-    color:'white',
-    backgroundColor:"#FAA65F"
+    color:'black',
+    backgroundColor:"#d7edef"
   },
 scrollableView: {
-  backgroundColor:"#FAA65F"
+  backgroundColor:"#d7edef"
 },
 
   fields: {
@@ -134,19 +134,24 @@ class AdminPostDetail extends React.Component{
       <Grid item xs={12}>
       <RowPostViewAdmin post={post} postHasBeenDeleted={() => {
         this.props.postHasBeenDeleted()
-      }} />      </Grid>
+      }} />  <br /><br />    </Grid>
     );
 
 
 
     const listcomments = this.state.comments.map((comment) =>
-    <Grid item xs={12}>
+    <Grid container>
+    <Grid item xs={1}>
+    </Grid>
+    <Grid item xs={11}>
     <RowCommentViewAdmin comments={comment}
     commentHasBeenDeleted={() => {
       const newComments = this.state.comments.filter(com => com._id !== comment._id);
       this.setState({comments:newComments})
     }}
     />
+    <br />
+    </Grid>
     </Grid>
     )
 

@@ -52,7 +52,7 @@ const useStyles = theme => ({
     color: "black",
   },
   table: {
-    backgroundColor: "#FAA65F"
+    backgroundColor: "#a1d0d3"
   },
   tableContent: {
     color: "black",
@@ -60,7 +60,7 @@ const useStyles = theme => ({
     textDecoration: "none",
   },
   profilButton: {
-    backgroundColor: "#FAB65F"
+    backgroundColor: "#69aeb3"
   },
   searchfield: {
     marginTop:20,
@@ -100,9 +100,7 @@ class AdminTableUser extends React.Component {
     getAllUsersFromDb().then(data => {
       var users = data
 
-
         for(let i=0;i<users.length;i++){
-
 
           getPostByUser(users[i].email).then(res => {
             Object.assign(users[i], {posts: 0});
@@ -121,12 +119,9 @@ class AdminTableUser extends React.Component {
                   users[i].reports=reports.length
                 }
 
-
                     this.setState({users: users})
 
               })
-
-
 
             }).catch((error) => {
               console.log("Erreur dans le constructeur")
@@ -183,7 +178,7 @@ class AdminTableUser extends React.Component {
           this.setState({openUser:false, openPosts:false});
           if(this.state.hasBeenModified) {
             window.location.reload(false)
-            
+
           }
         };
 

@@ -32,8 +32,12 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const useStyles = theme => ({
   root: {
     minWidth: 275,
-    height:200,
+    minHeight:200,
     color:"black",
+    backgroundColor:"white",
+    borderBottomColor: 'black',
+    borderBottomWidth: 2,
+    noWrap: false,
   },
   content: {
     margin:20,
@@ -110,7 +114,7 @@ class RowCommentViewAdmin extends React.Component{
       <div>
       { this.props.comments ? (
         <Card >
-    <CardContent className={classes.root} style={{ background: `rgb([100,50,10])` }}>
+    <CardContent className={classes.root} >
     <Container className={classes.content}>
     <Grid container alignItems="center">
     <Grid item xs={1} align="right">

@@ -51,7 +51,7 @@ const useStyles = theme => ({
     color: "black",
   },
   table: {
-    backgroundColor: "#FAA65F"
+    backgroundColor: "#a1d0d3"
   },
   tableContent: {
     color: "black",
@@ -59,7 +59,7 @@ const useStyles = theme => ({
     textDecoration: "none",
   },
   detailsButton: {
-    backgroundColor: "#FAB65F"
+    backgroundColor: "#69aeb3"
   },
   searchfield: {
     marginTop:20,
@@ -304,7 +304,7 @@ class AdminTablePost extends React.Component {
           orderBy(this.state.posts,this.state.columnToSort,this.state.sortDirection).filter(x => x[this.state.columnToQuery].toLowerCase().includes(lowerCaseQuery)).map(currentPost => (
            <TableRow key={currentPost.id}>
           <TableCell style={{display:"none"}} className={classes.nomColonne} align="center">{currentPost._id}</TableCell>
-          <TableCell><Link onClick={() => this.displayPost(currentPost)} className={classes.tableContent}> {currentPost.titre} </Link></TableCell>
+          <TableCell ><Link onClick={() => this.displayPost(currentPost)} className={classes.tableContent}> {currentPost.titre} </Link></TableCell>
           <TableCell align="center"><Link onClick={() => this.displayUser(currentPost.user)} className={classes.tableContent}  style={{fontWeight:"bold"}}>{currentPost.user} </Link></TableCell>
           <TableCell align="center" className={classes.tableContent}>{currentPost.note}</TableCell>
           <TableCell align="center" className={classes.tableContent}>{(currentPost.commentaire.length>0) ? currentPost.commentaire[0] : 0 }</TableCell>

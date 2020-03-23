@@ -29,7 +29,7 @@ import { connect } from 'react-redux'
 const useStyles = theme => ({
 
   mainPage: {
-    backgroundColor: "#FAA65F",
+    backgroundColor: "#d7edef",
     width: 1000,
     height: 500,
     color: "black",

@@ -10,7 +10,7 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { createMuiTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
-import RowPostView from '../Views/RowPostView'
+import RowPostDetailView from '../Views/RowPostDetailView'
 import RowCommentView from '../Views/RowCommentView'
 import { useParams } from 'react-router-dom';
 import { getPostById } from '../API/PostApi';
@@ -286,7 +286,7 @@ class PostDetailViewTest extends React.Component{
 
     const post = this.state.posts.map((post) =>
       <Grid item xs={12}>
-      <RowPostView post={post} handlevote={(val) => this.handleVote(val,post)} />
+      <RowPostDetailView post={post} handlevote={(val) => this.handleVote(val,post)} />
 
       {post.image ? <img src={post.image}  />: null}
 

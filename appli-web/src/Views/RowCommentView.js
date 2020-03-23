@@ -29,7 +29,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const useStyles = theme => ({
   root: {
     minWidth: 275,
-    height:200,
+    minHeight:200,
     color:"black"
   },
 

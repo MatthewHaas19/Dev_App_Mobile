@@ -185,7 +185,7 @@ class Profile extends React.Component {
           <div className={classes.paper}>
 
           <Typography component="h1" variant="p" className={classes.numbers} >
-            Mon Profile
+            Mon Profil
           </Typography>
 
 
@@ -229,7 +229,7 @@ class Profile extends React.Component {
               {this.state.nbCom}
             </Typography>
             <Typography component="h3" variant="p" className={classes.title} >
-              Comments
+              Commentaires
             </Typography>
             </Grid>
             </Grid>

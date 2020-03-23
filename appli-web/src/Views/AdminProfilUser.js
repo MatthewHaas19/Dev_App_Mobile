@@ -41,7 +41,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
 const useStyles = theme => ({
 
   mainPage: {
-    backgroundColor: "#FAA65F",
+    backgroundColor: "#7bbcc0",
     width: 500,
     height: 500,
     color: "black",

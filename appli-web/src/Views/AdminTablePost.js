@@ -51,7 +51,7 @@ const useStyles = theme => ({
     color: "black",
   },
   table: {
-    backgroundColor: "#FAA65F"
+    backgroundColor: "#a1d0d3"
   },
   tableContent: {
     color: "black",
@@ -59,7 +59,7 @@ const useStyles = theme => ({
     textDecoration: "none",
   },
   detailsButton: {
-    backgroundColor: "#FAB65F"
+    backgroundColor: "#69aeb3"
   },
   searchfield: {
     marginTop:20,

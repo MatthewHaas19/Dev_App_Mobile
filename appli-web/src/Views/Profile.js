@@ -156,7 +156,9 @@ class Profile extends React.Component {
     this.props.dispatch(action)
     var action = { type: "TOGGLE_USER", userVote: []}
     this.props.dispatch(action)
+    this.props.back()
     history.push('/filter');
+
   }
 
   render(){

@@ -13,6 +13,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
+import AddIcon from '@material-ui/icons/Add';
 import {getAllPostsFromDb} from '../API/PostApi'
 import {getVoteByUser} from '../API/VoteApi'
 import {addVote} from '../API/VoteApi'
@@ -23,6 +24,8 @@ import Filter from '../Views/Filter'
 import Profile from '../Views/Profile'
 import { connect } from 'react-redux'
 import Dialog from '@material-ui/core/Dialog';
+import Button from '@material-ui/core/Button';
+import Fab from '@material-ui/core/Fab';
 import Login from './Login.js'
 import AddPost from './AddPost.js'
 import Slide from '@material-ui/core/Slide';
@@ -39,9 +42,27 @@ const useStyles = theme => ({
     marginTop: 50,
     marginBottom: 50,
     color:'white',
+
   },
   filterView:{
     margin:0
+  },
+  button:{
+    color:blue[400],
+    marginBottom:theme.spacing(4)
+  },
+  addButton:{
+    backgroundColor:blue[400],
+    color:"white",
+    position:"absolute",
+    position:"fixed",
+    bottom:"5%",
+    width: theme.spacing(10),
+    height: theme.spacing(10),
+  },
+  iconAdd:{
+    width: theme.spacing(5),
+    height: theme.spacing(5),
   }
 });
 
@@ -57,7 +78,8 @@ class Home extends React.Component {
       openAdd:false,
       width: window.innerWidth,
       height: window.innerHeight,
-      mobileOpen: false
+      mobileOpen: false,
+      openProps:true
     }
 
 
@@ -76,8 +98,8 @@ class Home extends React.Component {
 
   componentWillReceiveProps(nextProps) {
 
-    if (nextProps.open !== this.state.open) {
-      this.setState({ open: nextProps.open });
+    if (nextProps.open !== this.state.open && this.state.openProps) {
+      this.setState({ open: nextProps.open,openProps :false });
     }
 
     if (nextProps.openfilter !== this.state.openfilter) {
@@ -154,11 +176,13 @@ class Home extends React.Component {
   handleDrawerToggle = () => {
     this.setState({openfilter:false});
     this.setState({openprofile:false});
+    this.setState({open:false,openAdd:false,openProps:true});
     this.props.close()
   };
 
   handleClickOpen = () => {
     this.setState({open:true});
+    this.setState({openProps:true});
   };
 
   handleClickOpenAdd = () => {
@@ -166,8 +190,13 @@ class Home extends React.Component {
   };
 
   handleClose = () => {
-    this.setState({open:false,openAdd:false});
+    this.setState({open:false,openAdd:false,openProps:false});
   };
+
+  handleCloseLogin = () => {
+    this.setState({open:false,openAdd:false,openProps:true});
+  };
+
 
   handleVote(val,post){
     console.log(post)
@@ -258,13 +287,18 @@ class Home extends React.Component {
     return (
 
       <div>
+
       {this.state.width > 1275 ?(
+
         <div>
+
       {this.props.switcher ? (
 
         <div className={classes.mainPage} style={{marginRight: this.state.width>1670 ? 50 : 0 ,
         marginLeft: this.state.width>1670 ? 50 : 5}}>
+
         <Grid container>
+
         <Grid item className={classes.filterView} xs={4}>
         <Filter
           filter={(filterValue) => this.filter(filterValue)}
@@ -273,6 +307,20 @@ class Home extends React.Component {
 
 
         <Grid item  xs={8}>
+
+
+        {this.props.isAuth ? <Grid container justify="center">
+        <Button
+          variant="outlined"
+          color="primary"
+          size="large"
+          className={classes.button}
+          onClick={() => this.setState({openAdd:true})}
+          startIcon={<AddIcon />}
+        >
+          Ajouter un post
+        </Button>
+        </Grid> : null}
         {this.props.posts ? (
           <Grid container className={classes.listView} >
           {this.props.posts.map(currentPost => (
@@ -292,9 +340,22 @@ class Home extends React.Component {
 
     ) : (
       <div className={classes.mainPage}>
-      <Grid container>
+      <Grid container justify="center">
 
       <Grid item  xs={8}>
+
+      {this.props.isAuth ? <Grid container justify="center">
+      <Button
+        variant="outlined"
+        color="primary"
+        size="large"
+        className={classes.button}
+        onClick={() => this.setState({openAdd:true})}
+        startIcon={<AddIcon />}
+      >
+        Ajouter un post
+      </Button>
+      </Grid> : null }
       {this.props.posts ? (
         <Grid container className={classes.listView} >
         {this.props.posts.map(currentPost => (
@@ -309,7 +370,7 @@ class Home extends React.Component {
     ) : <CircularProgress />}
     </Grid>
     <Grid item xs={4}>
-    <Profile openAddPost={this.handleClickOpenAdd} />
+    <Profile back={this.handleDrawerToggle} openAddPost={this.handleClickOpenAdd} />
     </Grid>
     </Grid>
     </div>
@@ -325,6 +386,11 @@ class Home extends React.Component {
 
 
     <Grid item  xs={12}>
+
+
+    <Grid container justify="center">
+
+    </Grid>
     {this.props.posts ? (
       <Grid container className={classes.listView} >
       {this.props.posts.map(currentPost => (
@@ -370,7 +436,7 @@ class Home extends React.Component {
         keepMounted: true, // Better open performance on mobile.
       }}
       >
-      {this.state.openprofile ? <Profile openAddPost={this.handleClickOpenAdd}/> : null}
+      {this.state.openprofile ? <Profile openAddPost={this.handleClickOpenAdd} back={this.handleDrawerToggle} /> : null}
       </Drawer>
   </div>
 
@@ -383,11 +449,11 @@ class Home extends React.Component {
         open={this.state.open}
         TransitionComponent={Transition}
         keepMounted
-        onClose={this.handleClose}
+        onClose={this.handleCloseLogin}
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-      <Login />
+      <Login back={this.handleClose} />
     </Dialog>
 
     <Dialog
@@ -402,10 +468,14 @@ class Home extends React.Component {
     </Dialog>
 
 
-
-
-
+    {this.state.width > 1275 || !this.props.isAuth ? null :(
+    <Grid container justify='center'>
+    <Fab className={classes.addButton} aria-label="add" onClick={() => this.setState({openAdd:true})}>
+      <AddIcon className={classes.iconAdd} />
+    </Fab>
+    </Grid>)}
     </div>
+
   )
 }
 }

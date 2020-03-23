@@ -23,7 +23,7 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import {getUserFromDb} from '../API/UserApi'
-import {setNewReport} from '../API/ReportApi'
+import {setNewReportComment} from '../API/ReportApi'
 
 import Noteworthy from '../fonts/Noteworthy-Lt.woff';
 import cookie from 'react-cookies';
@@ -100,7 +100,7 @@ const theme = createMuiTheme({
 
 
 
-class Signalement extends React.Component {
+class SignalementComment extends React.Component {
 
   constructor(props){
     super(props)
@@ -109,7 +109,7 @@ class Signalement extends React.Component {
       titreCom: '',
       texteCom: '',
       isAnonyme : false,
-      idPost:''
+      idComment:''
     }
 
     console.log("test")
@@ -128,13 +128,13 @@ class Signalement extends React.Component {
 
   onSubmit = (e) => {
     console.log("--------- Signalement ----------------")
-    this.setState({idPost:this.props.idpost})
+    this.setState({idComment:this.props.idComment})
     if(this.props.isAuth){
       let report = {
-        idPost: this.props.idpost,
+        idCom: this.props.idComment,
         emailUser: this.props.currentUser.email
       }
-      setNewReport(report).then(data => {
+      setNewReportComment(report).then(data => {
         console.log(data.res)
         this.props.back()
       })
@@ -160,7 +160,7 @@ class Signalement extends React.Component {
           Signaler le post
         </Typography>
         <Typography component="h1" variant="h5" className={classes.subtitle} >
-          Etes-vous sûr de vouloir signaler le post ?
+          Etes-vous sûr de vouloir signaler le commentaire ?
         </Typography>
         <div className={classes.form}>
 
@@ -189,8 +189,7 @@ const mapStateToProps = state =>{
   return {
     isAuth: state.auth.isAuth,
     currentUser: state.user.currentUser,
-    currentIdPost: state.posts.currentIdPost
   }
 }
 
-export default connect(mapStateToProps)(withStyles(useStyles)(Signalement))
+export default connect(mapStateToProps)(withStyles(useStyles)(SignalementComment))

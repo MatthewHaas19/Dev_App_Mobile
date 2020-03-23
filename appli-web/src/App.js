@@ -3,6 +3,8 @@ import logo from './logo.svg';
 import './App.css';
 import Login from './Views/Login.js'
 import NavBar from './Views/NavBar.js'
+import Grid from '@material-ui/core/Grid';
+import Fab from '@material-ui/core/Fab';
 import AddPost from './Views/AddPost.js'
 import Home from './Views/Home.js'
 import HomeSwitcher from './Views/HomeSwitcher.js'
@@ -20,6 +22,7 @@ import {getVoteCommentByUser} from './API/VoteApi'
 import AdminHome from './Views/AdminHome.js'
 import AdminNavBar from './Views/AdminNavBar.js'
 import Localisation from './Views/component/Localisation.js'
+import AddIcon from '@material-ui/icons/Add';
 
 import {
   Router,
@@ -47,6 +50,7 @@ class App extends Component {
         positionActive: false,
         width: window.innerWidth,
         height: window.innerHeight,
+        currentUser:null
       };
 
 
@@ -84,6 +88,7 @@ class App extends Component {
 
       getUserFromDb(cooki)
         .then(data => {
+          this.setState({currentUser:data[0]})
           var action = { type: "TOGGLE_USER", currentUser: data[0]}
           this.props.dispatch(action)
           getVoteByUser(data[0].email).then(votes => {
@@ -126,6 +131,12 @@ class App extends Component {
     window.removeEventListener('resize', this.updateDimensions);
   }
 
+  componentWillReceiveProps(newProps){
+    if(newProps.currentUser != this.state.currentUser){
+      this.setState({currentUser:newProps.currentUser})
+    }
+  }
+
 
   handleSwitch(val){
     if(val==1 && !this.props.isAuth){
@@ -156,11 +167,20 @@ class App extends Component {
   render(){
 
     const isAuth = this.props.isAuth
-
+    const currentUser = this.props.currentUser
     if(isAuth){
       myAuth.isAuthenticated = true
+      console.log("AUUUUUUUTH" )
     }else{
       myAuth.isAuthenticated = false
+    }
+    if(currentUser){
+      myAuth.currentUser = currentUser
+      console.log("AUUUUUUUTH2" )
+      console.log(myAuth.currentUser.isAdmin)
+    }
+    else{
+      myAuth.currentUser = null
     }
 
 
@@ -169,13 +189,14 @@ class App extends Component {
 
       <Router history={history}>
         <div>
+
             <Localisation />
             <Switch>
-             <Route exact path="/adminhome">
+             <PrivateAdmin exact path="/adminhome">
                <AdminNavBar />
-             </Route>
+             </PrivateAdmin>
              <Route path="/">
-                <NavBar changeValue={(val) => this.handleSwitch(val)} />
+                <NavBar changeValue={(val) => this.handleSwitch(val)} currentUser={this.state.currentUser} />
              </Route>
            </Switch>
 
@@ -183,7 +204,9 @@ class App extends Component {
 
           <Switch>
             <Route exact path="/">
+            
               {this.state.width > 1275 ? (<HomeSwitcher val={this.state.vue} close={()=>this.setState({openfilter:false,openprofile:false})} open={this.state.open} openfilter={this.state.openfilter} openprofile={this.state.openprofile}/>) : <Home switcher={true} close={()=>this.setState({openfilter:false,openprofile:false})} open={this.state.open} openfilter={this.state.openfilter} openprofile={this.state.openprofile}  />}
+
             </Route>
 
             <Route path="/addpost">
@@ -202,12 +225,16 @@ class App extends Component {
               <Login />
             </PrivateLogin>
 
-            <Route path="/adminhome">
+            <PrivateAdmin exact path="/adminhome">
              <AdminHome />
-           </Route>
+            </PrivateAdmin>
+
+             <PrivateProfile path="/profile">
+              <AdminHome />
+              </PrivateProfile>
 
             <Route path="/filter">
-              <HomeSwitcher val={0} />
+                  {this.state.width > 1275 ? (<HomeSwitcher val={0} close={()=>this.setState({openfilter:false,openprofile:false})} open={this.state.open} openfilter={this.state.openfilter} openprofile={this.state.openprofile}/>) : <Home switcher={true} close={()=>this.setState({openfilter:false,openprofile:false})} open={this.state.open} openfilter={this.state.openfilter} openprofile={this.state.openprofile}  />}
             </Route>
 
             <Route path="/postdetailview/:id" component={PostDetailView} />
@@ -222,6 +249,7 @@ class App extends Component {
 
 const myAuth = {
   isAuthenticated: false,
+  currentUser:null,
   authenticate(cb) {
     myAuth.isAuthenticated = true;
     setTimeout(cb, 100); // fake async
@@ -231,6 +259,7 @@ const myAuth = {
     setTimeout(cb, 100);
   }
 };
+
 
 
 
@@ -275,6 +304,54 @@ function PrivateLogin({ children, ...rest }) {
   )
 }
 
+function PrivateProfile({ children, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        myAuth.isAuthenticated ? (
+          children
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/login",
+              state: { from: location }
+            }}
+          />
+        )
+      }
+    />
+  );
+}
+
+function PrivateAdmin({ children, ...rest }) {
+  return (
+    <Route
+      {...rest}
+      render={({ location }) =>
+        myAuth.currentUser ? (
+          myAuth.currentUser.isAdmin ? (
+            children
+          ) : (
+            <Redirect
+              to={{
+                pathname: "/",
+                state: { from: location }
+              }}
+            />
+          )
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/",
+              state: { from: location }
+            }}
+          />
+        )
+      }
+    />
+  );
+}
 
 const mapStateToProps = state =>{
   return {

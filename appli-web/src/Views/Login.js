@@ -136,7 +136,8 @@ class Login extends React.Component {
 
             action = { type: "TOGGLE_AUTH"}
             this.props.dispatch(action)
-            history.push('/filter');
+            this.props.back()
+            history.push("/")
           }else{
             console.log("password incorrect")
           }
@@ -160,7 +161,7 @@ class Login extends React.Component {
         <Typography component="h1" variant="h5" className={classes.title} >
           Login
         </Typography>
-        <form className={classes.form} noValidate onSubmit={this.onSubmit}>
+        <div className={classes.form}>
           <TextField
             variant="outlined"
             margin="normal"
@@ -186,7 +187,7 @@ class Login extends React.Component {
             onChange={this.onChange}
           />
 
-          <ColorButton variant="contained" color="primary" className={classes.margin} type="submit"
+          <ColorButton variant="contained" color="primary" className={classes.margin} onClick={this.onSubmit}
             fullWidth>
             Login
           </ColorButton>
@@ -201,7 +202,7 @@ class Login extends React.Component {
               </Link>
             </Grid>
           </Grid>
-        </form>
+        </div>
       </div>
 
     </Container>

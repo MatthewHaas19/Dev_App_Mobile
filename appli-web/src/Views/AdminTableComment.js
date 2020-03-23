@@ -52,7 +52,6 @@ const useStyles = theme => ({
     color: "black",
   },
   table: {
-    backgroundColor: "#a1d0d3"
   },
   tableContent: {
     color: "black",

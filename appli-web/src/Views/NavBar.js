@@ -14,6 +14,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import '../App.css';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import StarIcon from '@material-ui/icons/Star';
 import MuiThemeProvider from '@material-ui/core/styles/MuiThemeProvider';
 import history from '../history';
 import {
@@ -80,15 +81,18 @@ const image =
 
 
 
-export default function NavBar({changeValue}) {
+export default function NavBar(props) {
   const classes = useStyles();
+  const user = props.currentUser
 
   function handleClick(newValue){
     history.push('/');
+    console.log("")
+    console.log(user)
     if(newValue=="filter"){
-      changeValue(0)
+      props.changeValue(0)
     }else{
-      changeValue(1)
+      props.changeValue(1)
     }
   };
 
@@ -109,9 +113,17 @@ export default function NavBar({changeValue}) {
           </Link>
           </div>
           </ThemeProvider>
+
+
+          {user ? user.isAdmin ?
+          <IconButton aria-label="search" color="inherit" className={classes.menuButton} onClick={() => history.push('/adminhome')}>
+            <StarIcon />
+          </IconButton> : null : null}
+
           <IconButton aria-label="search" color="inherit" className={classes.menuButton} onClick={() => handleClick("filter")}>
             <SearchIcon />
           </IconButton>
+
           <IconButton aria-label="profil" color="inherit" className={classes.menuButton} onClick={() => handleClick("profile")}>
             <AccountCircle />
           </IconButton>

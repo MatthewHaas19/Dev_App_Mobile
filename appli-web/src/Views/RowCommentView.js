@@ -9,14 +9,23 @@ import Typography from '@material-ui/core/Typography';
 import CardActions from '@material-ui/core/CardActions';
 import CardActionArea from '@material-ui/core/CardActionArea';
 import Button from '@material-ui/core/Button';
+import ColorButton from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
+import Dialog from '@material-ui/core/Dialog';
 import Icon from '@material-ui/core/Icon';
+import SignalementComment from './SignalementComment'
 import KeyboardArrowUpIcon from '@material-ui/icons/KeyboardArrowUp';
 import KeyboardArrowDownIcon from '@material-ui/icons/KeyboardArrowDown';
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import ExploreTwoToneIcon from '@material-ui/icons/ExploreTwoTone';
 import { getPostById } from '../API/PostApi';
 import { connect } from 'react-redux'
+import { getUserFromDb } from '../API/UserApi';
+import Slide from '@material-ui/core/Slide';
+
+const Transition = React.forwardRef(function Transition(props, ref) {
+  return <Slide direction="up" ref={ref} {...props} />;
+});
 
 const useStyles = theme => ({
   root: {
@@ -66,7 +75,20 @@ class RowCommentView extends React.Component {
 
   constructor(props){
     super(props)
-
+    this.state={
+      username:'Anonyme',
+      openAddSignalement:false,
+    }
+    let email = this.props.comments.user
+    if(this.props.comments.isAnonyme == false) {
+      getUserFromDb(email).then(data => {
+        const user = data.username
+        this.setState({username: data[0].username})
+        console.log("username"+data[0].username)
+      }).catch((error) => {
+        console.log("Erreur fetch")
+      })
+    } 
   }
 
   vote(vote){
@@ -103,6 +125,14 @@ class RowCommentView extends React.Component {
     }
   }
 
+  handleClose = () => {
+    this.setState({openAddSignalement:false});
+  };
+
+  handleSignalement = () => {
+    console.log("signaler")
+    this.setState({openAddSignalement:true});
+  }
 
 
   render(){
@@ -124,12 +154,14 @@ class RowCommentView extends React.Component {
     <AccountCircleIcon className={classes.logosTop}/>
     </Grid>
 
-    <Grid item xs={7} >
+    <Grid item xs={9} >
         <div className={classes.username}  alignItems="left" >
-          {this.props.comments.user}
+          {this.state.username}
         </div>
         </Grid>
-
+        <ColorButton variant="outlined" color="secondary" onClick={this.handleSignalement} >
+         Signaler
+         </ColorButton>
     </Grid>
 
     <Grid container alignItems="center">
@@ -173,10 +205,30 @@ class RowCommentView extends React.Component {
         ): null
       }
 
+
+
+      <Dialog
+        open={this.state.openAddSignalement}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={this.handleClose}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+        <SignalementComment idComment={this.props.comments._id} back={this.handleClose}/>
+      </Dialog>
+
       </div>
+
+
+
+
     )
   }
 }
+
+
+
 
 
 

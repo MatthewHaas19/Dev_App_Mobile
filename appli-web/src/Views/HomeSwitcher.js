@@ -98,10 +98,10 @@ export default function HomeSwitcher(props) {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <Home switcher={true} open={open} openfilter={openfilter} openprofile={openprofile}  />
+          <Home switcher={true} open={open} openfilter={openfilter} openprofile={openprofile} close={() => props.close()} />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          <Home switcher={false} open={false} openfilter={openfilter} openprofile={openprofile} />
+          <Home switcher={false} open={false} openfilter={openfilter} openprofile={openprofile} close={() => props.close()}/>
         </TabPanel>
       </SwipeableViews>
 

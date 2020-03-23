@@ -12,6 +12,7 @@ import {
 import {getAllPostsFromDb} from '../API/PostApi'
 import {getAllCommentFromPost} from '../API/CommentApi'
 import {getAllReportFromPost} from '../API/ReportApi'
+import {deleteUser} from '../API/UserApi'
 import RowPostView from '../Views/RowPostView'
 import Table from '@material-ui/core/Table';
 import Badge from '@material-ui/core/Badge';
@@ -87,13 +88,15 @@ class AdminProfilUser extends React.Component {
   };
 
   deleteUserFunction(id){
-    //eletePost(id).then(res => {
+    console.log("in the funciton")
+    deleteUser(id).then(res => {
+      console.log("OK delete")
       this.state.showDialogComfirm = false
       this.props.show(false)
       this.props.userHasBeenDeleted()
-  //  }).catch((error) => {
-  //    console.log("Erreur dans la suppression")
-  //  })
+    }).catch((error) => {
+      console.log("Erreur dans la suppression du user")
+    })
   }
 
 

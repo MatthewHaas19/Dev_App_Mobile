@@ -77,23 +77,6 @@ class AdminPostDetail extends React.Component{
 
   constructor(props){
     super(props)
-    let idPost = this.props.adminCurrentPost._id
-    getPostById(idPost).then(data => {
-      const post = data
-      this.setState({posts: data})
-      this.setState({idPost: idPost})
-      getAllCommentFromPost(idPost).then(commentList => {
-         this.setState({comments: commentList})
-       }).catch((error) => {
-         console.log("Erreur dans la recuperation des comments")
-       })
-    }).catch((error) => {
-      console.log("Erreur fetch")
-    })
-
-
-
-
 
   }
 

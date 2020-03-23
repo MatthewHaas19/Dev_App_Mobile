@@ -76,3 +76,23 @@ export function voteComment(vote,comment) {
   .then((response) => response.json())
   .catch((error) => console.log(error))
 }
+
+
+export function deleteComment(id){
+  const url = "https://dev-mobile-ig.herokuapp.com/comments/"
+  const commentToDelete = {
+    "_id" : id,
+  }
+  const data = JSON.stringify(commentToDelete)
+
+  return fetch(url,{
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: data
+  })
+  .then((response) => response.json())
+  .catch((error) => console.log(error))
+}

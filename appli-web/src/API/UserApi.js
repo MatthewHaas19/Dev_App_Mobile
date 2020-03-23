@@ -38,3 +38,25 @@ export function setUserDb (user) {
   .then((response) => response.text())
   .catch((error) => console.log(error))
 }
+
+
+
+
+export function deleteUser(id){
+  const url = "https://dev-mobile-ig.herokuapp.com/users/"
+  const userToDelete = {
+    "_id" : id,
+  }
+  const data = JSON.stringify(userToDelete)
+
+  return fetch(url,{
+    method: 'DELETE',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+    },
+    body: data
+  })
+  .then((response) => response.json())
+  .catch((error) => console.log(error))
+}

@@ -4,7 +4,7 @@ function togglePosts(state = initialState, action) {
   let nextState
   switch(action.type) {
     case 'ADD_POSTS':
-    state = {posts:action.posts}
+    state = {posts:action.posts,currentIdPost:state.currentIdPost}
     console.log("addPost")
     case 'CURRENT_POST':
     state = {posts:state.posts,currentIdPost:action.currentIdPost}

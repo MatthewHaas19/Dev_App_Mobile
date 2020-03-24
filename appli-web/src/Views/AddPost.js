@@ -204,7 +204,6 @@ class AddPost extends React.Component {
               titre: '',
               texte: '',
               image: null,
-              categorie: [],
               errorMsg:'',
             })
 

@@ -155,8 +155,12 @@ class PostDetailView extends React.Component{
   deletePostFunction(id){
     deletePost(id).then(res => {
       this.setState({showDialogComfirm:false})
+      var newPost = this.props.postsStore.filter(post => post._id !== id)
+      var action = { type: "ADD_POSTS", posts: newPost}
+      this.props.dispatch(action)
       history.push('/')
     }).catch((error) => {
+      console.log(error)
       console.log("Erreur dans la suppression")
     })
   }
@@ -442,7 +446,8 @@ const mapStateToProps = state =>{
   return {
     isAuth: state.auth.isAuth,
     currentUser: state.user.currentUser,
-    currentIdPost: state.posts.currentIdPost
+    currentIdPost: state.posts.currentIdPost,
+    postsStore : state.posts.posts
   }
 }
 

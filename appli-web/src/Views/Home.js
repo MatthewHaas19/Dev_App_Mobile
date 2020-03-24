@@ -211,8 +211,8 @@ handleSwitchRegister = () => {
     this.setState({open:false,openAdd:false,openProps:false});
   };
   handleCloseAdd = (posts) => {
-    console.log(posts)
-    //this.setState({open:false,openAdd:false,openProps:false,posts:posts});
+
+    this.setState({open:false,openAdd:false,openProps:false});
   };
 
   handleCloseLogin = () => {

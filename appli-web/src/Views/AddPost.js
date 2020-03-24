@@ -202,7 +202,7 @@ class AddPost extends React.Component {
             posts.unshift(data)
             var action = { type: "ADD_POSTS", posts: data}
             console.log(posts)
-            this.props.dispatch(action)
+          //  this.props.dispatch(action)
             this.props.back(posts)
           }
           else{

@@ -72,7 +72,8 @@ class AdminPostDetail extends React.Component{
     comments:[],
     openAddComment:false,
     openAddSignalement:false,
-    idPost:''
+    idPost:'',
+    openImage:false,
   }
 
   constructor(props){
@@ -96,9 +97,8 @@ class AdminPostDetail extends React.Component{
     this.setState({openAddSignalement:true});
   };
 
-  handleClose = () => {
-    this.setState({openAddComment:false});
-    this.setState({openAddSignalement:false});
+  handleCloseImage() {
+    this.setState({openImage:false});
   };
 
 
@@ -152,20 +152,32 @@ class AdminPostDetail extends React.Component{
     return(
       <div className={classes.dialog}>
       <Container className={classes.mainPage}>
-        <Grid item xs={12} className={classes.scrollableView}>
+        <Grid item xs={12} className={classes.scrollableView} align="center">
         <Typography component="h3" variant="p" className={classes.title}  >
           Détail du post :
         </Typography>
        {post}
        {this.props.adminCurrentPost.image ?
 
-         <img src={this.props.adminCurrentPost.image}  />
+
+         <img onClick={() => this.setState({openImage : true})} src={this.props.adminCurrentPost.image} style={{maxWidth:500, maxHeight:500, marginTop:20}} />
 
         : null}
        {listcomments}
       </Grid>
       </Container>
 
+
+      <Dialog
+          maxWidth="md"
+          open={this.state.openImage}
+          TransitionComponent={Transition}
+          onClose={() => this.handleCloseImage()}
+          aria-labelledby="alert-dialog-slide-title"
+          aria-describedby="alert-dialog-slide-description"
+        >
+        <img src={this.props.adminCurrentPost.image} style={{maxWidth:900, maxHeight:900, marginTop:20}} />
+      </Dialog>
 
 
       </div>

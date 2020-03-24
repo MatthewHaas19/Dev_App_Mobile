@@ -46,6 +46,12 @@ const useStyles = makeStyles(theme => ({
   input: {
     display: 'none',
   },
+  images:{
+    margin: "15px"
+  },
+  text:{
+    margin:"10px"
+  }
 }));
 
 export default function UploadButton({changeValue}) {
@@ -53,6 +59,7 @@ export default function UploadButton({changeValue}) {
   const [loading, setLoading] = React.useState(false);
   const [success, setSuccess] = React.useState(false);
   const [image, setImage] = React.useState(null);
+  const [file, setFile] = React.useState(null);
   const [url, setUrl] = React.useState('');
   const timer = React.useRef();
 
@@ -95,6 +102,7 @@ export default function UploadButton({changeValue}) {
     if(e.target.files[0]){
       const image = e.target.files[0]
       setImage(image);
+      setFile(URL.createObjectURL(image));
       console.log(image)
 
 
@@ -102,6 +110,7 @@ export default function UploadButton({changeValue}) {
   };
 
   return (
+    <div>
     <div className={classes.root}>
 
         <input
@@ -118,6 +127,32 @@ export default function UploadButton({changeValue}) {
           </Button>
         </label>
 
+
+    </div>
+    <div className={classes.images}>
+      {image ?
+        <div className={classes.text}>
+          {image.name}
+          <img src={file} style={{width:"35px"}}/>
+        </div>
+         : null}
+    </div>
+    {image ?
+    <div className={classes.root}>
+        <input
+          accept="image/*"
+          className={classes.input}
+          id="contained-button-file"
+          multiple
+          type="file"
+          onChange={handleChange}
+        />
+        <label htmlFor="contained-button-file">
+          <Button variant="contained" style={{backgroundColor: success ? green[400] :  blue[500] ,color:"white"}} component="span">
+            Upload ?
+          </Button>
+        </label>
+
         <div className={classes.wrapper}>
         <Fab
           aria-label="save"
@@ -128,10 +163,13 @@ export default function UploadButton({changeValue}) {
           {success ? <CheckIcon /> : <SaveIcon />}
         </Fab>
 
+
         {loading && <CircularProgress size={68} className={classes.fabProgress} />}
 
       </div>
 
+    </div>
+        : null }
     </div>
   );
 }

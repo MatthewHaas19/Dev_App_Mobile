@@ -196,10 +196,13 @@ class AddComment extends React.Component {
       console.log(comment)
       setNewCommentDb(comment)
         .then(data => {
-          if(data == "{\"res\":\"correct\",\"message\":\"add comment ok\"}"){
+          if(data){
             console.log("Comment Bien ajouté")
-
-            this.props.back(comment)
+            var comments = this.props.comments
+            comments.unshift(data)
+            var action = { type: "ADD_POSTS", comments: data}
+            console.log(comments)
+            this.props.back(comments)
           }
           else{
             console.log("erreur add Comment")

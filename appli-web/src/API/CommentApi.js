@@ -32,7 +32,7 @@ export function getAllCommentFromUser (emailUser) {
 
 
 export function setNewCommentDb (comment) {
-  const url = "https://dev-mobile-ig.herokuapp.com/comments/"
+  const url = "https://dev-mobile-ig.herokuapp.com/comments/comments"
 
   const data = JSON.stringify(comment)
 
@@ -46,7 +46,7 @@ export function setNewCommentDb (comment) {
     },
     body: data
   })
-  .then((response) => response.text())
+  .then((response) => response.json())
   .catch((error) => console.log(error))
 }
 

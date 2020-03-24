@@ -18,6 +18,7 @@ struct PostDetailView: View {
     
     @State private var showingAlert = false
     @State var afficherSheet = false
+    @State var rafraichir = false
     
     @State var post : Post
     @State var comments : [Comment]
@@ -234,7 +235,7 @@ struct PostDetailView: View {
                     
                     HStack {
                         
-                        ListCommentView(post:post, currentUser : currentUser, comments:self.comments)
+                        self.rafraichir ? nil : ListCommentView(post:post, currentUser : currentUser, comments:self.comments)
                             
                     }
                     .cornerRadius(30)
@@ -260,6 +261,12 @@ struct PostDetailView: View {
                     self.commentDAO.loadData(postId: self.post._id, navigateComment:  {
                         comments in
                         self.comments = comments
+                        print("COOOOOMMMENTS")
+                        print(self.comments)
+                        self.rafraichir = true
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                            self.rafraichir = false
+                        }
                     })
                 }
                  , navigateComment : {

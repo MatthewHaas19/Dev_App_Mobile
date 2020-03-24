@@ -170,7 +170,7 @@ struct AddCommentView: View {
        
 
         if(self.emailUser != nil){
-            print(self.emailUser)
+            print(self.emailUser!)
         }else{
             print("test")
         }

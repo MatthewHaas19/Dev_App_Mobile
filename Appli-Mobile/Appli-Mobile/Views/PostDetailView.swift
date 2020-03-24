@@ -253,7 +253,7 @@ struct PostDetailView: View {
                 
                 
             }
-             
+            
             .sheet(isPresented: self.$afficherSheet, content: {
                 AddCommentView(post : self.post ,emailUser : self.currentUser , afficherAdd : {
                     afficher in

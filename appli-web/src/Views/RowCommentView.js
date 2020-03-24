@@ -37,6 +37,9 @@ const useStyles = theme => ({
   username: {
     fontSize: 14,
     fontWeight: "bold",
+    '@media (max-width:600px)': {
+      marginLeft: 3,
+    },
 
   },
   texte: {
@@ -50,6 +53,7 @@ const useStyles = theme => ({
   note: {
     fontSize:20,
     fontWeight:"bold",
+    
   },
   chevron: {
 
@@ -64,6 +68,9 @@ const useStyles = theme => ({
     fontSize:20,
     marginRight:10,
     flexBasis : 0,
+    '@media (max-width:600px)': {
+      marginLeft: 3,
+    },
   },
 
 });

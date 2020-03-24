@@ -222,13 +222,13 @@ class RowPostDetailView extends React.Component{
   <Grid item className={classes.notefleches} >
     <Grid container align="right">
       <Grid item xs={12} align="center">
-        <Button onClick={() => this.vote("+")}><KeyboardArrowUpIcon style={{fontSize: this.props.votes ? this.getArrowUp() : 40}}className={classes.chevron} /></Button>
+        <Button onClick={() => this.vote("+") } align = 'center'><KeyboardArrowUpIcon style={{fontSize: this.props.votes ? this.getArrowUp() : 40}}className={classes.chevron} /></Button>
       </Grid>
       <Grid item xs={12} align="center">
         <div className={classes.note} align="center" >{this.props.post.note}</div>
       </Grid>
       <Grid item xs={12} align="center">
-        <Button onClick={() => this.vote("-")}><KeyboardArrowDownIcon style={{fontSize: this.props.votes ? this.getArrowDown() : 40}} className={classes.chevron} /></Button>
+        <Button onClick={() => this.vote("-")} align = 'center'><KeyboardArrowDownIcon style={{fontSize: this.props.votes ? this.getArrowDown() : 40}} className={classes.chevron} /></Button>
       </Grid>
     </Grid>
   </Grid>

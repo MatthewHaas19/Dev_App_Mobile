@@ -54,9 +54,16 @@ const useStyles = theme => ({
     color:"white"
   },
   notefleches:{
-    marginTop:35,
-    margin:20,
-    color:"white",
+    '@media (min-width:600px)': {
+      marginTop:35,
+      margin:20,
+      color:"white",
+    },
+
+    '@media (max-width:600px)': {
+      marginTop:25,
+      color:"white",
+    },
   },
   localisation: {
     marginRight:20,
@@ -232,7 +239,7 @@ class RowPostView extends React.Component{
   </Grid>
   <Grid item xs={2} align="right" style={{ background: `rgb(${[this.props.post.couleur[0]*255,this.props.post.couleur[1]*255,this.props.post.couleur[2]*255]})` }}>
   <Grid item className={classes.notefleches} >
-    <Grid container align="right">
+    <Grid container>
       <Grid item xs={12} align="center">
         <Button onClick={() => this.vote("+")}><KeyboardArrowUpIcon style={{fontSize: this.props.votes ? this.getArrowUp() : 40}}className={classes.chevron} /></Button>
       </Grid>

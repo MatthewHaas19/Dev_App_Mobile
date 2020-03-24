@@ -62,7 +62,16 @@ const useStyles = theme => ({
     color:"black"
   },
   notefleches:{
-    margin:0,
+    '@media (min-width:600px)': {
+      marginTop:35,
+      margin:20,
+      color:"black",
+    },
+
+    '@media (max-width:600px)': {
+      marginTop:25,
+      color:"black",
+    },
   },
   localisation: {
     marginRight:20,

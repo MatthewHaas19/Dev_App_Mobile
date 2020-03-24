@@ -341,10 +341,10 @@ class PostDetailView extends React.Component{
     <Grid container >
     <Grid item xs={2}>
     </Grid>
-    <Grid item xs={8}>
+    <Grid item xs={9}>
       <RowCommentView comments={comment} handlevote={(val) => this.handleVoteComment(val,comment)} />
       </Grid>
-      <Grid item xs={1}>
+      <Grid item xs={0}>
       </Grid>
       </Grid>
     )
@@ -356,7 +356,7 @@ class PostDetailView extends React.Component{
 
     return(
       <div>
-       
+
       <Card className={classes.mainPage} style={{marginRight: this.state.width>1670 ? 50 : 0 ,
         marginLeft: this.state.width>1670 ? 50 : 5}}>
       <Grid container>

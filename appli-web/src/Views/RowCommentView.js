@@ -37,9 +37,6 @@ const useStyles = theme => ({
   username: {
     fontSize: 14,
     fontWeight: "bold",
-    '@media (max-width:600px)': {
-      marginLeft: 3,
-    },
 
   },
   texte: {
@@ -53,24 +50,28 @@ const useStyles = theme => ({
   note: {
     fontSize:20,
     fontWeight:"bold",
-    
   },
   chevron: {
-
     alignItems:"center",
     color:"black",
   },
   notefleches:{
-    margin:0,
+    '@media (min-width:600px)': {
+      marginTop:35,
+      margin:20,
+      color:"black",
+    },
+
+    '@media (max-width:600px)': {
+      marginTop:25,
+      color:"black",
+    },
   },
 
   logosTop: {
     fontSize:20,
     marginRight:10,
     flexBasis : 0,
-    '@media (max-width:600px)': {
-      marginLeft: 3,
-    },
   },
 
 });
@@ -91,6 +92,7 @@ class RowCommentView extends React.Component {
       getUserFromDb(email).then(data => {
         const user = data.username
         this.setState({username: data[0].username})
+        console.log("username"+data[0].username)
       }).catch((error) => {
         console.log("Erreur fetch")
       })
@@ -103,9 +105,11 @@ class RowCommentView extends React.Component {
 
   getArrowDown(){
     var votes = this.props.votes
+    console.log(votes)
     let vote = votes.votesComment.filter(item => item.comment == this.props.comments._id)
     if(vote.length > 0){
       if(vote[0].like=="true"){
+        console.log("true true")
         return 40
       }else{
         return 50
@@ -119,6 +123,7 @@ class RowCommentView extends React.Component {
     let vote = votes.votesComment.filter(item => item.comment == this.props.comments._id)
     if(vote.length > 0){
       if(vote[0].like=="true"){
+        console.log("true true")
         return 50
       }else{
         return 40
@@ -182,20 +187,18 @@ class RowCommentView extends React.Component {
     </Grid>
     </CardActionArea>
     </Grid>
-    <Grid item xs={2} className={classes.notefleches}>
-     <div  style={{ display: 'flex', alignItems: 'center',justifyContent: 'center', paddingTop: '40px'}}>
-       <Grid container align="right">
+    <Grid item xs={2} align="center" className={classes.notefleches}>
+       <Grid container >
             <Grid item xs={12} align="center">
-              <Button onClick={() => this.vote("+")}><KeyboardArrowUpIcon style={{fontSize: this.props.votes ? this.getArrowUp() : 40}} className={classes.chevron} /></Button>
+              <Button onClick={() => this.vote("+")} align="center"><KeyboardArrowUpIcon style={{fontSize: this.props.votes ? this.getArrowUp() : 40}} className={classes.chevron} /></Button>
             </Grid>
-            <Grid item xs={12}>
+            <Grid item xs={12} align="right">
               <div className={classes.note} align="center" >{this.props.comments.voteCom}</div>
             </Grid>
             <Grid item xs={12} align="center">
               <Button onClick={() => this.vote("-")}><KeyboardArrowDownIcon style={{fontSize: this.props.votes ? this.getArrowDown() : 40}} className={classes.chevron}   /></Button>
             </Grid>
           </Grid>
-     </div>
 
 
 

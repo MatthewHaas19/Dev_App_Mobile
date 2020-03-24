@@ -47,6 +47,10 @@ const useStyles = theme => ({
     marginRight: 50,
     marginBottom: 50,
     color:'white',
+    '@media (max-width:600px)': {
+      marginLeft: 5,
+      marginRight: 5,
+    }
   },
   actionProfileView: {
     backgroundColor:"red",
@@ -76,6 +80,8 @@ class PostDetailView extends React.Component{
     idPost:'',
     showDelete:false,
     showDialogComfirm:false,
+    width: window.innerWidth,
+    height: window.innerHeight,
   }
 
   constructor(props){
@@ -117,6 +123,17 @@ class PostDetailView extends React.Component{
     }
     this.setState({openAddComment:true});
   };
+
+  updateDimensions = () => {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  };
+
+  componentDidMount() {
+    window.addEventListener('resize', this.updateDimensions);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions);
+  }
 
   handleSignalement = () => {
     var action = { type: "CURRENT_POST", currentIdPost: this.state.idPost}
@@ -324,7 +341,7 @@ class PostDetailView extends React.Component{
     <Grid container >
     <Grid item xs={1}>
     </Grid>
-      <Grid item xs={10}>
+      <Grid item xs= {this.state.width>800 ? 10 : 12}>
       <RowPostDetailView post={post} handlevote={(val) => this.handleVote(val,post)} />
 
       {post.image ? <img src={post.image}  />: null}
@@ -341,7 +358,7 @@ class PostDetailView extends React.Component{
     <Grid container >
     <Grid item xs={2}>
     </Grid>
-    <Grid item xs={9}>
+    <Grid item xs={8}>
       <RowCommentView comments={comment} handlevote={(val) => this.handleVoteComment(val,comment)} />
       </Grid>
       <Grid item xs={1}>
@@ -356,7 +373,9 @@ class PostDetailView extends React.Component{
 
     return(
       <div>
-      <Card className={classes.mainPage}>
+       
+      <Card className={classes.mainPage} style={{marginRight: this.state.width>1670 ? 50 : 0 ,
+        marginLeft: this.state.width>1670 ? 50 : 5}}>
       <Grid container>
         <Grid item xs={12}>
        {post}

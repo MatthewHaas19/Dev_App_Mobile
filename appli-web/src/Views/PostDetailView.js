@@ -82,6 +82,8 @@ class PostDetailView extends React.Component{
     showDialogComfirm:false,
     width: window.innerWidth,
     height: window.innerHeight,
+    openImage: false,
+    imageToDisplay:"",
   }
 
   constructor(props){
@@ -155,8 +157,12 @@ class PostDetailView extends React.Component{
   deletePostFunction(id){
     deletePost(id).then(res => {
       this.setState({showDialogComfirm:false})
+      var newPost = this.props.postsStore.filter(post => post._id !== id)
+      var action = { type: "ADD_POSTS", posts: newPost}
+      this.props.dispatch(action)
       history.push('/')
     }).catch((error) => {
+      console.log(error)
       console.log("Erreur dans la suppression")
     })
   }
@@ -311,7 +317,9 @@ class PostDetailView extends React.Component{
     }
   }
 
-
+  handleCloseImage() {
+    this.setState({openImage:false});
+  }
 
 
   render(){
@@ -324,10 +332,10 @@ class PostDetailView extends React.Component{
     <Grid container >
     <Grid item xs={1}>
     </Grid>
-      <Grid item xs= {this.state.width>800 ? 10 : 12}>
+      <Grid item xs= {this.state.width>800 ? 10 : 12} align="center">
       <RowPostDetailView post={post} handlevote={(val) => this.handleVote(val,post)} />
 
-      {post.image ? <img src={post.image}  />: null}
+      {post.image ? <img onClick={() => this.setState({openImage:true, imageToDisplay:post.image})} src={post.image} style={{maxWidth:500, maxHeight:500, marginTop:20}}   />: null}
 
       </Grid>
       <Grid item xs={1}>
@@ -430,6 +438,16 @@ class PostDetailView extends React.Component{
         </Button>
       </DialogActions>
       </Dialog>
+      <Dialog
+          maxWidth="md"
+          open={this.state.openImage}
+          TransitionComponent={Transition}
+          onClose={() => this.handleCloseImage()}
+          aria-labelledby="alert-dialog-slide-title"
+          aria-describedby="alert-dialog-slide-description"
+        >
+        {this.state.imageToDisplay ? <img src={this.state.imageToDisplay} style={{maxWidth:900, maxHeight:900, marginTop:20}}   />: null}
+      </Dialog>
       </div>
     )
   }
@@ -442,7 +460,8 @@ const mapStateToProps = state =>{
   return {
     isAuth: state.auth.isAuth,
     currentUser: state.user.currentUser,
-    currentIdPost: state.posts.currentIdPost
+    currentIdPost: state.posts.currentIdPost,
+    postsStore : state.posts.posts
   }
 }
 

@@ -198,6 +198,17 @@ class AddPost extends React.Component {
         .then(data => {
           if(data){
 
+
+            this.setState({
+              isAnonyme: false,
+              titre: '',
+              texte: '',
+              image: null,
+              categorie: [],
+              errorMsg:'',
+            })
+
+
             var posts = this.props.posts
             posts.unshift(data)
             var action = { type: "ADD_POSTS", posts: data}
@@ -248,6 +259,7 @@ class AddPost extends React.Component {
           <TextField className={classes.fields} id="filled-basic"
           label="Titre"
           name="titre"
+          value={this.state.titre}
           placeholder="Titre du Post"
           required
           fullWidth
@@ -258,6 +270,7 @@ class AddPost extends React.Component {
           label="Description"
           name="texte"
           placeholder="Décrivez ce qui vous est arrivé"
+          value={this.state.texte}
           multiline
           required
           fullWidth

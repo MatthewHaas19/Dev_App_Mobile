@@ -35,6 +35,7 @@ import Noteworthy from '../fonts/Noteworthy-Lt.woff';
 import EditIcon from '@material-ui/icons/Edit';
 import PowerSettingsNewIcon from '@material-ui/icons/PowerSettingsNew';
 import IconButton from '@material-ui/core/IconButton';
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Notifications from './component/Notifications';
 
 const useStyles = theme => ({
@@ -174,8 +175,8 @@ class Profile extends React.Component {
           justify="space-between"
           alignItems="baseline">
           <Grid justify="flex-start">
-          <IconButton aria-label="search" color="inherit" >
-            <EditIcon />
+          <IconButton aria-label="search" color="inherit" onClick={()=>this.props.back()} >
+            <ArrowBackIcon />
           </IconButton>
           </Grid>
           <Grid justify="flex-end">

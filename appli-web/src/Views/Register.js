@@ -131,7 +131,7 @@ class Register extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-  
+
     if(this.state.password == this.state.cpassword){
       const user = {
         username: this.state.username,
@@ -139,7 +139,7 @@ class Register extends React.Component {
         password: bcrypt.hashSync(this.state.password, salt),
         email : this.state.email,
       };
-      
+
       getUserFromDb(user.email)
       .then(data => {
         console.log(data)
@@ -151,7 +151,7 @@ class Register extends React.Component {
           setUserDb(user)
           .then(data => {
             if(data == "{\"res\":\"correct\",\"message\":\"register ok\"}"){
-              history.push('/login');
+              this.props.back()
             }
             else{
               console.log("erreur register")
@@ -172,10 +172,9 @@ class Register extends React.Component {
 
 
   return (
-    <Container component="main" maxWidth="xs" maxHeight="xs">
-    <Card className={classes.card}>
-      <CardContent>
-        <Link to="/login">
+    <Container component="main" maxWidth="xs" maxHeight="xs" className={classes.card}>
+
+        <Link onClick={() => this.props.back()}>
           <IconButton  aria-label="search">
             <ArrowBackIcon />
           </IconButton>
@@ -246,8 +245,7 @@ class Register extends React.Component {
 
         </form>
       </div>
-      </CardContent>
-    </Card>
+
     </Container>
   );
 }

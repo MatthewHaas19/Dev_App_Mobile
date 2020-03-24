@@ -27,6 +27,7 @@ import Dialog from '@material-ui/core/Dialog';
 import Button from '@material-ui/core/Button';
 import Fab from '@material-ui/core/Fab';
 import Login from './Login.js'
+import Register from './Register.js'
 import AddPost from './AddPost.js'
 import Slide from '@material-ui/core/Slide';
 import Drawer from "@material-ui/core/Drawer";
@@ -80,7 +81,8 @@ class Home extends React.Component {
       height: window.innerHeight,
       mobileOpen: false,
       openProps:true,
-      posts:[]
+      posts:[],
+      openRegister: false
     }
 
 
@@ -177,6 +179,20 @@ class Home extends React.Component {
 	}
 }
 
+handleCloseRegister = () => {
+  this.setState({openRegister:false})
+  this.setState({open:false});
+  this.setState({openProps:true});
+}
+handleSwitchLogin = () => {
+  this.setState({openRegister:false})
+  this.setState({open:true});
+}
+
+handleSwitchRegister = () => {
+  this.setState({open:false});
+  this.setState({openRegister:true})
+}
 
 
   handleDrawerToggle = () => {
@@ -463,7 +479,18 @@ class Home extends React.Component {
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-      <Login back={this.handleClose} />
+      <Login back={this.handleClose} login={() => this.handleSwitchRegister()} />
+    </Dialog>
+
+    <Dialog
+        open={this.state.openRegister}
+        TransitionComponent={Transition}
+        keepMounted
+        onClose={this.handleCloseRegister}
+        aria-labelledby="alert-dialog-slide-title"
+        aria-describedby="alert-dialog-slide-description"
+      >
+      <Register back={this.handleSwitchLogin} />
     </Dialog>
 
     <Dialog

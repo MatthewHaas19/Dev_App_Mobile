@@ -100,7 +100,7 @@ export default function NavBar(props) {
     <div className={classes.root}>
       <AppBar position="static" style={{ background: "#ffffff" }}>
         <Toolbar>
-          <Link to="/filter">
+          <Link to="/">
           <Button>
             <Avatar variant="square" src="/assets/H2R.png"  />
           </Button>

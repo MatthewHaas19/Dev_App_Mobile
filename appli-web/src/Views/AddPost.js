@@ -130,7 +130,7 @@ class AddPost extends React.Component {
         errorMsg = "Votre texte ne doit pas être vide";
         }
     }
-      
+
     if(errorMsg) {
       this.setState({errorMsg})
       return false
@@ -174,7 +174,9 @@ class AddPost extends React.Component {
     console.log(this.state.categorie)
     var localisation = []
     if(this.props.position){
-      localisation = [this.props.position.latitude.toString(),this.props.position.longitude.toString()]
+      if(this.props.position.latitude && this.props.position.longitude){
+        localisation = [this.props.position.latitude.toString(),this.props.position.longitude.toString()]
+      }
     }
       const post = {
         titre: this.state.titre,
@@ -229,7 +231,7 @@ class AddPost extends React.Component {
         Ajouter un Post
       </Typography>
         <form className={classes.form} noValidate autoComplete="off" onSubmit={this.onSubmit}>
-          
+
           { this.state.errorMsg ? (
           <div style = {{color:"red", fontSize : 15}}>{this.state.errorMsg}</div>
           ) : null }

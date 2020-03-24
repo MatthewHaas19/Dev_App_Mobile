@@ -231,7 +231,7 @@ class App extends Component {
               </PrivateProfile>
 
             <Route path="/filter">
-                  {this.state.width > 1275 ? (<HomeSwitcher val={0} close={()=>this.setState({openfilter:false,openprofile:false})} open={this.state.open} openfilter={this.state.openfilter} openprofile={this.state.openprofile}/>) : <Home switcher={true} close={()=>this.setState({openfilter:false,openprofile:false})} open={this.state.open} openfilter={this.state.openfilter} openprofile={this.state.openprofile}  />}
+                <HomeSwitcher val={0} />
             </Route>
 
             <Route path="/postdetailview/:id" component={PostDetailView} />

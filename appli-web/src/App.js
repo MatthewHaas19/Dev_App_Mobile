@@ -183,7 +183,7 @@ class App extends Component {
 
     return (
 
-     
+
       <Router history={history}>
         <div>
             <Localisation />
@@ -230,7 +230,7 @@ class App extends Component {
               </PrivateProfile>
 
             <Route path="/filter">
-                <HomeSwitcher val={0} />
+                {this.state.width > 1275 ? (<HomeSwitcher val={0} close={()=>this.setState({openfilter:false,openprofile:false})} open={this.state.open} openfilter={this.state.openfilter} openprofile={this.state.openprofile}/>) : <Home switcher={true} close={()=>this.setState({openfilter:false,openprofile:false})} open={this.state.open} openfilter={this.state.openfilter} openprofile={this.state.openprofile}  />}
             </Route>
 
             <Route path="/postdetailview/:id" component={PostDetailView} />

@@ -100,11 +100,11 @@ class Home extends React.Component {
   }
 
   componentWillReceiveProps(nextProps) {
-
+    console.log("receive")
+    console.log(this.state.openProps)
     if (nextProps.open !== this.state.open && this.state.openProps) {
       this.setState({ open: nextProps.open,openProps :false });
     }
-
 
     if (nextProps.openfilter !== this.state.openfilter) {
       this.setState({ openfilter: nextProps.openfilter });
@@ -192,6 +192,13 @@ handleSwitchRegister = () => {
 
 
   handleDrawerToggle = () => {
+    this.setState({openfilter:false});
+    this.setState({openprofile:false});
+    this.setState({open:false,openAdd:false,openProps:true});
+    this.props.close()
+  };
+
+  handleDrawerToggleProfile = () => {
     this.setState({openfilter:false});
     this.setState({openprofile:false});
     this.setState({open:false,openAdd:false,openProps:true});
@@ -390,7 +397,7 @@ handleSwitchRegister = () => {
     ) : <CircularProgress />}
     </Grid>
     <Grid item xs={4}>
-    <Profile back={this.handleDrawerToggle} openAddPost={this.handleClickOpenAdd} />
+    <Profile back={this.handleDrawerToggleProfile} openAddPost={this.handleClickOpenAdd} />
     </Grid>
     </Grid>
     </div>

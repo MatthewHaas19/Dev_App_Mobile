@@ -157,6 +157,11 @@ class AdminPostDetail extends React.Component{
           Détail du post :
         </Typography>
        {post}
+       {this.props.adminCurrentPost.image ?
+
+         <img src={this.props.adminCurrentPost.image}  />
+
+        : null}
        {listcomments}
       </Grid>
       </Container>

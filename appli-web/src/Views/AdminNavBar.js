@@ -67,20 +67,39 @@ const useStyles = theme => ({
     flexGrow: 1,
     color: "white",
     marginLeft: 10,
-    fontFamily: 'Noteworthy Light'
+    fontFamily: 'Noteworthy Light',
+    fontSize: '1,5rem',
+ '@media (max-width:600px)': {
+   fontSize: '0.9rem',
+   marginLeft: 3,
+ },
+ [theme.breakpoints.up('md')]: {
+   fontSize: '2.4rem',
+ },
+    fontWeight:"bold",
   },
   image: {
+    marginLeft:2,
     height: 50,
     width:50
   },
   searchfield: {
     width:200,
     marginRight:50,
-    color:'white'
+    color:'white',
+    '@media (max-width:600px)': {
+      fontSize: '0.8rem',
+      marginRight:10,
+      width:130,
+
+    },
   },
   titleSearch: {
     marginRight:30,
     color:"white",
+    '@media (max-width:600px)': {
+      display: 'none',
+    },
   }
 });
 
@@ -114,7 +133,7 @@ class AdminNavBar extends React.Component  {
       <AppBar position="static" style={{ background: "#008089" }}>
         <Toolbar>
           <Link to="/">
-          <Button>
+          <Button className={classes.image}>
             <Avatar variant="square" src="/assets/H2R.png"  />
           </Button>
           </Link>
@@ -122,7 +141,7 @@ class AdminNavBar extends React.Component  {
     <CssBaseline />
           <div className={classes.title}>
           <Link to="/adminhome" style={{textDecoration: 'none',color:'white'}}>
-          <h1>Interface Administrateur</h1>
+          <Typography className={classes.title}>Interface Administrateur</Typography>
           </Link>
           </div>
           </ThemeProvider>

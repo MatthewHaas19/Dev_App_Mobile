@@ -88,7 +88,7 @@ class RowCommentView extends React.Component {
       }).catch((error) => {
         console.log("Erreur fetch")
       })
-    } 
+    }
   }
 
   vote(vote){

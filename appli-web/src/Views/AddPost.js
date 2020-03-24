@@ -74,7 +74,7 @@ const ColorButton = withStyles(theme => ({
 class AddPost extends React.Component {
 
   constructor(props){
-    console.log("Je suis dans le constructor")
+
     super(props)
     this.state = {
       isAnonyme: false,
@@ -162,7 +162,8 @@ class AddPost extends React.Component {
     if(ss<10) ss='0'+ss;
 
 
-    console.log("Submit")
+
+
     var userMail = "Anonyme"
     var cooki = cookie.load('userId')
     if(cooki){
@@ -171,7 +172,7 @@ class AddPost extends React.Component {
 
 
     e.preventDefault();
-    console.log(this.state.categorie)
+
     var localisation = []
     if(this.props.position){
       if(this.props.position.latitude && this.props.position.longitude){
@@ -192,16 +193,14 @@ class AddPost extends React.Component {
         couleur: colors[Math.floor((Math.random()*colors.length))],
         note: 0,
       };
-      console.log(post)
+
       setNewPostDb(post)
         .then(data => {
           if(data){
-            console.log("POOOOOOOOOOOOOOOOOOSTTTTTT")
-            console.log(data)
+
             var posts = this.props.posts
             posts.unshift(data)
             var action = { type: "ADD_POSTS", posts: data}
-            console.log(posts)
           //  this.props.dispatch(action)
             this.props.back(posts)
           }

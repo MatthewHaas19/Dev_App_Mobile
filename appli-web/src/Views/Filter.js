@@ -203,7 +203,7 @@ class Filter extends React.Component {
   };
 
   handleChange = (index) => event => {
-    console.log(index)
+
     const cat = this.state.checked
     cat[index] = event.target.checked
     this.setState({ checked: cat });
@@ -218,7 +218,7 @@ class Filter extends React.Component {
   }
 
   onSubmit = () => {
-    console.log("submit filter")
+
 
     const cat = this.state.checked
     const res = []
@@ -246,7 +246,7 @@ class Filter extends React.Component {
       localisation: localisation,
       categorie: res
     }
-    console.log(filter)
+
     this.props.filter(filter)
   }
 

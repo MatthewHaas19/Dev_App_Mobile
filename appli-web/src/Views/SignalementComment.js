@@ -112,7 +112,6 @@ class SignalementComment extends React.Component {
       idComment:''
     }
 
-    console.log("test")
 
   }
 
@@ -127,7 +126,7 @@ class SignalementComment extends React.Component {
   }
 
   onSubmit = (e) => {
-    console.log("--------- Signalement ----------------")
+
     this.setState({idComment:this.props.idComment})
     if(this.props.isAuth){
       let report = {
@@ -135,7 +134,6 @@ class SignalementComment extends React.Component {
         emailUser: this.props.currentUser.email
       }
       setNewReportComment(report).then(data => {
-        console.log(data.res)
         this.props.back()
       })
     }else{

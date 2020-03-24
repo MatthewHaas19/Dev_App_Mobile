@@ -110,7 +110,7 @@ class AddComment extends React.Component {
       errorMsg:'',
     }
 
-    console.log("test")
+
 
   }
 
@@ -139,9 +139,9 @@ class AddComment extends React.Component {
 
   componentWillReceiveProps(nextProps) {
 
-    console.log(nextProps.idpost)
+
     this.setState({ idPost: nextProps.idpost });
-    console.log("CUOCOUCOUCOUCOU")
+
 
 
   }
@@ -176,7 +176,7 @@ class AddComment extends React.Component {
     if(mn<10) mn='0'+mn;
     if(ss<10) ss='0'+ss;
 
-    console.log("Submit")
+
     var userMail = "Anonyme"
     var cooki = cookie.load('userId')
     if(cooki){
@@ -193,7 +193,7 @@ class AddComment extends React.Component {
         voteCom: 0,
         postId : this.state.idPost, //A FAIRE
       };
-      console.log(comment)
+
       setNewCommentDb(comment)
         .then(data => {
           if(data){
@@ -209,7 +209,6 @@ class AddComment extends React.Component {
       }
       else {
         console.log("champs non complet dans add comment")
-        console.log(this.state.errorMsg)
       }
 
     }
@@ -224,7 +223,7 @@ class AddComment extends React.Component {
     <Container component="main" maxWidth="xs" maxHeight="xs">
 
       <CssBaseline />
-      <div className={classes.backButton}><IconButton aria-label="search" color="inherit" onClick={()=>this.props.back()}>
+      <div className={classes.backButton}><IconButton aria-label="search" color="inherit" onClick={()=>this.props.leave()}>
         <ArrowBackIcon />
       </IconButton></div>
       <div className={classes.paper}>

@@ -81,17 +81,14 @@ class PostDetailView extends React.Component{
   constructor(props){
     super(props)
     let idPost = this.props.match.params.id
-    console.log("l'id du post"+idPost)
     getPostById(idPost).then(data => {
       const post = data
       this.setState({posts: data})
       this.setState({idPost: this.props.match.params.id})
-      console.log("id"+this.state.idPost)
-      console.log("Le post" +data)
+
       getAllCommentFromPost(this.props.match.params.id).then(data => {
          const comments = data
          this.setState({comments: data})
-         console.log("dans get all comments les com :" + data)
          var cooki = cookie.load('userId')
          if(cooki) {
            if (post[0].user == cooki) {
@@ -152,7 +149,6 @@ class PostDetailView extends React.Component{
   }
 
   handleVote(val,post){
-    console.log(post)
     if(this.props.currentUser){
 
       var add = "true"
@@ -164,7 +160,6 @@ class PostDetailView extends React.Component{
         post:post._id,
         like:add
       }
-      console.log(vote)
 
       addVote(vote).then(data => {
         console.log(data)
@@ -174,8 +169,6 @@ class PostDetailView extends React.Component{
           if(data.res=="change"){
             votePost(val,post).then(res=>{
               votePost(val,post).then(data=>{
-                console.log("change")
-                console.log(data)
                   var posts = this.state.posts
 
 
@@ -199,9 +192,6 @@ class PostDetailView extends React.Component{
           }else{
             if(data.res=="correct"){
               votePost(val,post).then(data=>{
-                  console.log("add")
-
-                  console.log(data)
                     var posts = this.state.posts
 
 
@@ -232,7 +222,6 @@ class PostDetailView extends React.Component{
 
 
   handleVoteComment(val,comment){
-    console.log(comment)
     if(this.props.currentUser){
 
       var add = "true"
@@ -244,18 +233,17 @@ class PostDetailView extends React.Component{
         comment:comment._id,
         like:add
       }
-      console.log(vote)
+
 
       addVoteComment(vote).then(data => {
-        console.log(data)
+
         if(data.res=='exists'){
           console.log("tu as deja voté pour ce commentaire")
         }else{
           if(data.res=="change"){
             voteComment(val,comment).then(res=>{
               voteComment(val,comment).then(data=>{
-                console.log("change")
-                console.log(data)
+
                   var comments = this.state.comments
 
                   var index = comments.indexOf(comment);
@@ -278,8 +266,7 @@ class PostDetailView extends React.Component{
           }else{
             if(data.res=="correct"){
               voteComment(val,comment).then(data=>{
-                  console.log("add")
-                  console.log(data)
+
                     var comments = this.state.comments
 
 
@@ -314,10 +301,6 @@ class PostDetailView extends React.Component{
 
 
     const {classes} = this.props
-
-    this.state.posts.map((post) =>
-        console.log("couleur" + post.couleur)
-    );
 
     const post = this.state.posts.map((post) =>
 
@@ -387,7 +370,7 @@ class PostDetailView extends React.Component{
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <AddComment idpost={this.state.idPost} back={(com) => this.handleCloseAdd(com)}/>
+        <AddComment idpost={this.state.idPost} back={(com) => this.handleCloseAdd(com)} leave={() => this.setState({openAddComment:false})}/>
       </Dialog>
 
       <Dialog

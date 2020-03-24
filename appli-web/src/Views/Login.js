@@ -139,14 +139,13 @@ class Login extends React.Component {
       email : this.state.email,
       password: this.state.password
     };
-    console.log(user);
     if ( !(user.email.length > 0) && !(user.email.password > 0)) {
       this.validate("vide")
     }
     else {
     getUserFromDb(user.email)
       .then(data => {
-        console.log(data)
+
         if(data.length==0){
           console.log("email incorrect")
           this.validate("mail")

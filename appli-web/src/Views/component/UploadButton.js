@@ -103,7 +103,6 @@ export default function UploadButton({changeValue}) {
       const image = e.target.files[0]
       setImage(image);
       setFile(URL.createObjectURL(image));
-      console.log(image)
 
 
     }

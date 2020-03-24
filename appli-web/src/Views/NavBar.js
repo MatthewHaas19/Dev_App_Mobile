@@ -87,8 +87,7 @@ export default function NavBar(props) {
 
   function handleClick(newValue){
     history.push('/');
-    console.log("")
-    console.log(user)
+
     if(newValue=="filter"){
       props.changeValue(0)
     }else{

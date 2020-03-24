@@ -108,7 +108,7 @@ export default function NavBar(props) {
           <ThemeProvider theme={theme}>
     <CssBaseline />
           <div className={classes.title}>
-          <Link to="/filter" style={{textDecoration: 'none',color:'black'}}>
+          <Link to="/" style={{textDecoration: 'none',color:'black'}}>
           <h1>How to react</h1>
           </Link>
           </div>

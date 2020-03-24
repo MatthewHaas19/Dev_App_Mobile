@@ -154,7 +154,7 @@ class Filter extends React.Component {
     super(props)
     this.state = {
       type : 0,
-      tags : ["exemple"],
+      tags : [],
       tag:"",
       localisation:"60",
       checked:[false,false,false,false,false,false,false,false,false,false,false,false,false],
@@ -293,7 +293,7 @@ class Filter extends React.Component {
     label={value}
     />
     </Grid>
-    
+
     </Grid>
   );
 
@@ -421,7 +421,7 @@ class Filter extends React.Component {
             />
            </Grid>
 
-            
+
             </Grid>
 
             {filterCat}

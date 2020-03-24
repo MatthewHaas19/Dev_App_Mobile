@@ -88,6 +88,16 @@ router.post("/", function(req,res,next){
   })
 })
 
+router.post("/posts", function(req,res,next){
+  var post = req.body
+  db.posts.insertOne(post,function(err,post){
+    if(err){
+      res.send(err);
+    }
+    res.json(post);
+  })
+})
+
 router.get("/:id", function(req,res,next) {
 
   const id = ObjectId(req.body._id)

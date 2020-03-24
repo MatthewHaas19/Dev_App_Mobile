@@ -30,7 +30,7 @@ export function getPostByUser(id){
 }
 
 export function setNewPostDb (post) {
-  const url = "https://dev-mobile-ig.herokuapp.com/posts/"
+  const url = "https://dev-mobile-ig.herokuapp.com/posts/posts"
 
   const data = JSON.stringify(post)
 
@@ -44,7 +44,7 @@ export function setNewPostDb (post) {
     },
     body: data
   })
-  .then((response) => response.text())
+  .then((response) => response.json())
   .catch((error) => console.log(error))
 }
 

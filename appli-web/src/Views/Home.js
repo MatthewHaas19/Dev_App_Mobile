@@ -105,10 +105,6 @@ class Home extends React.Component {
       this.setState({ open: nextProps.open,openProps :false });
     }
 
-    if (nextProps.posts.length !== this.state.posts.length) {
-      console.log("RAFRAICHIS")
-      this.setState({ posts: nextProps.posts});
-    }
 
     if (nextProps.openfilter !== this.state.openfilter) {
       this.setState({ openfilter: nextProps.openfilter });
@@ -216,7 +212,7 @@ handleSwitchRegister = () => {
   };
   handleCloseAdd = (posts) => {
     console.log(posts)
-    this.setState({open:false,openAdd:false,openProps:false,posts:posts});
+    //this.setState({open:false,openAdd:false,openProps:false,posts:posts});
   };
 
   handleCloseLogin = () => {
@@ -249,7 +245,7 @@ handleSwitchRegister = () => {
               votePost(val,post).then(data=>{
                 console.log("change")
                 console.log(data)
-                  var posts = this.state.posts
+                  var posts = this.props.posts
 
 
                   var index = posts.indexOf(post);
@@ -277,7 +273,7 @@ handleSwitchRegister = () => {
               votePost(val,post).then(data=>{
                   console.log("add")
                   console.log(data)
-                    var posts = this.state.posts
+                    var posts = this.props.posts
 
 
                     var index = posts.indexOf(post);
@@ -347,9 +343,9 @@ handleSwitchRegister = () => {
           Ajouter un post
         </Button>
         </Grid> : null}
-        {this.state.posts ? (
+        {this.props.posts ? (
           <Grid container className={classes.listView} >
-          {this.state.posts.map(currentPost => (
+          {this.props.posts.map(currentPost => (
             <Grid item xs={12}>
 
                   <RowPostView post={currentPost}  handlevote={(val) => this.handleVote(val,currentPost)} />
@@ -382,9 +378,9 @@ handleSwitchRegister = () => {
         Ajouter un post
       </Button>
       </Grid> : null }
-      {this.state.posts ? (
+      {this.props.posts ? (
         <Grid container className={classes.listView} >
-        {this.state.posts.map(currentPost => (
+        {this.props.posts.map(currentPost => (
           <Grid item xs={12}>
 
                 <RowPostView post={currentPost}  handlevote={(val) => this.handleVote(val,currentPost)} />
@@ -417,9 +413,9 @@ handleSwitchRegister = () => {
     <Grid container justify="center">
 
     </Grid>
-    {this.state.posts ? (
+    {this.props.posts ? (
       <Grid container className={classes.listView} >
-      {this.state.posts.map(currentPost => (
+      {this.props.posts.map(currentPost => (
         <Grid item xs={12}>
 
               <RowPostView post={currentPost}  handlevote={(val) => this.handleVote(val,currentPost)} />

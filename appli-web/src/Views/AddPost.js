@@ -195,11 +195,12 @@ class AddPost extends React.Component {
       console.log(post)
       setNewPostDb(post)
         .then(data => {
-          if(data == "{\"res\":\"correct\",\"message\":\"add post ok\"}"){
-            console.log("Bien ajouté")
+          if(data){
+            console.log("POOOOOOOOOOOOOOOOOOSTTTTTT")
+            console.log(data)
             var posts = this.props.posts
-            posts.unshift(post)
-            var action = { type: "ADD_POSTS", posts: posts}
+            posts.unshift(data)
+            var action = { type: "ADD_POSTS", posts: data}
             console.log(posts)
             this.props.dispatch(action)
             this.props.back(posts)

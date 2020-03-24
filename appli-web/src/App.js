@@ -183,10 +183,9 @@ class App extends Component {
 
     return (
 
-
+     
       <Router history={history}>
         <div>
-
             <Localisation />
             <Switch>
              <PrivateAdmin exact path="/adminhome">

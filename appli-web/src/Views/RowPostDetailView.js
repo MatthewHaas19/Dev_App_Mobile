@@ -29,6 +29,7 @@ const useStyles = theme => ({
     minWidth: 275,
     minHeight:200,
     color:"black",
+    marginTop:20,
   },
 
   username: {

@@ -144,7 +144,7 @@ struct FilterView: View {
                         }
                         self.toggleLocalisation ?
                         VStack{
-                            Slider(value: $localisation, in: 0...100, step: 1)
+                            Slider(value: $localisation, in: 0...500, step: 1)
                             .foregroundColor(Color(red:0,green:0.8,blue:0.9))
                         Text("\(Int(localisation)) km")
                             } : nil

@@ -387,7 +387,7 @@ class Filter extends React.Component {
               valueLabelDisplay="auto"
               step={1}
               min={1}
-              max={100}
+              max={500}
               id="localisation"
               name="localisation"
               onChange={(e, val) => this.onChangeLoc(val)}

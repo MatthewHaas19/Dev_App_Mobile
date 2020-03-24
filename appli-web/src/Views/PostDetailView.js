@@ -11,6 +11,7 @@ import Card from '@material-ui/core/Card';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import { createMuiTheme, withStyles, makeStyles, ThemeProvider } from '@material-ui/core/styles';
 import Grid from '@material-ui/core/Grid';
+import Button from '@material-ui/core/Button';
 import RowPostDetailView from '../Views/RowPostDetailView'
 import RowCommentView from '../Views/RowCommentView'
 import { useParams } from 'react-router-dom';
@@ -28,6 +29,10 @@ import { connect } from 'react-redux'
 import Icon from '@material-ui/core/Icon';
 import {getVoteByUser} from '../API/VoteApi'
 import {getVoteCommentByUser} from '../API/VoteApi'
+import cookie from 'react-cookies';
+import {deletePost} from '../API/PostApi'
+import history from '../history';
+
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
@@ -68,7 +73,9 @@ class PostDetailView extends React.Component{
     comments:[],
     openAddComment:false,
     openAddSignalement:false,
-    idPost:''
+    idPost:'',
+    showDelete:false,
+    showDialogComfirm:false,
   }
 
   constructor(props){
@@ -85,6 +92,12 @@ class PostDetailView extends React.Component{
          const comments = data
          this.setState({comments: data})
          console.log("dans get all comments les com :" + data)
+         var cooki = cookie.load('userId')
+         if(cooki) {
+           if (post[0].user == cooki) {
+             this.setState({showDelete:true})
+           }
+         }
        }).catch((error) => {
          console.log("Erreur dans la recuperation des comments")
        })
@@ -125,6 +138,18 @@ class PostDetailView extends React.Component{
     this.setState({comments:comments})
   };
 
+  deletePostFunction(id){
+    deletePost(id).then(res => {
+      this.setState({showDialogComfirm:false})
+      history.push('/')
+    }).catch((error) => {
+      console.log("Erreur dans la suppression")
+    })
+  }
+
+  handleCloseConfirm() {
+    this.setState({showDialogComfirm:false})
+  }
 
   handleVote(val,post){
     console.log(post)
@@ -342,6 +367,14 @@ class PostDetailView extends React.Component{
       <ColorButton variant="outlined" color="secondary" onClick={this.handleSignalement} >
        Signaler ce Post
        </ColorButton>
+       {
+         this.state.showDelete ?
+           <ColorButton variant="outlined" color="secondary" onClick={() => this.setState({showDialogComfirm:true})} >
+            Supprimer ce post
+          </ColorButton>
+      :  null }
+
+
        </div>
        {listcomments}
       </Grid>
@@ -370,6 +403,31 @@ class PostDetailView extends React.Component{
       </Grid>
       <br /><br /><br /><br />
       </Card>
+
+      <Dialog
+          open={this.state.showDialogComfirm}
+          TransitionComponent={Transition}
+          onClose={() => this.handleCloseConfirm()}
+          aria-labelledby="alert-dialog-slide-title"
+          aria-describedby="alert-dialog-slide-description"
+        >
+        <DialogTitle id="alert-dialog-title">Confirmer la suppression</DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          Supprimer un post est irréversible.
+          Tous ses commentaires et votes seront supprimés en même temps
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={() => this.handleCloseConfirm()} color="primary">
+          Annuler
+        </Button>
+        <Button onClick={() => this.deletePostFunction(this.state.posts[0]._id)}
+         style={{backgroundColor:"red", color:"white"}} autoFocus>
+          Supprimer
+        </Button>
+      </DialogActions>
+      </Dialog>
       </div>
     )
   }

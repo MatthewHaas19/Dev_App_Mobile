@@ -209,6 +209,7 @@ class AddComment extends React.Component {
       }
       else {
         console.log("champs non complet dans add comment")
+        console.log(this.state.errorMsg)
       }
 
     }
@@ -231,7 +232,7 @@ class AddComment extends React.Component {
           Ajouter un commentaire
           {this.state.idProps}
         </Typography>
-        <form className={classes.form} noValidate onSubmit={this.onSubmit}>
+        <div className={classes.form}>
         <FormControlLabel className={classes.fields}
           value="isAnonyme"
           name= "isAnonyme"
@@ -263,12 +264,12 @@ class AddComment extends React.Component {
           />
 
 
-          <ColorButton variant="contained" color="primary" className={classes.margin} type="submit"
+          <ColorButton variant="contained" color="primary" className={classes.margin} onClick={this.onSubmit}
             fullWidth>
            Poster votre commentaire
           </ColorButton>
 
-        </form>
+        </div>
       </div>
 
     </Container>

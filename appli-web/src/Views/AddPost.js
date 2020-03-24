@@ -231,7 +231,7 @@ class AddPost extends React.Component {
       <Typography component="h1" variant="h5" className={classes.title} >
         Ajouter un Post
       </Typography>
-        <form className={classes.form} noValidate autoComplete="off" onSubmit={this.onSubmit}>
+        <div className={classes.form} >
 
           { this.state.errorMsg ? (
           <div style = {{color:"red", fontSize : 15}}>{this.state.errorMsg}</div>
@@ -413,12 +413,12 @@ class AddPost extends React.Component {
             <Grid item xs={3}></Grid>
           </Grid>
 
-          <ColorButton variant="contained" color="primary" className={classes.margin} type="submit"
+          <ColorButton variant="contained" color="primary" className={classes.margin} onClick={this.onSubmit}
             fullWidth>
             Créer le post
           </ColorButton>
 
-        </form>
+        </div>
       </div>
 
     </Container>

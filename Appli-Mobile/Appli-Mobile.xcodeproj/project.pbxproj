@@ -272,6 +272,7 @@
 		66E3F5E723FBE19500085486 /* DAO */ = {
 			isa = PBXGroup;
 			children = (
+				66CAB08024096C7300B92C8F /* RowCommentView.swift */,
 				66E3F5E523FBE08000085486 /* UserDAO.swift */,
 				66CD55AF240D3235002376D4 /* PostDAO.swift */,
 				2CCC5B58240D99A500D15689 /* ReportDAO.swift */,
@@ -311,7 +312,6 @@
 				F36AC69824094BE300527B9D /* ListView.swift */,
 				F36AC69A2409748300527B9D /* PostDetailView.swift */,
 				F36AC69C240978EB00527B9D /* AddPostView.swift */,
-				66CAB08024096C7300B92C8F /* RowCommentView.swift */,
 				2C4F7485240D3DB700FC8A5D /* ListByCategorie.swift */,
 				663312F3240E750600C5D871 /* ListCommentView.swift */,
 				663312F5240EA2E700C5D871 /* MyPostView.swift */,

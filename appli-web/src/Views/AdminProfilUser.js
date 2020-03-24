@@ -46,7 +46,9 @@ const useStyles = theme => ({
     width: 500,
     height: 500,
     color: "black",
-
+    '@media (max-width:500px)': {
+      width: 300,
+    },
   },
   large: {
     width: theme.spacing(15),
@@ -62,6 +64,9 @@ const useStyles = theme => ({
     fontFamily: 'Noteworthy Light',
     fontWeight: 400,
     fontSize:23,
+    '@media (max-width:500px)': {
+      fontSize:18,
+    },
   },
   deleteButton: {
     marginTop:50,

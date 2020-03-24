@@ -116,10 +116,10 @@ class Home extends React.Component {
   }
 
   filter(filter){
-    console.log(filter)
+
     filterPostDb(filter).then(data => {
       const posts = data
-      console.log(data)
+
 
       var res = []
 
@@ -221,7 +221,7 @@ handleSwitchRegister = () => {
 
 
   handleVote(val,post){
-    console.log(post)
+
     if(this.props.currentUser){
 
       var add = "true"
@@ -233,18 +233,18 @@ handleSwitchRegister = () => {
         post:post._id,
         like:add
       }
-      console.log(vote)
+
+
 
       addVote(vote).then(data => {
-        console.log(data)
+
         if(data.res=='exists'){
           console.log("tu as deja voté pour ce post")
         }else{
           if(data.res=="change"){
             votePost(val,post).then(res=>{
               votePost(val,post).then(data=>{
-                console.log("change")
-                console.log(data)
+
                   var posts = this.props.posts
 
 
@@ -259,7 +259,6 @@ handleSwitchRegister = () => {
                       var action = { type: "ADD_POSTS", posts: posts}
                       this.props.dispatch(action)
                       this.setState({posts: data})
-                      console.log("vote")
                       getVoteByUser(this.props.currentUser.email).then(votes => {
                         var action = { type: "TOGGLE_USER_VOTE", userVote: votes}
                         this.props.dispatch(action)
@@ -271,8 +270,7 @@ handleSwitchRegister = () => {
           }else{
             if(data.res=="correct"){
               votePost(val,post).then(data=>{
-                  console.log("add")
-                  console.log(data)
+
                     var posts = this.props.posts
 
 
@@ -287,7 +285,7 @@ handleSwitchRegister = () => {
                         var action = { type: "ADD_POSTS", posts: posts}
                         this.props.dispatch(action)
                         this.setState({posts: data})
-                        console.log("vote")
+
                         getVoteByUser(this.props.currentUser.email).then(votes => {
                           var action = { type: "TOGGLE_USER_VOTE", userVote: votes}
                           this.props.dispatch(action)

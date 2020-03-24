@@ -85,7 +85,7 @@ class AdminHome extends React.Component {
 
   constructor(props){
     super(props)
-    console.log("Entre dans le constructeur")
+
 
     getAllCommentFromDb().then(resComments => {
       var commentsGlobal = resComments

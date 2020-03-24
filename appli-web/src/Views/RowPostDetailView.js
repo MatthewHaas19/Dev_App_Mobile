@@ -93,12 +93,11 @@ class RowPostDetailView extends React.Component{
           getUserFromDb(email).then(data => {
             const user = data.username
             this.setState({username: data[0].username})
-            console.log("username"+data[0].username)
           }).catch((error) => {
             console.log("Erreur fetch")
           })
         }
-    
+
       }
 
 
@@ -107,7 +106,6 @@ class RowPostDetailView extends React.Component{
     let vote = votes.votes.filter(item => item.post == this.props.post._id)
     if(vote.length > 0){
       if(vote[0].like=="true"){
-        console.log("true true")
         return 40
       }else{
         return 50
@@ -121,7 +119,6 @@ class RowPostDetailView extends React.Component{
     let vote = votes.votes.filter(item => item.post == this.props.post._id)
     if(vote.length > 0){
       if(vote[0].like=="true"){
-        console.log("true true")
         return 50
       }else{
         return 40
@@ -138,7 +135,6 @@ class RowPostDetailView extends React.Component{
   getDistance(){
     var postPosition = this.props.post.localisation
     var userPosition = this.props.position
-    console.log(this.props.position)
 
     if(postPosition.length>1){
       if(postPosition[0] && postPosition[1]){
@@ -226,13 +222,13 @@ class RowPostDetailView extends React.Component{
   <Grid item className={classes.notefleches} >
     <Grid container align="right">
       <Grid item xs={12} align="center">
-        <Button onClick={() => this.vote("+")}><KeyboardArrowUpIcon style={{fontSize: this.props.votes ? this.getArrowUp() : 40}}className={classes.chevron} /></Button>
+        <Button onClick={() => this.vote("+") } align = 'center'><KeyboardArrowUpIcon style={{fontSize: this.props.votes ? this.getArrowUp() : 40}}className={classes.chevron} /></Button>
       </Grid>
       <Grid item xs={12} align="center">
         <div className={classes.note} align="center" >{this.props.post.note}</div>
       </Grid>
       <Grid item xs={12} align="center">
-        <Button onClick={() => this.vote("-")}><KeyboardArrowDownIcon style={{fontSize: this.props.votes ? this.getArrowDown() : 40}} className={classes.chevron} /></Button>
+        <Button onClick={() => this.vote("-")} align = 'center'><KeyboardArrowDownIcon style={{fontSize: this.props.votes ? this.getArrowDown() : 40}} className={classes.chevron} /></Button>
       </Grid>
     </Grid>
   </Grid>

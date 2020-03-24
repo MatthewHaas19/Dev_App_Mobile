@@ -142,7 +142,6 @@ class Register extends React.Component {
 
       getUserFromDb(user.email)
       .then(data => {
-        console.log(data)
         if(!(data.length==0)){
           console.log("email deja utilisé")
           this.validate("mail")

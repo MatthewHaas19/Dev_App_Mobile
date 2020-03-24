@@ -37,6 +37,9 @@ const useStyles = theme => ({
   username: {
     fontSize: 14,
     fontWeight: "bold",
+    '@media (max-width:600px)': {
+      marginLeft: 3,
+    },
 
   },
   texte: {
@@ -50,6 +53,7 @@ const useStyles = theme => ({
   note: {
     fontSize:20,
     fontWeight:"bold",
+    
   },
   chevron: {
 
@@ -64,6 +68,9 @@ const useStyles = theme => ({
     fontSize:20,
     marginRight:10,
     flexBasis : 0,
+    '@media (max-width:600px)': {
+      marginLeft: 3,
+    },
   },
 
 });
@@ -84,7 +91,6 @@ class RowCommentView extends React.Component {
       getUserFromDb(email).then(data => {
         const user = data.username
         this.setState({username: data[0].username})
-        console.log("username"+data[0].username)
       }).catch((error) => {
         console.log("Erreur fetch")
       })
@@ -97,11 +103,9 @@ class RowCommentView extends React.Component {
 
   getArrowDown(){
     var votes = this.props.votes
-    console.log(votes)
     let vote = votes.votesComment.filter(item => item.comment == this.props.comments._id)
     if(vote.length > 0){
       if(vote[0].like=="true"){
-        console.log("true true")
         return 40
       }else{
         return 50
@@ -115,7 +119,6 @@ class RowCommentView extends React.Component {
     let vote = votes.votesComment.filter(item => item.comment == this.props.comments._id)
     if(vote.length > 0){
       if(vote[0].like=="true"){
-        console.log("true true")
         return 50
       }else{
         return 40

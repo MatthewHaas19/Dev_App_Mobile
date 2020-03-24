@@ -47,6 +47,10 @@ const useStyles = theme => ({
     marginRight: 50,
     marginBottom: 50,
     color:'white',
+    '@media (max-width:600px)': {
+      marginLeft: 5,
+      marginRight: 5,
+    }
   },
   actionProfileView: {
     backgroundColor:"red",
@@ -76,22 +80,21 @@ class PostDetailView extends React.Component{
     idPost:'',
     showDelete:false,
     showDialogComfirm:false,
+    width: window.innerWidth,
+    height: window.innerHeight,
   }
 
   constructor(props){
     super(props)
     let idPost = this.props.match.params.id
-    console.log("l'id du post"+idPost)
     getPostById(idPost).then(data => {
       const post = data
       this.setState({posts: data})
       this.setState({idPost: this.props.match.params.id})
-      console.log("id"+this.state.idPost)
-      console.log("Le post" +data)
+
       getAllCommentFromPost(this.props.match.params.id).then(data => {
          const comments = data
          this.setState({comments: data})
-         console.log("dans get all comments les com :" + data)
          var cooki = cookie.load('userId')
          if(cooki) {
            if (post[0].user == cooki) {
@@ -117,6 +120,17 @@ class PostDetailView extends React.Component{
     }
     this.setState({openAddComment:true});
   };
+
+  updateDimensions = () => {
+    this.setState({ width: window.innerWidth, height: window.innerHeight });
+  };
+
+  componentDidMount() {
+    window.addEventListener('resize', this.updateDimensions);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('resize', this.updateDimensions);
+  }
 
   handleSignalement = () => {
     var action = { type: "CURRENT_POST", currentIdPost: this.state.idPost}
@@ -152,7 +166,6 @@ class PostDetailView extends React.Component{
   }
 
   handleVote(val,post){
-    console.log(post)
     if(this.props.currentUser){
 
       var add = "true"
@@ -164,7 +177,6 @@ class PostDetailView extends React.Component{
         post:post._id,
         like:add
       }
-      console.log(vote)
 
       addVote(vote).then(data => {
         console.log(data)
@@ -174,8 +186,6 @@ class PostDetailView extends React.Component{
           if(data.res=="change"){
             votePost(val,post).then(res=>{
               votePost(val,post).then(data=>{
-                console.log("change")
-                console.log(data)
                   var posts = this.state.posts
 
 
@@ -199,9 +209,6 @@ class PostDetailView extends React.Component{
           }else{
             if(data.res=="correct"){
               votePost(val,post).then(data=>{
-                  console.log("add")
-
-                  console.log(data)
                     var posts = this.state.posts
 
 
@@ -232,7 +239,6 @@ class PostDetailView extends React.Component{
 
 
   handleVoteComment(val,comment){
-    console.log(comment)
     if(this.props.currentUser){
 
       var add = "true"
@@ -244,18 +250,17 @@ class PostDetailView extends React.Component{
         comment:comment._id,
         like:add
       }
-      console.log(vote)
+
 
       addVoteComment(vote).then(data => {
-        console.log(data)
+
         if(data.res=='exists'){
           console.log("tu as deja voté pour ce commentaire")
         }else{
           if(data.res=="change"){
             voteComment(val,comment).then(res=>{
               voteComment(val,comment).then(data=>{
-                console.log("change")
-                console.log(data)
+
                   var comments = this.state.comments
 
                   var index = comments.indexOf(comment);
@@ -278,8 +283,7 @@ class PostDetailView extends React.Component{
           }else{
             if(data.res=="correct"){
               voteComment(val,comment).then(data=>{
-                  console.log("add")
-                  console.log(data)
+
                     var comments = this.state.comments
 
 
@@ -315,16 +319,12 @@ class PostDetailView extends React.Component{
 
     const {classes} = this.props
 
-    this.state.posts.map((post) =>
-        console.log("couleur" + post.couleur)
-    );
-
     const post = this.state.posts.map((post) =>
 
     <Grid container >
     <Grid item xs={1}>
     </Grid>
-      <Grid item xs={10}>
+      <Grid item xs= {this.state.width>800 ? 10 : 12}>
       <RowPostDetailView post={post} handlevote={(val) => this.handleVote(val,post)} />
 
       {post.image ? <img src={post.image}  />: null}
@@ -341,7 +341,7 @@ class PostDetailView extends React.Component{
     <Grid container >
     <Grid item xs={2}>
     </Grid>
-    <Grid item xs={9}>
+    <Grid item xs={8}>
       <RowCommentView comments={comment} handlevote={(val) => this.handleVoteComment(val,comment)} />
       </Grid>
       <Grid item xs={1}>
@@ -356,7 +356,9 @@ class PostDetailView extends React.Component{
 
     return(
       <div>
-      <Card className={classes.mainPage}>
+       
+      <Card className={classes.mainPage} style={{marginRight: this.state.width>1670 ? 50 : 0 ,
+        marginLeft: this.state.width>1670 ? 50 : 5}}>
       <Grid container>
         <Grid item xs={12}>
        {post}
@@ -387,7 +389,7 @@ class PostDetailView extends React.Component{
         aria-labelledby="alert-dialog-slide-title"
         aria-describedby="alert-dialog-slide-description"
       >
-        <AddComment idpost={this.state.idPost} back={(com) => this.handleCloseAdd(com)}/>
+        <AddComment idpost={this.state.idPost} back={(com) => this.handleCloseAdd(com)} leave={() => this.setState({openAddComment:false})}/>
       </Dialog>
 
       <Dialog

@@ -93,9 +93,7 @@ class AdminProfilUser extends React.Component {
   };
 
   deleteUserFunction(email){
-    console.log("in the funciton")
     deleteUser(email).then(res => {
-      console.log("OK delete")
       this.state.showDialogComfirm = false
       this.props.show(false)
       this.props.userHasBeenDeleted()

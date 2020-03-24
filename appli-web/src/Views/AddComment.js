@@ -110,7 +110,7 @@ class AddComment extends React.Component {
       errorMsg:'',
     }
 
-    console.log("test")
+
 
   }
 
@@ -139,9 +139,9 @@ class AddComment extends React.Component {
 
   componentWillReceiveProps(nextProps) {
 
-    console.log(nextProps.idpost)
+
     this.setState({ idPost: nextProps.idpost });
-    console.log("CUOCOUCOUCOUCOU")
+
 
 
   }
@@ -176,7 +176,7 @@ class AddComment extends React.Component {
     if(mn<10) mn='0'+mn;
     if(ss<10) ss='0'+ss;
 
-    console.log("Submit")
+
     var userMail = "Anonyme"
     var cooki = cookie.load('userId')
     if(cooki){
@@ -193,13 +193,13 @@ class AddComment extends React.Component {
         voteCom: 0,
         postId : this.state.idPost, //A FAIRE
       };
-      console.log(comment)
+
       setNewCommentDb(comment)
         .then(data => {
-          if(data == "{\"res\":\"correct\",\"message\":\"add comment ok\"}"){
+          if(data){
             console.log("Comment Bien ajouté")
 
-            this.props.back(comment)
+            this.props.back(data)
           }
           else{
             console.log("erreur add Comment")
@@ -223,7 +223,7 @@ class AddComment extends React.Component {
     <Container component="main" maxWidth="xs" maxHeight="xs">
 
       <CssBaseline />
-      <div className={classes.backButton}><IconButton aria-label="search" color="inherit" onClick={()=>this.props.back()}>
+      <div className={classes.backButton}><IconButton aria-label="search" color="inherit" onClick={()=>this.props.leave()}>
         <ArrowBackIcon />
       </IconButton></div>
       <div className={classes.paper}>
@@ -231,7 +231,7 @@ class AddComment extends React.Component {
           Ajouter un commentaire
           {this.state.idProps}
         </Typography>
-        <form className={classes.form} noValidate onSubmit={this.onSubmit}>
+        <div className={classes.form}>
         <FormControlLabel className={classes.fields}
           value="isAnonyme"
           name= "isAnonyme"
@@ -263,12 +263,12 @@ class AddComment extends React.Component {
           />
 
 
-          <ColorButton variant="contained" color="primary" className={classes.margin} type="submit"
+          <ColorButton variant="contained" color="primary" className={classes.margin} onClick={this.onSubmit}
             fullWidth>
            Poster votre commentaire
           </ColorButton>
 
-        </form>
+        </div>
       </div>
 
     </Container>

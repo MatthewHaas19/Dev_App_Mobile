@@ -112,8 +112,6 @@ class Signalement extends React.Component {
       idPost:''
     }
 
-    console.log("test")
-
   }
 
   onChange = (e) => {
@@ -127,7 +125,7 @@ class Signalement extends React.Component {
   }
 
   onSubmit = (e) => {
-    console.log("--------- Signalement ----------------")
+
     this.setState({idPost:this.props.idpost})
     if(this.props.isAuth){
       let report = {
@@ -135,7 +133,7 @@ class Signalement extends React.Component {
         emailUser: this.props.currentUser.email
       }
       setNewReport(report).then(data => {
-        console.log(data.res)
+
         this.props.back()
       })
     }else{

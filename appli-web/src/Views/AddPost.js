@@ -81,7 +81,7 @@ class AddPost extends React.Component {
       titre: '',
       texte: '',
       image: null,
-      listCategorie : ["Amis","Couple","Ecole","Famille","Rue","Soiree","Sport","Transport","Travail","TV","Voisin","Web","Autres"],
+      listCategorie : ["Amis","Couple","Ecole","Famille","Rue","Soiree","Sport","Transport","Travail","TV","Voisin","Web","Autre"],
       categorie: [],
       errorMsg:'',
     }

@@ -116,10 +116,10 @@ class Home extends React.Component {
   }
 
   filter(filter){
-
+    console.log(filter)
     filterPostDb(filter).then(data => {
       const posts = data
-
+      console.log(data)
 
       var res = []
 

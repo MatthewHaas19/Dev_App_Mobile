@@ -53,6 +53,17 @@ router.get("/:post", function(req,res,next){
     })
   })
 
+  router.post("/comments", function(req,res,next){
+    var comment = req.body
+    db.comments.insertOne(comment,function(err,post){
+      if(err){
+        res.send(err);
+      }
+      console.log(comment)
+      res.json(comment);
+    })
+  })
+
 
   router.delete("/", function(req,res,next) {
     var id = ObjectId(req.body._id)

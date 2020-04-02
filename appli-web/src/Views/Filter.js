@@ -146,7 +146,7 @@ const theme = createMuiTheme({
   },
 });
 
-const listCategorie = ["Amis","Couple","Ecole","Famille","Rue","Soiree","Sport","Transport","Travail","TV","Voisin","Web","Autres"]
+const listCategorie = ["Amis","Couple","Ecole","Famille","Rue","Soiree","Sport","Transport","Travail","TV","Voisin","Web","Autre"]
 
 class Filter extends React.Component {
 
